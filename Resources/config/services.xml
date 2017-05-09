@@ -4,13 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <services>
-        <service id="easy_admin_extension.example" class="AlterPHP\EasyAdminExtensionBundle\Example">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="alterphp.easyadmin_extension.subscriber.post_query_builder" class="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber">
+            <tag name="kernel.event_subscriber"/>
         </service>
     </services>
-    -->
 </container>
