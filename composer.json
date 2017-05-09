@@ -1,0 +1,15 @@
+{
+    "name": "alterphp/easyadmin-extension-bundle",
+    "description": "This bundle provides some extensions to javiereguiluz/easyadmin-bundle",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=7.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "alterphp",
+            "email": "pc.bertineau@alterphp.com"
+        }
+    ]
+}
