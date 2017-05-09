@@ -1,15 +1,37 @@
 {
     "name": "alterphp/easyadmin-extension-bundle",
-    "description": "This bundle provides some extensions to javiereguiluz/easyadmin-bundle",
     "type": "symfony-bundle",
-    "require": {
-        "php": ">=7.0"
-    },
+    "description": "This bundle provides some extensions to javiereguiluz/easyadmin-bundle",
+    "keywords": ["backend", "admin", "generator"],
+    "homepage": "https://github.com/alterphp/EasyAdminExtensionBundle",
     "license": "MIT",
     "authors": [
         {
-            "name": "alterphp",
+            "name": "Pierre-Charles Bertineau",
             "email": "pc.bertineau@alterphp.com"
         }
-    ]
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle" : "~2.2",
+        "phpunit/phpunit"                   : "~4.4",
+        "symfony/phpunit-bridge"            : "^2.7"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\": "" },
+        "exclude-from-classmap": ["/Tests/"]
+    },
+    "autoload-dev": {
+        "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\Tests\\": "Tests/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
