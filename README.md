@@ -41,7 +41,7 @@ class AppKernel extends Kernel
 Features
 --------
 
-### Filter list and search on request parameters
+### Filter list and search on request parameters
 
 *EasyAdmin allows filtering list with `dql_filter` configuration entry. But this is not dynamic and must be configured as an apart list in `easy_admin` configuration.*
 
