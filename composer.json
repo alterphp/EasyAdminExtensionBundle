@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "javiereguiluz/easyadmin-bundle": "^1.16"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle" : "~2.2",
