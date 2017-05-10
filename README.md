@@ -1,10 +1,12 @@
-# EasyAdmin Extension
+EasyAdmin Extension
+===================
 
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
 :exclamation: This bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack.
 
-## Installation
+Installation
+------------
 
 ### Step 1: Download the Bundle
 
@@ -35,10 +37,12 @@ class AppKernel extends Kernel
     // ...
 }
 
-## Features
+Features
+--------
 
 ### Filter list and search on request parameters
 
-## License
+License
+-------
 
 This software is published under the [MIT License](LICENSE.md)
