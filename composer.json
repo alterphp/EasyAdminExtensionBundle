@@ -61,7 +61,7 @@
         "exclude-from-classmap": ["/Tests/"]
     },
     "autoload-dev": {
-        "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\Tests\\": "Tests/" }
+        "psr-4": { "AppTestBundle\\": "Tests/Fixtures/AppTestBundle/" }
     },
     "extra": {
         "branch-alias": {
