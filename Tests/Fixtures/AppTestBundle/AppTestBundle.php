@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace JavierEguiluz\Bundle\EasyAdminBundle\Tests\Fixtures\AppTestBundle;
+namespace AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AppTestBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

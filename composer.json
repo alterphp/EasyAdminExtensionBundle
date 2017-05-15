@@ -12,13 +12,46 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php"                           : ">=7.0",
+        "doctrine/cache"                : "~1.5",
+        "doctrine/common"               : "^2.4.0",
+        "doctrine/doctrine-bundle"      : "~1.2",
+        "doctrine/orm"                  : "~2.3",
+        "pagerfanta/pagerfanta"         : "~1.0,>=1.0.1",
+        "sensio/framework-extra-bundle" : "~3.0,>=3.0.2",
+        "symfony/asset"                 : "~3.0",
+        "symfony/config"                : "~3.0",
+        "symfony/dependency-injection"  : "~3.0",
+        "symfony/doctrine-bridge"       : "~3.0",
+        "symfony/event-dispatcher"      : "~3.0",
+        "symfony/form"                  : "~3.0",
+        "symfony/framework-bundle"      : "~3.0",
+        "symfony/http-foundation"       : "~3.0",
+        "symfony/http-kernel"           : "~3.0",
+        "symfony/polyfill-mbstring"     : "^1.0",
+        "symfony/property-access"       : "~3.0",
+        "symfony/security-bundle"       : "~3.0",
+        "symfony/translation"           : "~3.0",
+        "symfony/twig-bridge"           : "~3.0",
+        "symfony/twig-bundle"           : "~3.0",
+        "symfony/validator"             : "~3.0",
+        "twig/extensions"               : "~1.0",
+        "twig/twig"                     : "~1.14,>=1.14.2|~2.0",
         "javiereguiluz/easyadmin-bundle": "^1.16"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle" : "~2.2",
         "phpunit/phpunit"                   : "~4.4",
-        "symfony/phpunit-bridge"            : "^2.7"
+        "psr/log"                           : "~1.0",
+        "symfony/browser-kit"               : "~3.0",
+        "symfony/console"                   : "~3.0",
+        "symfony/css-selector"              : "~3.0",
+        "symfony/dom-crawler"               : "~3.0",
+        "symfony/finder"                    : "~3.0",
+        "symfony/phpunit-bridge"            : "^2.7",
+        "symfony/templating"                : "~3.0",
+        "symfony/var-dumper"                : "~3.0",
+        "symfony/yaml"                      : "~3.0"
     },
     "config": {
         "sort-packages": true

@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+
+    phpunit:
+        image: phpunit/phpunit
+        volumes:
+            - ./:/app
