@@ -54,9 +54,17 @@ This `filters` parameter is transmitted to the referer used for post update/dele
 Run tests
 ---------
 
-Run following command (using Docker and Docker Compose) :
+Run following command :
 
-	`docker-compose run --rm phpunit`
+```bash
+$ ./vendor/phpunit/phpunit/phpunit
+```
+
+OR using Docker and Docker Compose :
+
+```bash
+$ docker-compose run --rm phpunit
+```
 
 License
 -------
