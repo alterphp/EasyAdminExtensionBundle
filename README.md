@@ -49,6 +49,13 @@ This extension allows to __dynamically filter lists__ by adding `filters` parame
 
 This `filters` parameter is transmitted to the referer used for post update/delete/create redirection AND for search !
 
+Run tests
+---------
+
+Run following command (using Docker and Docker Compose) :
+
+	`docker-compose run --rm phpunit`
+
 License
 -------
 
