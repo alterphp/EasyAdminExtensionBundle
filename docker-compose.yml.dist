@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+
+    phpunit:
+        image: phpunit/phpunit
+        volumes:
+            - ./:/app
+        entrypoint:
+          - php
+          - /app/vendor/phpunit/phpunit/phpunit

@@ -7,7 +7,7 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class PostQueryBuilderSubscriber implements EventSubscriberInterface 
+class PostQueryBuilderSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
@@ -18,21 +18,21 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     }
 
     public function onPostListQueryBuilder(GenericEvent $event)
-    {    	
-    	$queryBuilder = $event->getArgument('query_builder');
+    {
+        $queryBuilder = $event->getArgument('query_builder');
 
-    	if ($event->hasArgument('request')) {
-    		$this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
-    	}
+        if ($event->hasArgument('request')) {
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
+        }
     }
 
     public function onPostSearchQueryBuilder(GenericEvent $event)
-    {	
-    	$queryBuilder = $event->getArgument('query_builder');
+    {
+        $queryBuilder = $event->getArgument('query_builder');
 
-    	if ($event->hasArgument('request')) {
-    		$this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
-    	}
+        if ($event->hasArgument('request')) {
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
+        }
     }
 
     protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = array())
