@@ -48,6 +48,7 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
         foreach (range(1, 100) as $i) {
             $product = new Product();
             $product->setEnabled($i <= 90 ? true : false);
+            $product->setOddEven($i % 2 ? 'odd' : 'even');
             $product->setName($this->getRandomName());
             $product->setPrice($this->getRandomPrice());
             $product->setTags($this->getRandomTags());

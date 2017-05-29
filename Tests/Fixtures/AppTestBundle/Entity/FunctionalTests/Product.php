@@ -63,6 +63,14 @@ class Product
     protected $enabled = false;
 
     /**
+     * test purpose.
+     *
+     * @var string
+     * @ORM\Column(type="string", length=7)
+     */
+    protected $oddEven = 'odd';
+
+    /**
      * Features of the product.
      * Associative array, the key is the name/type of the feature, and the value the data.
      * Example:<pre>array(
@@ -234,6 +242,26 @@ class Product
     public function isEnabled()
     {
         return $this->getEnabled();
+    }
+
+    /**
+     * Set odd/even.
+     *
+     * @param string $oddEven
+     */
+    public function setOddEven($oddEven)
+    {
+        $this->oddEven = $oddEven;
+    }
+
+    /**
+     * Get oddEven.
+     *
+     * @return string
+     */
+    public function getOddEven()
+    {
+        return $this->oddEven;
     }
 
     /**

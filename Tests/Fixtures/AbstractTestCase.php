@@ -75,12 +75,13 @@ abstract class AbstractTestCase extends WebTestCase
     /**
      * @return Crawler
      */
-    protected function requestListView($entityName = 'Category')
+    protected function requestListView($entityName = 'Category', array $requestFilters = [])
     {
         return $this->getBackendPage(array(
             'action' => 'list',
             'entity' => $entityName,
             'view' => 'list',
+            'filters' => $requestFilters,
         ));
     }
 
@@ -99,12 +100,13 @@ abstract class AbstractTestCase extends WebTestCase
     /**
      * @return Crawler
      */
-    protected function requestSearchView($searchQuery = 'cat', $entityName = 'Category')
+    protected function requestSearchView($searchQuery = 'cat', $entityName = 'Category', array $requestFilters = [])
     {
         return $this->getBackendPage(array(
             'action' => 'search',
             'entity' => $entityName,
             'query' => $searchQuery,
+            'filters' => $requestFilters,
         ));
     }
 
