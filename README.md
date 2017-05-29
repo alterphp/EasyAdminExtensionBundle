@@ -1,6 +1,8 @@
 EasyAdmin Extension
 ===================
 
+[![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle)
+
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
 :exclamation: This bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack.

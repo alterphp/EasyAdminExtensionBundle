@@ -14,7 +14,7 @@ class EasyAdminExtensionBundle extends Bundle
         // Prepend EasyAdminExtension bundle tmeplates to EasyAdmin namespace
         $container->prependExtensionConfig(
             'twig',
-            ['paths' => [__DIR__.'/Resources/views' => 'EasyAdmin']]
+            array('paths' => array(__DIR__.'/Resources/views' => 'EasyAdmin'))
         );
     }
 }

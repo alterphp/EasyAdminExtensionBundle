@@ -15,17 +15,17 @@ class RequestParametersTest extends AbstractTestCase
 
     public function testRequestSingleSimpleFilterIsApplied()
     {
-        $crawler = $this->requestListView('Product', ['entity.enabled' => false]);
+        $crawler = $this->requestListView('Product', array('entity.enabled' => false));
 
-        $this->assertEquals(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
     public function testRequestManySimpleFiltersAreApplied()
     {
         $crawler = $this->requestListView(
-            'Product', ['entity.enabled' => false, 'entity.oddEven' => 'even']
+            'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
         );
 
-        $this->assertEquals(5, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertSame(5, $crawler->filter('#main tr[data-id]')->count());
     }
 }
