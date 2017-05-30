@@ -37,20 +37,18 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./Configuration</directory>
-            <directory suffix=".php">./Controller</directory>
             <directory suffix=".php">./DependencyInjection</directory>
-            <directory suffix=".php">./Reflection</directory>
-            <directory suffix=".php">./Resources</directory>
-            <directory suffix=".php">./Twig</directory>
+            <directory suffix=".php">./EventListener</directory>
             <exclude>
                 <directory>./build</directory>
                 <directory>./Tests</directory>
+                <directory>./var</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
         <blacklist>
             <directory>./vendor</directory>
+            <directory>./var</directory>
             <directory>./Tests</directory>
             <directory>./build</directory>
         </blacklist>

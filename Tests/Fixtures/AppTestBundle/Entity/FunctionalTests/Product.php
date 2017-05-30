@@ -104,6 +104,14 @@ class Product
     protected $price = 0.0;
 
     /**
+     * The reference of the product.
+     *
+     * @var string
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $reference;
+
+    /**
      * The name of the product.
      *
      * @var string
@@ -323,6 +331,26 @@ class Product
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set the product reference.
+     *
+     * @param string $reference
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+    }
+
+    /**
+     * Retrieve the reference of the product.
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
     }
 
     /**

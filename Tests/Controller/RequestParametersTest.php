@@ -13,14 +13,14 @@ class RequestParametersTest extends AbstractTestCase
         $this->initClient(array('environment' => 'default_backend'));
     }
 
-    public function testRequestSingleSimpleFilterIsApplied()
+    public function testRequestSingleFilterIsApplied()
     {
         $crawler = $this->requestListView('Product', array('entity.enabled' => false));
 
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
-    public function testRequestManySimpleFiltersAreApplied()
+    public function testRequestManyFiltersAreApplied()
     {
         $crawler = $this->requestListView(
             'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
@@ -35,15 +35,45 @@ class RequestParametersTest extends AbstractTestCase
             'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
         );
 
-        $formCrawler = $crawler->filter('.action-search form');
+        $searchFormCrawler = $crawler->filter('.action-search form');
 
         $this->assertSame(
             1,
-            $formCrawler->filter('input[name="filters[entity.enabled]"][value="0"]')->count()
+            $searchFormCrawler->filter('input[name="filters[entity.enabled]"][value="0"]')->count()
         );
         $this->assertSame(
             1,
-            $formCrawler->filter('input[name="filters[entity.oddEven]"][value="even"]')->count()
+            $searchFormCrawler->filter('input[name="filters[entity.oddEven]"][value="even"]')->count()
         );
+    }
+
+    public function testRequestMultivalueFiltersAreApplied()
+    {
+        $crawler = $this->requestListView(
+            'Product', array('entity.oddEven' => array('odd', 'even'))
+        );
+
+        $this->assertContains(
+            '1 - 15 of 100',
+            $crawler->filter('#main .list-pagination')->text()
+        );
+
+        $searchFormCrawler = $crawler->filter('.action-search form');
+
+        $this->assertSame(
+            1,
+            $searchFormCrawler->filter('input[name="filters[entity.oddEven][]"][value="odd"]')->count()
+        );
+        $this->assertSame(
+            1,
+            $searchFormCrawler->filter('input[name="filters[entity.oddEven][]"][value="even"]')->count()
+        );
+    }
+
+    public function testRequestFilterIsAppliedToSearchAction()
+    {
+        $crawler = $this->requestSearchView('ref000', 'Product', array('entity.enabled' => false));
+
+        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 }
