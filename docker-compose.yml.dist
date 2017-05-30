@@ -9,3 +9,12 @@ services:
         entrypoint:
           - php
           - /app/vendor/phpunit/phpunit/phpunit
+
+    php-cs-fixer:
+        image: ekreative/php-cs-fixer
+        volumes:
+            - ./:/app
+        entrypoint:
+          - /usr/local/bin/php-cs-fixer
+          - fix
+          - /app/.
