@@ -27,13 +27,13 @@ matrix:
     # stable (most recent stable versions)
     - php: 7.1
       env:
-        - SYMFONY_VERSION="3.2.*"
+        - SYMFONY_VERSION="3.3.*"
         - TWIG_VERSION="2.x-dev"
         - CHECK_PHP_SYNTAX="yes"
     # common (some popular version combinations)
     - php: 7.0
       env:
-        - SYMFONY_VERSION="3.1.*"
+        - SYMFONY_VERSION="3.0.*"
         - CHECK_PHP_SYNTAX="yes"
   allow_failures:
     - php: nightly
