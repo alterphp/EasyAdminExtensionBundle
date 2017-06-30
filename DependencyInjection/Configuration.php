@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('custom_types')
+                ->arrayNode('custom_form_types')
                     ->useAttributeAsKey('short_name')
                     ->prototype('scalar')->end()
                 ->end()
