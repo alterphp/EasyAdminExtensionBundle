@@ -63,7 +63,7 @@ class CustomFormTypesSubscriber implements EventSubscriberInterface
                     if (in_array($field['type'], array_keys($this->customFormTypes))) {
                         $entity[$configWithFormKey]['fields'][$name]['type'] = $this->customFormTypes[$field['type']];
                     }
-                }            
+                }
             }
         }
 
