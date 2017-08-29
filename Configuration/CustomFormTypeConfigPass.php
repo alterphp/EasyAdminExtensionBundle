@@ -1,12 +1,17 @@
 <?php
 
-namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
+namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
-use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CustomFormTypesSubscriber implements EventSubscriberInterface
+/**
+ * Normalizes the different configuration formats available for entities, views,
+ * actions and properties.
+ *
+ * @author Javier Eguiluz <javier.eguiluz@gmail.com>
+ */
+class CustomFormTypeConfigPass implements ConfigPassInterface
 {
     private $customFormTypes = array();
     private static $configWithFormKeys = array('form', 'edit', 'new');
@@ -16,35 +21,28 @@ class CustomFormTypesSubscriber implements EventSubscriberInterface
         $this->customFormTypes = $customFormTypes;
     }
 
-    public static function getSubscribedEvents()
+    public function process(array $backendConfig)
     {
-        return array(
-            EasyAdminEvents::POST_INITIALIZE => array('onPostInitialize'),
-        );
+        $backendConfig = $this->replaceShortNameTypes($backendConfig);
+
+        return $backendConfig;
     }
 
-    public function onPostInitialize(GenericEvent $event)
+    protected function replaceShortNameTypes(array $backendConfig)
     {
-        if (empty($this->customFormTypes)) {
+        if (
+            empty($this->customFormTypes)
+            || !isset($backendConfig['entities'])
+            || !is_array($backendConfig['entities'])
+        ) {
             return;
         }
 
-        if ($event->hasArgument('config')) {
-            $config = $event->getArgument('config');
-
-            if (isset($config['entities']) && is_array($config['entities'])) {
-                foreach ($config['entities'] as &$entity) {
-                    $entity = $this->replaceCustomTypesInEntityConfig($entity);
-                }
-            }
-
-            $event->setArgument('config', $config);
+        foreach ($backendConfig['entities'] as &$entity) {
+            $entity = $this->replaceCustomTypesInEntityConfig($entity);
         }
 
-        if ($event->hasArgument('entity')) {
-            $entity = $event->getArgument('entity');
-            $event->setArgument('entity', $this->replaceCustomTypesInEntityConfig($entity));
-        }
+        return $backendConfig;
     }
 
     protected function replaceCustomTypesInEntityConfig(array $entity)

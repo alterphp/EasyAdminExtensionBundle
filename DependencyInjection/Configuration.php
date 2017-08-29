@@ -28,7 +28,12 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('custom_form_types')
                     ->useAttributeAsKey('short_name')
-                    ->prototype('scalar')->end()
+                    ->prototype('scalar')
+                        ->validate()
+                            ->ifTrue(function ($v) { return !class_exists($v); })
+                                ->thenInvalid('Class %s for custom type does not exist !')
+                        ->end()
+                    ->end()
                 ->end()
             ->end()
         ;
