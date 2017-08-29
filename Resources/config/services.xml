@@ -8,5 +8,10 @@
         <service id="alterphp.easyadmin_extension.subscriber.post_query_builder" class="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber">
             <tag name="kernel.event_subscriber"/>
         </service>
+        <service id="alterphp.easyadmin_extension.config_pass.custom_form_types" class="AlterPHP\EasyAdminExtensionBundle\Configuration\CustomFormTypeConfigPass">
+        	<argument>%easy_admin_extension.custom_form_types%</argument>
+            <!-- Makes it process just before PropertyConfigPass -->
+            <tag name="easyadmin.config_pass" priority="41"/>
+        </service>
     </services>
 </container>
