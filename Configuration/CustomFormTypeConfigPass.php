@@ -3,7 +3,6 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Normalizes the different configuration formats available for entities, views,
