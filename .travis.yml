@@ -36,7 +36,7 @@ matrix:
       env:
         - SYMFONY_VERSION="3.0.*"
         - TWIG_VERSION="1.x-dev"
-        - CHECK_PHP_SYNTAX="false"
+        - CHECK_PHP_SYNTAX="no"
   allow_failures:
     - php: nightly
     # code coverage is very slow; allow a failure to get the Travis result early
