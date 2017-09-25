@@ -27,7 +27,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new AlterPHP\EasyAdminExtensionBundle\EasyAdminExtensionBundle(),
             new AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AppTestBundle\AppTestBundle(),
         );

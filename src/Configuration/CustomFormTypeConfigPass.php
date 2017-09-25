@@ -2,7 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
-use JavierEguiluz\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -35,7 +35,7 @@ class CustomFormTypeConfigPass implements ConfigPassInterface
             || !isset($backendConfig['entities'])
             || !is_array($backendConfig['entities'])
         ) {
-            return;
+            return $backendConfig;
         }
 
         foreach ($backendConfig['entities'] as &$entity) {

@@ -3,7 +3,7 @@ version: '3.2'
 services:
 
     phpunit:
-        image: phpunit/phpunit
+        build: docker/phpunit
         volumes:
             - ./:/app
         entrypoint:
