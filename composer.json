@@ -57,11 +57,14 @@
         "sort-packages": true
     },
     "autoload": {
-        "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\": "" },
+        "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\": "src/" },
         "exclude-from-classmap": ["/Tests/"]
     },
     "autoload-dev": {
-        "psr-4": { "AppTestBundle\\": "Tests/Fixtures/AppTestBundle/" }
+        "psr-4": {
+            "AppTestBundle\\": "tests/Fixtures/AppTestBundle/",
+            "AlterPHP\\EasyAdminExtensionBundle\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "branch-alias": {

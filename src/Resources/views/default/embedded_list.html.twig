@@ -1,0 +1,109 @@
+{% set _entity_config = easyadmin_entity(app.request.query.get('entity')) %}
+{% trans_default_domain _entity_config.translation_domain %}
+{% set _trans_parameters = { '%entity_name%': _entity_config.name|trans, '%entity_label%': _entity_config.label|trans } %}
+
+{% set _request_parameters = _request_parameters|default({})|merge({
+    action: app.request.get('action'),
+    entity: _entity_config.name,
+    menuIndex: app.request.get('menuIndex'),
+    submenuIndex: app.request.get('submenuIndex'),
+    sortField: app.request.get('sortField', ''),
+    sortDirection: app.request.get('sortDirection', 'DESC'),
+    page: app.request.get('page', 1)
+}) %}
+
+{# OVERRIDE referer #}
+{% set _request_parameters = _request_parameters|merge({ referer: masterRequest.requestUri|url_encode }) %}
+
+{% set _content_title %}
+{% spaceless %}
+    {% if 'search' == app.request.get('action') %}
+        {{ 'search.page_title'|transchoice(paginator.nbResults, {}, 'EasyAdminBundle')|raw }}
+    {% else %}
+        {% set _default_title = 'list.page_title'|trans(_trans_parameters, 'EasyAdminBundle') %}
+        {{ _entity_config.list.title is defined ? _entity_config.list.title|trans(_trans_parameters) : _default_title }}
+    {% endif %}
+{% endspaceless %}
+{% endset %}
+
+{% block main %}
+    {% set _list_item_actions = easyadmin_get_actions_for_list_item(_entity_config.name) %}
+
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+        {% block table_head %}
+            <tr>
+                {% for field, metadata in fields %}
+                    {% set isSortingField = metadata.property == app.request.get('sortField')|split('.')|first %}
+                    {% set nextSortDirection = isSortingField ? (app.request.get('sortDirection') == 'DESC' ? 'ASC' : 'DESC') : 'DESC' %}
+                    {% set _column_label = (metadata.label ?: field|humanize)|trans(_trans_parameters) %}
+                    {% set _column_icon = isSortingField ? (nextSortDirection == 'DESC' ? 'fa-caret-up' : 'fa-caret-down') : 'fa-sort' %}
+
+                    <th data-property-name="{{ metadata.property }}" class="{{ isSortingField ? 'sorted' }} {{ metadata.virtual ? 'virtual' }} {{ metadata.dataType|lower }} {{ metadata.css_class }}">
+                        {% if metadata.sortable %}
+                            <a href="{{ path('easyadmin', _request_parameters|merge({ sortField: metadata.property, sortDirection: nextSortDirection })) }}">
+                                <i class="fa {{ _column_icon }}"></i>
+                                {{ _column_label|raw }}
+                            </a>
+                        {% else %}
+                            <span>{{ _column_label|raw }}</span>
+                        {% endif %}
+                    </th>
+                {% endfor %}
+
+                {% if _list_item_actions|length > 0 %}
+                    <th>
+                        <span>{{ 'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
+                    </th>
+                {% endif %}
+            </tr>
+        {% endblock table_head %}
+        </thead>
+
+        <tbody>
+        {% block table_body %}
+            {% for item in paginator.currentPageResults %}
+                {# the empty string concatenation is needed when the primary key is an object (e.g. an Uuid object) #}
+                {% set _item_id = '' ~ attribute(item, _entity_config.primary_key_field_name) %}
+                <tr data-id="{{ _item_id }}">
+                    {% for field, metadata in fields %}
+                        {% set isSortingField = metadata.property == app.request.get('sortField') %}
+                        {% set _column_label =  (metadata.label ?: field|humanize)|trans(_trans_parameters)  %}
+
+                        <td data-label="{{ _column_label }}" class="{{ isSortingField ? 'sorted' }} {{ metadata.dataType|lower }} {{ metadata.css_class }}">
+                            {{ easyadmin_render_field_for_list_view(_entity_config.name, item, metadata) }}
+                        </td>
+                    {% endfor %}
+
+                    {% if _list_item_actions|length > 0 %}
+                        {% set _column_label =  'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') %}
+                        <td data-label="{{ _column_label }}" class="actions">
+                        {% block item_actions %}
+                            {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
+                                actions: _list_item_actions,
+                                request_parameters: _request_parameters,
+                                translation_domain: _entity_config.translation_domain,
+                                trans_parameters: _trans_parameters,
+                                item_id: _item_id
+                            }, with_context = false) }}
+                        {% endblock item_actions %}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td class="no-results" colspan="{{ _list_item_actions|length > 0 ? fields|length + 1 : fields|length }}">
+                        {{ 'search.no_results'|trans(_trans_parameters, 'EasyAdminBundle') }}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endblock table_body %}
+        </tbody>
+    </table>
+    </div>
+
+    {% block paginator %}
+        {{ include(_entity_config.templates.paginator) }}
+    {% endblock paginator %}
+{% endblock main %}

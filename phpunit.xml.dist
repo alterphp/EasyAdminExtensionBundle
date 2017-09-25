@@ -9,12 +9,12 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="true"
-         bootstrap="Tests/bootstrap.php"
+         bootstrap="tests/bootstrap.php"
 >
 
     <testsuites>
         <testsuite name="EasyAdmin Extension Bundle test suite">
-            <directory suffix="Test.php">Tests</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
@@ -27,7 +27,7 @@
     -->
 
     <php>
-        <server name="KERNEL_DIR" value="./Tests/Fixtures/App" />
+        <server name="KERNEL_DIR" value="./tests/Fixtures/App" />
         <ini name="error_reporting" value="E_ALL" />
         <ini name="display_errors" value="1" />
         <ini name="display_startup_errors" value="1" />
@@ -37,11 +37,11 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./DependencyInjection</directory>
-            <directory suffix=".php">./EventListener</directory>
+            <directory suffix=".php">./src/DependencyInjection</directory>
+            <directory suffix=".php">./src/EventListener</directory>
             <exclude>
                 <directory>./build</directory>
-                <directory>./Tests</directory>
+                <directory>./tests</directory>
                 <directory>./var</directory>
                 <directory>./vendor</directory>
             </exclude>
@@ -49,7 +49,7 @@
         <blacklist>
             <directory>./vendor</directory>
             <directory>./var</directory>
-            <directory>./Tests</directory>
+            <directory>./tests</directory>
             <directory>./build</directory>
         </blacklist>
     </filter>
