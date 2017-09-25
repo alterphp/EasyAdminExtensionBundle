@@ -43,7 +43,7 @@ class EasyAdminEmbeddedListType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('filters', [])
+            ->setDefault('filters', array())
             ->setRequired('entity')
         ;
     }
