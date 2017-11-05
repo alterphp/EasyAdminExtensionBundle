@@ -93,6 +93,11 @@ easy_admin:
 
 ```
 
+Let's see the result !
+
+![Embedded list example](/doc/res/img/embedded-list.png)
+
+
 Run tests
 ---------
 
