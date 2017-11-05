@@ -65,6 +65,34 @@ easy_admin_extension:
 
 ```
 
+### Embed lists as form widgets
+
+Embed your EasyAdmin lists in edit views. This is really useful for \*ToMany relations.
+
+First register the form type in the custom_form_types section :
+
+```yaml
+easy_admin_extension:
+    custom_form_types:
+        embedded_list: AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType
+
+```
+
+Then use it as a form field :
+
+```yaml
+easy_admin:
+    entities:
+        Promoter:
+            class: AppBundle\Entity\Promoter
+            form:
+                fields:
+                    # ...
+                    - { type: group, label: Events, css_class: 'col-sm-12', icon: calendar }
+                    - { property: events, label: '', type: embedded_list, type_options: { entity: Event, filters: { 'entity.promoter': 'form:parent.data.id' } } }
+
+```
+
 Run tests
 ---------
 
