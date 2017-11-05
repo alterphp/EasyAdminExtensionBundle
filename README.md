@@ -83,6 +83,8 @@ Then use it as a form field :
 ```yaml
 easy_admin:
     entities:
+        Event:
+            class: Tm\EventBundle\Entity\Event
         Promoter:
             class: AppBundle\Entity\Promoter
             form:
