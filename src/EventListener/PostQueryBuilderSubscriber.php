@@ -38,12 +38,15 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = array())
     {
         foreach ($filters as $field => $value) {
+            // Add root entity alias if none provided
+            $fieldName = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
             // Sanitize parameter name
-            $parameterName = 'filter_'.str_replace('.', '_', $field);
-            $filterDqlPart = $field.' = :'.$parameterName;
-            // For multiple value, use an IN clause
+            $parameterName = 'filter_'.str_replace('.', '_', $fieldName);
+            // For multiple value, use an IN clause, equality otherwise
             if (is_array($value)) {
-                $filterDqlPart = $field.' IN (:'.$parameterName.')';
+                $filterDqlPart = $fieldName.' IN (:'.$parameterName.')';
+            } else {
+                $filterDqlPart = $fieldName.' = :'.$parameterName;
             }
             $queryBuilder
                 ->andWhere($filterDqlPart)

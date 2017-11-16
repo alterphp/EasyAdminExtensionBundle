@@ -29,6 +29,13 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(5, $crawler->filter('#main tr[data-id]')->count());
     }
 
+    public function testRequestFilterWithoutAliasIsCompletedAndApplied()
+    {
+        $crawler = $this->requestListView('Product', array('enabled' => false));
+
+        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+    }
+
     public function testRequestFiltersArePassedToSearchForm()
     {
         $crawler = $this->requestListView(
