@@ -26,7 +26,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     /**
      * Called on POST_LIST_QUERY_BUILDER event.
      *
-     * @param  GenericEvent $event
+     * @param GenericEvent $event
      */
     public function onPostListQueryBuilder(GenericEvent $event)
     {
@@ -40,7 +40,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     /**
      * Called on POST_SEARCH_QUERY_BUILDER event.
      *
-     * @param  GenericEvent $event
+     * @param GenericEvent $event
      */
     public function onPostSearchQueryBuilder(GenericEvent $event)
     {
@@ -54,8 +54,8 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     /**
      * Applies filters on queryBuilder.
      *
-     * @param  QueryBuilder $queryBuilder
-     * @param  array        $filters
+     * @param QueryBuilder $queryBuilder
+     * @param array        $filters
      */
     protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = array())
     {
@@ -64,15 +64,12 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             if ('' === $value) {
                 continue;
             }
-
             // Add root entity alias if none provided
             $field = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
-
             // Checks if filter is directly appliable on queryBuilder
             if (!$this->isFilterAppliable($queryBuilder, $field)) {
                 continue;
             }
-
             // Sanitize parameter name
             $parameter = 'filter_'.str_replace('.', '_', $field);
 
@@ -83,10 +80,10 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     /**
      * Filters queryBuilder.
      *
-     * @param  QueryBuilder $queryBuilder
-     * @param  string       $field
-     * @param  string       $parameter
-     * @param  mixed        $value
+     * @param QueryBuilder $queryBuilder
+     * @param string       $field
+     * @param string       $parameter
+     * @param mixed        $value
      */
     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, string $parameter, $value)
     {
@@ -106,15 +103,16 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     /**
      * Checks if filter is directly appliable on queryBuilder.
      *
-     * @param  QueryBuilder $queryBuilder
-     * @param  string       $field
+     * @param QueryBuilder $queryBuilder
+     * @param string       $field
      *
-     * @return boolean
+     * @return bool
      */
     protected function isFilterAppliable(QueryBuilder $queryBuilder, string $field): bool
     {
         // TODO: if not directly appliable on queryBuilder (not existing field/association on entity)
         // => return false
+        // ClassMetadataInfo hasField() || hasAssociation()
 
         return true;
     }
