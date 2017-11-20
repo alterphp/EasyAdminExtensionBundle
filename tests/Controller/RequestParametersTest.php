@@ -20,12 +20,12 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
-    /*public function testRequestNoFieldFilterIsIgnored()
+    public function testRequestNoFieldFilterCausesNoError()
     {
         $crawler = $this->requestListView('Product', array('entity.foo' => 'bar'));
 
-        $this->assertSame(100, $crawler->filter('#main tr[data-id]')->count());
-    }*/
+        $this->assertSame(15, $crawler->filter('#main tr[data-id]')->count());
+    }
 
     public function testRequestManyFiltersAreApplied()
     {

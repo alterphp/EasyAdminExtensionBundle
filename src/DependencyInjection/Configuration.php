@@ -26,7 +26,9 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('short_name')
                     ->prototype('scalar')
                         ->validate()
-                            ->ifTrue(function ($v) { return !class_exists($v); })
+                            ->ifTrue(function ($v) {
+                                return !class_exists($v);
+                            })
                                 ->thenInvalid('Class %s for custom type does not exist !')
                         ->end()
                     ->end()

@@ -2,13 +2,14 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Apply filters on list/search queryBuilder
+ * Apply filters on list/search queryBuilder.
  */
 class PostQueryBuilderSubscriber implements EventSubscriberInterface
 {
@@ -110,9 +111,16 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      */
     protected function isFilterAppliable(QueryBuilder $queryBuilder, string $field): bool
     {
-        // TODO: if not directly appliable on queryBuilder (not existing field/association on entity)
-        // => return false
-        // ClassMetadataInfo hasField() || hasAssociation()
+        $qbClone = clone $queryBuilder;
+
+        try {
+            $qbClone->andWhere($field.' IS NULL');
+
+            // Generating SQL throws a QueryException if using wrong field/association
+            $qbClone->getQuery()->getSQL();
+        } catch (QueryException $e) {
+            return false;
+        }
 
         return true;
     }
