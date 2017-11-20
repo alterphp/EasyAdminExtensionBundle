@@ -57,6 +57,7 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
             $product->setCategories($this->getRandomCategories());
             $product->setDescription($this->getRandomDescription());
             $product->setHtmlFeatures($this->getRandomHtmlFeatures());
+            $product->setPhone($i <= 10 ? null : '0123456789');
 
             $this->addReference('product-'.$i, $product);
             $manager->persist($product);

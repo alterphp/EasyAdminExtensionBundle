@@ -90,4 +90,24 @@ class RequestParametersTest extends AbstractTestCase
 
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
+
+    public function testRequestNullFilterisApplied()
+    {
+        $crawler = $this->requestListView(
+            'Product', array('entity.phone' => '_NULL')
+        );
+
+        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+    }
+
+    public function testRequestNotNullFilterisApplied()
+    {
+        $crawler = $this->requestListView(
+            'Product', array('entity.phone' => '_NOT_NULL')
+        );
+        $this->assertContains(
+            '1 - 15 of 90',
+            $crawler->filter('#main .list-pagination')->text()
+        );
+    }
 }

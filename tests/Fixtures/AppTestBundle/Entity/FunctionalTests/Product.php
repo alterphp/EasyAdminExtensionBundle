@@ -146,6 +146,13 @@ class Product
     protected $image;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $phone;
+
+    /**
      * Constructor of the Category class.
      * (Initialize some fields).
      */
@@ -462,5 +469,21 @@ class Product
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
     }
 }
