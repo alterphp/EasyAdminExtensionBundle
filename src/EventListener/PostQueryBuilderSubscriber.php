@@ -86,20 +86,26 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      * @param string       $parameter
      * @param mixed        $value
      */
-    protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, string $parameter, $value)
-    {
-        // For multiple value, use an IN clause, equality otherwise
-        if (is_array($value)) {
-            $filterDqlPart = $field.' IN (:'.$parameter.')';
-        } else {
-            $filterDqlPart = $field.' = :'.$parameter;
-        }
+     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, string $parameter, $value)
+     {
+         // For multiple value, use an IN clause, equality otherwise
+         if (is_array($value)) {
+             $filterDqlPart = $field.' IN (:'.$parameter.')';
+         } elseif ('_NULL' === $value) {
+             $parameter = null;
+             $filterDqlPart = $field.' IS NULL';
+         } elseif ('_NOT_NULL' === $value) {
+             $parameter = null;
+             $filterDqlPart = $field.' IS NOT NULL';
+         } else {
+             $filterDqlPart = $field.' = :'.$parameter;
+         }
 
-        $queryBuilder
-            ->andWhere($filterDqlPart)
-            ->setParameter($parameter, $value)
-        ;
-    }
+         $queryBuilder->andWhere($filterDqlPart);
+         if (null !== $parameter) {
+             $queryBuilder->setParameter($parameter, $value);
+         }
+     }
 
     /**
      * Checks if filter is directly appliable on queryBuilder.
