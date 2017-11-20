@@ -91,7 +91,7 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
-    public function testRequestNullFilterisApplied()
+    public function testRequestNullFilterIsApplied()
     {
         $crawler = $this->requestListView(
             'Product', array('entity.phone' => '_NULL')
@@ -100,7 +100,7 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
-    public function testRequestNotNullFilterisApplied()
+    public function testRequestNotNullFilterIsApplied()
     {
         $crawler = $this->requestListView(
             'Product', array('entity.phone' => '_NOT_NULL')
