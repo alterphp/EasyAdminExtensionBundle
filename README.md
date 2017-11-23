@@ -40,6 +40,22 @@ class AppKernel extends Kernel
 }
 ```
 
+### Step 3: Replace EasyAdmin controller
+
+Instead of loading routes from EasyAdminBundle AdminController, load them from __EasyAdminExtensionBundle__ AdminController.
+
+```yaml
+# app/config/routing.yml
+easy_admin_bundle:
+    resource: "@EasyAdminExtensionBundle/Controller/AdminController.php"
+    type:     annotation
+    prefix:   /admin
+
+# ...
+```
+
+If you have defined your own admin controllers, make them extend EasyAdminExtensionBundle admin controller.
+
 Features
 --------
 
