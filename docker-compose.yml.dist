@@ -17,4 +17,4 @@ services:
         entrypoint:
           - /usr/local/bin/php-cs-fixer
           - fix
-          - /app/.
+          - /app

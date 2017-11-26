@@ -1,0 +1,16 @@
+imports:
+    - { resource: config.yml }
+
+easy_admin_extension:
+    custom_form_types:
+        embedded_list: AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType
+
+easy_admin:
+    entities:
+        Category:
+            class: AppTestBundle\Entity\FunctionalTests\Category
+            form:
+                fields:
+                    - { property: name }
+                    - { property: products, label: '', type: embedded_list, type_options: { entity: Product, filters: { 'entity.category': 'form:parent.data.id' } } }
+        Product:  AppTestBundle\Entity\FunctionalTests\Product

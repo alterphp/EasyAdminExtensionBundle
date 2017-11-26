@@ -1,10 +1,12 @@
 <?php
 
+$excludeDirs = array('./build', './vendor');
+
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
     ->ignoreDotFiles(true)
     ->ignoreVCS(true)
-    ->exclude(array('build', 'vendor'))
+    ->exclude($excludeDirs)
     ->files()
     ->name('*.php')
 ;
