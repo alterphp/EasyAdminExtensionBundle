@@ -2,9 +2,9 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
-use AlterPHP\EasyAdminExtensionBundle\Configuration\CustomFormTypeConfigPass;
+use AlterPHP\EasyAdminExtensionBundle\Configuration\ShortFormTypeConfigPass;
 
-class CustomFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
+class ShortFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testCustomFormTypesAreReplaced()
     {
@@ -13,7 +13,7 @@ class CustomFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
             'bar' => 'AppBundle\Form\type\BarType',
         );
 
-        $customFormTypeConfigPass = new CustomFormTypeConfigPass($customFormTypesMap);
+        $shortFormTypeConfigPass = new ShortFormTypeConfigPass($customFormTypesMap);
 
         $backendConfig = array(
             'entites' => array(
@@ -28,7 +28,7 @@ class CustomFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $backendConfig = $customFormTypeConfigPass->process($backendConfig);
+        $backendConfig = $shortFormTypeConfigPass->process($backendConfig);
 
         $expectedBackendConfig = $backendConfig = array(
             'entites' => array(

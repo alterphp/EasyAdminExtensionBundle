@@ -5,12 +5,13 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 
 /**
- * Normalizes the different configuration formats available for entities, views,
- * actions and properties.
+ * Generalization of short form types for :
+ *     - EasyAdminExtension bundle types
+ *     - Custom form types
  *
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
+ * @author Pierre-Charles Bertineau <pc.bertineau@alterphp.com>
  */
-class CustomFormTypeConfigPass implements ConfigPassInterface
+class ShortFormTypeConfigPass implements ConfigPassInterface
 {
     private $customFormTypes = array();
     private static $configWithFormKeys = array('form', 'edit', 'new');
