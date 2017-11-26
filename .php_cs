@@ -1,6 +1,6 @@
 <?php
 
-$excludeDirs = array('./build', './vendor');
+$excludeDirs = array('build', 'vendor');
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
