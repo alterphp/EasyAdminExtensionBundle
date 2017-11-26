@@ -85,16 +85,7 @@ easy_admin_extension:
 
 Embed your EasyAdmin lists in edit views. This is really useful for \*ToMany relations.
 
-First register the form type in the custom_form_types section :
-
-```yaml
-easy_admin_extension:
-    custom_form_types:
-        embedded_list: AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType
-
-```
-
-Then use it as a form field :
+Use pre-configured type `embedded_list` in the form definition :
 
 ```yaml
 easy_admin:

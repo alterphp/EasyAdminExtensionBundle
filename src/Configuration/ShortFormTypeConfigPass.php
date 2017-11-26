@@ -14,7 +14,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 class ShortFormTypeConfigPass implements ConfigPassInterface
 {
     private $customFormTypes = array();
+
     private static $configWithFormKeys = array('form', 'edit', 'new');
+    private static $nativeShortFormTypes = array(
+        'embedded_list' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType',
+    );
 
     public function __construct(array $customFormTypes = array())
     {
@@ -31,22 +35,23 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     protected function replaceShortNameTypes(array $backendConfig)
     {
         if (
-            empty($this->customFormTypes)
-            || !isset($backendConfig['entities'])
+            !isset($backendConfig['entities'])
             || !is_array($backendConfig['entities'])
         ) {
             return $backendConfig;
         }
 
         foreach ($backendConfig['entities'] as &$entity) {
-            $entity = $this->replaceCustomTypesInEntityConfig($entity);
+            $entity = $this->replaceShortFormTypesInEntityConfig($entity);
         }
 
         return $backendConfig;
     }
 
-    protected function replaceCustomTypesInEntityConfig(array $entity)
+    protected function replaceShortFormTypesInEntityConfig(array $entity)
     {
+        $shortFormTypes = $this->getShortFormTypes();
+
         foreach (static::$configWithFormKeys as $configWithFormKey) {
             if (
                 isset($entity[$configWithFormKey])
@@ -58,13 +63,18 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
                         continue;
                     }
 
-                    if (in_array($field['type'], array_keys($this->customFormTypes))) {
-                        $entity[$configWithFormKey]['fields'][$name]['type'] = $this->customFormTypes[$field['type']];
+                    if (in_array($field['type'], array_keys($shortFormTypes))) {
+                        $entity[$configWithFormKey]['fields'][$name]['type'] = $shortFormTypes[$field['type']];
                     }
                 }
             }
         }
 
         return $entity;
+    }
+
+    private function getShortFormTypes()
+    {
+        return array_merge(static::$nativeShortFormTypes, $this->customFormTypes);
     }
 }
