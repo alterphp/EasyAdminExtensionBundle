@@ -1,7 +1,7 @@
 EasyAdmin Extension
 ===================
 
-[![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle)
+[![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.png)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802)
 
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
