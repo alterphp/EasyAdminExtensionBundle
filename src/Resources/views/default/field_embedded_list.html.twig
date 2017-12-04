@@ -1,3 +1,6 @@
+{# TODO: keep or not ? #}
+{% set filters = field_options.template_options.filters|default({})|merge({(field_options.template_options.association_alias): item.id }) %}
+
 {% set action_params = { entity: entity, action: 'embeddedList', filters: filters } %}
 {% if sort is defined %}
   {% set action_params = action_params|merge({ sortField: sort.field, sortDirection: sort.direction}) %}
