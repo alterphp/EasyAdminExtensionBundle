@@ -2,6 +2,8 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle;
 
+use AlterPHP\EasyAdminExtensionBundle\DependencyInjection\Compiler\TwigPathPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -11,10 +13,6 @@ class EasyAdminExtensionBundle extends Bundle
     {
         parent::build($container);
 
-        // Prepend EasyAdminExtension bundle tmeplates to EasyAdmin namespace
-        $container->prependExtensionConfig(
-            'twig',
-            array('paths' => array(__DIR__.'/Resources/views' => 'EasyAdmin'))
-        );
+        $container->addCompilerPass(new TwigPathPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
     }
 }
