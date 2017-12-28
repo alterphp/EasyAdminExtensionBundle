@@ -10,7 +10,8 @@ class TwigPathPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $twigLoaderFilesystemDefinition = $container->getDefinition('twig.loader.filesystem');
+        $twigLoaderFilesystemId = $container->getAlias('twig.loader')->__toString();
+        $twigLoaderFilesystemDefinition = $container->getDefinition($twigLoaderFilesystemId);
 
         // Replaces native EasyAdmin templates
         $easyAdminExtensionTwigPath = __DIR__.'/../../Resources/views';
