@@ -1,4 +1,4 @@
-{% use 'EasyAdminBundle:form:bootstrap_3_layout.html.twig' %}
+{% use '@BaseEasyAdmin/form/bootstrap_3_layout.html.twig' %}
 
 {% block easyadmin_embedded_list_row %}
   {{ render(path('easyadmin', { entity: entity, action: 'embeddedList', filters: filters })) }}
