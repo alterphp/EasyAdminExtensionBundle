@@ -2,6 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\DependencyInjection\Compiler;
 
+use AlterPHP\EasyAdminExtensionBundle\EasyAdminExtensionBundle;
 use EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +15,9 @@ class TwigPathPass implements CompilerPassInterface
         $twigLoaderFilesystemDefinition = $container->getDefinition($twigLoaderFilesystemId);
 
         // Replaces native EasyAdmin templates
-        $easyAdminExtensionTwigPath = __DIR__.'/../../Resources/views';
+        $easyAdminExtensionBundleRefl = new \ReflectionClass(EasyAdminExtensionBundle::class);
+        $easyAdminExtensionBundlePath = dirname($easyAdminExtensionBundleRefl->getFilename());
+        $easyAdminExtensionTwigPath = $easyAdminExtensionBundlePath.'/Resources/views';
         $twigLoaderFilesystemDefinition->addMethodCall('prependPath', array($easyAdminExtensionTwigPath, 'EasyAdmin'));
 
         $nativeEasyAdminBundleRefl = new \ReflectionClass(EasyAdminBundle::class);
