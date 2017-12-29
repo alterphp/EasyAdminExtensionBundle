@@ -8,9 +8,20 @@
             <tag name="kernel.event_subscriber"/>
         </service>
         <service id="alterphp.easyadmin_extension.config_pass.short_form_types" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ShortFormTypeConfigPass">
-        	<argument>%easy_admin_extension.custom_form_types%</argument>
+            <argument>%easy_admin_extension.custom_form_types%</argument>
             <!-- Makes it process just before PropertyConfigPass -->
             <tag name="easyadmin.config_pass" priority="41"/>
+        </service>
+
+        <!-- Admin security roles -->
+        <service id="alterphp.easyadmin_extension.security.editable_roles_builder" class="AlterPHP\EasyAdminExtensionBundle\Security\EditableRolesBuilder">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="security.authorization_checker"/>
+            <argument>%security.role_hierarchy.roles%</argument>
+        </service>
+        <service id="alterphp.easyadmin_extension.form.security.admin_roles_type" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType">
+            <argument key="$editableRolesBuilder" type="service" id="alterphp.easyadmin_extension.security.editable_roles_builder" />
+            <tag name="form.type"/>
         </service>
     </services>
 </container>
