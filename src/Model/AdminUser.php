@@ -27,6 +27,16 @@ class AdminUser implements UserInterface
     protected $groups;
 
     /**
+     * Display as a string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
+    /**
      * User constructor.
      */
     public function __construct()
