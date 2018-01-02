@@ -23,6 +23,16 @@ class AdminGroup
     protected $roles;
 
     /**
+     * Display as a string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
      * Group constructor.
      */
     public function __construct()
@@ -62,6 +72,20 @@ class AdminGroup
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set roles.
+     *
+     * @param array
+     *
+     * @return static
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**
