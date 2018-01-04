@@ -22,4 +22,18 @@ class AdminController extends BaseAdminController
             'masterRequest' => $this->get('request_stack')->getMasterRequest(),
         ));
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws AccessDeniedException
+     */
+    protected function isActionAllowed($actionName)
+    {
+        $this->get('alterphp.easyadmin_extension.admin_authorization_checker')->checksUserAccess(
+            $this->entity, $actionName
+        );
+
+        return parent::isActionAllowed($actionName);
+    }
 }

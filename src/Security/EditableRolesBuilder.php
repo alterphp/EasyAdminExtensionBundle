@@ -62,7 +62,7 @@ class EditableRolesBuilder
         $reachableRoles = $this->rolesHierarchy->getReachableRoles($this->tokenStorage->getToken()->getRoles());
 
         foreach ($reachableRoles as $role) {
-            $roles[] = $role->getRole();
+            $roles[$role->getRole()] = $role->getRole();
         }
 
         return $roles;

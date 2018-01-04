@@ -95,6 +95,6 @@ class AdminGroup
      */
     public function getRoles(): array
     {
-        return $this->roles;
+        return array_filter($this->roles);
     }
 }
