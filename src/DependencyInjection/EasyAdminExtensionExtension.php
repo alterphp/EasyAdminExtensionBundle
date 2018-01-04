@@ -23,6 +23,7 @@ class EasyAdminExtensionExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('easy_admin_extension.custom_form_types', $config['custom_form_types']);
+        $container->setParameter('easy_admin_extension.minimum_role', $config['minimum_role']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');

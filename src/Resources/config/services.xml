@@ -23,5 +23,10 @@
             <argument key="$editableRolesBuilder" type="service" id="alterphp.easyadmin_extension.security.editable_roles_builder" />
             <tag name="form.type"/>
         </service>
+
+        <service id="alterphp.easyadmin_extension.admin_authorization_checker" class="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker" public="true">
+            <argument type="service" id="security.authorization_checker"/>
+            <argument>%easy_admin_extension.minimum_role%</argument>
+        </service>
     </services>
 </container>

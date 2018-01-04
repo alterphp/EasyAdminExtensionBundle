@@ -33,6 +33,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('minimum_role')
+                    ->defaultNull()
+                ->end()
             ->end()
         ;
 
