@@ -1,0 +1,20 @@
+{% import _self as renderer %}
+
+{% macro render_rolegroup_view(rolechoices, all_forms) %}
+<ul>
+  {%- for choice in rolechoices %}
+    <li>
+    {% if attribute(choice, 'choices') is defined %}
+      {% import _self as renderer %}
+      <span>{{ choice.label }}</span>
+      {{ renderer.render_rolegroup_view(choice.choices, all_forms) }}
+    {% else %}
+      {% set roleform = pick_checkbox_form(all_forms, choice.value) %}
+      {{ roleform ? form_widget(roleform) : '' }}
+    {% endif %}
+    </li>
+  {% endfor -%}
+</ul>
+{% endmacro render_rolegroup_view %}
+
+{{ renderer.render_rolegroup_view(checkboxGroup.vars.choices, checkboxGroup.children) }}

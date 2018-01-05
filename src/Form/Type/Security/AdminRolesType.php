@@ -2,7 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type\Security;
 
-use AlterPHP\EasyAdminExtensionBundle\Form\Type\Transformer\RestoreRolesTransformer;
+use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\RestoreRolesTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -75,13 +75,22 @@ class AdminRolesType extends AbstractType
                 if (!empty($parentChoices)) {
                     return array();
                 }
-                $roles = $this->rolesBuilder->getRoles($options['expanded']);
+                $roles = $this->rolesBuilder->getRoles();
 
-                return array_flip($roles);
+                // return array_flip($roles);
+                return $roles;
             },
             'multiple' => true,
             'data_class' => null,
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'easyadmin_admin_roles';
     }
 
     public function getParent()

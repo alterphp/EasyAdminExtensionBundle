@@ -3,3 +3,8 @@
 {% block easyadmin_embedded_list_row %}
   {{ render(path('easyadmin', { entity: entity, action: 'embeddedList', filters: filters })) }}
 {% endblock %}
+
+{% block easyadmin_admin_roles_widget %}
+  {{ checkbox_tree(form) }}
+{% endblock %}
+

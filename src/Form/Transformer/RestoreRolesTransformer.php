@@ -1,6 +1,6 @@
 <?php
 
-namespace AlterPHP\EasyAdminExtensionBundle\Form\Type\Transformer;
+namespace AlterPHP\EasyAdminExtensionBundle\Form\Transformer;
 
 use AlterPHP\EasyAdminExtensionBundle\Security\EditableRolesBuilder;
 use Symfony\Component\Form\DataTransformerInterface;
