@@ -41,6 +41,18 @@ class AppKernel extends Kernel
                 'assets' => null,
             ));
         });
+
+        if ($this->requiresLogoutOnUserChange()) {
+            $loader->load(function (ContainerBuilder $container) {
+                $container->loadFromExtension('security', array(
+                    'firewalls' => array(
+                        'secured_area' => array(
+                            'logout_on_user_change' => true,
+                        ),
+                    ),
+                ));
+            });
+        }
     }
 
     /**
@@ -57,5 +69,10 @@ class AppKernel extends Kernel
     public function getLogDir()
     {
         return __DIR__.'/../../../build/kernel_logs/'.$this->getEnvironment();
+    }
+
+    protected function requiresLogoutOnUserChange()
+    {
+        return (int) Kernel::VERSION_ID >= 30400;
     }
 }

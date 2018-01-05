@@ -49,7 +49,6 @@ class MenuConfigPass implements ConfigPassInterface
         return $menuConfig;
     }
 
-
     protected function pruneEmptyFolderEntries(array $menuConfig)
     {
         foreach ($menuConfig as $key => $entry) {
@@ -63,4 +62,5 @@ class MenuConfigPass implements ConfigPassInterface
         }
 
         return $menuConfig;
-    }}
+    }
+}
