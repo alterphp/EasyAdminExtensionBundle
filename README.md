@@ -1,7 +1,7 @@
 EasyAdmin Extension
 ===================
 
-[![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.png)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802)
+[![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.png)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802) [![Coverage Status](https://coveralls.io/repos/github/alterphp/EasyAdminExtensionBundle/badge.svg?branch=master)](https://coveralls.io/github/alterphp/EasyAdminExtensionBundle?branch=master)
 
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
@@ -44,12 +44,24 @@ class AppKernel extends Kernel
 
 Instead of loading routes from EasyAdminBundle AdminController, load them from __EasyAdminExtensionBundle__ AdminController.
 
+Symfony 4 directory structure :
+```yaml
+# config/routes/easy_admin.yaml
+easy_admin_bundle:
+    resource: '@EasyAdminExtensionBundle/Controller/AdminController.php'
+    prefix: /admin
+    type: annotation
+
+# ...
+```
+
+Former Symfony 2/3 directory structure :
 ```yaml
 # app/config/routing.yml
 easy_admin_bundle:
     resource: "@EasyAdminExtensionBundle/Controller/AdminController.php"
-    type:     annotation
     prefix:   /admin
+    type:     annotation
 
 # ...
 ```
