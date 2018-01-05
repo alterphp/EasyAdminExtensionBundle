@@ -6,7 +6,6 @@ namespace AlterPHP\EasyAdminExtensionBundle\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 /**
  * This file is part of the EasyAdmin Extension package.
@@ -30,21 +29,21 @@ class EditableRolesBuilder
     /**
      * @var array
      */
-    protected $rolesHierarchy;
+    protected $roleHierarchy;
 
     /**
      * @param TokenStorageInterface         $tokenStorage
      * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param array                         $rolesHierarchy
+     * @param array                         $roleHierarchy
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
-        array $rolesHierarchy = array()
+        array $roleHierarchy = array()
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
-        $this->rolesHierarchy = new RoleHierarchy($rolesHierarchy);
+        $this->roleHierarchy = $roleHierarchy;
     }
 
     /**
@@ -58,12 +57,15 @@ class EditableRolesBuilder
             return $roles;
         }
 
-        // get roles from the service container
-        $reachableRoles = $this->rolesHierarchy->getReachableRoles($this->tokenStorage->getToken()->getRoles());
+        $roles = $this->roleHierarchy;
 
-        foreach ($reachableRoles as $role) {
-            $roles[$role->getRole()] = $role->getRole();
-        }
+        $roles = array_map(function ($rolesGroup) {
+            if (is_array($rolesGroup)) {
+                $rolesGroup = array_combine($rolesGroup, $rolesGroup);
+            }
+
+            return $rolesGroup;
+        }, $roles);
 
         return $roles;
     }

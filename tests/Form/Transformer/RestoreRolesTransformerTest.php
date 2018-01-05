@@ -10,7 +10,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Form\Transformer;
 
-use AlterPHP\EasyAdminExtensionBundle\Form\Type\Transformer\RestoreRolesTransformer;
+use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\RestoreRolesTransformer;
 use AlterPHP\EasyAdminExtensionBundle\Security\EditableRolesBuilder;
 use PHPUnit\Framework\TestCase;
 

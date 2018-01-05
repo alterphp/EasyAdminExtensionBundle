@@ -17,6 +17,13 @@ class AdminAuthorizationChecker
         $this->adminMinimumRole = $adminMinimumRole;
     }
 
+    /**
+     * Throws an error if user has no access to the entity action.
+     *
+     * @param  array  $entity
+     * @param  string $actionName
+     * @param  array  $params
+     */
     public function checksUserAccess(array $entity, string $actionName, array $params = array())
     {
         if ($this->adminMinimumRole && !$this->authorizationChecker->isGranted($this->adminMinimumRole)) {

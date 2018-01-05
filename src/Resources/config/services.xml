@@ -23,10 +23,17 @@
             <argument key="$editableRolesBuilder" type="service" id="alterphp.easyadmin_extension.security.editable_roles_builder" />
             <tag name="form.type"/>
         </service>
-
+        <service id="alterphp.easyadmin_extension.twig.extension.checkbox_tree" class="AlterPHP\EasyAdminExtensionBundle\Twig\CheckboxTreeExtension">
+            <tag name="twig.extension"/>
+        </service>
         <service id="alterphp.easyadmin_extension.admin_authorization_checker" class="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker" public="true">
             <argument type="service" id="security.authorization_checker"/>
             <argument>%easy_admin_extension.minimum_role%</argument>
+        </service>
+        <service id="alterphp.easyadmin_extension.config_pass.menu" class="AlterPHP\EasyAdminExtensionBundle\Configuration\MenuConfigPass">
+            <argument type="service" id="security.authorization_checker"/>
+            <!-- Makes it process just before PropertyConfigPass -->
+            <tag name="easyadmin.config_pass" priority="69"/>
         </service>
     </services>
 </container>
