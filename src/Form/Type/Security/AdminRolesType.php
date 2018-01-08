@@ -77,7 +77,6 @@ class AdminRolesType extends AbstractType
                 }
                 $roles = $this->rolesBuilder->getRoles();
 
-                // return array_flip($roles);
                 return $roles;
             },
             'multiple' => true,

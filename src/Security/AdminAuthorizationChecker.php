@@ -22,9 +22,8 @@ class AdminAuthorizationChecker
      *
      * @param array  $entity
      * @param string $actionName
-     * @param array  $params
      */
-    public function checksUserAccess(array $entity, string $actionName, array $params = array())
+    public function checksUserAccess(array $entity, string $actionName)
     {
         if ($this->adminMinimumRole && !$this->authorizationChecker->isGranted($this->adminMinimumRole)) {
             throw new AccessDeniedException(
@@ -32,7 +31,7 @@ class AdminAuthorizationChecker
             );
         }
 
-        $requiredRole = $this->getRequiredRole($entity, $actionName, $params);
+        $requiredRole = $this->getRequiredRole($entity, $actionName);
         if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole)) {
             throw new AccessDeniedException(
                 sprintf('You must be granted %s role to perform this entity action !', $requiredRole)
@@ -40,7 +39,7 @@ class AdminAuthorizationChecker
         }
     }
 
-    protected function getRequiredRole(array $entity, string $actionName, array $params)
+    protected function getRequiredRole(array $entity, string $actionName)
     {
         if (isset($entity[$actionName]) && isset($entity[$actionName]['role'])) {
             return $entity[$actionName]['role'];
