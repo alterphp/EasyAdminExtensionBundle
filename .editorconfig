@@ -1,35 +1,19 @@
-root = true
-
 [*]
 indent_style = tab
-end_of_line = lf
+indent_size = 4
+end_of_line = LF
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
 # Sublime Text Editorconfig plugin cannt handle comma separated definitions
-[*.xml]
+[*.{xml,yaml,yml}]
 indent_style = space
-indent_size = 4
-[*.xml.dist]
+[*.{xml,yaml,yml}.dist]
 indent_style = space
-indent_size = 4
-[*.yml]
-indent_style = space
-indent_size = 4
-[*.yaml]
-indent_style = space
-indent_size = 4
-[*.yml.dist]
-indent_style = space
-indent_size = 4
-[*.yaml.dist]
-indent_style = space
-indent_size = 4
 
 [*.php]
 indent_style = space
-indent_size = 4
 
 [*.twig]
 indent_style = space
@@ -40,21 +24,13 @@ indent_style = space
 indent_size = 2
 
 # Sublime Text Editorconfig plugin cannt handle comma separated definitions
-[*.css]
-indent_style = space
-indent_size = 2
-[*.less]
+[*.{css,less}]
 indent_style = space
 indent_size = 2
 
 [*.md]
 indent_style = space
-indent_size = 4
 
 # Sublime Text Editorconfig plugin cannt handle comma separated definitions
-[composer.json]
+[composer.{json,lock}]
 indent_style = space
-indent_size = 4
-[composer.lock]
-indent_style = space
-indent_size = 4
