@@ -40,18 +40,19 @@
         "javiereguiluz/easyadmin-bundle": "^1.16"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle" : "~2.2",
-        "phpunit/phpunit"                   : "~5",
-        "psr/log"                           : "~1.0",
-        "symfony/browser-kit"               : "~3.0|^4.0",
-        "symfony/console"                   : "~3.0|^4.0",
-        "symfony/css-selector"              : "~3.0|^4.0",
-        "symfony/dom-crawler"               : "~3.0|^4.0",
-        "symfony/finder"                    : "~3.0|^4.0",
-        "symfony/phpunit-bridge"            : "~3.0|^4.0",
-        "symfony/templating"                : "~3.0|^4.0",
-        "symfony/var-dumper"                : "~3.0|^4.0",
-        "symfony/yaml"                      : "~3.0|^4.0"
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
+        "php-coveralls/php-coveralls": "^2.0",
+        "phpunit/phpunit": "~5",
+        "psr/log": "~1.0",
+        "symfony/browser-kit": "~3.0|^4.0",
+        "symfony/console": "~3.0|^4.0",
+        "symfony/css-selector": "~3.0|^4.0",
+        "symfony/dom-crawler": "~3.0|^4.0",
+        "symfony/finder": "~3.0|^4.0",
+        "symfony/phpunit-bridge": "~3.0|^4.0",
+        "symfony/templating": "~3.0|^4.0",
+        "symfony/var-dumper": "~3.0|^4.0",
+        "symfony/yaml": "~3.0|^4.0"
     },
     "config": {
         "sort-packages": true
