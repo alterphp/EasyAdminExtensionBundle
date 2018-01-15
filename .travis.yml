@@ -71,4 +71,4 @@ script:
 
 after_success: |
     if [[ "$ENABLE_CODE_COVERAGE" == "true" ]]; then php vendor/bin/php-coveralls -v --config .coveralls.yml; fi;
-#    if [[ "$ENABLE_CODE_COVERAGE" == "true" && "$TRAVIS_EVENT_TYPE" == "cron" ]]; then php vendor/bin/coveralls -v --config .coveralls.yml; fi;
+#    if [[ "$ENABLE_CODE_COVERAGE" == "true" && "$TRAVIS_EVENT_TYPE" == "cron" ]]; then php vendor/bin/php-coveralls -v --config .coveralls.yml; fi;
