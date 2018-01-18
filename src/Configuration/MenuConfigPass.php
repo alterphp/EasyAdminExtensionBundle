@@ -52,12 +52,14 @@ class MenuConfigPass implements ConfigPassInterface
     protected function pruneEmptyFolderEntries(array $menuConfig)
     {
         foreach ($menuConfig as $key => $entry) {
-            // Starts with sub-nodes in order to empty after possible children pruning...
-            $menuConfig[$key]['children'] = $this->pruneEmptyFolderEntries($entry['children']);
+            if (isset($entry['children'])) {
+                // Starts with sub-nodes in order to empty after possible children pruning...
+                $menuConfig[$key]['children'] = $this->pruneEmptyFolderEntries($entry['children']);
 
-            if ('empty' === $entry['type'] && empty($entry['children'])) {
-                unset($menuConfig[$key]);
-                continue;
+                if ('empty' === $entry['type'] && empty($entry['children'])) {
+                    unset($menuConfig[$key]);
+                    continue;
+                }
             }
         }
 
