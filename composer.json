@@ -51,6 +51,7 @@
         "symfony/finder": "~3.0|^4.0",
         "symfony/phpunit-bridge": "~3.0|^4.0",
         "symfony/templating": "~3.0|^4.0",
+        "symfony/thanks": "^1.0",
         "symfony/var-dumper": "~3.0|^4.0",
         "symfony/yaml": "~3.0|^4.0"
     },
