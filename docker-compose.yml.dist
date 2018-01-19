@@ -1,6 +1,13 @@
-version: '3.2'
+it stversion: '3.2'
 
 services:
+
+    php:
+        image: php
+        volumes:
+            - ./:/app
+        entrypoint:
+          - php
 
     phpunit:
         build: docker/phpunit
