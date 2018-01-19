@@ -1,0 +1,5 @@
+{% if view == 'show' %}
+    <code>{{ value }}</code>
+{% else %}
+    <code title="{{ value }}">{{ value|easyadmin_truncate(7) }}</code>
+{% endif %}
