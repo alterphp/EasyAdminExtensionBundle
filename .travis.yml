@@ -25,7 +25,6 @@ matrix:
           env:
             - STABILITY=dev
             - SYMFONY_VERSION="3.3.*"
-            - ENABLE_CODE_COVERAGE="true"
         # stable (most recent stable versions)
         - php: 7.2
           env:
@@ -42,6 +41,8 @@ matrix:
           env:
             - SYMFONY_VERSION="3.3.*"
             - TWIG_VERSION="1.x-dev"
+            # Only 7.0 php images on Travis have xdebug enabled
+            - ENABLE_CODE_COVERAGE="true"
     allow_failures:
         # code coverage is very slow; allow a failure to get the Travis result early
         - php: nightly
