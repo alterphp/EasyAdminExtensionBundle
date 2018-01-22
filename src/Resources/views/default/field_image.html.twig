@@ -1,0 +1,9 @@
+{# `value` is already prefixed with base_path, so it's always true #}
+{% set rawValue = attribute(item, field_options.property) %}
+
+{% if rawValue %}
+  {% include '@BaseEasyAdmin/default/field_image.html.twig' %}
+{% else %}
+  {% include '@EasyAdmin/default/label_null.html.twig' %}
+{% endif %}
+
