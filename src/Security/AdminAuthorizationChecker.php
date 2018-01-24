@@ -32,6 +32,7 @@ class AdminAuthorizationChecker
         }
 
         $requiredRole = $this->getRequiredRole($entity, $actionName);
+
         if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole)) {
             throw new AccessDeniedException(
                 sprintf('You must be granted %s role to perform this entity action !', $requiredRole)
@@ -43,6 +44,8 @@ class AdminAuthorizationChecker
     {
         if (isset($entity[$actionName]) && isset($entity[$actionName]['role'])) {
             return $entity[$actionName]['role'];
+        } elseif (isset($entity['role_prefix'])) {
+            return $entity['role_prefix'].'_'.strtoupper($actionName);
         }
 
         return $entity['role'] ?? null;
