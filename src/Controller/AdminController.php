@@ -30,6 +30,11 @@ class AdminController extends BaseAdminController
      */
     protected function isActionAllowed($actionName)
     {
+        // embeddedList action is mapped to list action for access permissions
+        if ('embeddedList' == $actionName) {
+            $actionName = 'list';
+        }
+
         $this->get('alterphp.easyadmin_extension.admin_authorization_checker')->checksUserAccess(
             $this->entity, $actionName
         );
