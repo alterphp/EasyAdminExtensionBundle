@@ -3,6 +3,7 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -10,10 +11,12 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class MenuConfigPass implements ConfigPassInterface
 {
+    protected $tokenStorage;
     protected $authorizationChecker;
 
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
+        $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
     }
 
@@ -35,7 +38,9 @@ class MenuConfigPass implements ConfigPassInterface
             if (
                 isset($entry['role'])
                 && is_string($entry['role'])
-                && !$this->authorizationChecker->isGranted($entry['role'])
+                && (
+                    null === $this->tokenStorage->getToken() || !$this->authorizationChecker->isGranted($entry['role'])
+                )
             ) {
                 unset($menuConfig[$key]);
                 continue;

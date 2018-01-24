@@ -31,6 +31,7 @@
             <argument>%easy_admin_extension.minimum_role%</argument>
         </service>
         <service id="alterphp.easyadmin_extension.config_pass.menu" class="AlterPHP\EasyAdminExtensionBundle\Configuration\MenuConfigPass">
+            <argument type="service" id="security.token_storage"/>
             <argument type="service" id="security.authorization_checker"/>
             <!-- Makes it process just before PropertyConfigPass -->
             <tag name="easyadmin.config_pass" priority="69"/>
