@@ -1,15 +1,14 @@
 <?php
 
-namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
+namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
-use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @author Pierre-Charles Bertineau <pc.bertineau@alterphp.com>
  */
-class MenuConfigPass implements ConfigPassInterface
+class MenuHelper
 {
     protected $tokenStorage;
     protected $authorizationChecker;
@@ -20,16 +19,12 @@ class MenuConfigPass implements ConfigPassInterface
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public function process(array $backendConfig)
+    public function pruneMenuItems(array $menuConfig)
     {
-        $menuConfig = $backendConfig['design']['menu'];
-
         $menuConfig = $this->pruneAccessDeniedEntries($menuConfig);
         $menuConfig = $this->pruneEmptyFolderEntries($menuConfig);
 
-        $backendConfig['design']['menu'] = $menuConfig;
-
-        return $backendConfig;
+        return $menuConfig;
     }
 
     protected function pruneAccessDeniedEntries(array $menuConfig)
