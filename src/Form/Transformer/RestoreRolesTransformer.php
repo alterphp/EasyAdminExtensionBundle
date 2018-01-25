@@ -2,7 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Transformer;
 
-use AlterPHP\EasyAdminExtensionBundle\Security\EditableRolesBuilder;
+use AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper;
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**
@@ -20,14 +20,14 @@ class RestoreRolesTransformer implements DataTransformerInterface
     protected $originalRoles = null;
 
     /**
-     * @var EditableRolesBuilder|null
+     * @var EditableRolesHelper|null
      */
     protected $rolesBuilder = null;
 
     /**
-     * @param EditableRolesBuilder $rolesBuilder
+     * @param EditableRolesHelper $rolesBuilder
      */
-    public function __construct(EditableRolesBuilder $rolesBuilder)
+    public function __construct(EditableRolesHelper $rolesBuilder)
     {
         $this->rolesBuilder = $rolesBuilder;
     }

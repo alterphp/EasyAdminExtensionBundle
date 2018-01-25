@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AlterPHP\EasyAdminExtensionBundle\Security;
+namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -10,11 +10,11 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * This file is part of the EasyAdmin Extension package.
  *
- * It is much inspired from SonataUserBundle EditableRolesBuilder, without translation, admin roles nor pool.
+ * It is much inspired from SonataUserBundle EditableRolesHelper, without translation, admin roles nor pool.
  *
- * @see https://github.com/sonata-project/SonataUserBundle/blob/master/src/Security/EditableRolesBuilder.php
+ * @see https://github.com/sonata-project/SonataUserBundle/blob/master/src/Security/EditableRolesHelper.php
  */
-class EditableRolesBuilder
+class EditableRolesHelper
 {
     /**
      * @var TokenStorageInterface
