@@ -22,27 +22,17 @@ class EditableRolesHelper
     protected $tokenStorage;
 
     /**
-     * @var AuthorizationCheckerInterface
-     */
-    protected $authorizationChecker;
-
-    /**
      * @var array
      */
     protected $roleHierarchy;
 
     /**
-     * @param TokenStorageInterface         $tokenStorage
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param array                         $roleHierarchy
+     * @param TokenStorageInterface $tokenStorage
+     * @param array                 $roleHierarchy
      */
-    public function __construct(
-        TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
-        array $roleHierarchy = array()
-    ) {
+    public function __construct(TokenStorageInterface $tokenStorage, array $roleHierarchy = array())
+    {
         $this->tokenStorage = $tokenStorage;
-        $this->authorizationChecker = $authorizationChecker;
         $this->roleHierarchy = $roleHierarchy;
     }
 
