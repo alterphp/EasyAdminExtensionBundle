@@ -19,7 +19,7 @@ env:
         - ENABLE_CODE_COVERAGE="true"
 
 matrix:
-    fast_finish: true
+    # fast_finish: true
     include:
         # bleeding edge (unreleased dev versions where failures are allowed)
         - php: nightly
