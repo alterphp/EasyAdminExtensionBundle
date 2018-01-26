@@ -66,11 +66,6 @@ install:
     # - if [[ "$ENABLE_CODE_COVERAGE" == "true" && "$TRAVIS_EVENT_TYPE" == "cron" ]]; then composer require --dev php-coveralls/php-coveralls; fi
     - if [[ "$ENABLE_CODE_COVERAGE" == "true" ]]; then composer require --dev php-coveralls/php-coveralls; fi
 
-# # Create a storage folder for coverage report
-# before_script:
-#     - mkdir -p build/logs
-#     - ls -al
-
 script:
     # - if [[ $ENABLE_CODE_COVERAGE == "true" && "$TRAVIS_EVENT_TYPE" == "cron" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; else vendor/bin/phpunit; fi
     - if [[ $ENABLE_CODE_COVERAGE == "true" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml; else vendor/bin/phpunit; fi
