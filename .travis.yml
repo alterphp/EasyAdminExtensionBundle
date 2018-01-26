@@ -15,7 +15,7 @@ env:
         - SYMFONY_VERSION=""
         - CHECK_PHP_SYNTAX="no"
         - SYMFONY_DEPRECATIONS_HELPER="weak"
-        - ENABLE_CODE_COVERAGE="false"
+        - ENABLE_CODE_COVERAGE="true"
 
 matrix:
     fast_finish: true
