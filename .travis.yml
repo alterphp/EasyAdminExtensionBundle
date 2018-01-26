@@ -15,11 +15,10 @@ env:
         - SYMFONY_VERSION=""
         - CHECK_PHP_SYNTAX="no"
         - SYMFONY_DEPRECATIONS_HELPER="weak"
-        # - ENABLE_CODE_COVERAGE="false"
-        - ENABLE_CODE_COVERAGE="true"
+        - ENABLE_CODE_COVERAGE="false"
 
 matrix:
-    # fast_finish: true
+    fast_finish: true
     include:
         # bleeding edge (unreleased dev versions where failures are allowed)
         - php: nightly
@@ -66,6 +65,11 @@ install:
     - composer update --prefer-dist --no-interaction --no-suggest --no-progress --ansi $COMPOSER_FLAGS
     # - if [[ "$ENABLE_CODE_COVERAGE" == "true" && "$TRAVIS_EVENT_TYPE" == "cron" ]]; then composer require --dev php-coveralls/php-coveralls; fi
     - if [[ "$ENABLE_CODE_COVERAGE" == "true" ]]; then composer require --dev php-coveralls/php-coveralls; fi
+
+# Create a storage folder for coverage report
+before_script:
+    - mkdir -p build/logs
+    - ls -al
 
 script:
     # - if [[ $TEST_COVERAGE == "true" && "$TRAVIS_EVENT_TYPE" == "cron" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; else vendor/bin/phpunit; fi
