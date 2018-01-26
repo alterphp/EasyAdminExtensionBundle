@@ -16,7 +16,6 @@
         <!-- Admin security roles -->
         <service id="alterphp.easyadmin_extension.helper.editable_roles" class="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper">
             <argument type="service" id="security.token_storage"/>
-            <argument type="service" id="security.authorization_checker"/>
             <argument>%security.role_hierarchy.roles%</argument>
         </service>
         <service id="alterphp.easyadmin_extension.form.security.admin_roles_type" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType">
