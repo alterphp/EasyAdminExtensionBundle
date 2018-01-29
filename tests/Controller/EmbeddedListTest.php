@@ -21,9 +21,6 @@ class EmbeddedListTest extends AbstractTestCase
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
     }
 
-    /*
-
-
     public function testRequestSingleFilterIsApplied()
     {
         $crawler = $this->requestListView('Product', array('entity.enabled' => false));
@@ -121,6 +118,4 @@ class EmbeddedListTest extends AbstractTestCase
             $crawler->filter('#main .list-pagination')->text()
         );
     }
-
-    */
 }
