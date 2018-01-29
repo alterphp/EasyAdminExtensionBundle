@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Test for RestoreRolesTransformer.
- *
- * Copied from SonataUserBundle RestoreRolesTransformer.
- *
- * @see https://github.com/sonata-project/SonataUserBundle/blob/master/tests/Form/Transformer/RestoreRolesTransformerTest.php
- */
-
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Helper;
 
 use AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper;

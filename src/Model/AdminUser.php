@@ -85,7 +85,7 @@ class AdminUser implements UserInterface
             $roles = array_merge($roles, $group->getRoles());
         }
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
     /**
