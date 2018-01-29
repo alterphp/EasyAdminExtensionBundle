@@ -1,0 +1,38 @@
+imports:
+    - { resource: config.yml }
+
+easy_admin_extension:
+    minimum_role: ROLE_ADMIN
+
+easy_admin:
+    design:
+        menu:
+            - label: Catalog
+              children:
+                - { label: Categories, entity: Category, role: ROLE_CATEGORY_LIST }
+                - { label: Products, entity: Product, role: ROLE_PRODUCT_LIST }
+            - { label: Images, entity: Image, role: ROLE_IMAGE_LIST }
+            - label: Sales
+              children:
+                - { label: Purchases, entity: Purchase, role: ROLE_PURCHASE_LIST }
+                - { label: Purchases items, entity: PurchaseItem, role: ROLE_PURCHASEITEM_LIST }
+    entities:
+        Category:
+            class: AppTestBundle\Entity\FunctionalTests\Category
+            role_prefix: ROLE_CATEGORY
+        Image:
+            class: AppTestBundle\Entity\FunctionalTests\Image
+            role_prefix: ROLE_IMAGE
+        Purchase:
+            class: AppTestBundle\Entity\FunctionalTests\Purchase
+            role_prefix: ROLE_PURCHASE
+        PurchaseItem:
+            class: AppTestBundle\Entity\FunctionalTests\PurchaseItem
+            role_prefix: ROLE_PURCHASEITEM
+        Product:
+            class: AppTestBundle\Entity\FunctionalTests\Product
+            role_prefix: ROLE_PRODUCT
+            edit:
+                role: ROLE_TEST_EDIT_PRODUCT
+            show:
+                role: ROLE_TEST_SHOW_PRODUCT
