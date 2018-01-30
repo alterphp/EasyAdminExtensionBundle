@@ -1,8 +1,41 @@
 imports:
     - { resource: config.yml }
+security:
+    role_hierarchy:
+        ROLE_GROUP_TEST:
+            - ROLE_GROUP_TEST_1
+            - ROLE_GROUP_TEST_2
+            - ROLE_GROUP_TEST_3
+            - ROLE_GROUP_TEST_4
+            - ROLE_GROUP_21
+        ROLE_GROUP_TEST_1:
+            - ROLE_GROUP_1
+            - ROLE_GROUP_2
+            - ROLE_GROUP_3
+            - ROLE_GROUP_4
+            - ROLE_GROUP_5
+        ROLE_GROUP_TEST_2:
+            - ROLE_GROUP_6
+            - ROLE_GROUP_7
+            - ROLE_GROUP_8
+            - ROLE_GROUP_9
+            - ROLE_GROUP_10
+        ROLE_GROUP_TEST_3:
+            - ROLE_GROUP_11
+            - ROLE_GROUP_12
+            - ROLE_GROUP_13
+            - ROLE_GROUP_14
+            - ROLE_GROUP_15
+        ROLE_GROUP_TEST_4:
+            - ROLE_GROUP_16
+            - ROLE_GROUP_17
+            - ROLE_GROUP_18
+            - ROLE_GROUP_19
+            - ROLE_GROUP_20
 
 easy_admin_extension:
     minimum_role: ROLE_ADMIN
+
 
 easy_admin:
     design:
@@ -16,6 +49,10 @@ easy_admin:
               children:
                 - { label: Purchases, entity: Purchase, role: ROLE_PURCHASE_LIST }
                 - { label: Purchases items, entity: PurchaseItem, role: ROLE_PURCHASEITEM_LIST }
+            - label: System
+              children:
+                - { label: Admin users, entity: AdminUser, role: ROLE_ADMINUSER_LIST }
+                - { label: Admin groups, entity: AdminGroup, role: ROLE_ADMINGROUP_LIST }
     entities:
         Category:
             class: AppTestBundle\Entity\FunctionalTests\Category
@@ -36,3 +73,14 @@ easy_admin:
                 role: ROLE_TEST_EDIT_PRODUCT
             show:
                 role: ROLE_TEST_SHOW_PRODUCT
+        AdminUser:
+            class: AppTestBundle\Entity\FunctionalTests\AdminUser
+            role_prefix: ROLE_ADMINUSER
+        AdminGroup:
+            class: AppTestBundle\Entity\FunctionalTests\AdminGroup
+            role_prefix: ROLE_ADMINGROUP
+            form:
+                fields:
+                    - { property: name }
+                    - { property: roles, type: admin_roles }
+                    - { property: users }

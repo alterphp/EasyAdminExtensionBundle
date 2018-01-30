@@ -36,6 +36,16 @@ class RestoreRolesTransformerTest extends TestCase
         $transformer->reverseTransform(array());
     }
 
+    public function testNullIsTransformedToNull()
+    {
+        $roleBuilder = $this->createMock(EditableRolesHelper::class);
+
+        $transformer = new RestoreRolesTransformer($roleBuilder);
+        $transformer->setOriginalRoles(array());
+
+        $this->assertNull($transformer->transform(null));
+    }
+
     public function testValidTransform()
     {
         $roleBuilder = $this->createMock(EditableRolesHelper::class);

@@ -110,4 +110,16 @@ class RequestParametersTest extends AbstractTestCase
             $crawler->filter('#main .list-pagination')->text()
         );
     }
+
+    public function testRequestEmptyFilterIsIgnored()
+    {
+        $crawler = $this->requestListView(
+            'Product', array('entity.phone' => '')
+        );
+
+        $this->assertContains(
+            '1 - 15 of 100',
+            $crawler->filter('#main .list-pagination')->text()
+        );
+    }
 }

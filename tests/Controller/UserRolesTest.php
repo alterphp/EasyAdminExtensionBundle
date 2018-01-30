@@ -57,7 +57,7 @@ class UserRolesTest extends AbstractTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testMenuIsWellPRuned()
+    public function testMenuIsWellPruned()
     {
         $this->logIn(['ROLE_ADMIN', 'ROLE_CATEGORY_LIST']);
 
@@ -137,6 +137,20 @@ class UserRolesTest extends AbstractTestCase
         $this->assertEquals(
             'You must be granted ROLE_TEST_SHOW_PRODUCT role to perform this entity action ! (403 Forbidden)',
             trim($crawler->filterXPath('//head/title')->text())
+        );
+    }
+
+    public function testAdminGroupRolesFormMayDisplay()
+    {
+        $this->logIn(['ROLE_ADMIN', 'ROLE_ADMINGROUP_EDIT']);
+
+        $this->client->followRedirects();
+
+        $crawler = $this->getBackendPage(['entity' => 'AdminGroup', 'action' => 'edit', 'id' => 1]);
+
+        $this->assertEquals(
+            25,
+            $crawler->filter('form#edit-admingroup-form .field-easyadmin_admin_roles input[type="checkbox"]')->count()
         );
     }
 }
