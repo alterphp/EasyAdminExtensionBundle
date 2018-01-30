@@ -1,0 +1,15 @@
+{% extends '@BaseEasyAdmin/default/show.html.twig' %}
+
+{# Do not display list action items if not granted #}
+{% block item_actions %}
+  {% set _show_actions = easyadmin_get_actions_for_show_item(_entity_config.name)|prune_item_actions(_entity_config) %}
+  {% set _request_parameters = { entity: _entity_config.name, referer: app.request.query.get('referer') } %}
+
+  {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
+      actions: _show_actions,
+      request_parameters: _request_parameters,
+      translation_domain: _entity_config.translation_domain,
+      trans_parameters: _trans_parameters,
+      item_id: _entity_id
+  }, with_context = false) }}
+{% endblock %}
