@@ -118,6 +118,51 @@ Let's see the result !
 
 ![Embedded list example](/doc/res/img/embedded-list.png)
 
+### Define access permissions
+
+#### Global minimum role access
+
+You can define a minimum role to access the EasyAdmin controller (any action handled by the controller) :
+
+```yaml
+easy_admin_extension:
+    minimum_role: ROLE_ADMIN
+```
+
+This is just a global restriction, that should live with a security firewall as described in [Symfony documentation](https://symfony.com/doc/current/security.html).
+
+#### Per entity action role permissions
+
+You can also define role permissions per entity action :
+
+```yaml
+easy_admin:
+    entities:
+        Product:
+            class: App\Entity\Product
+            list:
+                role: ROLE_ADMIN_PRODUCT_LIST
+            search:
+                role: ROLE_ADMIN_PRODUCT_SEARCH
+            edit:
+                role: ROLE_ADMIN_PRODUCT_EDIT
+            show:
+                role: ROLE_ADMIN_PRODUCT_SHOW
+            delete:
+                role: ROLE_ADMIN_PRODUCT_DELETE
+```
+
+Above configuration define a required _role_ per action for *Product* entity. This is too verbose, isn't it ? Let's sum up as following :
+
+```yaml
+easy_admin:
+    entities:
+        Product:
+            class: App\Entity\Product
+            role_prefix: ROLE_ADMIN_PRODUCT
+```
+
+Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
 
 Run tests
 ---------
