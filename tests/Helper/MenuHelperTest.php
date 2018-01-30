@@ -3,49 +3,54 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Helper;
 
 use AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper;
+use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuHelperTest extends TestCase
 {
     private $menuConfig = array(
         0 => array('label' => 'Dashboard', 'type' => 'route', 'children' => array()),
-        1 => array('label' => 'Organizations', 'type' => 'entity', 'role' => 'ROLE_ORGANIZATION_LIST', 'children' => array()),
-        2 => array('label' => 'Members', 'type' => 'entity', 'role' => 'ROLE_PLAYER_LIST', 'children' => array()),
+        1 => array('label' => 'Organizations', 'type' => 'entity', 'entity' => 'Organization', 'children' => array()),
+        2 => array('label' => 'Members', 'type' => 'entity', 'entity' => 'Member', 'children' => array()),
         3 => array('label' => 'Events', 'type' => 'empty', 'children' => array(
-            0 => array('label' => 'Seminaries', 'type' => 'entity', 'role' => 'ROLE_SEMINARY_LIST'),
-            1 => array('label' => 'Meetings', 'type' => 'entity', 'role' => 'ROLE_MEETING_LIST'),
-            2 => array('label' => 'Plenary meetings', 'type' => 'entity', 'role' => 'ROLE_PLENARYMEETING_LIST'),
+            0 => array('label' => 'Seminaries', 'type' => 'entity', 'entity' => 'Seminary'),
+            1 => array('label' => 'Meetings', 'type' => 'entity', 'entity' => 'Meeting'),
+            2 => array('label' => 'Plenary meetings', 'type' => 'entity', 'entity' => 'PlenaryMeeting'),
         )),
         4 => array('label' => 'System', 'type' => 'empty', 'children' => array(
-            0 => array('label' => 'Admin users', 'type' => 'entity', 'role' => 'ROLE_ADMINUSER_LIST'),
-            1 => array('label' => 'Admin groups', 'type' => 'entity', 'role' => 'ROLE_ADMINGROUP_LIST'),
+            0 => array('label' => 'Admin users', 'type' => 'entity', 'entity' => 'AdminUser'),
+            1 => array('label' => 'Admin groups', 'type' => 'entity', 'entity' => 'AdminGroup'),
         )),
     );
 
     public function testAcessDeniedEntriesArePruned()
     {
-        $tokenStorage = $this->createMock(TokenStorageInterface::class);
-        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
-
-        // We just tell tokenStorage to return a not null value
-        $tokenStorage->method('getToken')->will($this->returnValue('foo'));
+        $adminAuthorizationChecker = $this->createMock(AdminAuthorizationChecker::class);
 
         $grantedRoleMap = array(
-            array('ROLE_ORGANIZATION_LIST', null, true),
-            array('ROLE_PLAYER_LIST', null, false),
-            array('ROLE_SEMINARY_LIST', null, true),
-            array('ROLE_MEETING_LIST', null, false),
-            array('ROLE_PLENARYMEETING_LIST', null, true),
-            array('ROLE_ADMINUSER_LIST', null, false),
-            array('ROLE_ADMINGROUP_LIST', null, false),
+            array(array('role_prefix' => 'ROLE_ORGANIZATION'), 'list', true),
+            array(array('role_prefix' => 'ROLE_MEMBER'), 'list', false),
+            array(array('role_prefix' => 'ROLE_SEMINARY'), 'list', true),
+            array(array('role_prefix' => 'ROLE_MEETING'), 'list', false),
+            array(array('role_prefix' => 'ROLE_PLENARYMEETING'), 'list', true),
+            array(array('role_prefix' => 'ROLE_ADMINUSER'), 'list', false),
+            array(array('role_prefix' => 'ROLE_ADMINGROUP'), 'list', false),
         );
-        $authorizationChecker->method('isGranted')->will($this->returnValueMap($grantedRoleMap));
+        $adminAuthorizationChecker->method('isEasyAdminGranted')->will($this->returnValueMap($grantedRoleMap));
 
-        $helper = new MenuHelper($tokenStorage, $authorizationChecker);
+        $helper = new MenuHelper($adminAuthorizationChecker);
 
-        $prunedMenu = $helper->pruneMenuItems($this->menuConfig);
+        $entitiesConfig = array(
+            'Organization' => array('role_prefix' => 'ROLE_ORGANIZATION'),
+            'Member' => array('role_prefix' => 'ROLE_MEMBER'),
+            'Seminary' => array('role_prefix' => 'ROLE_SEMINARY'),
+            'Meeting' => array('role_prefix' => 'ROLE_MEETING'),
+            'PlenaryMeeting' => array('role_prefix' => 'ROLE_PLENARYMEETING'),
+            'AdminUser' => array('role_prefix' => 'ROLE_ADMINUSER'),
+            'AdminGroup' => array('role_prefix' => 'ROLE_ADMINGROUP'),
+        );
+
+        $prunedMenu = $helper->pruneMenuItems($this->menuConfig, $entitiesConfig);
 
         $expectedPrunedMenu = array(
             0 => array(
@@ -56,7 +61,7 @@ class MenuHelperTest extends TestCase
             1 => array(
                 "label" => "Organizations",
                 "type" => "entity",
-                "role" => "ROLE_ORGANIZATION_LIST",
+                "entity" => "Organization",
                 "children" => array(),
             ),
             3 => array(
@@ -66,49 +71,15 @@ class MenuHelperTest extends TestCase
                     0 => array(
                         "label" => "Seminaries",
                         "type" => "entity",
-                        "role" => "ROLE_SEMINARY_LIST",
+                        "entity" => "Seminary",
                     ),
                     2 => array(
                         "label" => "Plenary meetings",
                         "type" => "entity",
-                        "role" => "ROLE_PLENARYMEETING_LIST",
+                        "entity" => "PlenaryMeeting",
                     ),
                 ),
             ),
-        );
-
-        $this->assertSame($expectedPrunedMenu, $prunedMenu);
-    }
-
-    public function testRestrictedEntriesArePrunedIfNoToken()
-    {
-        $tokenStorage = $this->createMock(TokenStorageInterface::class);
-        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
-
-        // We just tell tokenStorage to return a not null value
-        $tokenStorage->method('getToken')->will($this->returnValue(null));
-
-        $grantedRoleMap = array(
-            array('ROLE_ORGANIZATION_LIST', null, true),
-            array('ROLE_PLAYER_LIST', null, false),
-            array('ROLE_SEMINARY_LIST', null, true),
-            array('ROLE_MEETING_LIST', null, false),
-            array('ROLE_PLENARYMEETING_LIST', null, true),
-            array('ROLE_ADMINUSER_LIST', null, false),
-            array('ROLE_ADMINGROUP_LIST', null, false),
-        );
-        $authorizationChecker->method('isGranted')->will($this->returnValueMap($grantedRoleMap));
-
-        $helper = new MenuHelper($tokenStorage, $authorizationChecker);
-
-        $prunedMenu = $helper->pruneMenuItems($this->menuConfig);
-
-        $expectedPrunedMenu = array(
-            0 => array(
-                "label" => "Dashboard",
-                "type" => "route",
-                "children" => array(),
-            )
         );
 
         $this->assertSame($expectedPrunedMenu, $prunedMenu);
