@@ -32,19 +32,13 @@ class AdminAuthorizationExtension extends AbstractExtension
 
     public function isEasyAdminGranted(array $entity, string $actionName)
     {
-        try {
-            $this->adminAuthorizationChecker->checksUserAccess($entity, $actionName);
-        } catch (AccessDeniedException $e) {
-            return false;
-        }
-
-        return true;
+        return $this->adminAuthorizationChecker->isEasyAdminGranted($entity, $actionName);
     }
 
     public function pruneItemsActions(array $itemActions, array $entity)
     {
         return array_filter($itemActions, function ($action) use ($entity) {
-            return $this->isEasyAdminGranted($entity, $action);
+            return $this->adminAuthorizationChecker->isEasyAdminGranted($entity, $action);
         }, ARRAY_FILTER_USE_KEY);
     }
 }

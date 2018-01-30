@@ -21,7 +21,7 @@
 
 {% block main %}
 <div class="embedded-list" for="{{ widget_identifier|e('html_attr') }}">
-    {% set _list_item_actions = easyadmin_get_actions_for_list_item(_entity_config.name) %}
+    {% set _list_item_actions = easyadmin_get_actions_for_list_item(_entity_config.name)|prune_item_actions(_entity_config) %}
 
     <div class="table-responsive">
         <table class="table">

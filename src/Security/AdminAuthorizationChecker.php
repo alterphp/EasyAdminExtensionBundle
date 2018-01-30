@@ -40,6 +40,25 @@ class AdminAuthorizationChecker
         }
     }
 
+    /**
+     * Is user granted to entity / action ?
+     *
+     * @param  array   $entity
+     * @param  string  $actionName
+     *
+     * @return boolean
+     */
+    public function isEasyAdminGranted(array $entity, string $actionName)
+    {
+        try {
+            $this->checksUserAccess($entity, $actionName);
+        } catch (AccessDeniedException $e) {
+            return false;
+        }
+
+        return true;
+    }
+
     protected function getRequiredRole(array $entity, string $actionName)
     {
         if (isset($entity[$actionName]) && isset($entity[$actionName]['role'])) {

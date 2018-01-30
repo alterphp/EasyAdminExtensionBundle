@@ -22,8 +22,8 @@ class MenuExtension extends AbstractExtension
         );
     }
 
-    public function pruneMenuItems(array $menuConfig)
+    public function pruneMenuItems(array $menuConfig, array $entitiesConfig)
     {
-        return $this->menuHelper->pruneMenuItems($menuConfig);
+        return $this->menuHelper->pruneMenuItems($menuConfig, $entitiesConfig);
     }
 }
