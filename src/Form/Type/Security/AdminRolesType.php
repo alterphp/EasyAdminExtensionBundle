@@ -32,7 +32,7 @@ class AdminRolesType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
+    public function buildForm(FormBuilderInterface $formBuilder, array $options)
     {
         /*
          * The form shows only roles that the current user can edit for the targeted user. Now we still need to persist
@@ -43,11 +43,11 @@ class AdminRolesType extends AbstractType
          */
         $transformer = new RestoreRolesTransformer($this->rolesBuilder);
         // GET METHOD
-        $formBuilder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($transformer): void {
+        $formBuilder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($transformer) {
             $transformer->setOriginalRoles($event->getData());
         });
         // POST METHOD
-        $formBuilder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($transformer): void {
+        $formBuilder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($transformer) {
             $transformer->setOriginalRoles($event->getForm()->getData());
         });
         $formBuilder->addModelTransformer($transformer);
@@ -56,7 +56,7 @@ class AdminRolesType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options): void
+    public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $attr = $view->vars['attr'];
         $view->vars['choice_translation_domain'] = false; // RolesBuilder all ready does translate them
@@ -66,7 +66,7 @@ class AdminRolesType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             // make expanded default value
