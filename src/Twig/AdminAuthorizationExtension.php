@@ -41,10 +41,10 @@ class AdminAuthorizationExtension extends AbstractExtension
         return true;
     }
 
-    public function pruneItemsActions(array $itemActions, array $entity)
+    public function pruneItemsActions(array $itemActions, array $entity, array $forbiddenActions = [])
     {
-        return array_filter($itemActions, function ($action) use ($entity) {
-            return $this->isEasyAdminGranted($entity, $action);
+        return array_filter($itemActions, function ($action) use ($entity, $forbiddenActions) {
+            return !in_array($action, $forbiddenActions) && $this->isEasyAdminGranted($entity, $action);
         }, ARRAY_FILTER_USE_KEY);
     }
 }

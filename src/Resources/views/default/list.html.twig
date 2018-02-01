@@ -12,7 +12,7 @@
     {% if requestFilters|length > 0 %}
       <span class="pull-right">
         <a href="#" id="applied-request-filters-popover" data-toggle="collapse" data-target="#applied-request-filters">
-          <i class="fa fa-filter"></i>
+          <i class="fa fa-filter text-warning"></i>
         </a>
       </span>
     {% endif %}
@@ -20,7 +20,7 @@
   <div class="pull-right collapse" id="applied-request-filters">
     <dl class="dl-horizontal">
     {% for filterKey, filterValue in requestFilters %}
-      <dt>{{ filterKey }}</dt><dd>{{ filterValue }}</dd>
+      <dt>{{ filterKey }}</dt><dd>{{ filterValue is iterable ? filterValue|join(',') : filterValue }}</dd>
     {% endfor %}
     </dl>
   </div>
