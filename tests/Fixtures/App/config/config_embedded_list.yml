@@ -13,4 +13,11 @@ easy_admin:
                 fields:
                     - { property: name }
                     - { property: products, label: '', type: embedded_list, type_options: { entity: Product, filters: { 'entity.category': 'form:parent.data.id' } } }
-        Product:  AppTestBundle\Entity\FunctionalTests\Product
+        Product:
+            class: AppTestBundle\Entity\FunctionalTests\Product
+            list:
+                sort: [createdAt, DESC]
+        Purchase:
+            class: AppTestBundle\Entity\FunctionalTests\Purchase
+            embeddedList:
+                sort: [createdAt, DESC]

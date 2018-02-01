@@ -30,6 +30,19 @@ class EmbeddedListSortConfigPass implements ConfigPassInterface
                 && isset($entityConfig['list']['sort'])
             ) {
                 $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $entityConfig['list']['sort'];
+            } elseif (isset($entityConfig['embeddedList']['sort'])) {
+                $sortConfig = $entityConfig['embeddedList']['sort'];
+                if (!is_string($sortConfig) && !is_array($sortConfig)) {
+                    throw new \InvalidArgumentException(sprintf('The "sort" option of the "embeddedList" view of the "%s" entity contains an invalid value (it can only be a string or an array).', $entityName));
+                }
+
+                if (is_string($sortConfig)) {
+                    $sortConfig = array('field' => $sortConfig, 'direction' => 'DESC');
+                } else {
+                    $sortConfig = array('field' => $sortConfig[0], 'direction' => strtoupper($sortConfig[1]));
+                }
+
+                $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $sortConfig;
             }
         }
 
