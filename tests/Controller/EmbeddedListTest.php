@@ -118,4 +118,24 @@ class EmbeddedListTest extends AbstractTestCase
             $crawler->filter('#main .list-pagination')->text()
         );
     }
+
+    public function testListSortIsUsedForEmbedddLists()
+    {
+        $crawler = $this->requestEditView('Category', 1);
+
+        $forAttrValue = '/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1';
+        $createdAtTh = 'th[data-property-name="createdAt"].sorted';
+
+        $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
+    }
+
+    public function testDefinedSortIsUsedForEmbedddLists()
+    {
+        $crawler = $this->getBackendPage(array('entity' => 'Purchase', 'action' => 'embeddedList'));
+
+        $forAttrValue = '/admin/?entity=Purchase&action=embeddedList';
+        $createdAtTh = 'th[data-property-name="createdAt"].sorted';
+
+        $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
+    }
 }
