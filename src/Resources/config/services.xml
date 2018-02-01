@@ -12,6 +12,10 @@
             <!-- Makes it process just before PropertyConfigPass -->
             <tag name="easyadmin.config_pass" priority="41"/>
         </service>
+        <service id="alterphp.easyadmin_extension.config_pass.embedded_list_sort" class="AlterPHP\EasyAdminExtensionBundle\Configuration\EmbeddedListSortConfigPass">
+            <!-- Makes it process just after ViewConfigPass -->
+            <tag name="easyadmin.config_pass" priority="29"/>
+        </service>
 
         <!-- Admin security roles -->
         <service id="alterphp.easyadmin_extension.helper.editable_roles" class="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper">
