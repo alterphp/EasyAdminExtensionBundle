@@ -22,6 +22,7 @@
 {% block main %}
 <div class="embedded-list" for="{{ widget_identifier|e('html_attr') }}">
     {% set _list_item_actions = easyadmin_get_actions_for_list_item(_entity_config.name) %}
+    {% set _columns_count = fields|length + (_list_item_actions|length > 0 ? 1 : 0) %}
 
     <div class="table-responsive">
         <table class="table">
@@ -94,6 +95,17 @@
                 {% endfor %}
             {% endblock table_body %}
             </tbody>
+
+            <tfoot>
+              <tr>
+                <td colspan="{{ _columns_count }}" class="text-center">
+                  <a class="btn btn-info btn-xs" title="{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}" target="_blank" href="{{ path('easyadmin', _request_parameters|merge({action: 'list'})) }}">
+                    <i class="fa fa-external-link-square"></i>
+                    <span>{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}</span>
+                  </a>
+                </td>
+              </tr>
+            </tfoot>
         </table>
     </div>
 
