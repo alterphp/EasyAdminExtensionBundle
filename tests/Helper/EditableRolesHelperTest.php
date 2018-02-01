@@ -53,7 +53,7 @@ class EditableRolesHelperTest extends TestCase
         $this->assertSame(array(), $editableRolesHelper->getRoles());
     }
 
-    public function testRoleHierarchyIsMappedForChoices()
+    public function testRoleHierarchyIsMappedForChoicesWithoutSuperAdmin()
     {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
 
@@ -63,10 +63,6 @@ class EditableRolesHelperTest extends TestCase
         $editableRolesHelper = new EditableRolesHelper($tokenStorage, static::$roleHierarchy);
 
         $expected = array (
-            'ROLE_SUPER_ADMIN' => array (
-                'ROLE_ORGANIZATION' => 'ROLE_ORGANIZATION',
-                'ROLE_SYSTEM' => 'ROLE_SYSTEM',
-            ),
             'ROLE_SYSTEM' => array (
                 'ROLE_ADMINUSER' => 'ROLE_ADMINUSER',
                 'ROLE_ADMINGROUP' => 'ROLE_ADMINGROUP',
