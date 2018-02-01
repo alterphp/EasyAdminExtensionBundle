@@ -25,7 +25,10 @@ class EmbeddedListSortConfigPass implements ConfigPassInterface
     private function processSortingConfig(array $backendConfig)
     {
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (!isset($entityConfig['embeddedList']['sort'])) {
+            if (
+                !isset($entityConfig['embeddedList']['sort'])
+                && isset($entityConfig['list']['sort'])
+            ) {
                 $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $entityConfig['list']['sort'];
             }
         }
