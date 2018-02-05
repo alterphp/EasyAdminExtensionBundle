@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * This file is part of the EasyAdmin Extension package.

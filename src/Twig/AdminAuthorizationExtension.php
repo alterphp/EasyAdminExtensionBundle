@@ -2,7 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Twig;
 
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -30,15 +29,9 @@ class AdminAuthorizationExtension extends AbstractExtension
         );
     }
 
-    public function isEasyAdminGranted(array $entity, string $actionName)
+    public function isEasyAdminGranted(array $entity, string $actionName = 'list')
     {
-        try {
-            $this->adminAuthorizationChecker->checksUserAccess($entity, $actionName);
-        } catch (AccessDeniedException $e) {
-            return false;
-        }
-
-        return true;
+        return $this->adminAuthorizationChecker->isEasyAdminGranted($entity, $actionName);
     }
 
     public function pruneItemsActions(array $itemActions, array $entity, array $forbiddenActions = [])

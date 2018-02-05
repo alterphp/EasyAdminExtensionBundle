@@ -8,30 +8,30 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class EditableRolesHelperTest extends TestCase
 {
-    private static $roleHierarchy = array (
-        'ROLE_SUPER_ADMIN' => array (
+    private static $roleHierarchy = array(
+        'ROLE_SUPER_ADMIN' => array(
             0 => 'ROLE_ORGANIZATION',
             3 => 'ROLE_SYSTEM',
         ),
-        'ROLE_SYSTEM' => array (
+        'ROLE_SYSTEM' => array(
             0 => 'ROLE_ADMINUSER',
             1 => 'ROLE_ADMINGROUP',
         ),
-        'ROLE_ORGANIZATION' => array (
+        'ROLE_ORGANIZATION' => array(
             0 => 'ROLE_ORGANIZATION_LIST',
             1 => 'ROLE_ORGANIZATION_SEARCH',
             2 => 'ROLE_ORGANIZATION_NEW',
             3 => 'ROLE_ORGANIZATION_EDIT',
             4 => 'ROLE_ORGANIZATION_SHOW',
         ),
-        'ROLE_ADMINUSER' => array (
+        'ROLE_ADMINUSER' => array(
             0 => 'ROLE_ADMINUSER_LIST',
             1 => 'ROLE_ADMINUSER_SEARCH',
             2 => 'ROLE_ADMINUSER_EDIT',
             3 => 'ROLE_ADMINUSER_SHOW',
             4 => 'ROLE_ADMINUSER_DELETE',
         ),
-        'ROLE_ADMINGROUP' => array (
+        'ROLE_ADMINGROUP' => array(
             0 => 'ROLE_ADMINGROUP_LIST',
             1 => 'ROLE_ADMINGROUP_SEARCH',
             2 => 'ROLE_ADMINGROUP_NEW',
@@ -62,26 +62,26 @@ class EditableRolesHelperTest extends TestCase
 
         $editableRolesHelper = new EditableRolesHelper($tokenStorage, static::$roleHierarchy);
 
-        $expected = array (
-            'ROLE_SYSTEM' => array (
+        $expected = array(
+            'ROLE_SYSTEM' => array(
                 'ROLE_ADMINUSER' => 'ROLE_ADMINUSER',
                 'ROLE_ADMINGROUP' => 'ROLE_ADMINGROUP',
             ),
-            'ROLE_ORGANIZATION' => array (
+            'ROLE_ORGANIZATION' => array(
                 'ROLE_ORGANIZATION_LIST' => 'ROLE_ORGANIZATION_LIST',
                 'ROLE_ORGANIZATION_SEARCH' => 'ROLE_ORGANIZATION_SEARCH',
                 'ROLE_ORGANIZATION_NEW' => 'ROLE_ORGANIZATION_NEW',
                 'ROLE_ORGANIZATION_EDIT' => 'ROLE_ORGANIZATION_EDIT',
                 'ROLE_ORGANIZATION_SHOW' => 'ROLE_ORGANIZATION_SHOW',
             ),
-            'ROLE_ADMINUSER' => array (
+            'ROLE_ADMINUSER' => array(
                 'ROLE_ADMINUSER_LIST' => 'ROLE_ADMINUSER_LIST',
                 'ROLE_ADMINUSER_SEARCH' => 'ROLE_ADMINUSER_SEARCH',
                 'ROLE_ADMINUSER_EDIT' => 'ROLE_ADMINUSER_EDIT',
                 'ROLE_ADMINUSER_SHOW' => 'ROLE_ADMINUSER_SHOW',
                 'ROLE_ADMINUSER_DELETE' => 'ROLE_ADMINUSER_DELETE',
             ),
-            'ROLE_ADMINGROUP' => array (
+            'ROLE_ADMINGROUP' => array(
                 'ROLE_ADMINGROUP_LIST' => 'ROLE_ADMINGROUP_LIST',
                 'ROLE_ADMINGROUP_SEARCH' => 'ROLE_ADMINGROUP_SEARCH',
                 'ROLE_ADMINGROUP_NEW' => 'ROLE_ADMINGROUP_NEW',

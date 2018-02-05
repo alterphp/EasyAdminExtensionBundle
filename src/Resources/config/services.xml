@@ -34,8 +34,7 @@
             <argument>%easy_admin_extension.minimum_role%</argument>
         </service>
         <service id="alterphp.easyadmin_extension.helper.menu" class="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper">
-            <argument type="service" id="security.token_storage"/>
-            <argument type="service" id="security.authorization_checker"/>
+            <argument type="service" id="alterphp.easyadmin_extension.admin_authorization_checker"/>
         </service>
         <service id="alterphp.easyadmin_extension.twig.extension.menu" class="AlterPHP\EasyAdminExtensionBundle\Twig\MenuExtension">
             <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>

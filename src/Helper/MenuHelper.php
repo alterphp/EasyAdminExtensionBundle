@@ -2,39 +2,35 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 /**
  * @author Pierre-Charles Bertineau <pc.bertineau@alterphp.com>
  */
 class MenuHelper
 {
-    protected $tokenStorage;
-    protected $authorizationChecker;
+    protected $adminAuthorizationChecker;
 
-    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct($adminAuthorizationChecker)
     {
-        $this->tokenStorage = $tokenStorage;
-        $this->authorizationChecker = $authorizationChecker;
+        $this->adminAuthorizationChecker = $adminAuthorizationChecker;
     }
 
-    public function pruneMenuItems(array $menuConfig)
+    public function pruneMenuItems(array $menuConfig, array $entitiesConfig)
     {
-        $menuConfig = $this->pruneAccessDeniedEntries($menuConfig);
+        $menuConfig = $this->pruneAccessDeniedEntries($menuConfig, $entitiesConfig);
         $menuConfig = $this->pruneEmptyFolderEntries($menuConfig);
 
         return $menuConfig;
     }
 
-    protected function pruneAccessDeniedEntries(array $menuConfig)
+    protected function pruneAccessDeniedEntries(array $menuConfig, array $entitiesConfig)
     {
         foreach ($menuConfig as $key => $entry) {
             if (
-                isset($entry['role'])
-                && is_string($entry['role'])
-                && (
-                    null === $this->tokenStorage->getToken() || !$this->authorizationChecker->isGranted($entry['role'])
+                'entity' == $entry['type']
+                && isset($entry['entity'])
+                && !$this->adminAuthorizationChecker->isEasyAdminGranted(
+                    $entitiesConfig[$entry['entity']],
+                    isset($entry['params']) && isset($entry['params']['action']) ? $entry['params']['action'] : 'list'
                 )
             ) {
                 unset($menuConfig[$key]);
@@ -42,7 +38,7 @@ class MenuHelper
             }
 
             if (isset($entry['children']) && is_array($entry['children'])) {
-                $menuConfig[$key]['children'] = $this->pruneAccessDeniedEntries($entry['children']);
+                $menuConfig[$key]['children'] = $this->pruneAccessDeniedEntries($entry['children'], $entitiesConfig);
             }
         }
 
