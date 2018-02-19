@@ -47,7 +47,7 @@ Instead of loading routes from EasyAdminBundle AdminController, load them from _
 Symfony 4 directory structure :
 ```yaml
 # config/routes/easy_admin.yaml
-easy_admin_bundle:
+easy_admin:
     resource: '@EasyAdminExtensionBundle/Controller/AdminController.php'
     prefix: /admin
     type: annotation
@@ -58,7 +58,7 @@ easy_admin_bundle:
 Former Symfony 2/3 directory structure :
 ```yaml
 # app/config/routing.yml
-easy_admin_bundle:
+easy_admin:
     resource: "@EasyAdminExtensionBundle/Controller/AdminController.php"
     prefix:   /admin
     type:     annotation
