@@ -37,7 +37,7 @@
         "symfony/validator"             : "~3.0|^4.0",
         "twig/extensions"               : "~1.0",
         "twig/twig"                     : "~1.26|~2.0",
-        "javiereguiluz/easyadmin-bundle": "^1.16"
+        "easycorp/easyadmin-bundle"     : "^1.17"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "~2.2",
