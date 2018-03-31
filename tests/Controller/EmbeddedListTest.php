@@ -138,4 +138,18 @@ class EmbeddedListTest extends AbstractTestCase
 
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
     }
+
+    public function testDefaultOpenNewTabConfigForEmbedddLists()
+    {
+        $crawler = $this->getBackendPage(array('entity' => 'Product', 'action' => 'embeddedList'));
+
+        $this->assertSame(0, $crawler->filter('.embedded-list .open-new-tab')->count());
+    }
+
+    public function testSetOpenNewTabConfigForEmbedddLists()
+    {
+        $crawler = $this->getBackendPage(array('entity' => 'Purchase', 'action' => 'embeddedList'));
+
+        $this->assertSame(1, $crawler->filter('.embedded-list .open-new-tab')->count());
+    }
 }
