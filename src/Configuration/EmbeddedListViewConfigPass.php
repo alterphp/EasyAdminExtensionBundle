@@ -8,11 +8,35 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
  * Initializes the configuration for all the views of each entity, which is
  * needed when some entity relies on the default configuration for some view.
  */
-class EmbeddedListSortConfigPass implements ConfigPassInterface
+class EmbeddedListViewConfigPass implements ConfigPassInterface
 {
+    private $defaultOpenInNewTabLink;
+
+    public function __construct($defaultOpenInNewTabLink)
+    {
+        $this->defaultOpenInNewTabLink = $defaultOpenInNewTabLink;
+    }
+
     public function process(array $backendConfig)
     {
         $backendConfig = $this->processSortingConfig($backendConfig);
+        $backendConfig = $this->processOpenInNewTabLinkConfig($backendConfig);
+
+        return $backendConfig;
+    }
+
+    /**
+     * @param array $backendConfig
+     *
+     * @return array
+     */
+    private function processOpenInNewTabLinkConfig(array $backendConfig)
+    {
+        foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
+            if (!isset($entityConfig['embeddedList']['open_in_new_tab_link'])) {
+                $backendConfig['entities'][$entityName]['embeddedList']['open_in_new_tab_link'] = $this->defaultOpenInNewTabLink;
+            }
+        }
 
         return $backendConfig;
     }

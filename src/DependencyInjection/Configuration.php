@@ -36,6 +36,14 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('minimum_role')
                     ->defaultNull()
                 ->end()
+                ->arrayNode('embedded_list')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('open_in_new_tab_link')
+                            ->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

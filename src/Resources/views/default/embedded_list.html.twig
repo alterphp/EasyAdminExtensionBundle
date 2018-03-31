@@ -98,6 +98,7 @@
             {% endblock table_body %}
             </tbody>
 
+            {% if _entity_config.embeddedList.open_in_new_tab_link %}
             <tfoot>
               <tr>
                 <td colspan="{{ _columns_count }}" class="text-center">
@@ -110,6 +111,7 @@
                 </td>
               </tr>
             </tfoot>
+            {% endif %}
         </table>
     </div>
 
