@@ -24,6 +24,10 @@ class EasyAdminExtensionExtension extends Extension
 
         $container->setParameter('easy_admin_extension.custom_form_types', $config['custom_form_types']);
         $container->setParameter('easy_admin_extension.minimum_role', $config['minimum_role']);
+        $container->setParameter(
+            'easy_admin_extension.embedded_list.open_in_new_tab_link',
+            $config['embedded_list']['open_in_new_tab_link']
+        );
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
