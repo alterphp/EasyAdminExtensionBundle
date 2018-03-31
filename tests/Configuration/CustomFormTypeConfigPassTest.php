@@ -16,7 +16,7 @@ class ShortFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
         $shortFormTypeConfigPass = new ShortFormTypeConfigPass($customFormTypesMap);
 
         $backendConfig = array(
-            'entites' => array(
+            'entities' => array(
                 'TestEntity' => array(
                     'form' => array('fields' => array('testField1' => array('type' => 'foo'))),
                     'edit' => array('fields' => array('testField2' => array('type' => 'bar'))),
@@ -30,8 +30,8 @@ class ShortFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
 
         $backendConfig = $shortFormTypeConfigPass->process($backendConfig);
 
-        $expectedBackendConfig = $backendConfig = array(
-            'entites' => array(
+        $expectedBackendConfig = array(
+            'entities' => array(
                 'TestEntity' => array(
                     'form' => array(
                         'fields' => array(
