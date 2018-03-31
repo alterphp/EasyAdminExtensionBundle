@@ -39,7 +39,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('embedded_list')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('open_in_new_tab_link')
+                        ->booleanNode('open_new_tab')
                             ->defaultTrue()
                         ->end()
                     ->end()

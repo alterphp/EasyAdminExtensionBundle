@@ -10,17 +10,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
  */
 class EmbeddedListViewConfigPass implements ConfigPassInterface
 {
-    private $defaultOpenInNewTabLink;
+    private $defaultOpenNewTab;
 
-    public function __construct($defaultOpenInNewTabLink)
+    public function __construct($defaultOpenNewTab)
     {
-        $this->defaultOpenInNewTabLink = $defaultOpenInNewTabLink;
+        $this->defaultOpenNewTab = $defaultOpenNewTab;
     }
 
     public function process(array $backendConfig)
     {
         $backendConfig = $this->processSortingConfig($backendConfig);
-        $backendConfig = $this->processOpenInNewTabLinkConfig($backendConfig);
+        $backendConfig = $this->processOpenNewTabConfig($backendConfig);
 
         return $backendConfig;
     }
@@ -30,11 +30,11 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
      *
      * @return array
      */
-    private function processOpenInNewTabLinkConfig(array $backendConfig)
+    private function processOpenNewTabConfig(array $backendConfig)
     {
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (!isset($entityConfig['embeddedList']['open_in_new_tab_link'])) {
-                $backendConfig['entities'][$entityName]['embeddedList']['open_in_new_tab_link'] = $this->defaultOpenInNewTabLink;
+            if (!isset($entityConfig['embeddedList']['open_new_tab'])) {
+                $backendConfig['entities'][$entityName]['embeddedList']['open_new_tab'] = $this->defaultOpenNewTab;
             }
         }
 

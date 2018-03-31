@@ -4,6 +4,8 @@ imports:
 easy_admin_extension:
     custom_form_types:
         embedded_list: AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType
+    embedded_list:
+        open_new_tab: false
 
 easy_admin:
     entities:
@@ -20,4 +22,5 @@ easy_admin:
         Purchase:
             class: AppTestBundle\Entity\FunctionalTests\Purchase
             embeddedList:
+                open_new_tab: true
                 sort: [createdAt, DESC]
