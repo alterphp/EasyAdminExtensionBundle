@@ -35,6 +35,12 @@ class EasyAdminEmbeddedListType extends AbstractType
         }, $options['filters']);
 
         $view->vars['filters'] = $filters;
+
+        if ($options['sort']) {
+            $sort['field'] = $options['sort'][0];
+            $sort['direction'] = $options['sort'][1] ?? 'DESC';
+            $view->vars['sort'] = $sort;
+        }
     }
 
     /**
@@ -44,6 +50,7 @@ class EasyAdminEmbeddedListType extends AbstractType
     {
         $resolver
             ->setDefault('filters', array())
+            ->setDefault('sort', null)
             ->setRequired('entity')
         ;
     }
