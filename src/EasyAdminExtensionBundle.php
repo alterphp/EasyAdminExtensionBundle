@@ -29,10 +29,11 @@ class EasyAdminExtensionBundle extends Bundle
      */
     private function addRegisterMappingsPass(ContainerBuilder $container)
     {
-        $easyAdminExtensionBundlePath = dirname((new \ReflectionClass($this))->getFilename());
+        $easyAdminExtensionBundlePath = dirname((new \ReflectionClass($this))->getFileName());
+        $easyAdminExtensionDoctrineMapping = $easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping';
 
         $mappings = array(
-            realpath($easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping') => 'AlterPHP\EasyAdminExtensionBundle\Model',
+            realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
         );
 
         if (class_exists('Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass')) {

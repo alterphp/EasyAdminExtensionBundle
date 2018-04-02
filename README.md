@@ -179,6 +179,21 @@ OR using Docker and Docker Compose :
 $ docker-compose run --rm phpunit
 ```
 
+Run code quality tools
+----------------------
+
+### PHP CS Fixer
+
+Locally with Docker :
+
+    dcrun php /app/vendor/bin/php-cs-fixer fix --config=/app/.php_cs /app/src
+
+### PHPStan
+
+Locally with Docker :
+
+    dcrun php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon --level=6 /app/src
+
 License
 -------
 

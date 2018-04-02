@@ -1,12 +1,9 @@
 <?php
 
-$excludeDirs = array('build', 'vendor');
-
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__)
+    ->in(__DIR__.'/src')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true)
-    ->exclude($excludeDirs)
     ->files()
     ->name('*.php')
 ;
@@ -17,7 +14,6 @@ return PhpCsFixer\Config::create()
     ->setFinder($finder)
     ->setRules(array(
         '@Symfony' => true,
-        'array_syntax' => array('syntax' => 'long'),
         'binary_operator_spaces' => array(
             'align_double_arrow' => false,
         ),
@@ -27,6 +23,6 @@ return PhpCsFixer\Config::create()
         'ordered_imports' => true,
         'php_unit_strict' => true,
         'phpdoc_summary' => false,
-        'strict_comparison' => true,
+        'strict_comparison' => false,
     ))
 ;

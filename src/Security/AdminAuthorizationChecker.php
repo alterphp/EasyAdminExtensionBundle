@@ -10,9 +10,8 @@ class AdminAuthorizationChecker
     private $authorizationChecker;
     private $adminMinimumRole;
 
-    public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker, string $adminMinimumRole = null
-    ) {
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, string $adminMinimumRole = null)
+    {
         $this->authorizationChecker = $authorizationChecker;
         $this->adminMinimumRole = $adminMinimumRole;
     }

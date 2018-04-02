@@ -77,7 +77,7 @@ class AdminGroup
     /**
      * Set roles.
      *
-     * @param array
+     * @param array $roles
      *
      * @return static
      */
