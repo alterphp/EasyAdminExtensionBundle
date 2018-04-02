@@ -53,7 +53,7 @@ class EmbeddedListHelper
 
         if (empty($matchingEntityConfigs)) {
             throw new \RuntimeException(
-                sprintf('No enity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
+                sprintf('No entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
             );
         }
 
