@@ -13,7 +13,7 @@ class EmbeddedListTest extends AbstractTestCase
         $this->initClient(array('environment' => 'embedded_list'));
     }
 
-    public function testEmbeddedListisDisplaid()
+    public function testEmbeddedListIsDisplaid()
     {
         $crawler = $this->requestEditView('Category', 1);
 

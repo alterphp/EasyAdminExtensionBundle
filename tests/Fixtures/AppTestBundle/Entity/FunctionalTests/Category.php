@@ -41,10 +41,10 @@ class Category
     protected $name;
 
     /**
-     * Product in the category.
+     * Products in the category.
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Product", mappedBy="categories")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
      **/
     protected $products;
 
