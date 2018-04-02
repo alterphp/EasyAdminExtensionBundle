@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -77,6 +78,12 @@ class EmbeddedListHelper
     public function guessDefaultFilter(string $entityFqcn, string $embeddedListFieldName, $targetEntity)
     {
         $entityClassMetadata = $this->doctrine->getManagerForClass($entityFqcn)->getClassMetadata($entityFqcn);
+
+        // Required to use getAssociationMappings method
+        if (!$entityClassMetadata instanceof ClassMetadataInfo) {
+            return [];
+        }
+
         $entityAssociations = $entityClassMetadata->getAssociationMappings();
         $targetEntityFqcn = get_class($targetEntity);
         foreach ($entityAssociations as $assoc) {
