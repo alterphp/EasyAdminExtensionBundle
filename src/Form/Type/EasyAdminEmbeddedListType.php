@@ -2,12 +2,8 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type;
 
-use AlterPHP\EasyAdminExtensionBundle\EventListener\EmbeddedListTypeGuesserSubscriber;
 use Doctrine\ORM\PersistentCollection as OrmPersistentCollection;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,16 +16,6 @@ class EasyAdminEmbeddedListType extends AbstractType
     public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
-
-        });
     }
 
     /**
@@ -51,7 +37,6 @@ class EasyAdminEmbeddedListType extends AbstractType
         $embeddedListFilters = $options['filters'];
 
         if ($data instanceof OrmPersistentCollection) {
-
             $entityFqcn = $data->getTypeClass()->getName();
 
             // Guess embeddedList entity if not set

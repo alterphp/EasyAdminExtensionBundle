@@ -68,9 +68,9 @@ class EmbeddedListHelper
     /**
      * Returns default filter for embeddedList.
      *
-     * @param  string $entityFqcn
-     * @param  string $embeddedListFieldName
-     * @param  object $targetEntity
+     * @param string $entityFqcn
+     * @param string $embeddedListFieldName
+     * @param object $targetEntity
      *
      * @return array
      */
@@ -89,6 +89,7 @@ class EmbeddedListHelper
                 $assocIdentifierValue = PropertyAccess::createPropertyAccessor()->getValue(
                     $targetEntity, $assoc['joinColumns'][0]['referencedColumnName']
                 );
+
                 return [$assocFieldPart => $assocIdentifierValue];
             }
         }
