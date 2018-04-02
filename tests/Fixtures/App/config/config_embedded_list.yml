@@ -2,8 +2,6 @@ imports:
     - { resource: config.yml }
 
 easy_admin_extension:
-    custom_form_types:
-        embedded_list: AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType
     embedded_list:
         open_new_tab: false
 
@@ -14,7 +12,7 @@ easy_admin:
             form:
                 fields:
                     - { property: name }
-                    - { property: products, label: '', type: embedded_list, type_options: { entity: Product, filters: { 'entity.category': 'form:parent.data.id' } } }
+                    - { property: products, label: '', type: embedded_list }
         Product:
             class: AppTestBundle\Entity\FunctionalTests\Product
             list:

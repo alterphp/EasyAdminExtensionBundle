@@ -114,6 +114,23 @@ easy_admin:
 
 ```
 
+But in many cases, the EmbeddedListHelper guesses type_options for you, and you just have to write :
+
+```yaml
+easy_admin:
+    entities:
+        Event:
+            class: Tm\EventBundle\Entity\Event
+        Promoter:
+            class: AppBundle\Entity\Promoter
+            form:
+                fields:
+                    # ...
+                    - { type: group, label: Events, css_class: 'col-sm-12', icon: calendar }
+                    - { property: events, label: '', type: embedded_list }
+
+```
+
 Let's see the result !
 
 ![Embedded list example](/doc/res/img/embedded-list.png)

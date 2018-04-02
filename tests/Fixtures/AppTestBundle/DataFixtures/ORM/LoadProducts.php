@@ -54,7 +54,7 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
             $product->setPrice($this->getRandomPrice());
             $product->setTags($this->getRandomTags());
             $product->setEan($this->getRandomEan());
-            $product->setCategories($this->getRandomCategories());
+            $product->setCategory($this->getRandomCategory());
             $product->setDescription($this->getRandomDescription());
             $product->setHtmlFeatures($this->getRandomHtmlFeatures());
             $product->setPhone($i <= 10 ? null : '0123456789');
@@ -132,17 +132,9 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
         return (float) mt_rand(2, 79).'.'.$cents[array_rand($cents)];
     }
 
-    private function getRandomCategories()
+    private function getRandomCategory()
     {
-        $categories = array();
-        $numCategories = rand(1, 4);
-        $allCategoryIds = range(1, 100);
-
-        for ($i = 0; $i < $numCategories; ++$i) {
-            $categories[] = $this->getReference('category-'.mt_rand(1, 100));
-        }
-
-        return $categories;
+        return $this->getReference('category-'.mt_rand(1, 100));
     }
 
     public function getRandomDescription()

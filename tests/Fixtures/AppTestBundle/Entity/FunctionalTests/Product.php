@@ -128,14 +128,12 @@ class Product
     protected $description;
 
     /**
-     * List of categories where the products is
-     * (Owning side).
+     * Category where the product is
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="products")
-     * @ORM\JoinTable(name="product_category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      */
-    protected $categories;
+    protected $category;
     /**
      * The image of the product.
      *
@@ -153,12 +151,11 @@ class Product
     protected $phone;
 
     /**
-     * Constructor of the Category class.
+     * Constructor of the Product class.
      * (Initialize some fields).
      */
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
@@ -168,25 +165,11 @@ class Product
      *
      * @param Category $category The category to associate
      */
-    public function addCategory(Category $category)
+    public function setCategory(Category $category)
     {
-        $category->addProduct($this);
+        $this->category = $category;
 
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-    }
-
-    /**
-     * Remove a category in the product association.
-     * (Owning side).
-     *
-     * @param Category $category The category to disassociate
-     */
-    public function removeCategory(Category $category)
-    {
-        $category->removeProduct($this);
-        $this->categories->removeElement($category);
+        return $this;
     }
 
     /**
@@ -421,29 +404,13 @@ class Product
     }
 
     /**
-     * Get all associated categories.
+     * Get associated category.
      *
-     * @return ArrayCollection
+     * @return Category|null
      */
-    public function getCategories()
+    public function getCategory()
     {
-        return $this->categories;
-    }
-
-    /**
-     * Set all categories of the product.
-     *
-     * @param ArrayCollection $categories
-     */
-    public function setCategories($categories)
-    {
-        // This is the owning side, we have to call remove and add to have change in the category side too.
-        foreach ($this->getCategories() as $category) {
-            $this->removeCategory($category);
-        }
-        foreach ($categories as $category) {
-            $this->addCategory($category);
-        }
+        return $this->category;
     }
 
     /**
