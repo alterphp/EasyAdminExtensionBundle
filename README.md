@@ -186,13 +186,13 @@ Run code quality tools
 
 Locally with Docker :
 
-    dcrun php /app/vendor/bin/php-cs-fixer fix --config=/app/.php_cs /app/src
+    docker-compose run --rm php /app/vendor/bin/php-cs-fixer fix --config=/app/.php_cs /app/src
 
 ### PHPStan
 
 Locally with Docker :
 
-    dcrun php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon --level=6 /app/src
+    docker-compose run --rm php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon --level=6 /app/src
 
 License
 -------
