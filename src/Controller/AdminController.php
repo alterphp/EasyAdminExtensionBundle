@@ -30,8 +30,8 @@ class AdminController extends BaseAdminController
      */
     protected function isActionAllowed($actionName)
     {
-        // embeddedList action is mapped to list action for access permissions
-        if ('embeddedList' == $actionName) {
+        // autocomplete and embeddedList action are mapped to list action for access permissions
+        if (in_array($actionName, ['autocomplete', 'embeddedList'])) {
             $actionName = 'list';
         }
 
