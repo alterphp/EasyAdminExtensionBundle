@@ -162,7 +162,7 @@ easy_admin:
             search:
                 role: ROLE_ADMIN_PRODUCT_SEARCH
             new:
-	        role: ROLE_ADMIN_PRODUCT_NEW
+                role: ROLE_ADMIN_PRODUCT_NEW
             edit:
                 role: ROLE_ADMIN_PRODUCT_EDIT
             show:
