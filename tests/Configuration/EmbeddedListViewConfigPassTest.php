@@ -15,10 +15,10 @@ class EmbeddedListViewConfigPassTest extends \PHPUnit_Framework_TestCase
                 'NotSetEntity' => array(
                 ),
                 'SetTrueEntity' => array(
-                    'embeddedList' => array('open_new_tab' => true)
+                    'embeddedList' => array('open_new_tab' => true),
                 ),
                 'SetFalseEntity' => array(
-                    'embeddedList' => array('open_new_tab' => false)
+                    'embeddedList' => array('open_new_tab' => false),
                 ),
             ),
         );

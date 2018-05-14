@@ -2,7 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type;
 
-use Doctrine\ORM\PersistentCollection as OrmPersistentCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -32,26 +31,24 @@ class EasyAdminEmbeddedListType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $data = $form->getData();
+        $parentData = $form->getParent()->getData();
 
         $embeddedListEntity = $options['entity'];
         $embeddedListFilters = $options['filters'];
 
-        if ($data instanceof OrmPersistentCollection) {
-            $entityFqcn = $data->getTypeClass()->getName();
+        // Guess entity FQCN from parent metadata
+        $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(get_class($parentData), $form->getName());
 
-            // Guess embeddedList entity if not set
-            if (!isset($embeddedListEntity)) {
-                $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
-            }
-
-            // Guess default filter and let it be overriden by defined filters
-            $embeddedListFilters = array_merge(
-                $this->embeddedListHelper->guessDefaultFilter(
-                    $entityFqcn, $form->getConfig()->getName(), $data->getOwner()
-                ),
-                $embeddedListFilters
-            );
+        // Guess embeddedList entity if not set
+        if (!isset($embeddedListEntity)) {
+            $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
         }
+
+        // Guess default filter and let it be overriden by defined filters
+        $embeddedListFilters = array_merge(
+            $this->embeddedListHelper->guessDefaultFilter($entityFqcn, $form->getConfig()->getName(), $parentData),
+            $embeddedListFilters
+        );
 
         $view->vars['entity'] = $embeddedListEntity;
 

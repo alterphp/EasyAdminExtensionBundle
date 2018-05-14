@@ -34,6 +34,34 @@ class EmbeddedListHelper
     }
 
     /**
+     * Returns EasyAdmin entity entry name for a parent FQCN and property for embedded list.
+     *
+     * @param string $parentFqcn
+     * @param string $parentProperty
+     *
+     * @return mixed
+     *
+     * @throws \RuntimeException
+     */
+    public function getEntityFqcnFromParent(string $parentFqcn, string $parentProperty)
+    {
+        $parentClassMetadata = $this->doctrine->getManagerForClass($parentFqcn)->getClassMetadata($parentFqcn);
+
+        // Required to use getAssociationMappings method
+        if (!$parentClassMetadata instanceof ClassMetadataInfo) {
+            return;
+        }
+
+        try {
+            $entityFqcn = $parentClassMetadata->getAssociationTargetClass($parentProperty);
+        } catch (\Exception $e) {
+            return;
+        }
+
+        return $entityFqcn;
+    }
+
+    /**
      * Returns EasyAdmin entity entry name for a FQCN.
      *
      * @param string $entityFqcn
