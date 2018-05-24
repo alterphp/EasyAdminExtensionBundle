@@ -183,6 +183,18 @@ easy_admin:
 
 Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
 
+### Use template show vertical boostrap
+
+Design EasyAdmin configuration:
+
+```yaml
+easy_admin:
+    design:
+        templates:
+            show: '@EasyAdminExtension/default/show_vertical.html.twig'
+
+```
+
 Run tests
 ---------
 
