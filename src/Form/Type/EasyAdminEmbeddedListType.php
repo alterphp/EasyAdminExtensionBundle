@@ -33,19 +33,19 @@ class EasyAdminEmbeddedListType extends AbstractType
         $data = $form->getData();
         $parentData = $form->getParent()->getData();
 
+        $defaultFilters = [];
         $embeddedListEntity = $options['entity'];
         $embeddedListFilters = $options['filters'];
 
-        // Guess embeddedList entity if not set
-        if (!isset($embeddedListEntity)) {
-            $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
-        }
-
         // Guess entity FQCN from parent metadata
         $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(get_class($parentData), $form->getName());
-        // Guess default filters
-        $defaultFilters = [];
+
         if (null !== $entityFqcn) {
+            // Guess embeddedList entity if not set
+            if (!isset($embeddedListEntity)) {
+                $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
+            }
+            // Guess default filters
             $defaultFilters = $this->embeddedListHelper->guessDefaultFilter(
                 $entityFqcn, $form->getConfig()->getName(), $parentData
             );
