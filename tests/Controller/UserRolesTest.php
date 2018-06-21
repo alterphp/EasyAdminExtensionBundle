@@ -67,33 +67,75 @@ class UserRolesTest extends AbstractTestCase
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
+        $menuCrawler = $crawler->filter('body ul.sidebar-menu');
+
         $this->assertSame(
             1,
-            $crawler->filter('body ul.sidebar-menu li:contains("Catalog")')->count()
+            $menuCrawler->filter('li > a:contains("Catalog")')->count()
         );
         $this->assertSame(
             1,
-            $crawler->filter('body ul.sidebar-menu li ul li:contains("Categories")')->count()
+            $menuCrawler->filter('li ul li > a:contains("Categories")')->count()
         );
         $this->assertSame(
             0,
-            $crawler->filter('body ul.sidebar-menu li ul li:contains("Products")')->count()
+            $menuCrawler->filter('li ul li > a:contains("Products")')->count()
         );
         $this->assertSame(
             0,
-            $crawler->filter('body ul.sidebar-menu li:contains("Images")')->count()
+            $menuCrawler->filter('li > a:contains("Images")')->count()
         );
         $this->assertSame(
             0,
-            $crawler->filter('body ul.sidebar-menu li:contains("Sales")')->count()
+            $menuCrawler->filter('li > a:contains("Sales")')->count()
         );
         $this->assertSame(
             0,
-            $crawler->filter('body ul.sidebar-menu li ul li:contains("Purchases")')->count()
+            $menuCrawler->filter('li ul li > a:contains("Purchases")')->count()
         );
         $this->assertSame(
             0,
-            $crawler->filter('body ul.sidebar-menu li ul li:contains("Purchases items")')->count()
+            $menuCrawler->filter('li ul li > a:contains("Purchases items")')->count()
+        );
+    }
+
+    public function testMenuIsWellIndexedWhenPruned()
+    {
+        $this->logIn(['ROLE_ADMIN', 'ROLE_CATEGORY_LIST', 'ROLE_IMAGE_LIST', 'ROLE_ADMINGROUP_LIST']);
+
+        $this->client->followRedirects();
+
+        $crawler = $this->getBackendPage();
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+
+        /**
+         * Tests following menuIdex AND subMenuIndex !
+         *
+         * Catalog => (not to test because it is landing page)
+         *     Categories => 0
+         * Images  => 1
+         * System  => 2
+         *     Admin groups => 0
+         */
+
+        $menuCrawler = $crawler->filter('body ul.sidebar-menu');
+
+        $this->assertRegexp(
+            '/menuIndex=0&submenuIndex=0/',
+            $menuCrawler->selectLink('Categories')->link()->getUri()
+        );
+        $this->assertRegexp(
+            '/menuIndex=1&submenuIndex=-1/',
+            $menuCrawler->selectLink('Images')->link()->getUri()
+        );
+        $this->assertRegexp(
+            '/menuIndex=2&submenuIndex=-1/',
+            $menuCrawler->selectLink('System')->link()->getUri()
+        );
+        $this->assertRegexp(
+            '/menuIndex=2&submenuIndex=0/',
+            $menuCrawler->selectLink('Admin groups')->link()->getUri()
         );
     }
 
