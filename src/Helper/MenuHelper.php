@@ -67,6 +67,7 @@ class MenuHelper
     {
         foreach ($menuConfig as $key => $firstLevelItem) {
             $menuConfig[$key]['menu_index'] = $key;
+            $menuConfig[$key]['submenu_index'] = -1;
 
             if (isset($menuConfig[$key]['children']) && !empty($menuConfig[$key]['children'])) {
                 foreach ($menuConfig[$key]['children'] as $subkey => $secondLevelItem) {

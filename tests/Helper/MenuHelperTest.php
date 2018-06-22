@@ -57,13 +57,17 @@ class MenuHelperTest extends TestCase
                 'label' => 'Dashboard',
                 'type' => 'route',
                 'children' => array(),
+                'menu_index' => 0,
+                'submenu_index' => -1,
             ),
             1 => array(
                 'label' => 'Organizations',
                 'type' => 'entity',
                 'entity' => 'Organization',
+                'menu_index' => 1,
+                'submenu_index' => -1,
             ),
-            3 => array(
+            2 => array(
                 'label' => 'Events',
                 'type' => 'empty',
                 'children' => array(
@@ -71,13 +75,19 @@ class MenuHelperTest extends TestCase
                         'label' => 'Seminaries',
                         'type' => 'entity',
                         'entity' => 'Seminary',
+                        'menu_index' => 2,
+                        'submenu_index' => 0,
                     ),
-                    2 => array(
+                    1 => array(
                         'label' => 'Plenary meetings',
                         'type' => 'entity',
                         'entity' => 'PlenaryMeeting',
+                        'menu_index' => 2,
+                        'submenu_index' => 1,
                     ),
                 ),
+                'menu_index' => 2,
+                'submenu_index' => -1,
             ),
         );
 
