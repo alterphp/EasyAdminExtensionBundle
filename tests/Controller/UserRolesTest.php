@@ -130,10 +130,6 @@ class UserRolesTest extends AbstractTestCase
             $menuCrawler->selectLink('Images')->link()->getUri()
         );
         $this->assertRegexp(
-            '/menuIndex=2&submenuIndex=-1/',
-            $menuCrawler->selectLink('System')->link()->getUri()
-        );
-        $this->assertRegexp(
             '/menuIndex=2&submenuIndex=0/',
             $menuCrawler->selectLink('Admin groups')->link()->getUri()
         );

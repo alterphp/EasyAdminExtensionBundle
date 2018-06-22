@@ -18,6 +18,7 @@ class MenuHelper
     {
         $menuConfig = $this->pruneAccessDeniedEntries($menuConfig, $entitiesConfig);
         $menuConfig = $this->pruneEmptyFolderEntries($menuConfig);
+        $menuConfig = $this->reindexMenuEntries($menuConfig);
 
         return $menuConfig;
     }
@@ -42,7 +43,7 @@ class MenuHelper
             }
         }
 
-        return $menuConfig;
+        return array_values($menuConfig);
     }
 
     protected function pruneEmptyFolderEntries(array $menuConfig)
@@ -55,6 +56,22 @@ class MenuHelper
                 if ('empty' === $entry['type'] && empty($entry['children'])) {
                     unset($menuConfig[$key]);
                     continue;
+                }
+            }
+        }
+
+        return array_values($menuConfig);
+    }
+
+    protected function reindexMenuEntries($menuConfig)
+    {
+        foreach ($menuConfig as $key => $firstLevelItem) {
+            $menuConfig[$key]['menu_index'] = $key;
+
+            if (isset($menuConfig[$key]['children']) && !empty($menuConfig[$key]['children'])) {
+                foreach ($menuConfig[$key]['children'] as $subkey => $secondLevelItem) {
+                    $menuConfig[$key]['children'][$subkey]['menu_index'] = $key;
+                    $menuConfig[$key]['children'][$subkey]['submenu_index'] = $subkey;
                 }
             }
         }
