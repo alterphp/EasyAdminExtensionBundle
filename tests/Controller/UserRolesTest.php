@@ -109,7 +109,7 @@ class UserRolesTest extends AbstractTestCase
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
-        /**
+        /*
          * Tests following menuIdex AND subMenuIndex !
          *
          * Catalog => (not to test because it is landing page)
