@@ -54,3 +54,9 @@ security:
 services:
     logger:
         class: Psr\Log\NullLogger
+        
+# fixes deprecation error        
+sensio_framework_extra:
+    router:
+        annotations: false        
+        
