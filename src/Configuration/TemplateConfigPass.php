@@ -26,6 +26,8 @@ class TemplateConfigPass implements ConfigPassInterface
     {
         $backendConfig = $this->processEntityTemplates($backendConfig);
 
+        // dump($backendConfig['entities']['Animation']['show']['fields']['subscriptions']);die;
+
         return $backendConfig;
     }
 
