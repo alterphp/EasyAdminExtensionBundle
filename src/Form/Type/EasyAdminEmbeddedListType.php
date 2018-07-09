@@ -51,11 +51,13 @@ class EasyAdminEmbeddedListType extends AbstractType
             );
         }
 
+        // TODO: Move the default filters guess to the template (as for SHOW view)
         // Let default filters be overriden by defined filters
         $embeddedListFilters = array_merge($defaultFilters, $embeddedListFilters);
 
         $view->vars['entity'] = $embeddedListEntity;
 
+        // XXX : Only for backward compatibility (when there were no guesser)
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $filters = array_map(function ($filter) use ($propertyAccessor, $form) {
             if (0 === strpos($filter, 'form:')) {

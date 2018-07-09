@@ -1,9 +1,10 @@
-{# TODO: keep or not ? #}
-{% set filters = field_options.template_options.filters|default({})|merge({(field_options.template_options.association_alias): item.id }) %}
+{% set default_filters = guess_default_filters(
+  field_options.template_options.entity_fqcn, field_options.template_options.parent_entity_property, item
+  ) %}
+{% set filters = default_filters|merge(field_options.template_options.filters) %}
 
-{% set action_params = { entity: entity, action: 'embeddedList', filters: filters } %}
-{% if sort is defined %}
-  {% set action_params = action_params|merge({ sortField: sort.field, sortDirection: sort.direction}) %}
-{% endif %}
-
-{{ render(path('easyadmin', action_params)) }}
+{% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
+    entity: field_options.template_options.entity,
+    filters: filters,
+    sort: field_options.template_options.sort
+  } only %}

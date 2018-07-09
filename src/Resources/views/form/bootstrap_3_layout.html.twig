@@ -1,11 +1,7 @@
 {% use '@BaseEasyAdmin/form/bootstrap_3_layout.html.twig' %}
 
 {% block easyadmin_embedded_list_row %}
-  {% set action_params = { entity: entity, action: 'embeddedList', filters: filters } %}
-  {% if sort is defined %}
-    {% set action_params = action_params|merge({ sortField: sort.field, sortDirection: sort.direction}) %}
-  {% endif %}
-  {{ render(path('easyadmin', action_params)) }}
+  {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {entity: entity, filters: filters, sort: sort|default(null)} only %}
 {% endblock %}
 
 {% block easyadmin_admin_roles_widget %}
