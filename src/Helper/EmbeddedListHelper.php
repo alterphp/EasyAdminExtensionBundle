@@ -98,12 +98,12 @@ class EmbeddedListHelper
      * Returns default filter for embeddedList.
      *
      * @param string $entityFqcn
-     * @param string $embeddedListFieldName
-     * @param object $targetEntity
+     * @param string $parentEntityProperty
+     * @param object $parentEntity
      *
      * @return array
      */
-    public function guessDefaultFilter(string $entityFqcn, string $embeddedListFieldName, $targetEntity)
+    public function guessDefaultFilter(string $entityFqcn, string $parentEntityProperty, $parentEntity)
     {
         $entityClassMetadata = $this->doctrine->getManagerForClass($entityFqcn)->getClassMetadata($entityFqcn);
 
@@ -113,16 +113,16 @@ class EmbeddedListHelper
         }
 
         $entityAssociations = $entityClassMetadata->getAssociationMappings();
-        $targetEntityFqcn = get_class($targetEntity);
+        $parentEntityFqcn = get_class($parentEntity);
         foreach ($entityAssociations as $assoc) {
             if (
-                $targetEntityFqcn === $assoc['targetEntity']
-                && $embeddedListFieldName === $assoc['inversedBy']
+                $parentEntityFqcn === $assoc['targetEntity']
+                && $parentEntityProperty === $assoc['inversedBy']
                 && 1 === count($assoc['joinColumns'])
             ) {
                 $assocFieldPart = 'entity.'.$assoc['fieldName'];
                 $assocIdentifierValue = PropertyAccess::createPropertyAccessor()->getValue(
-                    $targetEntity, $assoc['joinColumns'][0]['referencedColumnName']
+                    $parentEntity, $assoc['joinColumns'][0]['referencedColumnName']
                 );
 
                 return [$assocFieldPart => $assocIdentifierValue];

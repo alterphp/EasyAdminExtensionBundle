@@ -1,0 +1,6 @@
+{% set action_params = { entity: entity, action: 'embeddedList', filters: filters } %}
+{% if sort is not null %}
+  {% set action_params = action_params|merge({ sortField: sort.field, sortDirection: sort.direction}) %}
+{% endif %}
+
+{{ render(path('easyadmin', action_params)) }}

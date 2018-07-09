@@ -25,10 +25,11 @@
             <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
             <tag name="form.type"/>
         </service>
-        <service id="alterphp.easyadmin_extension.config_pass.template" class="AlterPHP\EasyAdminExtensionBundle\Configuration\TemplateConfigPass">
+        <service id="alterphp.easyadmin_extension.config_pass.show_view" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ShowViewConfigPass">
             <argument type="service" id="twig.loader.filesystem" />
+            <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
             <!-- Makes it process just after EasyAdmin TemplateConfigPass -->
-            <tag name="easyadmin.config_pass" priority="21"/>
+            <tag name="easyadmin.config_pass" priority="19"/>
         </service>
 
         <!-- Admin security roles -->
@@ -50,12 +51,13 @@
         <service id="alterphp.easyadmin_extension.helper.menu" class="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper">
             <argument type="service" id="alterphp.easyadmin_extension.admin_authorization_checker"/>
         </service>
-        <service id="alterphp.easyadmin_extension.twig.extension.menu" class="AlterPHP\EasyAdminExtensionBundle\Twig\MenuExtension">
-            <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>
+        <service id="alterphp.easyadmin_extension.twig.extension.embedded_list" class="AlterPHP\EasyAdminExtensionBundle\Twig\EmbeddedListExtension">
+            <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
             <tag name="twig.extension"/>
         </service>
         <service id="alterphp.easyadmin_extension.twig.extension.admin_authorization" class="AlterPHP\EasyAdminExtensionBundle\Twig\AdminAuthorizationExtension">
             <argument type="service" id="alterphp.easyadmin_extension.admin_authorization_checker"/>
+            <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>
             <tag name="twig.extension"/>
         </service>
     </services>
