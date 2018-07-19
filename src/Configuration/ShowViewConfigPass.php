@@ -46,9 +46,11 @@ class ShowViewConfigPass implements ConfigPassInterface
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
             foreach ($entityConfig['show']['fields'] as $fieldName => $fieldMetadata) {
                 if (in_array($fieldMetadata['type'], array_keys(static::$mapTypeToTemplates))) {
-                    $entityConfig['show']['fields'][$fieldName]['template'] =
-                        static::$mapTypeToTemplates[$fieldMetadata['type']];
-
+                    $template = $this->isFieldTemplateDefined($fieldMetadata)
+                                    ? $fieldMetadata['template']
+                                    : static::$mapTypeToTemplates[$fieldMetadata['type']];
+                    $entityConfig['show']['fields'][$fieldName]['template'] = $template;
+                        ;
                     $entityConfig['show']['fields'][$fieldName]['template_options'] = $this->processTemplateOptions(
                         $fieldMetadata['type'], $fieldMetadata
                     );
@@ -102,8 +104,8 @@ class ShowViewConfigPass implements ConfigPassInterface
                 if (isset($templateOptions['sort'])) {
                     $sortOptions = $templateOptions['sort'];
                     $templateOptions['sort'] = [
-                        'field' => $sortOptions['sort'][0],
-                        'direction' => $sortOptions['sort'][1] ?? 'DESC',
+                        'field' => $sortOptions[0],
+                        'direction' => $sortOptions[1] ?? 'DESC',
                     ];
                 } else {
                     $templateOptions['sort'] = null;
