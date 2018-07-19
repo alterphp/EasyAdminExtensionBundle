@@ -13,9 +13,17 @@ class EmbeddedListTest extends AbstractTestCase
         $this->initClient(array('environment' => 'embedded_list'));
     }
 
-    public function testEmbeddedListIsDisplaid()
+    public function testEmbeddedListIsDisplaidInEdit()
     {
         $crawler = $this->requestEditView('Category', 1);
+
+        $forAttrValue = '/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1';
+        $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
+    }
+
+    public function testEmbeddedListIsDisplaidInShow()
+    {
+        $crawler = $this->requestShowView('Category', 1);
 
         $forAttrValue = '/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1';
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
