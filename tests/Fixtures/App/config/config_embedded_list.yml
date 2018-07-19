@@ -13,6 +13,10 @@ easy_admin:
                 fields:
                     - { property: name }
                     - { property: products, label: '', type: embedded_list }
+            show:
+                fields:
+                    - { property: name }
+                    - { property: products, label: '', type: embedded_list }
         Product:
             class: AppTestBundle\Entity\FunctionalTests\Product
             list:
