@@ -1,5 +1,21 @@
 {% extends '@BaseEasyAdmin/default/show.html.twig' %}
 
+{% block content_header %}
+    <div class="row">
+        <div class="col-sm-5">
+            {% block content_title_wrapper %}
+                <h1 class="title">{{ block('content_title') }}</h1>
+            {% endblock %}
+        </div>
+
+        <div class="col-sm-7">
+            <div class="header-actions">
+                {% block header_actions '' %}
+            </div>
+        </div>
+    </div>
+{% endblock content_header %}
+
 {# Do not display list action items if not granted #}
 {% block item_actions %}
   {% set _show_actions = easyadmin_get_actions_for_show_item(_entity_config.name)|prune_item_actions(_entity_config) %}
