@@ -32,7 +32,6 @@ class EasyAdminEmbeddedListType extends AbstractType
     {
         $parentData = $form->getParent()->getData();
 
-        $defaultFilters = [];
         $embeddedListEntity = $options['entity'];
         $embeddedListFilters = $options['filters'];
 
