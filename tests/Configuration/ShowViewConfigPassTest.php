@@ -9,9 +9,6 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefaultEmbeddedListShow()
     {
-        $twigLoader = $this->createMock(\Twig_Loader_Filesystem::class);
-        $twigLoader->method('exists')->will($this->returnValue(true));
-
         $embeddedListHelper = $this->createMock(EmbeddedListHelper::class);
         $embeddedListHelper
             ->method('getEntityFqcnFromParent')
@@ -24,7 +21,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('MyRelation'))
         ;
 
-        $showViewConfigPass = new ShowViewConfigPass($twigLoader, $embeddedListHelper);
+        $showViewConfigPass = new ShowViewConfigPass($embeddedListHelper);
 
         $backendConfig = array(
             'entities' => array(
@@ -79,9 +76,6 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
 
     public function testDefinedEmbeddedListShow()
     {
-        $twigLoader = $this->createMock(\Twig_Loader_Filesystem::class);
-        $twigLoader->method('exists')->will($this->returnValue(true));
-
         $embeddedListHelper = $this->createMock(EmbeddedListHelper::class);
         $embeddedListHelper
             ->method('getEntityFqcnFromParent')
@@ -94,7 +88,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('MyRelation'))
         ;
 
-        $showViewConfigPass = new ShowViewConfigPass($twigLoader, $embeddedListHelper);
+        $showViewConfigPass = new ShowViewConfigPass($embeddedListHelper);
 
         $backendConfig = array(
             'entities' => array(
