@@ -12,7 +12,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
  */
 class ShowViewConfigPass implements ConfigPassInterface
 {
-    private $twigLoader;
     private $embeddedListHelper;
 
     private static $mapTypeToTemplates = array(
@@ -21,9 +20,8 @@ class ShowViewConfigPass implements ConfigPassInterface
         'embedded_list' => '@EasyAdminExtension/default/field_embedded_list.html.twig',
     );
 
-    public function __construct(\Twig_Loader_Filesystem $twigLoader, $embeddedListHelper)
+    public function __construct($embeddedListHelper)
     {
-        $this->twigLoader = $twigLoader;
         $this->embeddedListHelper = $embeddedListHelper;
     }
 
