@@ -26,7 +26,6 @@
             <tag name="form.type"/>
         </service>
         <service id="alterphp.easyadmin_extension.config_pass.show_view" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ShowViewConfigPass">
-            <argument type="service" id="twig.loader.filesystem" />
             <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
             <!-- Makes it process just after EasyAdmin TemplateConfigPass -->
             <tag name="easyadmin.config_pass" priority="19"/>
