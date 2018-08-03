@@ -1,7 +1,16 @@
 {% use '@BaseEasyAdmin/form/bootstrap_3_layout.html.twig' %}
 
 {% block easyadmin_embedded_list_row %}
-  {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {entity: entity, filters: filters, sort: sort|default(null)} only %}
+  {% set default_filters = entity_fqcn is defined ?
+                              guess_default_filters(entity_fqcn, parent_entity_property, form.parent.vars.data) :
+                              []
+  %}
+  {% set filters = default_filters|merge(filters) %}
+  {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
+    entity: entity,
+    filters: filters,
+    sort: sort|default(null)
+  } only %}
 {% endblock %}
 
 {% block easyadmin_admin_roles_widget %}

@@ -29,15 +29,18 @@ class EasyAdminExtensionBundle extends Bundle
      */
     private function addRegisterMappingsPass(ContainerBuilder $container)
     {
-        $easyAdminExtensionBundlePath = dirname((new \ReflectionClass($this))->getFileName());
-        $easyAdminExtensionDoctrineMapping = $easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping';
+        $easyAdminExtensionBundleRefl = new \ReflectionClass($this);
 
-        $mappings = array(
-            realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
-        );
+        if ($easyAdminExtensionBundleRefl->isUserDefined()) {
+            $easyAdminExtensionBundlePath = dirname((string) $easyAdminExtensionBundleRefl->getFileName());
+            $easyAdminExtensionDoctrineMapping = $easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping';
 
-        if (class_exists('Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass')) {
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
+            $mappings = array(
+                realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
+            );
+            if (class_exists('Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass')) {
+                $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
+            }
         }
     }
 }

@@ -91,7 +91,7 @@ class EmbeddedListHelper
             );
         }
 
-        return key($matchingEntityConfigs);
+        return (string) key($matchingEntityConfigs);
     }
 
     /**
