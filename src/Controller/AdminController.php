@@ -4,6 +4,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Util\LegacyFormHelper;
 
 class AdminController extends BaseAdminController
 {
@@ -21,6 +22,50 @@ class AdminController extends BaseAdminController
             'fields' => $fields,
             'masterRequest' => $this->get('request_stack')->getMasterRequest(),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function listAction()
+    {
+        $this->dispatch(EasyAdminEvents::PRE_LIST);
+
+        $fields = $this->entity['list']['fields'];
+        $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->entity['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
+
+        $this->dispatch(EasyAdminEvents::POST_LIST, array('paginator' => $paginator));
+
+        $parameters = array(
+            'paginator' => $paginator,
+            'fields' => $fields,
+            'delete_form_template' => $this->createDeleteForm($this->entity['name'], '__id__')->createView(),
+            'confirm_form_template' => $this->createConfirmForm($this->entity['name'], '__id__')->createView(),
+        );
+
+        return $this->executeDynamicMethod('render<EntityName>Template', array('list', $this->entity['templates']['list'], $parameters));
+    }
+
+    /**
+     * Creates a form used to confirm an action before executing it.
+     *
+     * @param string     $entityName
+     * @param int|string $entityId
+     *
+     * @return Form|FormInterface
+     */
+    protected function createConfirmForm($entityName, $entityId)
+    {
+        /** @var FormBuilder $formBuilder */
+        $formBuilder = $this->get('form.factory')->createNamedBuilder('confirm_form')
+            ->setAction($this->generateUrl('easyadmin', array('action' => 'post', 'entity' => $entityName, 'id' => $entityId)))
+            ->setMethod('POST')
+        ;
+        $formBuilder->add('submit', LegacyFormHelper::getType('submit'), array('label' => 'confirm_modal.action', 'translation_domain' => 'EasyAdminBundle'));
+        // needed to avoid submitting empty confirm forms (see createDeleteForm())
+        // $formBuilder->add('_easyadmin_confirm_flag', LegacyFormHelper::getType('hidden'), array('data' => '1'));
+
+        return $formBuilder->getForm();
     }
 
     /**
