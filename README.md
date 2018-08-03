@@ -1,8 +1,7 @@
 EasyAdmin Extension
 ===================
 
-[![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.png)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802) [![Coverage Status](https://coveralls.io/repos/github/alterphp/EasyAdminExtensionBundle/badge.svg?branch=master)](https://coveralls.io/github/alterphp/EasyAdminExtensionBundle?branch=master) [![knpbundles.com](http://knpbundles.com/alterphp/EasyAdminExtensionBundle/badge-short)](http://knpbundles.com/alterphp/EasyAdminExtensionBundle)
-
+[![Latest Stable Version](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/v/stable)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle) [![Latest Unstable Version](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/v/unstable)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle) [![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.png)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802) [![Coverage Status](https://coveralls.io/repos/github/alterphp/EasyAdminExtensionBundle/badge.svg?branch=master)](https://coveralls.io/github/alterphp/EasyAdminExtensionBundle?branch=master) [![License](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/license)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle)
 
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
