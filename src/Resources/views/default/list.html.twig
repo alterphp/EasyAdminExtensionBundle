@@ -43,7 +43,13 @@
 {# Do not display list action items if not granted #}
 {% block item_actions %}
   {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config) %}
-  {{ parent() }}
+  {{ include('@EasyAdmin/includes/_actions.html.twig', {
+      actions: _list_item_actions,
+      request_parameters: _request_parameters,
+      translation_domain: _entity_config.translation_domain,
+      trans_parameters: _trans_parameters,
+      item_id: _item_id
+  }, with_context = false) }}
 {% endblock %}
 
 {# Adds request filters to the serach form #}
@@ -58,4 +64,68 @@
     {% endif %}
   {% endfor %}
   {{ parent() }}
+{% endblock %}
+
+{% block body_javascript %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function() {
+
+      $('.action-confirm').on('click', function(e) {
+        e.preventDefault();
+
+        var name = $(this).attr('name');
+        var id = $(this).parents('tr').first().data('id');
+
+        var url = $(this).data('url');
+        var message = $(this).data('confirm');
+
+        var icon = $(this).find('i').attr('class');
+
+        console.log(typeof url);
+        console.log(url);
+        console.log(typeof message);
+        console.log(message);
+
+        if (typeof message === "string") {
+          $('#modal-confirm .modal-body').html(message);
+        }
+
+        if (icon) {
+          $('#modal-confirm-button').prepend('<i class=\"' + icon + '\"></i>');
+        }
+
+        // alert(id); alert(name);
+
+        $('#modal-confirm').modal({ backdrop: true, keyboard: true })
+          .off('click', '#modal-confirm-button')
+          .on('click', '#modal-confirm-button', function () {
+            var confirmForm = $('#confirm-form');
+            confirmForm.attr('action', confirmForm.attr('action').replace('__id__', id));
+            confirmForm.trigger('submit');
+          });
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block main %}
+  {{ parent() }}
+
+  {% block confirm_form %}
+    {% set referer = paginator.currentPage == paginator.nbPages and 1 != paginator.currentPage and 1 == paginator.currentPageResults|length
+      ? path('easyadmin', app.request.query|merge({ page: app.request.query.get('page') - 1 }))
+      : app.request.requestUri
+    %}
+
+    {{ include('@EasyAdmin/includes/_confirm_form.html.twig', {
+      view: 'list',
+      referer: referer|url_encode,
+      confirm_form: confirm_form_template,
+      _translation_domain: _entity_config.translation_domain,
+      _trans_parameters: _trans_parameters,
+      _entity_config: _entity_config,
+    }, with_context = false) }}
+  {% endblock confirm_form %}
 {% endblock %}
