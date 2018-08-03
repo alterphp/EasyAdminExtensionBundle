@@ -16,14 +16,24 @@ class TwigPathPass implements CompilerPassInterface
 
         // Replaces native EasyAdmin templates
         $easyAdminExtensionBundleRefl = new \ReflectionClass(EasyAdminExtensionBundle::class);
-        $easyAdminExtensionBundlePath = dirname($easyAdminExtensionBundleRefl->getFileName());
-        $easyAdminExtensionTwigPath = $easyAdminExtensionBundlePath.'/Resources/views';
-        $twigLoaderFilesystemDefinition->addMethodCall('prependPath', array($easyAdminExtensionTwigPath, 'EasyAdmin'));
+        if ($easyAdminExtensionBundleRefl->isUserDefined()) {
+            $easyAdminExtensionBundlePath = dirname((string) $easyAdminExtensionBundleRefl->getFileName());
+            $easyAdminExtensionTwigPath = $easyAdminExtensionBundlePath.'/Resources/views';
+            $twigLoaderFilesystemDefinition->addMethodCall(
+                'prependPath',
+                array($easyAdminExtensionTwigPath, 'EasyAdmin')
+            );
+        }
 
         $nativeEasyAdminBundleRefl = new \ReflectionClass(EasyAdminBundle::class);
-        $nativeEasyAdminBundlePath = dirname($nativeEasyAdminBundleRefl->getFileName());
-        $nativeEasyAdminTwigPath = $nativeEasyAdminBundlePath.'/Resources/views';
-        // Defines a namespace from native EasyAdmin templates
-        $twigLoaderFilesystemDefinition->addMethodCall('addPath', array($nativeEasyAdminTwigPath, 'BaseEasyAdmin'));
+        if ($nativeEasyAdminBundleRefl->isUserDefined()) {
+            $nativeEasyAdminBundlePath = dirname((string) $nativeEasyAdminBundleRefl->getFileName());
+            $nativeEasyAdminTwigPath = $nativeEasyAdminBundlePath.'/Resources/views';
+            // Defines a namespace from native EasyAdmin templates
+            $twigLoaderFilesystemDefinition->addMethodCall(
+                'addPath',
+                array($nativeEasyAdminTwigPath, 'BaseEasyAdmin')
+            );
+        }
     }
 }

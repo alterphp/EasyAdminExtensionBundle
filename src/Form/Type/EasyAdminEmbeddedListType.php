@@ -30,7 +30,6 @@ class EasyAdminEmbeddedListType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $data = $form->getData();
         $parentData = $form->getParent()->getData();
 
         $defaultFilters = [];
@@ -39,25 +38,18 @@ class EasyAdminEmbeddedListType extends AbstractType
 
         // Guess entity FQCN from parent metadata
         $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(get_class($parentData), $form->getName());
-
         if (null !== $entityFqcn) {
+            $view->vars['entity_fqcn'] = $entityFqcn;
             // Guess embeddedList entity if not set
             if (!isset($embeddedListEntity)) {
                 $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
             }
-            // Guess default filters
-            $defaultFilters = $this->embeddedListHelper->guessDefaultFilter(
-                $entityFqcn, $form->getConfig()->getName(), $parentData
-            );
         }
 
-        // TODO: Move the default filters guess to the template (as for SHOW view)
-        // Let default filters be overriden by defined filters
-        $embeddedListFilters = array_merge($defaultFilters, $embeddedListFilters);
-
         $view->vars['entity'] = $embeddedListEntity;
+        $view->vars['parent_entity_property'] = $form->getConfig()->getName();
 
-        // XXX : Only for backward compatibility (when there were no guesser)
+        // Only for backward compatibility (when there were no guesser)
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $filters = array_map(function ($filter) use ($propertyAccessor, $form) {
             if (0 === strpos($filter, 'form:')) {

@@ -26,7 +26,7 @@ class AdminController extends BaseAdminController
     /**
      * {@inheritdoc}
      *
-     * @throws AccessDeniedException
+     * @throws \Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException
      */
     protected function isActionAllowed($actionName)
     {

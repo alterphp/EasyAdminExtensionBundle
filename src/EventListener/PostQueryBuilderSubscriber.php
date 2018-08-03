@@ -61,8 +61,8 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = array())
     {
         foreach ($filters as $field => $value) {
-            // Empty string in considered as "not applied filter" (it's supposed to be set from GET parameter)
-            if ('' === $value) {
+            // Empty string and numeric keys is considered as "not applied filter"
+            if (is_int($field) || '' === $value) {
                 continue;
             }
             // Add root entity alias if none provided

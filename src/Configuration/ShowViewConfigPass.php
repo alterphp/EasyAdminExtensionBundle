@@ -50,7 +50,7 @@ class ShowViewConfigPass implements ConfigPassInterface
                                     ? $fieldMetadata['template']
                                     : static::$mapTypeToTemplates[$fieldMetadata['type']];
                     $entityConfig['show']['fields'][$fieldName]['template'] = $template;
-                        ;
+
                     $entityConfig['show']['fields'][$fieldName]['template_options'] = $this->processTemplateOptions(
                         $fieldMetadata['type'], $fieldMetadata
                     );
@@ -67,15 +67,6 @@ class ShowViewConfigPass implements ConfigPassInterface
     {
         return isset($fieldMetadata['template'])
                && '@EasyAdmin/default/label_undefined.html.twig' != $fieldMetadata['template'];
-    }
-
-    private function findFirstExistingTemplate(array $templatePaths)
-    {
-        foreach ($templatePaths as $templatePath) {
-            if (null !== $templatePath && $this->twigLoader->exists($templatePath)) {
-                return $templatePath;
-            }
-        }
     }
 
     private function processTemplateOptions(string $type, array $fieldMetadata)
