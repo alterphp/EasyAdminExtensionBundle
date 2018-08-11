@@ -4,3 +4,29 @@
   {{ parent() }}
   <script src="{{ asset('bundles/easyadminextension/js/easyadmin-extension.js') }}"></script>
 {% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    {% if _entity_config.assets.css is defined %}
+        {% if _entity_config.assets.css is iterable %}
+            {% for css in _entity_config.assets.css %}
+              <link rel="stylesheet" href="{{ asset(css) }}" />
+            {% endfor %}
+        {% else %}
+          <link rel="stylesheet" href="{{ asset(_entity_config.assets.css) }}" />
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    {% if _entity_config.assets.js is defined  %}
+        {% if  _entity_config.assets.js is iterable %}
+            {% for js_script in _entity_config.assets.js %}
+              <script src="{{ asset(js_script) }}"></script>
+            {% endfor %}
+        {% else %}
+          <script src="{{ asset(_entity_config.assets.js) }}"></script>
+        {% endif %}
+    {% endif %}
+{% endblock %}
