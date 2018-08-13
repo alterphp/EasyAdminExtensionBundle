@@ -1,7 +1,7 @@
 {{
     form(confirm_form, {
         action: confirm_form.vars.action ~ ('?' in confirm_form.vars.action ? '&' : '?') ~ 'referer=' ~ referer,
-        method: 'confirm_form',
+        method: 'POST',
         attr: { id: 'confirm-form', style: 'display: none' }
     })
 }}
@@ -10,28 +10,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                {# Message affiché par défaut #}
-                <h4>{{ 'confirm_modal.title'|trans({}, 'EasyAdminBundle') }}</h4>
-                <p>{{ 'confirm_modal.content'|trans({}, 'EasyAdminBundle') }}</p>
+                {# Default content #}
+                <p>{{ 'confirm_modal.content'|trans(_trans_parameters, 'EasyAdminBundle') }}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn">
-                    {{ 'action.cancel'|trans({}, 'EasyAdminBundle') }}
+                    {{ 'action.cancel'|trans(_trans_parameters, 'EasyAdminBundle') }}
                 </button>
 
                 <button type="button" data-dismiss="modal" class="btn btn-danger" id="modal-confirm-button">
-                    {# TODO Get icon from clicked button #}
-                    {{ 'action.confirm'|trans({}, 'EasyAdminBundle') }}
+                    {{ 'confirm_modal.action'|trans(_trans_parameters, 'EasyAdminBundle') }}
                 </button>
-
-                {# TODO #}
-{#                 {% if easyadmin_action_is_enabled(view, 'confirm', _entity_config.name) %}
-                    {% set _confirm_action = easyadmin_get_action(view, 'confirm', _entity_config.name) %}
-                    <button type="button" data-dismiss="modal" class="btn btn-danger" id="modal-confirm-button" formtarget="{{ _confirm_action.target }}">
-                        {% if _confirm_action.icon %}<i class="fa fa-{{ _confirm_action.icon }}"></i>{% endif %}
-                        {{ 'confirm_modal.action'|trans(_trans_parameters, 'EasyAdminBundle') }}
-                    </button>
-                {% endif %} #}
             </div>
         </div>
     </div>

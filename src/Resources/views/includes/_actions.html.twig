@@ -12,12 +12,11 @@
     {% set confirm = action.confirm %}
   {% endif %}
 
-  <a name="{{ action.name }}" class="{{ action.css_class|default('') }} {{ confirm ? 'action-confirm' : '' }}" title="{{ action.title|default('') is empty ? '' : action.title|trans(trans_parameters, translation_domain) }}"
+  <a name="{{ action.name }}" class="{{ action.css_class|default('') }} {{ confirm ? 'action-confirm' : '' }}" title="{{ action.title|default('') is empty ? '' : action.title|trans(trans_parameters, translation_domain) }}" href="{{ action_href }}"
   {% if not confirm %}
-    href="{{ action_href }}" target="{{ action.target }}"
+    target="{{ action.target }}"
   {% else %}
-    {# TODO Create a <button> instead? #}
-    href="#" data-url="{{ action_href }}" data-confirm="{{ confirm }}"
+    data-confirm="{{ confirm }}"
   {% endif %}>
 
       {%- if action.icon %}<i class="fa fa-{{ action.icon }}"></i> {% endif -%}

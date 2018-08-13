@@ -7,6 +7,16 @@
 				<source>open.new_tab</source>
 				<target>Ouvrir dans un nouvel onglet</target>
 			</trans-unit>
+
+			<!-- misc. elements -->
+			<trans-unit id="confirm_modal.content">
+				<source>confirm_modal.content</source>
+				<target>Êtes-vous sûr(e) ?</target>
+			</trans-unit>
+			<trans-unit id="confirm_modal.action">
+				<source>confirm_modal.action</source>
+				<target>Confirmer</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
