@@ -2,19 +2,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                {# Default content #}
                 <p id="modal-body-content">{{ 'confirm_modal.content'|trans(_trans_parameters, 'EasyAdminBundle') }}</p>
-            </div>
-            <div class="modal-footer">
-{#                 <button type="button" data-dismiss="modal" class="btn">
-                    {{ 'action.cancel'|trans(_trans_parameters, 'EasyAdminBundle') }}
-                </button> #}
-
                 <form name="confirm_form" method="post" id="confirm-form">
-                    <button type="button" data-dismiss="modal" class="btn btn-danger" id="modal-confirm-button">
+                    <button type="button" data-dismiss="modal" class="btn">
+                        {{ 'action.cancel'|trans(_trans_parameters, _translation_domain) }}
+                    </button>
+                    <button type="submit" id="modal-confirm-button" class="btn btn-danger">
                         {{ 'confirm_modal.action'|trans(_trans_parameters, 'EasyAdminBundle') }}
                     </button>
-                    {# token? #}
                 </form>
             </div>
         </div>
