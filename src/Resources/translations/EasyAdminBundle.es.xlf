@@ -9,6 +9,10 @@
 			</trans-unit>
 
 			<!-- misc. elements -->
+			<trans-unit id="confirm_modal.content">
+				<source>confirm_modal.content</source>
+				<target>¿Está seguro?</target>
+			</trans-unit>
 			<trans-unit id="confirm_modal.action">
 				<source>confirm_modal.action</source>
 				<target>Confirmar</target>

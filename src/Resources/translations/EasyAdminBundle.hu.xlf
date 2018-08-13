@@ -7,6 +7,16 @@
 				<source>open.new_tab</source>
 				<target>Megnyitás új lapon</target>
 			</trans-unit>
+
+			<!-- misc. elements -->
+			<trans-unit id="confirm_modal.content">
+				<source>confirm_modal.content</source>
+				<target>Biztos vagy ebben?</target>
+			</trans-unit>
+			<trans-unit id="confirm_modal.action">
+				<source>confirm_modal.action</source>
+				<target>Megerősít</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
