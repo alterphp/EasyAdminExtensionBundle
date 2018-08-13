@@ -43,7 +43,7 @@
 {# Do not display list action items if not granted #}
 {% block item_actions %}
   {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config) %}
-  {{ include('@EasyAdmin/includes/_actions.html.twig', {
+  {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
       actions: _list_item_actions,
       request_parameters: _request_parameters,
       translation_domain: _entity_config.translation_domain,
@@ -77,7 +77,7 @@
 
         var message = $(this).data('confirm');
         if (typeof message === "string") {
-          $('#modal-confirm .modal-body').html(message);
+          $('#modal-confirm .modal-body p#modal-body-content').html(message);
         }
 
         var icon = $(this).find('i').attr('class');
@@ -113,7 +113,6 @@
     {{ include('@EasyAdmin/includes/_confirm_form.html.twig', {
       view: 'list',
       referer: referer|url_encode,
-      confirm_form: confirm_form_template,
       _translation_domain: _entity_config.translation_domain,
       _trans_parameters: _trans_parameters,
       _entity_config: _entity_config,

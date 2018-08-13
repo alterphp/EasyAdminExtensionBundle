@@ -1,26 +1,21 @@
-{{
-    form(confirm_form, {
-        action: confirm_form.vars.action ~ ('?' in confirm_form.vars.action ? '&' : '?') ~ 'referer=' ~ referer,
-        method: 'POST',
-        attr: { id: 'confirm-form', style: 'display: none' }
-    })
-}}
-
 <div id="modal-confirm" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 {# Default content #}
-                <p>{{ 'confirm_modal.content'|trans(_trans_parameters, 'EasyAdminBundle') }}</p>
+                <p id="modal-body-content">{{ 'confirm_modal.content'|trans(_trans_parameters, 'EasyAdminBundle') }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">
+{#                 <button type="button" data-dismiss="modal" class="btn">
                     {{ 'action.cancel'|trans(_trans_parameters, 'EasyAdminBundle') }}
-                </button>
+                </button> #}
 
-                <button type="button" data-dismiss="modal" class="btn btn-danger" id="modal-confirm-button">
-                    {{ 'confirm_modal.action'|trans(_trans_parameters, 'EasyAdminBundle') }}
-                </button>
+                <form name="confirm_form" method="post" id="confirm-form">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger" id="modal-confirm-button">
+                        {{ 'confirm_modal.action'|trans(_trans_parameters, 'EasyAdminBundle') }}
+                    </button>
+                    {# token? #}
+                </form>
             </div>
         </div>
     </div>
