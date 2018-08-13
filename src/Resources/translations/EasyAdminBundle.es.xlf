@@ -7,6 +7,12 @@
 				<source>open.new_tab</source>
 				<target>Abrir en una nueva pestaña</target>
 			</trans-unit>
+
+			<!-- misc. elements -->
+			<trans-unit id="confirm_modal.action">
+				<source>confirm_modal.action</source>
+				<target>Confirmar</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -75,34 +75,25 @@
       $('.action-confirm').on('click', function(e) {
         e.preventDefault();
 
-        var name = $(this).attr('name');
-        var id = $(this).parents('tr').first().data('id');
-
-        var url = $(this).data('url');
         var message = $(this).data('confirm');
-
-        var icon = $(this).find('i').attr('class');
-
-        console.log(typeof url);
-        console.log(url);
-        console.log(typeof message);
-        console.log(message);
-
         if (typeof message === "string") {
           $('#modal-confirm .modal-body').html(message);
         }
 
+        var icon = $(this).find('i').attr('class');
+        var confirmButton = $('#modal-confirm-button');
+        confirmButton.find('i').remove();
         if (icon) {
-          $('#modal-confirm-button').prepend('<i class=\"' + icon + '\"></i>');
+          confirmButton.prepend('<i class=\"' + icon + '\"></i>');
         }
 
-        // alert(id); alert(name);
+        var href = $(this).attr('href');
+        var confirmForm = $('#confirm-form');
+        confirmForm.attr('action', href);
 
         $('#modal-confirm').modal({ backdrop: true, keyboard: true })
           .off('click', '#modal-confirm-button')
           .on('click', '#modal-confirm-button', function () {
-            var confirmForm = $('#confirm-form');
-            confirmForm.attr('action', confirmForm.attr('action').replace('__id__', id));
             confirmForm.trigger('submit');
           });
       });
