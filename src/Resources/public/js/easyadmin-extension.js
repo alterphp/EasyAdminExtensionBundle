@@ -54,3 +54,26 @@ function reloadEmbeddedList(identifier, toggleBaseUrl)
       });
   });
 }
+
+$(function() {
+  $('.action-confirm').on('click', function(e) {
+    e.preventDefault();
+
+    var message = $(this).data('confirm');
+    if (typeof message === "string") {
+      $('#modal-confirm .modal-body p#modal-body-content').html(message);
+    }
+
+    var icon = $(this).find('i').attr('class');
+    var confirmButton = $('#modal-confirm #modal-confirm-button');
+    confirmButton.find('i').remove();
+    if (icon) {
+      confirmButton.prepend('<i class=\"' + icon + '\"></i>');
+    }
+
+    var href = $(this).data('href');
+    $('#modal-confirm #confirm-form').attr('action', href);
+
+    $('#modal-confirm').modal({ backdrop: true, keyboard: true });
+  });
+});

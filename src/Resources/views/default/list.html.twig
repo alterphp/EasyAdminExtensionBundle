@@ -66,41 +66,6 @@
   {{ parent() }}
 {% endblock %}
 
-{% block body_javascript %}
-  {{ parent() }}
-
-  <script type="text/javascript">
-    $(function() {
-
-      $('.action-confirm').on('click', function(e) {
-        e.preventDefault();
-
-        var message = $(this).data('confirm');
-        if (typeof message === "string") {
-          $('#modal-confirm .modal-body p#modal-body-content').html(message);
-        }
-
-        var icon = $(this).find('i').attr('class');
-        var confirmButton = $('#modal-confirm-button');
-        confirmButton.find('i').remove();
-        if (icon) {
-          confirmButton.prepend('<i class=\"' + icon + '\"></i>');
-        }
-
-        var href = $(this).attr('href');
-        var confirmForm = $('#confirm-form');
-        confirmForm.attr('action', href);
-
-        $('#modal-confirm').modal({ backdrop: true, keyboard: true })
-          .off('click', '#modal-confirm-button')
-          .on('click', '#modal-confirm-button', function () {
-            confirmForm.trigger('submit');
-          });
-      });
-    });
-  </script>
-{% endblock %}
-
 {% block main %}
   {{ parent() }}
 
