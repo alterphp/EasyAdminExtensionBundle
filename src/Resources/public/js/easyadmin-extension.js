@@ -56,11 +56,11 @@ function reloadEmbeddedList(identifier, toggleBaseUrl)
 }
 
 $(function() {
-  $('.action-confirm').on('click', function(e) {
+  $('[data-confirm]').on('click', function(e) {
     e.preventDefault();
 
     var message = $(this).data('confirm');
-    var content = $('#modal-confirm #modal-body-content');
+    var content = $('#modal-confirm p.modal-body-content');
     content.html(typeof message === "string" ? message : content.data('default'));
 
     var confirmButton = $('#modal-confirm #modal-confirm-button');
