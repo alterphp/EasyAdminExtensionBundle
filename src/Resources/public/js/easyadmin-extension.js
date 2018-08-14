@@ -60,16 +60,15 @@ $(function() {
     e.preventDefault();
 
     var message = $(this).data('confirm');
-    if (typeof message === "string") {
-      $('#modal-confirm .modal-body p#modal-body-content').html(message);
-    }
+    var content = $('#modal-confirm #modal-body-content');
+    content.html(typeof message === "string" ? message : content.data('default'));
 
-    var icon = $(this).find('i').attr('class');
     var confirmButton = $('#modal-confirm #modal-confirm-button');
-    confirmButton.find('i').remove();
-    if (icon) {
-      confirmButton.prepend('<i class=\"' + icon + '\"></i>');
-    }
+    if (!confirmButton.find('i').length) { confirmButton.prepend('<i></i>'); }
+    confirmButton.find('i')
+      .removeClass()
+      .addClass($(this).find('i').attr('class'))
+    ;
 
     var href = $(this).data('href');
     $('#modal-confirm #confirm-form').attr('action', href);
