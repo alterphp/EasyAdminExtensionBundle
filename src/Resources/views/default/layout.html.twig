@@ -9,7 +9,7 @@
   {{ parent() }}
 
   {% block confirm_modal %}
-    {{ include('@EasyAdmin/includes/_confirm_form.html.twig', {
+    {{ include('@EasyAdmin/includes/_confirm_modal.html.twig', {
       _translation_domain: _entity_config.translation_domain,
       _trans_parameters: _trans_parameters,
     }, with_context = false) }}

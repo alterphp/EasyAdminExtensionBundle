@@ -12,7 +12,7 @@
     {% set confirm = action.confirm %}
   {% endif %}
 
-  <a name="{{ action.name }}" class="{{ action.css_class|default('') }} {{ confirm ? 'action-confirm' : '' }}" title="{{ action.title|default('') is empty ? '' : action.title|trans(trans_parameters, translation_domain) }}" {% if not confirm %}href="{{ action_href }}" target="{{ action.target }}"{% else %}href="#" data-href="{{ action_href }}" data-confirm="{{ confirm }}"{% endif %}>
+  <a name="{{ action.name }}" class="{{ action.css_class|default('') }}" title="{{ action.title|default('') is empty ? '' : action.title|trans(trans_parameters, translation_domain) }}" {% if not confirm %}href="{{ action_href }}" target="{{ action.target }}"{% else %}href="#" data-href="{{ action_href }}" data-confirm="{{ confirm }}"{% endif %}>
 
       {%- if action.icon %}<i class="fa fa-{{ action.icon }}"></i> {% endif -%}
       {%- if action.label is defined and not action.label is empty -%}
