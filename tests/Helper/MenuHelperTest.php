@@ -38,13 +38,13 @@ class MenuHelperTest extends TestCase
         $adminAuthorizationChecker = $this->createMock(AdminAuthorizationChecker::class);
 
         $grantedRoleMap = array(
-            array($this->entitiesConfig['Organization'], 'list', true),
-            array($this->entitiesConfig['Member'], 'list', false),
-            array($this->entitiesConfig['Seminary'], 'list', true),
-            array($this->entitiesConfig['Meeting'], 'list', false),
-            array($this->entitiesConfig['PlenaryMeeting'], 'list', true),
-            array($this->entitiesConfig['AdminUser'], 'list', false),
-            array($this->entitiesConfig['AdminGroup'], 'list', false),
+            array($this->entitiesConfig['Organization'], 'list', null, true),
+            array($this->entitiesConfig['Member'], 'list', null, false),
+            array($this->entitiesConfig['Seminary'], 'list', null, true),
+            array($this->entitiesConfig['Meeting'], 'list', null, false),
+            array($this->entitiesConfig['PlenaryMeeting'], 'list', null, true),
+            array($this->entitiesConfig['AdminUser'], 'list', null, false),
+            array($this->entitiesConfig['AdminGroup'], 'list', null, false),
         );
         $adminAuthorizationChecker->method('isEasyAdminGranted')->will($this->returnValueMap($grantedRoleMap));
 
