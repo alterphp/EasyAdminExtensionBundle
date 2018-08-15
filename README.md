@@ -93,9 +93,9 @@ easy_admin_extension:
 
 ```
 
-### Embed lists as form widgets
+### Embed lists in edit and show views
 
-Embed your EasyAdmin lists in edit views. This is really useful for \*ToMany relations.
+#### Edit view
 
 Use pre-configured type `embedded_list` in the form definition :
 
@@ -134,6 +134,26 @@ easy_admin:
 Let's see the result !
 
 ![Embedded list example](/doc/res/img/embedded-list.png)
+
+#### Show view
+
+Using guesser for classic \*ToMany relations :
+
+```yaml
+easy_admin:
+    entities:
+        Event:
+            class: Tm\EventBundle\Entity\Event
+        Promoter:
+            class: AppBundle\Entity\Promoter
+            show:
+                fields:
+                    # ...
+                    - { property: events, label: '', type: embedded_list }
+
+```
+
+Use following __template_options__ to build your own embedded list (see `field_embedded_list.html.twig`) : entity_fqcn, parent_entity_property, filters, entity, sort.
 
 ### Define access permissions
 
@@ -182,6 +202,10 @@ easy_admin:
 ```
 
 Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
+
+### Confirmation modal for custom POST actions without form
+
+
 
 ### Use template show vertical boostrap
 
