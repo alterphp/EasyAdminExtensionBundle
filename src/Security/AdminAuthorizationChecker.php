@@ -19,10 +19,11 @@ class AdminAuthorizationChecker
     /**
      * Throws an error if user has no access to the entity action.
      *
-     * @param array  $entity
+     * @param array  $entityConfig
      * @param string $actionName
+     * @param mixed  $subject
      */
-    public function checksUserAccess(array $entity, string $actionName)
+    public function checksUserAccess(array $entityConfig, string $actionName, $subject = null)
     {
         if ($this->adminMinimumRole && !$this->authorizationChecker->isGranted($this->adminMinimumRole)) {
             throw new AccessDeniedException(
@@ -30,19 +31,28 @@ class AdminAuthorizationChecker
             );
         }
 
-        $requiredRole = $this->getRequiredRole($entity, $actionName);
+        $requiredRole = $this->getRequiredRole($entityConfig, $actionName);
 
-        if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole)) {
+        if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole, $subject)) {
             throw new AccessDeniedException(
                 sprintf('You must be granted %s role to perform this entity action !', $requiredRole)
             );
         }
     }
 
-    public function isEasyAdminGranted(array $entity, string $actionName)
+    /**
+     * Returns user access as oolean, no exception thrown.
+     *
+     * @param array  $entityConfig
+     * @param string $actionName
+     * @param mixed  $subject
+     *
+     * @return bool
+     */
+    public function isEasyAdminGranted(array $entityConfig, string $actionName, $subject = null)
     {
         try {
-            $this->checksUserAccess($entity, $actionName);
+            $this->checksUserAccess($entityConfig, $actionName, $subject);
         } catch (AccessDeniedException $e) {
             return false;
         }
@@ -50,14 +60,14 @@ class AdminAuthorizationChecker
         return true;
     }
 
-    protected function getRequiredRole(array $entity, string $actionName)
+    protected function getRequiredRole(array $entityConfig, string $actionName)
     {
-        if (isset($entity[$actionName]) && isset($entity[$actionName]['role'])) {
-            return $entity[$actionName]['role'];
-        } elseif (isset($entity['role_prefix'])) {
-            return $entity['role_prefix'].'_'.strtoupper($actionName);
+        if (isset($entityConfig[$actionName]) && isset($entityConfig[$actionName]['role'])) {
+            return $entityConfig[$actionName]['role'];
+        } elseif (isset($entityConfig['role_prefix'])) {
+            return $entityConfig['role_prefix'].'_'.strtoupper($actionName);
         }
 
-        return $entity['role'] ?? null;
+        return $entityConfig['role'] ?? null;
     }
 }

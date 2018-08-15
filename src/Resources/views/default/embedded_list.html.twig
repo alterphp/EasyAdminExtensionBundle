@@ -78,7 +78,7 @@
                             <td data-label="{{ _column_label }}" class="actions">
                             {% block item_actions %}
                                 {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
-                                    actions: _list_item_actions,
+                                    actions: _list_item_actions|prune_item_actions(_entity_config, ['delete'], item),
                                     request_parameters: _request_parameters,
                                     translation_domain: _entity_config.translation_domain,
                                     trans_parameters: _trans_parameters,
