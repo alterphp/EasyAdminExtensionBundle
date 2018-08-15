@@ -205,7 +205,18 @@ Entity _role_prefix_ defines all actions required roles by appending the action 
 
 ### Confirmation modal for custom POST actions without form
 
+A generic confirmation modal asks for confirmation (or any custom message) for links with `data-confirm` attribute (that may contain the custom message) and URL in `data-href` attribute.
 
+Easy configurable with custom list actions by adding a `confirm` key :
+
+```yaml
+easyadmin:
+    entities:
+        User
+            list:
+                actions:
+                    - { name: disable, icon: ban, title: Disable user, label: false, target: _blank, confirm: User will lose any access to the platform ! }
+```
 
 ### Use template show vertical boostrap
 
