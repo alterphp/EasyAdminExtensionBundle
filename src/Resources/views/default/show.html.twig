@@ -18,7 +18,7 @@
 
 {# Do not display list action items if not granted #}
 {% block item_actions %}
-  {% set _show_actions = easyadmin_get_actions_for_show_item(_entity_config.name)|prune_item_actions(_entity_config) %}
+  {% set _show_actions = easyadmin_get_actions_for_show_item(_entity_config.name)|prune_item_actions(_entity_config, [], item) %}
   {% set _request_parameters = { entity: _entity_config.name, referer: app.request.query.get('referer') } %}
 
   {{ include('@EasyAdmin/default/includes/_actions.html.twig', {

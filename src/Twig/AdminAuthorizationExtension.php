@@ -32,15 +32,18 @@ class AdminAuthorizationExtension extends AbstractExtension
         );
     }
 
-    public function isEasyAdminGranted(array $entity, string $actionName = 'list')
+    public function isEasyAdminGranted(array $entityConfig, string $actionName = 'list', $subject = null)
     {
-        return $this->adminAuthorizationChecker->isEasyAdminGranted($entity, $actionName);
+        return $this->adminAuthorizationChecker->isEasyAdminGranted($entityConfig, $actionName, $subject);
     }
 
-    public function pruneItemsActions(array $itemActions, array $entity, array $forbiddenActions = [])
-    {
-        return array_filter($itemActions, function ($action) use ($entity, $forbiddenActions) {
-            return !in_array($action, $forbiddenActions) && $this->isEasyAdminGranted($entity, $action);
+    public function pruneItemsActions(
+        array $itemActions, array $entityConfig, array $forbiddenActions = [], $subject = null
+    ) {
+        return array_filter($itemActions, function ($action) use ($entityConfig, $forbiddenActions, $subject) {
+            return !in_array($action, $forbiddenActions)
+                    && $this->isEasyAdminGranted($entityConfig, $action, $subject)
+            ;
         }, ARRAY_FILTER_USE_KEY);
     }
 

@@ -35,8 +35,11 @@ class AdminController extends BaseAdminController
             $actionName = 'list';
         }
 
+        // Get item for edit/show or custom actions => security voters may apply
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $subject = $easyadmin['item'] ?? null;
         $this->get('alterphp.easyadmin_extension.admin_authorization_checker')->checksUserAccess(
-            $this->entity, $actionName
+            $this->entity, $actionName, $subject
         );
 
         return parent::isActionAllowed($actionName);
