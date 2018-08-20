@@ -35,7 +35,7 @@ matrix:
           env:
             - SYMFONY_VERSION="3.4.*"
             - STABILITY=beta
-            # Deprecations breaks CI (sension frameworkextrabundle + sf 4.1
+            # Deprecations breaks CI (sensio frameworkextrabundle + sf 4.1)
             # - SYMFONY_DEPRECATIONS_HELPER="strict"
         # common (some popular version combinations)
         - php: 7.0
