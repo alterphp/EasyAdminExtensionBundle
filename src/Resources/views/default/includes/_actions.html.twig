@@ -8,8 +8,8 @@
   {% endif %}
 
   {% set confirm = false %}
-  {% if action.confirm is defined and action.confirm %}
-    {% set confirm = action.confirm %}
+  {% if action.confirm is defined %}
+    {% set confirm = action.confirm|default('confirm_modal.content'|trans(trans_parameters, 'EasyAdminBundle')) %}
   {% endif %}
 
   <a name="{{ action.name }}" class="{{ action.css_class|default('') }}" title="{{ action.title|default('') is empty ? '' : action.title|trans(trans_parameters, translation_domain) }}" {% if not confirm %}href="{{ action_href }}" target="{{ action.target }}"{% else %}href="#" data-href="{{ action_href }}" data-confirm="{{ confirm }}"{% endif %}>

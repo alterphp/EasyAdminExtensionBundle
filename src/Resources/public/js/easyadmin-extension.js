@@ -61,7 +61,7 @@ $(function() {
 
     var message = $(this).data('confirm');
     var content = $('#modal-confirm p.modal-body-content');
-    content.html(typeof message === "string" ? message : content.data('default'));
+    content.html(message);
 
     var confirmButton = $('#modal-confirm #modal-confirm-button');
     if (!confirmButton.find('i').length) { confirmButton.prepend('<i></i>'); }
