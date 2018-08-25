@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -118,6 +119,7 @@ class EmbeddedListHelper
             if (
                 $parentEntityFqcn === $assoc['targetEntity']
                 && $parentEntityProperty === $assoc['inversedBy']
+                && isset($assoc['joinColumns'])
                 && 1 === count($assoc['joinColumns'])
             ) {
                 $assocFieldPart = 'entity.'.$assoc['fieldName'];
@@ -126,6 +128,19 @@ class EmbeddedListHelper
                 );
 
                 return [$assocFieldPart => $assocIdentifierValue];
+            } elseif (
+                $parentEntityFqcn === $assoc['targetEntity']
+                && $parentEntityProperty === $assoc['inversedBy']
+                && isset($assoc['joinTable'])
+            ) {
+                $relatedItems = PropertyAccess::createPropertyAccessor()->getValue(
+                    $parentEntity, $parentEntityProperty
+                );
+                $itemIds = $relatedItems->map(function ($entity) {
+                    return $entity->getId();
+                });
+
+                return ['entity.id' => $itemIds->toArray()];
             }
         }
 
