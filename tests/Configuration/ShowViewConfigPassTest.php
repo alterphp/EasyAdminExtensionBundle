@@ -62,7 +62,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
                                     'entity' => 'MyRelation',
                                     'filters' => array(),
                                     'sort' => null,
-                                )
+                                ),
                             ),
                             'qux' => array('type' => 'integer'),
                         ),
@@ -134,7 +134,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
                                     'entity' => 'Child',
                                     'filters' => array('bar' => 'baz'),
                                     'sort' => array('field' => 'qux', 'direction' => 'ASC'),
-                                )
+                                ),
                             ),
                         ),
                     ),

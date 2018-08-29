@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\PropertyAccess\PropertyAccess;
