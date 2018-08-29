@@ -116,31 +116,28 @@ class EmbeddedListHelper
         $entityAssociations = $entityClassMetadata->getAssociationMappings();
         $parentEntityFqcn = get_class($parentEntity);
         foreach ($entityAssociations as $assoc) {
-            if (
-                $parentEntityFqcn === $assoc['targetEntity']
-                && $parentEntityProperty === $assoc['inversedBy']
-                && isset($assoc['joinColumns'])
-                && 1 === count($assoc['joinColumns'])
-            ) {
-                $assocFieldPart = 'entity.'.$assoc['fieldName'];
-                $assocIdentifierValue = PropertyAccess::createPropertyAccessor()->getValue(
-                    $parentEntity, $assoc['joinColumns'][0]['referencedColumnName']
-                );
+            // If association matches embeddedList relation
+            if ($parentEntityFqcn === $assoc['targetEntity'] && $parentEntityProperty === $assoc['inversedBy']) {
+                // OneToMany association
+                if (isset($assoc['joinColumns']) && 1 === count($assoc['joinColumns'])) {
+                    $assocFieldPart = 'entity.'.$assoc['fieldName'];
+                    $assocIdentifierValue = PropertyAccess::createPropertyAccessor()->getValue(
+                        $parentEntity, $assoc['joinColumns'][0]['referencedColumnName']
+                    );
 
-                return [$assocFieldPart => $assocIdentifierValue];
-            } elseif (
-                $parentEntityFqcn === $assoc['targetEntity']
-                && $parentEntityProperty === $assoc['inversedBy']
-                && isset($assoc['joinTable'])
-            ) {
-                $relatedItems = PropertyAccess::createPropertyAccessor()->getValue(
-                    $parentEntity, $parentEntityProperty
-                );
-                $itemIds = $relatedItems->map(function ($entity) {
-                    return $entity->getId();
-                });
+                    return [$assocFieldPart => $assocIdentifierValue];
+                }
+                // ManyToMany association
+                elseif (isset($assoc['joinTable'])) {
+                    $relatedItems = PropertyAccess::createPropertyAccessor()->getValue(
+                        $parentEntity, $parentEntityProperty
+                    );
+                    $itemIds = $relatedItems->map(function ($entity) {
+                        return $entity->getId();
+                    });
 
-                return ['entity.id' => $itemIds->toArray()];
+                    return ['entity.id' => $itemIds->toArray()];
+                }
             }
         }
 
