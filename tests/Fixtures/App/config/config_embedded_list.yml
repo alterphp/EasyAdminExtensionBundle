@@ -26,3 +26,11 @@ easy_admin:
             embeddedList:
                 open_new_tab: true
                 sort: [createdAt, DESC]
+        AdminGroup:
+            class: AppTestBundle\Entity\FunctionalTests\AdminGroup
+            form:
+                fields:
+                    - { property: name }
+                    - { property: users, label: '', type: embedded_list }
+        AdminUser:
+            class: AppTestBundle\Entity\FunctionalTests\AdminUser

@@ -17,12 +17,12 @@ class LoadAdminGroups extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         foreach (range(1, 20) as $i) {
-            $group = new AdminGroup();
-            $group->setName('group'.$i);
-            $group->setRoles(array('ROLE_GROUP_'.$i, 'ROLE_GROUP_'.($i + 1)));
+            $adminGroup = new AdminGroup();
+            $adminGroup->setName('admin-group'.$i);
+            $adminGroup->setRoles(array('ROLE_GROUP_'.$i, 'ROLE_GROUP_'.($i + 1)));
 
-            $this->addReference('group-'.$i, $group);
-            $manager->persist($group);
+            $this->addReference('admin-group-'.$i, $adminGroup);
+            $manager->persist($adminGroup);
         }
 
         $manager->flush();

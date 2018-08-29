@@ -23,12 +23,12 @@ class AdminUser extends BaseAdminUser
     private $gSuiteId;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      */
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      */
     private $firstname;
 
@@ -70,5 +70,14 @@ class AdminUser extends BaseAdminUser
     public function getFirstname()
     {
         return $this->firstname;
+    }
+
+    public function addGroup(AdminGroup $adminGroup)
+    {
+        if (!$this->groups->contains($adminGroup)) {
+            $this->groups->add($adminGroup);
+        }
+
+        return $this;
     }
 }
