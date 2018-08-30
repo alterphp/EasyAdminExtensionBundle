@@ -4,7 +4,6 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 
 class AdminController extends BaseAdminController
 {
