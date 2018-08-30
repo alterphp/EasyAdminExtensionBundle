@@ -203,6 +203,20 @@ easy_admin:
 
 Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
 
+#### Per entity field role permissions in form
+
+You can also define role permissions per entity field in form:
+
+```yaml
+easy_admin:
+    entities:
+        Product:
+            class: App\Entity\Product
+            form:
+                fields:
+                    - { property: enabled, role: ROLE_ADMIN }
+```
+
 ### Confirmation modal for custom POST actions without form
 
 A generic confirmation modal asks for confirmation (or any custom message) for links with `data-confirm` attribute (that may contain the custom message) and URL in `data-href` attribute.

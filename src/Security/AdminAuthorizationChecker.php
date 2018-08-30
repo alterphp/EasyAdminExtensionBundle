@@ -41,7 +41,7 @@ class AdminAuthorizationChecker
     }
 
     /**
-     * Returns user access as oolean, no exception thrown.
+     * Returns user access as boolean, no exception thrown.
      *
      * @param array  $entityConfig
      * @param string $actionName
@@ -69,5 +69,23 @@ class AdminAuthorizationChecker
         }
 
         return $entityConfig['role'] ?? null;
+    }
+
+    /**
+     * Returns array contain entity properties remove.
+     *
+     * @param array  $entityProperties
+     *
+     * @return array
+     */
+    public function getRemovePropertiesRequiredRole(array $entityProperties)
+    {
+        $removePropertiesRequiredRole = [];
+        foreach ($entityProperties as $key => $value) {
+            if (isset($value['role']) && !$this->authorizationChecker->isGranted($value['role'])) {
+                array_push($removePropertiesRequiredRole, $key);
+            }
+        }
+        return $removePropertiesRequiredRole;
     }
 }
