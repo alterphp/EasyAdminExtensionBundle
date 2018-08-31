@@ -44,29 +44,4 @@ class AdminController extends BaseAdminController
 
         return parent::isActionAllowed($actionName);
     }
-
-    /**
-     * Creates the form object used to create or edit the given entity.
-     * Control role of the field
-     *
-     * @param object $entity
-     * @param array  $entityProperties
-     * @param string $view
-     *
-     * @return FormInterface
-     *
-     * @throws \Exception
-     */
-    protected function createEntityForm($entity, array $entityProperties, $view)
-    {
-        $adminAuthorizationChecker = $this->container->get('alterphp.easyadmin_extension.admin_authorization_checker');
-        $removeEntityProperties = $adminAuthorizationChecker->getRemovePropertiesRequiredRole($entityProperties);
-
-        $entityForm = parent::createEntityForm($entity, $entityProperties, $view);
-
-        foreach ($removeEntityProperties as $key => $value) {
-            $entityForm->remove($value);
-        }
-        return $entityForm;
-    }
 }
