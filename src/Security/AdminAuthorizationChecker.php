@@ -41,7 +41,7 @@ class AdminAuthorizationChecker
     }
 
     /**
-     * Returns user access as oolean, no exception thrown.
+     * Returns user access as boolean, no exception thrown.
      *
      * @param array  $entityConfig
      * @param string $actionName

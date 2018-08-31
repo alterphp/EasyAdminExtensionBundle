@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="alterphp.easyadmin_extension.form.unauthorized.field"
+                 class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
+            <argument type="service" id="security.authorization_checker"/>
+            <tag name="easyadmin.form.type.configurator" />
+        </service>
+    </services>
+</container>
