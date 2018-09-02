@@ -59,5 +59,9 @@
             <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>
             <tag name="twig.extension"/>
         </service>
+        <service id="alterphp.easyadmin_extension.form.unauthorized.field" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
+            <argument type="service" id="security.authorization_checker"/>
+            <tag name="easyadmin.form.type.configurator" />
+        </service>
     </services>
 </container>
