@@ -205,7 +205,7 @@ Entity _role_prefix_ defines all actions required roles by appending the action 
 
 #### Per entity field role permissions in form
 
-You can also define role permissions per entity field in form:
+You can also define role permissions per entity field in form :
 
 ```yaml
 easy_admin:
@@ -216,6 +216,8 @@ easy_admin:
                 fields:
                     - { property: enabled, role: ROLE_ADMIN }
 ```
+
+If user do not hold the required role, the form field will be disabled.
 
 ### Confirmation modal for custom POST actions without form
 
