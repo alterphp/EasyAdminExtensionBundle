@@ -252,19 +252,21 @@ In such entity:
 class User
 {
     public $name;
-    
+
+    public $title;
+
     public $references;
 }
 ```
 
-It will show all fields but those mentioned in `exclude_fields`:
+It will show all fields but those mentioned in `exclude_fields`, equivalent to the following configuration:
 
 ```yaml
 easyadmin:
     entities:
         User:
             form:
-                fields: ['name']
+                fields: ['name', 'title']
 ```
 
 ### Use template show vertical boostrap
