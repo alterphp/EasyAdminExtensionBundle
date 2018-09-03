@@ -3,7 +3,8 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Configuration\ExcludeFieldsConfigPass;
-use AlterPHP\EasyAdminExtensionBundle\Tests\Configuration\ExcludeFieldsConfigPassSource\DummyEntity;
+use AlterPHP\EasyAdminExtensionBundle\Exception\ConflictingConfigurationException;
+use AppTestBundle\Entity\FunctionalTests\Dummy;
 
 class ExcludeFieldsConfigPassTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,12 +18,12 @@ class ExcludeFieldsConfigPassTest extends \PHPUnit_Framework_TestCase
         $this->excludeFieldsConfigPass = new ExcludeFieldsConfigPass();
     }
 
-    public function test()
+    public function testExcludeFields()
     {
         $backendConfig = array(
             'entities' => array(
                 'TestEntity' => array(
-                    'class' => DummyEntity::class,
+                    'class' => Dummy::class,
                     'form' => array(
                         'exclude_fields' => array('exclude')
                     ),
@@ -35,15 +36,34 @@ class ExcludeFieldsConfigPassTest extends \PHPUnit_Framework_TestCase
         $expectedBackendConfig = array(
             'entities' => array(
                 'TestEntity' => array(
-                    'class' => DummyEntity::class,
+                    'class' => Dummy::class,
                     'form' => array(
                         'exclude_fields' => array('exclude'),
-                        'fields' => array('name')
+                        'fields' => array('name', 'title')
                     ),
                 ),
             ),
         );
 
         $this->assertSame($processedBackendConfig, $expectedBackendConfig);
+    }
+
+    public function testExcludeFieldThrowsConflictingConfigurationException()
+    {
+        $backendConfig = array(
+            'entities' => array(
+                'TestEntity' => array(
+                    'class' => Dummy::class,
+                    'form' => array(
+                        'fields' => array('name', 'title'),
+                        'exclude_fields' => array('exclude'),
+                    ),
+                ),
+            ),
+        );
+
+        $this->expectException(ConflictingConfigurationException::class);
+
+        $processedBackendConfig = $this->excludeFieldsConfigPass->process($backendConfig);
     }
 }

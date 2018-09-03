@@ -1,7 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace AppTestBundle\Entity\FunctionalTests;
 
-class Dummy
+final class Dummy
 {
+    public $name;
+
+    public $title;
+
+    public $exclude;
 }
