@@ -228,10 +228,43 @@ Easy configurable with custom list actions by adding a `confirm` key :
 ```yaml
 easyadmin:
     entities:
-        User
+        User:
             list:
                 actions:
                     - { name: disable, icon: ban, title: Disable user, label: false, target: _blank, confirm: User will lose any access to the platform ! }
+```
+
+### Exclude fields in forms
+
+```yaml
+easyadmin:
+    entities:
+        User:
+            form:
+                exclude_fields: ['references']
+```
+
+In such entity:
+
+```php
+<?php
+
+class User
+{
+    public $name;
+    
+    public $references;
+}
+```
+
+It will show all fields but those mentioned in `exclude_fields`:
+
+```yaml
+easyadmin:
+    entities:
+        User:
+            form:
+                fields: ['name']
 ```
 
 ### Use template show vertical boostrap
