@@ -31,26 +31,28 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
         }
 
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (!isset($entityConfig['form']['exclude_fields'])) {
-                continue;
-            }
-
-            $this->ensureFieldConfigurationIsValid($entityConfig, $entityName);
-
-            $propertyNames = $this->getPropertyNamesForEntity($entityConfig, $entityName);
-
-            // filter fields to be displayed
-            $fields = [];
-            foreach ($propertyNames as $propertyName) {
-                if ($this->shouldSkipField($propertyName, $entityConfig['form']['exclude_fields'])) {
+            foreach (array('form', 'edit', 'new') as $section) {
+                if (!isset($entityConfig[$section]['exclude_fields'])) {
                     continue;
                 }
 
-                $fields[] = $propertyName;
-            }
+                $this->ensureFieldConfigurationIsValid($entityConfig, $entityName, $section);
 
-            // set it!
-            $backendConfig['entities'][$entityName]['form']['fields'] = $fields;
+                $propertyNames = $this->getPropertyNamesForEntity($entityConfig, $entityName);
+
+                // filter fields to be displayed
+                $fields = [];
+                foreach ($propertyNames as $propertyName) {
+                    if ($this->shouldSkipField($propertyName, $entityConfig[$section]['exclude_fields'])) {
+                        continue;
+                    }
+
+                    $fields[] = $propertyName;
+                }
+
+                // set it!
+                $backendConfig['entities'][$entityName][$section]['fields'] = $fields;
+            }
         }
 
         return $backendConfig;
@@ -72,10 +74,12 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
      * Explicit "fields" option and "exclude_fields" won't work together
      *
      * @param mixed[] $entityConfig
+     * @param string  $entityName
+     * @param string  $section
      */
-    private function ensureFieldConfigurationIsValid(array $entityConfig, string $entityName)
+    private function ensureFieldConfigurationIsValid(array $entityConfig, string $entityName, string $section)
     {
-        if (!isset($entityConfig['form']['fields']) || !count($entityConfig['form']['fields'])) {
+        if (!isset($entityConfig[$section]['fields']) || !count($entityConfig[$section]['fields'])) {
             return;
         }
 
@@ -83,7 +87,7 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
             '"%s" and "%s" are mutually conflicting. Pick just one of them in %s YAML configuration',
             'exclude_fields',
             'fields',
-            sprintf('easy_admin_bundle > entities > %s > form', $entityName)
+            sprintf('easy_admin > entities > %s > %s', $entityName, $section)
         ));
     }
 
