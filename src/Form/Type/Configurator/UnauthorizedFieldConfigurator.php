@@ -26,7 +26,7 @@ final class UnauthorizedFieldConfigurator implements TypeConfiguratorInterface
      */
     public function configure($name, array $options, array $metadata, FormConfigInterface $parentConfig)
     {
-        if (isset($metadata['role']) && !$this->authorizationChecker->isGranted($metadata['role'])) {
+        if (!$this->authorizationChecker->isGranted($metadata['role'])) {
             $options['disabled'] = true;
         }
 
@@ -38,6 +38,6 @@ final class UnauthorizedFieldConfigurator implements TypeConfiguratorInterface
      */
     public function supports($type, array $options, array $metadata)
     {
-        return true;
+        return isset($metadata['role']) && (!isset($options['disabled']) || !$options['disabled']);
     }
 }

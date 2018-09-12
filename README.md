@@ -205,7 +205,7 @@ Entity _role_prefix_ defines all actions required roles by appending the action 
 
 #### Per entity field role permissions in form
 
-You can also define role permissions per entity field in form:
+You can also define role permissions per entity field in form :
 
 ```yaml
 easy_admin:
@@ -217,6 +217,8 @@ easy_admin:
                     - { property: enabled, role: ROLE_ADMIN }
 ```
 
+If user do not hold the required role, the form field will be disabled.
+
 ### Confirmation modal for custom POST actions without form
 
 A generic confirmation modal asks for confirmation (or any custom message) for links with `data-confirm` attribute (that may contain the custom message) and URL in `data-href` attribute.
@@ -226,10 +228,45 @@ Easy configurable with custom list actions by adding a `confirm` key :
 ```yaml
 easyadmin:
     entities:
-        User
+        User:
             list:
                 actions:
                     - { name: disable, icon: ban, title: Disable user, label: false, target: _blank, confirm: User will lose any access to the platform ! }
+```
+
+### Exclude fields in forms
+
+```yaml
+easyadmin:
+    entities:
+        User:
+            form:
+                exclude_fields: ['references']
+```
+
+In such entity:
+
+```php
+<?php
+
+class User
+{
+    public $name;
+
+    public $title;
+
+    public $references;
+}
+```
+
+It will show all fields but those mentioned in `exclude_fields`, equivalent to the following configuration:
+
+```yaml
+easyadmin:
+    entities:
+        User:
+            form:
+                fields: ['name', 'title']
 ```
 
 ### Use template show vertical boostrap
