@@ -19,6 +19,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     private static $nativeShortFormTypes = array(
         'embedded_list' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType',
         'admin_roles' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType',
+        'autocomplete_create' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminAutocompleteCreateType',
     );
 
     public function __construct(array $customFormTypes = array())

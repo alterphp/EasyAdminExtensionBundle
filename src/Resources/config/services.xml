@@ -66,5 +66,9 @@
             <argument type="service" id="security.authorization_checker"/>
             <tag name="easyadmin.form.type.configurator" />
         </service>
+        <service id="alterphp.easyadmin_extension.form.type.autocomplete_create" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminAutocompleteCreateType">
+            <argument type="service" id="easyadmin.config.manager"/>
+            <tag name="form.type" alias="easyadmin_autocomplete_create" />
+        </service>
     </services>
 </container>
