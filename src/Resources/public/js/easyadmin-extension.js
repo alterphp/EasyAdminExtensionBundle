@@ -85,3 +85,53 @@ $(function() {
     e.stopPropagation();
   });
 });
+
+function createAutoCompleteCreateFields() {
+    var autocompleteCreateFields = $('[data-easyadmin-autocomplete-create-url]');
+
+    autocompleteCreateFields.each(function () {
+        var $this = $(this),
+            url = $this.data('easyadmin-autocomplete-create-url');
+
+        $this.select2({
+            theme: 'bootstrap',
+            ajax: {
+                url: url,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return { 'query': params.term, 'page': params.page };
+                },
+                // to indicate that infinite scrolling can be used
+                processResults: function (data, params) {
+                    console.log(data.results.length);
+                    if (data.results.length <= 0) {
+                        console.log(params);
+                    }
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: data.has_next_page
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: '',
+            allowClear: true,
+            minimumInputLength: 1,
+            language : {
+                noResults : function(params) {
+                    return '<a href="#">Agregar</a>';
+                }
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            }
+        });
+    });
+}
+
+$(function () {
+    createAutoCompleteCreateFields();
+});
