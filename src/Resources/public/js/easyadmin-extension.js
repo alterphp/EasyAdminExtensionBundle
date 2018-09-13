@@ -78,11 +78,15 @@ $(function() {
 });
 
 function createAutoCompleteCreateFields() {
-    var autocompleteCreateFields = $('[data-easyadmin-autocomplete-create-url]');
+    var autocompleteCreateFields = $('[data-easyadmin-autocomplete-add-url]');
 
     autocompleteCreateFields.each(function () {
         var $this = $(this),
-            url = $this.data('easyadmin-autocomplete-create-url');
+            url = $this.data('easyadmin-autocomplete-add-url'),
+            url_action = $this.data('easyadmin-autocomplete-action-url')
+            field_name = $this.data('easyadmin-autocomplete-field-name');
+            
+        var select_id = $this.attr('id');
 
         $this.select2({
             theme: 'bootstrap',
@@ -95,10 +99,6 @@ function createAutoCompleteCreateFields() {
                 },
                 // to indicate that infinite scrolling can be used
                 processResults: function (data, params) {
-                    console.log(data.results.length);
-                    if (data.results.length <= 0) {
-                        console.log(params);
-                    }
                     return {
                         results: data.results,
                         pagination: {
@@ -113,7 +113,7 @@ function createAutoCompleteCreateFields() {
             minimumInputLength: 1,
             language : {
                 noResults : function(params) {
-                    return '<a href="#">Agregar</a>';
+                    return '<a href="#" onclick="ajaxModalEntityAction(\''+url_action+'\', \''+select_id+'\', \''+field_name+'\');return false;">Add</a>';
                 }
             },
             escapeMarkup: function (markup) {
@@ -123,6 +123,75 @@ function createAutoCompleteCreateFields() {
     });
 }
 
+function ajaxModalEntityAction(url_action, select_id, field_name) {
+    $('#'+select_id).select2('close');
+    $.ajax({
+        url : url_action,
+        type: 'GET',
+        success: function(data) {
+            showModalEntityForm(data, url_action, field_name);
+            $('#modal-entity-form').modal({ backdrop: true, keyboard: true });
+        }
+    });
+}
+function showModalEntityForm(data, url_action, field_name) {
+    var content = $('#modal-entity-form p.modal-body-content');
+    content.html(data.template);
+    $('form[name="'+field_name+'"]').attr('action', url_action);
+    initAjaxForm(field_name);
+}
+function initAjaxForm(field_name) {
+    $('form[name="'+field_name+'"]').submit(function( event ) {
+        event.preventDefault();
+        var url_action = $(this).attr('action');
+        $.ajax({
+            url: url_action,
+            type: $(this).attr('method'),
+            data: $(this).serializefiles(),
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.hasOwnProperty('save')) {
+                    $('#modal-entity-form').modal('hide')
+                }
+                if (data.hasOwnProperty('template')) {
+                    showModalEntityForm(data, url_action, field_name);
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+}
+//USAGE: $("#form").serializefiles();
+(function($) {
+$.fn.serializefiles = function() {
+    CKupdate();
+    var obj = $(this);
+    /* ADD FILE TO PARAM AJAX */
+    var formData = new FormData();
+    $.each($(obj).find("input[type='file']"), function(i, tag) {
+        $.each($(tag)[0].files, function(i, file) {
+            formData.append(tag.name, file);
+        });
+    });
+    var params = $(obj).serializeArray();
+    $.each(params, function (i, val) {
+        formData.append(val.name, val.value);
+    });
+
+    return formData;
+};
+})(jQuery);
+function CKupdate() {
+    try {
+        for ( instance in CKEDITOR.instances )
+            CKEDITOR.instances[instance].updateElement();
+    }
+    catch(err) { }
+}
 $(function () {
     createAutoCompleteCreateFields();
 });

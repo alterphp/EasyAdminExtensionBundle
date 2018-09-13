@@ -1,0 +1,27 @@
+{% extends '@BaseEasyAdmin/default/new.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        #modal-entity-form .main-sidebar {
+            display: none !important;
+        }
+        #modal-entity-form .content-wrapper,
+        #modal-entity-form .main-footer {
+            margin-left: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block sidebar %}{% endblock %}
+
+{# {% block main %}
+    {% block entity_form %}
+        {{ form(form) }}
+    {% endblock entity_form %}
+{% endblock %} #}
+
+{# {% form_theme form with easyadmin_config('design.form_theme') %}
+
+{{ form(form) }} #}

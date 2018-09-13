@@ -49,12 +49,17 @@
 {% block easyadmin_autocomplete_create_widget %}
     {{ form_widget(form.autocomplete, {
         attr: attr|merge({
-            'data-easyadmin-autocomplete-create-url' : path('easyadmin', {
+            'data-easyadmin-autocomplete-add-url' : path('easyadmin', {
                 action: 'autocomplete',
                 entity: autocomplete_entity_name,
-            })|raw })
+            })|raw,
+            'data-easyadmin-autocomplete-action-url' : path('easyadmin', {
+                action: 'newAjax',
+                entity: autocomplete_entity_name,
+            })|raw,
+            'data-easyadmin-autocomplete-field-name' : name|raw
         })
-    }}
+    }) }}
 {% endblock easyadmin_autocomplete_create_widget %}
 
 {% block easyadmin_autocomplete_create_inner_label %}
