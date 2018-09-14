@@ -246,7 +246,7 @@ easy_admin:
             form:
                 fields:
                     # ...
-                    - { property: 'promoter', type: 'autocomplete_create', type_options: { class: 'AppBundle\Entity\Promoter' } }
+                    - { property: 'promoter', type: 'autocomplete_create' }
 
 ```
 

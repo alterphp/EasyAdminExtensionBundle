@@ -120,17 +120,13 @@ function createAutoCompleteCreateFields() {
             placeholder: '',
             allowClear: true,
             minimumInputLength: 1,
-            language : {
-                noResults : function(params) {
-                    return '<a href="#" onclick="ajaxModalEntityAction(\''+url_action+'\', \''+select_id+'\', \''+field_name+'\');return false;">Add</a>';
+            language: {
+                noResults: function () {
+                    return noResultsCreate(url_action, select_id, field_name);
                 }
             },
             escapeMarkup: function (markup) {
                 return markup;
-            },
-            insertTag: function (data, tag) {
-                // Insert the tag at the end of the results
-                data.push(tag);
             }
         });
     });

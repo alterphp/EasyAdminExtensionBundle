@@ -1,3 +1,10 @@
+{% set _select2_create_locales = ['en', 'es'] %}
+{% set _app_language = app.request.locale|split('-')|first|split('_')|first %}
+{% set _select2_create_locale = app.request.locale in _select2_create_locales
+    ? app.request.locale
+    : _app_language in _select2_create_locales ? _app_language : 'en'
+%}
+
 {% extends '@BaseEasyAdmin/default/layout.html.twig' %}
 
 {% block head_stylesheets %}
@@ -7,6 +14,7 @@
 
 {% block head_javascript %}
   {{ parent() }}
+  <script src="{{ asset('bundles/easyadminextension/js/select2/i18n/' ~ _select2_create_locale ~ '.js') }}"></script>
   <script src="{{ asset('bundles/easyadminextension/js/easyadmin-extension.js') }}"></script>
 {% endblock %}
 

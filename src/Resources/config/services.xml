@@ -76,13 +76,19 @@
             <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>
             <tag name="twig.extension"/>
         </service>
+        <service id="alterphp.easyadmin_extension.form.type.autocomplete_create" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminAutocompleteCreateType">
+            <argument type="service" id="easyadmin.config.manager"/>
+            <tag name="form.type" alias="easyadmin_autocomplete_create" />
+        </service>
+
+        <!-- Type Configurators -->
+
         <service id="alterphp.easyadmin_extension.form.unauthorized.field" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
             <argument type="service" id="security.authorization_checker"/>
             <tag name="easyadmin.form.type.configurator" />
         </service>
-        <service id="alterphp.easyadmin_extension.form.type.autocomplete_create" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminAutocompleteCreateType">
-            <argument type="service" id="easyadmin.config.manager"/>
-            <tag name="form.type" alias="easyadmin_autocomplete_create" />
+        <service id="alterphp.easyadmin_extension.form.autocomplete.create" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\AutocompleteCreateTypeConfigurator">
+            <tag name="easyadmin.form.type.configurator" />
         </service>
     </services>
 </container>
