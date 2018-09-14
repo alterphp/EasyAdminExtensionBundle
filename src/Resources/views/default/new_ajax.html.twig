@@ -18,4 +18,6 @@
 {% block sidebar %}{% endblock %}
 {% block confirm_modal %}{% endblock %}
 {% block form_entity_modal %}{% endblock %}
-{% block body_javascript %}{% endblock %}
+{% block body_javascript %}
+    {{ include('@EasyAdminExtension/includes/_select2_widget.html.twig') }}
+{% endblock %}
