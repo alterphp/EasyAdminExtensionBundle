@@ -118,6 +118,10 @@ function createAutoCompleteCreateFields() {
             },
             escapeMarkup: function (markup) {
                 return markup;
+            },
+            insertTag: function (data, tag) {
+                // Insert the tag at the end of the results
+                data.push(tag);
             }
         });
     });
@@ -129,18 +133,18 @@ function ajaxModalEntityAction(url_action, select_id, field_name) {
         url : url_action,
         type: 'GET',
         success: function(data) {
-            showModalEntityForm(data, url_action, field_name);
+            showModalEntityForm(data, url_action, field_name, select_id);
             $('#modal-entity-form').modal({ backdrop: true, keyboard: true });
         }
     });
 }
-function showModalEntityForm(data, url_action, field_name) {
+function showModalEntityForm(data, url_action, field_name, select_id) {
     var content = $('#modal-entity-form p.modal-body-content');
     content.html(data.template);
     $('form[name="'+field_name+'"]').attr('action', url_action);
-    initAjaxForm(field_name);
+    initAjaxForm(field_name, select_id);
 }
-function initAjaxForm(field_name) {
+function initAjaxForm(field_name, select_id) {
     $('form[name="'+field_name+'"]').submit(function( event ) {
         event.preventDefault();
         var url_action = $(this).attr('action');
@@ -152,11 +156,20 @@ function initAjaxForm(field_name) {
             contentType: false,
             processData: false,
             success: function(data) {
-                if (data.hasOwnProperty('save')) {
-                    $('#modal-entity-form').modal('hide')
+                if (data.hasOwnProperty('option')) {
+                    $('#modal-entity-form').modal('hide');
+                    var newOption = new Option(data.option.text, data.option.id, true, true);
+                    $('#'+select_id).append(newOption).trigger('change');
+                    // manually trigger the `select2:select` event
+                    $('#'+select_id).trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: data.option
+                        }
+                    });
                 }
                 if (data.hasOwnProperty('template')) {
-                    showModalEntityForm(data, url_action, field_name);
+                    showModalEntityForm(data, url_action, field_name, select_id);
                 }
             },
             error: function(error){

@@ -87,7 +87,11 @@ class AdminController extends BaseAdminController
 
             $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
 
-            return new JsonResponse(['save' => true]);
+            $option = [
+                'id' => $entity->getId(),
+                'text' => (string) $entity,
+            ];
+            return new JsonResponse(['option' => $option]);
         }
 
         $this->dispatch(EasyAdminEvents::POST_NEW, array(
