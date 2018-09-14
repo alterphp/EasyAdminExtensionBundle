@@ -155,6 +155,24 @@ easy_admin:
 
 Use following __template_options__ to build your own embedded list (see `field_embedded_list.html.twig`) : entity_fqcn, parent_entity_property, filters, entity, sort.
 
+### Autocomplete add new option by modal in new and edit
+
+#### Configure form type 'autocomplete_create'
+
+```yaml
+easy_admin:
+    entities:
+        Promoter:
+            class: AppBundle\Entity\Promoter
+        Event:
+            class: Tm\EventBundle\Entity\Event
+            form:
+                fields:
+                    # ...
+                    - { property: 'promoter', type: 'autocomplete_create', type_options: { class: 'AppBundle\Entity\Promoter' } }
+
+```
+
 ### Define access permissions
 
 #### Global minimum role access
