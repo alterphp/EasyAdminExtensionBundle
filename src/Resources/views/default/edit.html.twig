@@ -1,3 +1,10 @@
+{% set _select2_locales = ['ar', 'az', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'is', 'it', 'ja', 'km', 'ko', 'lt', 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'pt-BR', 'pt', 'ro', 'ru', 'sk', 'sr-Cyrl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-CN', 'zh-TW'] %}
+{% set _app_language = app.request.locale|split('-')|first|split('_')|first %}
+{% set _select2_locale = app.request.locale in _select2_locales
+    ? app.request.locale
+    : _app_language in _select2_locales ? _app_language : 'en'
+%}
+
 {% extends '@BaseEasyAdmin/default/edit.html.twig' %}
 
 {% block content_header %}
@@ -15,3 +22,10 @@
         </div>
     </div>
 {% endblock content_header %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/easyadminextension/js/select2/i18n/' ~ _select2_locale ~ '.js') }}"></script>
+    <script src="{{ asset('bundles/easyadminextension/js/autocomplete-create.js') }}"></script>
+{% endblock %}
