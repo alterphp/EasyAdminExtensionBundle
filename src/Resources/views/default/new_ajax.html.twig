@@ -1,7 +1,6 @@
 {% extends '@BaseEasyAdmin/default/new.html.twig' %}
 
 {% block head_stylesheets %}
-    {{ parent() }}
     <style>
         #modal-entity-form .main-sidebar {
             display: none !important;
@@ -13,15 +12,10 @@
     </style>
 {% endblock %}
 
+{% block head_favicon %}{% endblock %}
+{% block head_javascript %}{% endblock %}
 {% block header %}{% endblock %}
 {% block sidebar %}{% endblock %}
-
-{# {% block main %}
-    {% block entity_form %}
-        {{ form(form) }}
-    {% endblock entity_form %}
-{% endblock %} #}
-
-{# {% form_theme form with easyadmin_config('design.form_theme') %}
-
-{{ form(form) }} #}
+{% block confirm_modal %}{% endblock %}
+{% block form_entity_modal %}{% endblock %}
+{% block body_javascript %}{% endblock %}
