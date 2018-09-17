@@ -43,7 +43,6 @@ function createAutoCompleteCreateFields() {
         });
     });
 }
-
 function ajaxModalEntityAction(url_action, select_id, field_name) {
     $('#'+select_id).select2('close');
     $.ajax({
@@ -98,7 +97,6 @@ function initAjaxForm(field_name, select_id) {
 //USAGE: $("#form").serializefiles();
 (function($) {
 $.fn.serializefiles = function() {
-    CKupdate();
     var obj = $(this);
     /* ADD FILE TO PARAM AJAX */
     var formData = new FormData();
@@ -115,13 +113,6 @@ $.fn.serializefiles = function() {
     return formData;
 };
 })(jQuery);
-function CKupdate() {
-    try {
-        for ( instance in CKEDITOR.instances )
-            CKEDITOR.instances[instance].updateElement();
-    }
-    catch(err) { }
-}
 $(function () {
     createAutoCompleteCreateFields();
 });
