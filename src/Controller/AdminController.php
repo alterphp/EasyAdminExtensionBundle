@@ -76,27 +76,28 @@ class AdminController extends BaseAdminController
 
         $fields = $this->entity['new']['fields'];
 
-        $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', array($entity, $fields));
+        $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', [$entity, $fields]);
 
         $newForm->handleRequest($this->request);
         if ($newForm->isSubmitted() && $newForm->isValid()) {
-            $this->dispatch(EasyAdminEvents::PRE_PERSIST, array('entity' => $entity));
-
-            $this->executeDynamicMethod('prePersist<EntityName>Entity', array($entity, true));
-            $this->executeDynamicMethod('persist<EntityName>Entity', array($entity));
-
-            $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
+            $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
+            $this->executeDynamicMethod('persist<EntityName>Entity', [$entity]);
+            $this->dispatch(EasyAdminEvents::POST_PERSIST, ['entity' => $entity]);
 
             return new JsonResponse(['option' => ['id' => $entity->getId(), 'text' => (string) $entity]]);
         }
 
-        $this->dispatch(EasyAdminEvents::POST_NEW, array(
-            'entity_fields' => $fields, 'form' => $newForm, 'entity' => $entity,
-        ));
+        $this->dispatch(EasyAdminEvents::POST_NEW, [
+            'entity_fields' => $fields,
+            'form' => $newForm,
+            'entity' => $entity,
+        ]);
 
-        $parameters = array(
-            'form' => $newForm->createView(), 'entity_fields' => $fields, 'entity' => $entity,
-        );
+        $parameters = [
+            'form' => $newForm->createView(),
+            'entity_fields' => $fields,
+            'entity' => $entity,
+        ];
 
         if (isset($this->entity['templates']['new_ajax'])) {
             $templateNewAjax = $this->entity['templates']['new_ajax'];
