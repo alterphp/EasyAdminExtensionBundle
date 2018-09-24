@@ -26,6 +26,16 @@
   </div>
 {% endblock %}
 
+{# Display FILTERS form if defined #}
+{% block content_header %}
+  {{ parent() }}
+  {% if _entity_config.list.filtersForm is defined %}
+    <div id="list-filters">
+      {{ form_row(_entity_config.list.filtersForm.createView()) }}
+    </div>
+  {% endif %}
+{% endblock %}
+
 {# Do not display SEARCH form if not granted #}
 {% block search_action %}
   {% if is_easyadmin_granted(_entity_config, 'search') %}
@@ -58,4 +68,9 @@
     {% endif %}
   {% endfor %}
   {{ parent() }}
+{% endblock %}
+
+{% block body_javascript %}
+  {{ parent() }}
+  {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
 {% endblock %}

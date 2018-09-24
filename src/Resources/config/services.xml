@@ -33,6 +33,11 @@
             <!-- Makes it process just after EasyAdmin TemplateConfigPass -->
             <tag name="easyadmin.config_pass" priority="19"/>
         </service>
+        <service id="alterphp.easyadmin_extension.config_pass.list_filters" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ListFiltersConfigPass">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="form.factory" />
+            <tag name="easyadmin.config_pass" priority="0"/>
+        </service>
 
         <!-- Admin security roles -->
         <service id="alterphp.easyadmin_extension.helper.editable_roles" class="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper">
