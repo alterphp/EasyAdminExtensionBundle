@@ -1,0 +1,5 @@
+{% if is_easyadmin_granted(entity_config, 'edit', item) %}
+    {% include '@BaseEasyAdmin/default/field_toggle.html.twig' %}
+{% else %}
+    {% include '@EasyAdmin/default/field_boolean.html.twig' %}
+{% endif %}

@@ -83,7 +83,7 @@ class AdminGroup
      */
     public function setRoles(array $roles)
     {
-        $this->roles = $roles;
+        $this->roles = array_unique($roles);
 
         return $this;
     }
