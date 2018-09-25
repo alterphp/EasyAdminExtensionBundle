@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Guess form types for list filters.
@@ -113,9 +114,21 @@ class ListFiltersConfigPass implements ConfigPassInterface
 
     private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig)
     {
-        // string => choice (multiple)
-        // text => text LIKE %%
-        // date/datetime => date range
+        switch ($fieldMapping['type']) {
+            case 'string':
+                $filterConfig['type'] = ChoiceType::class;
+                $filterConfig['type_options'] = array_merge_recursive(
+                    array(
+                        'multiple' => true,
+                        'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
+                        'attr' => array('data-widget' => 'select2'),
+                    ),
+                    isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+                );
+                break;
+            default:
+                return;
+        }
     }
 
     private function configureAssociationFilter(string $entityClass, array $associationMapping, array &$filterConfig)
@@ -123,9 +136,44 @@ class ListFiltersConfigPass implements ConfigPassInterface
         // To-One
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
             $filterConfig['type'] = EntityType::class;
-            $filterConfig['type_options']['class'] = $associationMapping['targetEntity'];
-            $filterConfig['type_options']['multiple'] = true;
-            $filterConfig['type_options']['attr']['data-widget'] = 'select2';
+            $filterConfig['type_options'] = array_merge_recursive(
+                array(
+                    'class' => $associationMapping['targetEntity'],
+                    'multiple' => true,
+                    'attr' => array('data-widget' => 'select2'),
+                ),
+                isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+            );
         }
+    }
+
+    private function getChoiceList(string $entityClass, string $property, array &$filterConfig)
+    {
+        if (isset($filterConfig['type_options']['choices'])) {
+            unset($filterConfig['type_options']['choices']);
+
+            return $filterConfig['type_options']['choices'];
+        }
+
+        if (!isset($filterConfig['type_options']['choices_static_callback'])) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Choice filter field "%s" for entity "%s" must provide either a static callback method returning choice list or choices option.',
+                    $property,
+                    $entityClass
+                )
+            );
+        }
+
+        $callableParams = array();
+        if (is_string($filterConfig['type_options']['choices_static_callback'])) {
+            $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback']);
+        } else {
+            $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback'][0]);
+            $callableParams = $filterConfig['type_options']['choices_static_callback'][1];
+        }
+        unset($filterConfig['type_options']['choices_static_callback']);
+
+        return forward_static_call_array($callable, $callableParams);
     }
 }
