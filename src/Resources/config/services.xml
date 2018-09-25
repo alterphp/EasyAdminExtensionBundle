@@ -33,10 +33,19 @@
             <!-- Makes it process just after EasyAdmin TemplateConfigPass -->
             <tag name="easyadmin.config_pass" priority="19"/>
         </service>
+
+        <!-- list filters -->
         <service id="alterphp.easyadmin_extension.config_pass.list_filters" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ListFiltersConfigPass">
             <argument type="service" id="doctrine" />
-            <argument type="service" id="form.factory" />
             <tag name="easyadmin.config_pass" priority="0"/>
+        </service>
+        <service id="alterphp.easyadmin_extension.helper.list_filters" class="AlterPHP\EasyAdminExtensionBundle\Helper\ListFiltersHelper">
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+        <service id="alterphp.easyadmin_extension.twig.extension.list_filters" class="AlterPHP\EasyAdminExtensionBundle\Twig\ListFiltersExtension">
+            <argument type="service" id="alterphp.easyadmin_extension.helper.list_filters"/>
+            <tag name="twig.extension"/>
         </service>
 
         <!-- Admin security roles -->

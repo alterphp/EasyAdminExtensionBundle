@@ -5,9 +5,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
-use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Guess form types for list filters.
@@ -17,13 +15,9 @@ class ListFiltersConfigPass implements ConfigPassInterface
     /** @var ManagerRegistry */
     private $doctrine;
 
-    /** @var FormFactory */
-    private $formFactory;
-
-    public function __construct(ManagerRegistry $doctrine, FormFactory $formFactory)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
-        $this->formFactory = $formFactory;
     }
 
     /**
@@ -83,7 +77,6 @@ class ListFiltersConfigPass implements ConfigPassInterface
 
             // set filters config and form !
             $backendConfig['entities'][$entityName]['list']['filters'] = $filters;
-            $backendConfig['entities'][$entityName]['list']['filtersForm'] = $this->createFiltersForm($filters);
         }
 
         return $backendConfig;
@@ -129,27 +122,10 @@ class ListFiltersConfigPass implements ConfigPassInterface
     {
         // To-One
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
-            $filterConfig['type'] = EasyAdminAutocompleteType::class;
+            $filterConfig['type'] = EntityType::class;
             $filterConfig['type_options']['class'] = $associationMapping['targetEntity'];
             $filterConfig['type_options']['multiple'] = true;
+            $filterConfig['type_options']['attr']['data-widget'] = 'select2';
         }
-    }
-
-    private function createFiltersForm(array $filters): FormInterface
-    {
-        $formBuilder = $this->formFactory->createNamedBuilder('list_filters');
-
-        foreach ($filters as $name => $config) {
-            $formBuilder->add(
-                $name,
-                isset($config['type']) ? $config['type'] : null,
-                array_merge(
-                    array('required' => false),
-                    $config['type_options']
-                )
-            );
-        }
-
-        return $formBuilder->getForm();
     }
 }

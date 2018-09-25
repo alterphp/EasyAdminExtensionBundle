@@ -5,6 +5,18 @@
     filters: requestFilters
 }) %}
 
+{% block request_parameters_as_hidden %}
+  {% for field, value in requestFilters %}
+    {% if value is iterable %}
+      {% for val in value %}
+        <input type="hidden" name="filters[{{ field }}][]" value="{{ val }}">
+      {% endfor %}
+    {% else %}
+      <input type="hidden" name="filters[{{ field }}]" value="{{ value }}">
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
 {% block content_title_wrapper %}
   <h1 class="title">
     {{ block('content_title') }}
@@ -26,19 +38,10 @@
   </div>
 {% endblock %}
 
-{# Display FILTERS form if defined #}
-{% block content_header %}
-  {{ parent() }}
-  {% if _entity_config.list.filtersForm is defined %}
-    <div id="list-filters">
-      {{ form_row(_entity_config.list.filtersForm.createView()) }}
-    </div>
-  {% endif %}
-{% endblock %}
-
 {# Do not display SEARCH form if not granted #}
 {% block search_action %}
   {% if is_easyadmin_granted(_entity_config, 'search') %}
+    {{ block('request_parameters_as_hidden') }}
     {{ parent() }}
   {% endif %}
 {% endblock %}
@@ -58,15 +61,38 @@
 
 {# Adds request filters to the serach form #}
 {% block search_form %}
-  {% for field, value in requestFilters %}
-    {% if value is iterable %}
-      {% for val in value %}
-        <input type="hidden" name="filters[{{ field }}][]" value="{{ val }}">
-      {% endfor %}
-    {% else %}
-      <input type="hidden" name="filters[{{ field }}]" value="{{ value }}">
-    {% endif %}
-  {% endfor %}
+  {{ parent() }}
+{% endblock %}
+
+{% block list_filters %}
+  {% if _entity_config.list.filters is defined and _entity_config.list.filters is not empty %}
+    <div id="list-filters" class="panel panel-default">
+      <div class="panel-heading">Filtres</div>
+      <div class="panel-body">
+        <form id="list-filters-form" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
+          {% set list_filters_form = list_filters_form(_entity_config.list.filters) %}
+          {% form_theme list_filters_form '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
+          {{ block('request_parameters_as_hidden') }}
+          <input type="hidden" name="action" value="search">
+          <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
+          <input type="hidden" name="sortField" value="{{ _entity_config.search.sort.field|default(_request_parameters.sortField) }}">
+          <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
+          <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
+          <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
+          {% for field in list_filters_form %}
+            <div class="col-sm-3">{{ form_row(field) }}</div>
+          {% endfor %}
+          <div class="clearfix"></div>
+          <p class="text-center"><button type="submit">Filtrer</button></p>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{# Display FILTERS form if defined #}
+{% block main %}
+  {{ block('list_filters') }}
   {{ parent() }}
 {% endblock %}
 
