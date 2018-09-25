@@ -48,18 +48,6 @@ class AdminController extends BaseAdminController
     }
 
     /**
-     * Use renderView()
-     *
-     * @param string $actionName   The name of the current action (list, show, new, etc.)
-     * @param string $templatePath The path of the Twig template to render
-     * @param array  $parameters   The parameters passed to the template
-     */
-    protected function renderViewTemplate($actionName, $templatePath, array $parameters = array())
-    {
-        return $this->renderView($templatePath, $parameters);
-    }
-
-    /**
      * The method that is executed when the user performs a 'new ajax' action on an entity.
      *
      * @return JsonResponse
@@ -100,12 +88,12 @@ class AdminController extends BaseAdminController
         ];
 
         if (isset($this->entity['templates']['new_ajax'])) {
-            $templateNewAjax = $this->entity['templates']['new_ajax'];
+            $templatePath = $this->entity['templates']['new_ajax'];
         } else {
-            $templateNewAjax = '@EasyAdminExtension/default/new_ajax.html.twig';
+            $templatePath = '@EasyAdminExtension/default/new_ajax.html.twig';
         }
 
-        $template = $this->executeDynamicMethod('renderView<EntityName>Template', array('new_ajax', $templateNewAjax, $parameters));
-        return new JsonResponse(['template' => $template]);
+        $html = $this->renderView($templatePath, $parameters);
+        return new JsonResponse(['html' => $html]);
     }
 }
