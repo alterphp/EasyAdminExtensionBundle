@@ -46,23 +46,27 @@
 {% endblock item_actions %}
 
 {# EasyAdminAutocomplete form type #}
-{% block easyadmin_autocomplete_create_widget %}
-    {{ form_widget(form.autocomplete, {
-        attr: attr|merge({
-            'data-easyadmin-autocomplete-add-url' : path('easyadmin', {
-                action: 'autocomplete',
-                entity: autocomplete_entity_name,
-            })|raw,
-            'data-easyadmin-autocomplete-action-url' : path('easyadmin', {
-                action: 'newAjax',
-                entity: autocomplete_entity_name,
-            })|raw,
-            'data-easyadmin-autocomplete-field-name' : name|raw
-        })
-    }) }}
-{% endblock easyadmin_autocomplete_create_widget %}
+{% block easyadmin_autocomplete_widget %}
+    {% if form.vars.attr.create %}
+        {{ form_widget(form.autocomplete, {
+            attr: attr|merge({
+                'data-easyadmin-autocomplete-add-url' : path('easyadmin', {
+                    action: 'autocomplete',
+                    entity: autocomplete_entity_name,
+                })|raw,
+                'data-easyadmin-autocomplete-action-url' : path('easyadmin', {
+                    action: 'newAjax',
+                    entity: autocomplete_entity_name,
+                })|raw,
+                'data-easyadmin-autocomplete-field-name' : name|raw
+            })
+        }) }}
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{% endblock easyadmin_autocomplete_widget %}
 
-{% block easyadmin_autocomplete_create_inner_label %}
+{# {% block easyadmin_autocomplete_create_inner_label %}
     {% set name = form.parent.vars.name %}
     {{- block('form_label') -}}
-{% endblock easyadmin_autocomplete_create_inner_label %}
+{% endblock easyadmin_autocomplete_create_inner_label %} #}

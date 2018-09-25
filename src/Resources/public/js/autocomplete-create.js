@@ -56,7 +56,7 @@ function ajaxModalEntityAction(url_action, select_id, field_name) {
 }
 function showModalEntityForm(data, url_action, field_name, select_id) {
     var content = $('#modal-entity-form p.modal-body-content');
-    content.html(data.template);
+    content.html(data.html);
     $('form[name="'+field_name+'"]').attr('action', url_action);
     initAjaxForm(field_name, select_id);
 }
@@ -84,7 +84,7 @@ function initAjaxForm(field_name, select_id) {
                         }
                     });
                 }
-                if (data.hasOwnProperty('template')) {
+                if (data.hasOwnProperty('html')) {
                     showModalEntityForm(data, url_action, field_name, select_id);
                 }
             },
