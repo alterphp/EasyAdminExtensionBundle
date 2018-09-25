@@ -155,9 +155,9 @@ easy_admin:
 
 Use following __template_options__ to build your own embedded list (see `field_embedded_list.html.twig`) : entity_fqcn, parent_entity_property, filters, entity, sort.
 
-### Autocomplete add new option by modal in new and edit
+### Autocomplete add new option 'create' for modal in new and edit
 
-#### Configure form type 'autocomplete_create'
+#### Configure form type 'easyadmin_autocomplete', add attr: { create: true}
 
 ```yaml
 easy_admin:
@@ -169,7 +169,7 @@ easy_admin:
             form:
                 fields:
                     # ...
-                    - { property: 'promoter', type: 'autocomplete_create' }
+                    - { property: 'promoter', type: 'easyadmin_autocomplete', attr: { create: true} }
 
 ```
 
