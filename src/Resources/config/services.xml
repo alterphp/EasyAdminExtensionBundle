@@ -62,10 +62,6 @@
             <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>
             <tag name="twig.extension"/>
         </service>
-        <service id="alterphp.easyadmin_extension.form.type.autocomplete" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminAutocompleteType">
-            <argument type="service" id="easyadmin.config.manager"/>
-            <tag name="form.type" alias="easyadmin_autocomplete" priority="50" />
-        </service>
 
         <!-- Type Configurators -->
 
