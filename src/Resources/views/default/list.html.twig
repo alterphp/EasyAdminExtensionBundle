@@ -41,7 +41,6 @@
 {# Do not display SEARCH form if not granted #}
 {% block search_action %}
   {% if is_easyadmin_granted(_entity_config, 'search') %}
-    {{ block('request_parameters_as_hidden') }}
     {{ parent() }}
   {% endif %}
 {% endblock %}
@@ -59,8 +58,9 @@
   {{ parent() }}
 {% endblock %}
 
-{# Adds request filters to the serach form #}
+{# Adds request filters to the search form #}
 {% block search_form %}
+  {{ block('request_parameters_as_hidden') }}
   {{ parent() }}
 {% endblock %}
 
