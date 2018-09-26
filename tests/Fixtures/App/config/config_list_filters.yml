@@ -1,0 +1,11 @@
+imports:
+    - { resource: config.yml }
+
+easy_admin:
+    entities:
+        Product:
+            class: AppTestBundle\Entity\FunctionalTests\Product
+            list:
+                filters:
+                    - { property: oddEven, type_options: { choices: [odd, even] } }
+                    - category

@@ -150,9 +150,10 @@ class ListFiltersConfigPass implements ConfigPassInterface
     private function getChoiceList(string $entityClass, string $property, array &$filterConfig)
     {
         if (isset($filterConfig['type_options']['choices'])) {
+            $choices = $filterConfig['type_options']['choices'];
             unset($filterConfig['type_options']['choices']);
 
-            return $filterConfig['type_options']['choices'];
+            return $choices;
         }
 
         if (!isset($filterConfig['type_options']['choices_static_callback'])) {

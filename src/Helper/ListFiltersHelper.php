@@ -19,9 +19,9 @@ class ListFiltersHelper
     private $formFactory;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
-    private $request;
+    private $requestStack;
 
     /**
      * @var FormInterface
@@ -34,7 +34,7 @@ class ListFiltersHelper
     public function __construct(FormFactory $formFactory, RequestStack $requestStack)
     {
         $this->formFactory = $formFactory;
-        $this->request = $requestStack->getMasterRequest();
+        $this->requestStack = $requestStack;
     }
 
     public function getListFiltersForm(array $filters): FormInterface
@@ -54,8 +54,7 @@ class ListFiltersHelper
             }
 
             $this->listFiltersForm = $formBuilder->setMethod('GET')->getForm();
-
-            $this->listFiltersForm->handleRequest($this->request);
+            $this->listFiltersForm->handleRequest($this->requestStack->getCurrentRequest());
         }
 
         return $this->listFiltersForm;
