@@ -6,6 +6,7 @@ function createAutoCompleteCreateFields() {
             url = $this.data('easyadmin-autocomplete-add-url'),
             url_action = $this.data('easyadmin-autocomplete-action-url')
             field_name = $this.data('easyadmin-autocomplete-field-name');
+            button_text = $this.data('easyadmin-autocomplete-button-text');
             
         var select_id = $this.attr('id');
 
@@ -34,7 +35,7 @@ function createAutoCompleteCreateFields() {
             minimumInputLength: 1,
             language: {
                 noResults: function () {
-                    return noResultsCreate(url_action, select_id, field_name);
+                    return '<a href="#" class="btn btn-info" onclick="ajaxModalEntityAction(\''+url_action+'\', \''+select_id+'\', \''+field_name+'\');return false;">'+button_text+' '+field_name+'</a>';
                 }
             },
             escapeMarkup: function (markup) {

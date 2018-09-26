@@ -58,7 +58,8 @@
                     action: 'newAjax',
                     entity: autocomplete_entity_name,
                 })|raw,
-                'data-easyadmin-autocomplete-field-name' : name|raw
+                'data-easyadmin-autocomplete-field-name' : name|raw,
+                'data-easyadmin-autocomplete-button-text' : 'action.add_new_item'|trans({}, 'EasyAdminBundle')
             })
         }) }}
     {% else %}
