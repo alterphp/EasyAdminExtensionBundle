@@ -2,12 +2,11 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
 	<file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
 		<body>
-			<!-- page titles -->
+			<!-- misc -->
 			<trans-unit id="open.new_tab">
 				<source>open.new_tab</source>
 				<target>Ouvrir dans un nouvel onglet</target>
 			</trans-unit>
-
 			<!-- list_filters -->
 			<trans-unit id="list_filters.heading_title">
 				<source>list_filters.heading_title</source>
@@ -29,7 +28,6 @@
 				<source>list_filters.default.boolean.false</source>
 				<target>Non</target>
 			</trans-unit>
-
 			<!-- confirm_modal -->
 			<trans-unit id="confirm_modal.content">
 				<source>confirm_modal.content</source>

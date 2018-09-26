@@ -69,7 +69,7 @@
   {% set list_filters_form = list_filters_form(_entity_config.list.filters) %}
   <div id="list-filters" class="panel panel-default">
     <div class="panel-heading" role="button" data-toggle="collapse" data-target="#list-filters-form">
-      {{ 'list_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}
+      <span class="panel-title">{{ 'list_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
       <em class="text-info pull-right">
         <small>{{ 'list_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
