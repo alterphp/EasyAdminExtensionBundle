@@ -93,7 +93,6 @@ class AdminController extends BaseAdminController
             $templatePath = '@EasyAdminExtension/default/new_ajax.html.twig';
         }
 
-        $html = $this->renderView($templatePath, $parameters);
-        return new JsonResponse(['html' => $html]);
+        return new JsonResponse(['html' => $this->renderView($templatePath, $parameters)]);
     }
 }
