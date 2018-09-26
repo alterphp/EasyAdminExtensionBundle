@@ -15,6 +15,7 @@ class AutocompleteTypeConfigurator extends BaseAutocompleteTypeConfigurator
      */
     public function configure($name, array $options, array $metadata, FormConfigInterface $parentConfig)
     {
+        $options = parent::configure($name, $options, $metadata, $parentConfig);
         // by default, attr create = false
         if (isset($metadata['attr']['create'])) {
             $options['attr']['create'] = $metadata['attr']['create'];
@@ -22,6 +23,6 @@ class AutocompleteTypeConfigurator extends BaseAutocompleteTypeConfigurator
             $options['attr']['create'] = false;
         }
 
-        return parent::configure($name, $options, $metadata, $parentConfig);
+        return $options;
     }
 }
