@@ -8,4 +8,5 @@ easy_admin:
             list:
                 filters:
                     - { property: oddEven, type_options: { choices: [odd, even] } }
+                    - { property: replenishmentType, type_options: { choices_static_callback: [getReplenishmentTypeValues, [true]] } }
                     - category

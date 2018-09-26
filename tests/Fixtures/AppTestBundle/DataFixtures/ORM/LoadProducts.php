@@ -51,6 +51,7 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
             $product->setOddEven($i % 2 ? 'odd' : 'even');
             $product->setReference('ref'.str_pad($i, 6, '0', STR_PAD_LEFT));
             $product->setName($this->getRandomName());
+            $product->setReplenishmentType($this->getReplenishmentType());
             $product->setPrice($this->getRandomPrice());
             $product->setTags($this->getRandomTags());
             $product->setEan($this->getRandomEan());
@@ -151,5 +152,12 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
         shuffle($this->phrases);
 
         return '<ul><li>'.implode('</li><li>', array_slice($this->phrases, 0, $numFeatures)).'</li></ul>';
+    }
+
+    public function getReplenishmentType()
+    {
+        $replenishmentTypeValues = Product::getReplenishmentTypeValues();
+
+        return $replenishmentTypeValues[mt_rand(0, count($replenishmentTypeValues)-1)];
     }
 }
