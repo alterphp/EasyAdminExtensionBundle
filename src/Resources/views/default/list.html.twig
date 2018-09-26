@@ -66,12 +66,17 @@
 
 {% block list_filters %}
   {% if _entity_config.list.filters is defined and _entity_config.list.filters is not empty %}
-  <form id="list-filters-form" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
-    <div id="list-filters" class="panel panel-default">
-      <div class="panel-heading">Filtres</div>
-      <div class="panel-body" style="display: flex; align-items: stretch;">
+  {% set list_filters_form = list_filters_form(_entity_config.list.filters) %}
+  <div id="list-filters" class="panel panel-default">
+    <div class="panel-heading" role="button" data-toggle="collapse" data-target="#list-filters-form">
+      {{ 'list_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}
+      <em class="text-info pull-right">
+        <small>{{ 'list_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
+      </em>
+    </div>
+    <form id="list-filters-form" class="collapse {{ list_filters_form.vars.submitted ? 'in' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
+      <div id="list-filters-panel-body" class="panel-body" style="display: flex; align-items: stretch;">
         <div class="col-sm-10">
-          {% set list_filters_form = list_filters_form(_entity_config.list.filters) %}
           {% form_theme list_filters_form '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
           {{ block('request_parameters_as_hidden') }}
           <input type="hidden" name="action" value="search">
@@ -86,13 +91,15 @@
           <div class="clearfix"></div>
         </div>
         <div class="col-sm-2">
-          <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">Filtrer</button>
+          <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
+            {{ 'list_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
+          </button>
         </div>
         <div class="clearfix"></div>
       </div>
-    </div>
+    </form>
+  </div>
   {% endif %}
-</form>
 {% endblock %}
 
 {# Display FILTERS form if defined #}

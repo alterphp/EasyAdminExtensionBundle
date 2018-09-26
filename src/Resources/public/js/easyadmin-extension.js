@@ -75,4 +75,13 @@ $(function() {
 
     $('#modal-confirm').modal({ backdrop: true, keyboard: true });
   });
+
+  // Deal with panel-heading toggling collapsible panel-body
+  // (@see https://stackoverflow.com/questions/33725181/bootstrap-using-panel-heading-to-collapse-panel-body)
+  $('.panel-heading[data-toggle^="collapse"]').click(function(){
+    var target = $(this).attr('data-target');
+    $(target).collapse('toggle');
+  }).children().click(function(e) {
+    e.stopPropagation();
+  });
 });

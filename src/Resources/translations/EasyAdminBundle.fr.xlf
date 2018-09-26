@@ -8,7 +8,21 @@
 				<target>Ouvrir dans un nouvel onglet</target>
 			</trans-unit>
 
-			<!-- misc. elements -->
+			<!-- list_filters -->
+			<trans-unit id="list_filters.heading_title">
+				<source>list_filters.heading_title</source>
+				<target>Filtres</target>
+			</trans-unit>
+			<trans-unit id="list_filters.heading_expandcollapse">
+				<source>list_filters.heading_expandcollapse</source>
+				<target>Ouvrir / Fermer</target>
+			</trans-unit>
+			<trans-unit id="list_filters.submit">
+				<source>list_filters.submit</source>
+				<target>Filtrer</target>
+			</trans-unit>
+
+			<!-- confirm_modal -->
 			<trans-unit id="confirm_modal.content">
 				<source>confirm_modal.content</source>
 				<target>Êtes-vous sûr(e) ?</target>
