@@ -115,19 +115,34 @@ class ListFiltersConfigPass implements ConfigPassInterface
     private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig)
     {
         switch ($fieldMapping['type']) {
+            case 'boolean':
+                $filterConfig['type'] = ChoiceType::class;
+                $defaultFilterConfigTypeOptions = array(
+                    'choices' => array(
+                        'list_filters.default.boolean.true' => true,
+                        'list_filters.default.boolean.false' => false,
+                    ),
+                    'choice_translation_domain' => 'EasyAdminBundle',
+                );
+                break;
             case 'string':
                 $filterConfig['type'] = ChoiceType::class;
-                $filterConfig['type_options'] = array_merge_recursive(
-                    array(
-                        'multiple' => true,
-                        'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
-                        'attr' => array('data-widget' => 'select2'),
-                    ),
-                    isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+                $defaultFilterConfigTypeOptions = array(
+                    'multiple' => true,
+                    'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
+                    'attr' => array('data-widget' => 'select2'),
                 );
                 break;
             default:
                 return;
+        }
+
+        // Merge default type options when defined
+        if (isset($defaultFilterConfigTypeOptions)) {
+            $filterConfig['type_options'] = array_merge_recursive(
+                $defaultFilterConfigTypeOptions,
+                isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+            );
         }
     }
 

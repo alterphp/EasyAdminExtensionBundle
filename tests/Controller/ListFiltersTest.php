@@ -21,5 +21,7 @@ class ListFiltersTest extends AbstractTestCase
 
         $this->assertSame(1, $listFiltersCrawler->filter('select#list_filters_oddEven[multiple="multiple"]')->count());
         $this->assertSame(1, $listFiltersCrawler->filter('select#list_filters_category[multiple="multiple"]')->count());
+        $this->assertSame(1, $listFiltersCrawler->filter('select#list_filters_replenishmentType[multiple="multiple"]')->count());
+        $this->assertSame(1, $listFiltersCrawler->filter('select#list_filters_enabled')->count());
     }
 }
