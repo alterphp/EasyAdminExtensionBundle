@@ -5,6 +5,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -139,7 +140,7 @@ class ListFiltersConfigPass implements ConfigPassInterface
 
         // Merge default type options when defined
         if (isset($defaultFilterConfigTypeOptions)) {
-            $filterConfig['type_options'] = array_merge_recursive(
+            $filterConfig['type_options'] = array_merge(
                 $defaultFilterConfigTypeOptions,
                 isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
             );
@@ -148,10 +149,23 @@ class ListFiltersConfigPass implements ConfigPassInterface
 
     private function configureAssociationFilter(string $entityClass, array $associationMapping, array &$filterConfig)
     {
-        // To-One
+        // // To-One (EntityType)
+        // if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
+        //     $filterConfig['type'] = EntityType::class;
+        //     $filterConfig['type_options'] = array_merge(
+        //         array(
+        //             'class' => $associationMapping['targetEntity'],
+        //             'multiple' => true,
+        //             'attr' => array('data-widget' => 'select2'),
+        //         ),
+        //         isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+        //     );
+        // }
+
+        // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
-            $filterConfig['type'] = EntityType::class;
-            $filterConfig['type_options'] = array_merge_recursive(
+            $filterConfig['type'] = EasyAdminAutocompleteType::class;
+            $filterConfig['type_options'] = array_merge(
                 array(
                     'class' => $associationMapping['targetEntity'],
                     'multiple' => true,

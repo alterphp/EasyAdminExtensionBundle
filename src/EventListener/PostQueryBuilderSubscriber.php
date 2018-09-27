@@ -88,6 +88,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = array())
     {
         foreach ($filters as $field => $value) {
+            $value = $this->filterEasyadminAutocompleteValue($value);
             // Empty string and numeric keys is considered as "not applied filter"
             if (is_int($field) || '' === $value) {
                 continue;
@@ -103,6 +104,15 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
             $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
         }
+    }
+
+    private function filterEasyadminAutocompleteValue($value)
+    {
+        if (!is_array($value) || !isset($value['autocomplete']) || 1 !== count($value)) {
+            return;
+        }
+
+        return $value['autocomplete'];
     }
 
     /**
