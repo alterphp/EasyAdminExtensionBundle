@@ -2,15 +2,13 @@ function createAutoCompleteCreateFields() {
     var autocompleteCreateFields = $('[data-easyadmin-autocomplete-add-url]');
 
     autocompleteCreateFields.each(function () {
-        var $this = $(this),
-            url = $this.data('easyadmin-autocomplete-add-url'),
-            url_action = $this.data('easyadmin-autocomplete-action-url')
-            field_name = $this.data('easyadmin-autocomplete-field-name');
-            button_text = $this.data('easyadmin-autocomplete-button-text');
-            
-        var select_id = $this.attr('id');
+        var url = $(this).data('easyadmin-autocomplete-add-url'),
+            url_action = $(this).data('easyadmin-autocomplete-action-url'),
+            field_name = $(this).data('easyadmin-autocomplete-field-name'),
+            button_text = $(this).data('easyadmin-autocomplete-button-text'),
+            select_id = $(this).attr('id');
 
-        $this.select2({
+        $(this).select2({
             theme: 'bootstrap',
             ajax: {
                 url: url,
@@ -56,8 +54,7 @@ function ajaxModalEntityAction(url_action, select_id, field_name) {
     });
 }
 function showModalEntityForm(data, url_action, field_name, select_id) {
-    var content = $('#modal-entity-form p.modal-body-content');
-    content.html(data.html);
+    $('#modal-entity-form .modal-body').html(data.html);
     $('form[name="'+field_name+'"]').attr('action', url_action);
     initAjaxForm(field_name, select_id);
 }
@@ -80,9 +77,7 @@ function initAjaxForm(field_name, select_id) {
                     // manually trigger the `select2:select` event
                     $('#'+select_id).trigger({
                         type: 'select2:select',
-                        params: {
-                            data: data.option
-                        }
+                        params: { data: data.option }
                     });
                 }
                 if (data.hasOwnProperty('html')) {
