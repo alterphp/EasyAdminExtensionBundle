@@ -109,7 +109,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     private function filterEasyadminAutocompleteValue($value)
     {
         if (!is_array($value) || !isset($value['autocomplete']) || 1 !== count($value)) {
-            return;
+            return $value;
         }
 
         return $value['autocomplete'];

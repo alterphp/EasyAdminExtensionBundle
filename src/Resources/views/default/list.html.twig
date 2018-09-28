@@ -111,4 +111,9 @@
 {% block body_javascript %}
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+  <script type="text/javascript">
+    $(function () {
+      createAutoCompleteFields();
+    });
+  </script>
 {% endblock %}
