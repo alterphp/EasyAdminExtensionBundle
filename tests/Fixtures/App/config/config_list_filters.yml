@@ -3,6 +3,8 @@ imports:
 
 easy_admin:
     entities:
+        Category:
+            class: AppTestBundle\Entity\FunctionalTests\Category
         Product:
             class: AppTestBundle\Entity\FunctionalTests\Product
             list:

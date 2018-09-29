@@ -149,19 +149,6 @@ class ListFiltersConfigPass implements ConfigPassInterface
 
     private function configureAssociationFilter(string $entityClass, array $associationMapping, array &$filterConfig)
     {
-        // // To-One (EntityType)
-        // if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
-        //     $filterConfig['type'] = EntityType::class;
-        //     $filterConfig['type_options'] = array_merge(
-        //         array(
-        //             'class' => $associationMapping['targetEntity'],
-        //             'multiple' => true,
-        //             'attr' => array('data-widget' => 'select2'),
-        //         ),
-        //         isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
-        //     );
-        // }
-
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
             $filterConfig['type'] = EasyAdminAutocompleteType::class;
