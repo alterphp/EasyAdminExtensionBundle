@@ -75,13 +75,14 @@ abstract class AbstractTestCase extends WebTestCase
     /**
      * @return Crawler
      */
-    protected function requestListView($entityName = 'Category', array $requestFilters = array())
+    protected function requestListView($entityName = 'Category', array $requestFilters = array(), array $formFilters = array())
     {
         return $this->getBackendPage(array(
             'action' => 'list',
             'entity' => $entityName,
             'view' => 'list',
             'filters' => $requestFilters,
+            'list_filters' => $formFilters,
         ));
     }
 

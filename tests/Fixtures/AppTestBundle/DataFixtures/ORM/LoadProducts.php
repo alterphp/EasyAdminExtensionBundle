@@ -46,16 +46,17 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         foreach (range(1, 100) as $i) {
+            $category = $i <= 10 ? $this->getReference('category-1') : $this->getRandomCategory();
             $product = new Product();
-            $product->setEnabled($i <= 90 ? true : false);
-            $product->setOddEven($i % 2 ? 'odd' : 'even');
+            $product->setEnabled($i % 10 ? true : false);
+            $product->setOddEven($i % 4 ? 'odd' : 'even');
             $product->setReference('ref'.str_pad($i, 6, '0', STR_PAD_LEFT));
             $product->setName($this->getRandomName());
             $product->setReplenishmentType($this->getReplenishmentType());
             $product->setPrice($this->getRandomPrice());
             $product->setTags($this->getRandomTags());
             $product->setEan($this->getRandomEan());
-            $product->setCategory($this->getRandomCategory());
+            $product->setCategory($category);
             $product->setDescription($this->getRandomDescription());
             $product->setHtmlFeatures($this->getRandomHtmlFeatures());
             $product->setPhone($i <= 10 ? null : '0123456789');
@@ -135,7 +136,8 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
 
     private function getRandomCategory()
     {
-        return $this->getReference('category-'.mt_rand(1, 100));
+        // First category is reserved for first products (test purpose)
+        return $this->getReference('category-'.mt_rand(2, 100));
     }
 
     public function getRandomDescription()
