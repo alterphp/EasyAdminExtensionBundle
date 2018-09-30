@@ -120,8 +120,8 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 $filterConfig['type'] = ChoiceType::class;
                 $defaultFilterConfigTypeOptions = array(
                     'choices' => array(
-                        'list.form_filters.default.boolean.true' => true,
-                        'list.form_filters.default.boolean.false' => false,
+                        'list_form_filters.default.boolean.true' => true,
+                        'list_form_filters.default.boolean.false' => false,
                     ),
                     'choice_translation_domain' => 'EasyAdminBundle',
                 );
