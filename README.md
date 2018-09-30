@@ -71,6 +71,83 @@ If you have defined your own admin controllers, make them extend EasyAdminExtens
 Features
 --------
 
+### List filters form
+
+Add filters on list views by configuration.
+
+Consider following Animation entity using such [ValueListTrait](https://github.com/alterphp/components/blob/master/src/AlterPHP/Component/Behavior/ValueListTrait) :
+
+```php
+class Animation
+{
+    use ValueListTrait;
+
+    /**
+     * @var string
+     *
+     * @ORM\Id
+     * @ORM\Column(type="guid")
+     */
+    private $id;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $enabled;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=31)
+     */
+    protected $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=31, nullable=false)
+     */
+    private $type;
+
+    /**
+     * @var Organization
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="animations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organization;
+
+    const STATUS_DRAFT = 'draft';
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_OPEN = 'open';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_CLOSED = 'closed';
+    const STATUS_ARCHIVED = 'archived';
+}
+```
+
+Define your filters under `list`.`form_filters` entity configuration. Automatic guesser set up a ChoiceType for filters mapped on boolean (NULL, true, false) and string class properties. ChoiceType for string properties requires either a `choices` label/value array in `type_options` of a `choices_static_callback` static callable that returns label/value choices list.
+
+
+```yaml
+easy_admin:
+    entities:
+        Animation:
+            class: App\Entity\Animation
+            list:
+                form_filters:
+                    - enabled
+                    - { property: type, type_options: { choices: { Challenge: challenge, Event: event } } }
+                    - { property: status, type_options: { choices_static_callback: [getValuesList, [status, true]] } }
+                    - organization
+```
+
+Let's see the result !
+
+![Embedded list example](/doc/res/img/list-form-filters.png)
+
 ### Filter list and search on request parameters
 
 * EasyAdmin allows filtering list with `dql_filter` configuration entry. But this is not dynamic and must be configured as an apart list in `easy_admin` configuration.*
