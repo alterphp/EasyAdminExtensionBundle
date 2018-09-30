@@ -5,7 +5,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class ListFiltersExtension extends AbstractExtension
+class ListFormFiltersExtension extends AbstractExtension
 {
     protected $listFiltersHelper;
 
@@ -17,11 +17,11 @@ class ListFiltersExtension extends AbstractExtension
     public function getFunctions()
     {
         return array(
-            new TwigFunction('list_filters_form', array($this, 'getListFiltersForm')),
+            new TwigFunction('list_form_filters', array($this, 'getListFormFilters')),
         );
     }
 
-    public function getListFiltersForm(array $filters)
+    public function getListFormFilters(array $filters)
     {
         return $this->listFiltersHelper->getListFiltersForm($filters)->createView();
     }

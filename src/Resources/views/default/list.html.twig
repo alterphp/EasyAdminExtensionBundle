@@ -64,20 +64,20 @@
   {{ parent() }}
 {% endblock %}
 
-{% block list_filters %}
-  {% if _entity_config.list.filters is defined and _entity_config.list.filters is not empty %}
-  {% set list_filters_form = list_filters_form(_entity_config.list.filters) %}
-  <div id="list-filters" class="panel panel-default">
-    <div class="panel-heading" role="button" data-toggle="collapse" data-target="#list-filters-form">
-      <span class="panel-title">{{ 'list_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
+{% block list_form_filters %}
+  {% if _entity_config.list.form_filters is defined and _entity_config.list.form_filters is not empty %}
+  {% set list_form_filters = list_form_filters(_entity_config.list.form_filters) %}
+  <div id="list-form-filters" class="panel panel-default">
+    <div class="panel-heading" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
+      <span class="panel-title">{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
       <em class="text-info pull-right">
-        <small>{{ 'list_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
+        <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
-    <form id="list-filters-form" class="collapse {{ list_filters_form.vars.submitted ? 'in' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
-      <div id="list-filters-panel-body" class="panel-body" style="display: flex; align-items: stretch;">
+    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'in' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
+      <div id="list-form-filters-panel-body" class="panel-body" style="display: flex; align-items: stretch;">
         <div class="col-sm-10">
-          {% form_theme list_filters_form '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
+          {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
           {{ block('request_parameters_as_hidden') }}
           <input type="hidden" name="action" value="search">
           <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
@@ -85,14 +85,14 @@
           <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
           <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
           <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
-          {% for field in list_filters_form %}
+          {% for field in list_form_filters %}
             <div class="col-sm-4">{{ form_row(field) }}</div>
           {% endfor %}
           <div class="clearfix"></div>
         </div>
         <div class="col-sm-2">
           <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
-            {{ 'list_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
+            {{ 'list_form_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
           </button>
         </div>
         <div class="clearfix"></div>
@@ -104,7 +104,7 @@
 
 {# Display FILTERS form if defined #}
 {% block main %}
-  {{ block('list_filters') }}
+  {{ block('list_form_filters') }}
   {{ parent() }}
 {% endblock %}
 

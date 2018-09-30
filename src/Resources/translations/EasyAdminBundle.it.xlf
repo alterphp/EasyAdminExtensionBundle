@@ -7,25 +7,25 @@
 				<source>open.new_tab</source>
 				<target>Apri in una nuova scheda</target>
 			</trans-unit>
-			<!-- list_filters -->
-			<trans-unit id="list_filters.heading_title">
-				<source>list_filters.heading_title</source>
+			<!-- list_form_filters -->
+			<trans-unit id="list_form_filters.heading_title">
+				<source>list_form_filters.heading_title</source>
 				<target>Filtri</target>
 			</trans-unit>
-			<trans-unit id="list_filters.heading_expandcollapse">
-				<source>list_filters.heading_expandcollapse</source>
+			<trans-unit id="list_form_filters.heading_expandcollapse">
+				<source>list_form_filters.heading_expandcollapse</source>
 				<target>Apri / Chiudi</target>
 			</trans-unit>
-			<trans-unit id="list_filters.submit">
-				<source>list_filters.submit</source>
+			<trans-unit id="list_form_filters.submit">
+				<source>list_form_filters.submit</source>
 				<target>Filtro</target>
 			</trans-unit>
-			<trans-unit id="list_filters.default.boolean.true">
-				<source>list_filters.default.boolean.true</source>
+			<trans-unit id="list_form_filters.default.boolean.true">
+				<source>list_form_filters.default.boolean.true</source>
 				<target>Si</target>
 			</trans-unit>
-			<trans-unit id="list_filters.default.boolean.false">
-				<source>list_filters.default.boolean.false</source>
+			<trans-unit id="list_form_filters.default.boolean.false">
+				<source>list_form_filters.default.boolean.false</source>
 				<target>Non</target>
 			</trans-unit>
 			<!-- misc. elements -->

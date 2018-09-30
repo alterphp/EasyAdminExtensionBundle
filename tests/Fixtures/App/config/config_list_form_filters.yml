@@ -8,7 +8,7 @@ easy_admin:
         Product:
             class: AppTestBundle\Entity\FunctionalTests\Product
             list:
-                filters:
+                form_filters:
                     - { property: oddEven, type_options: { choices: {Odd: odd, Even: even} } }
                     - { property: replenishmentType, type_options: { choices_static_callback: [getReplenishmentTypeValues, [true]] } }
                     - enabled

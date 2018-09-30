@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * This file is part of the EasyAdmin Extension package.
  */
-class ListFiltersHelper
+class ListFormFiltersHelper
 {
     /**
      * @var FormFactory
@@ -37,12 +37,12 @@ class ListFiltersHelper
         $this->requestStack = $requestStack;
     }
 
-    public function getListFiltersForm(array $filters): FormInterface
+    public function getListFiltersForm(array $formFilters): FormInterface
     {
         if (!isset($this->listFiltersForm)) {
-            $formBuilder = $this->formFactory->createNamedBuilder('list_filters');
+            $formBuilder = $this->formFactory->createNamedBuilder('form_filters');
 
-            foreach ($filters as $name => $config) {
+            foreach ($formFilters as $name => $config) {
                 $formBuilder->add(
                     $name,
                     isset($config['type']) ? $config['type'] : null,

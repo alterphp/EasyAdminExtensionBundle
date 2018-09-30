@@ -82,7 +82,7 @@ abstract class AbstractTestCase extends WebTestCase
             'entity' => $entityName,
             'view' => 'list',
             'filters' => $requestFilters,
-            'list_filters' => $formFilters,
+            'form_filters' => $formFilters,
         ));
     }
 

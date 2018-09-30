@@ -10,9 +10,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
- * Guess form types for list filters.
+ * Guess form types for list form filters.
  */
-class ListFiltersConfigPass implements ConfigPassInterface
+class ListFormFiltersConfigPass implements ConfigPassInterface
 {
     /** @var ManagerRegistry */
     private $doctrine;
@@ -34,37 +34,37 @@ class ListFiltersConfigPass implements ConfigPassInterface
         }
 
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (!isset($entityConfig['list']['filters'])) {
+            if (!isset($entityConfig['list']['form_filters'])) {
                 continue;
             }
 
-            $filters = array();
+            $formFilters = array();
 
-            foreach ($entityConfig['list']['filters'] as $i => $filter) {
+            foreach ($entityConfig['list']['form_filters'] as $i => $formFilter) {
                 // Detects invalid config node
-                if (!is_string($filter) && !is_array($filter)) {
+                if (!is_string($formFilter) && !is_array($formFilter)) {
                     throw new \RuntimeException(
                         sprintf(
-                            'The values of the "filters" option for the list view of the "%s" entity can only be strings or arrays.',
+                            'The values of the "form_filters" option for the list view of the "%s" entity can only be strings or arrays.',
                             $entityConfig['class']
                         )
                     );
                 }
 
                 // Key mapping
-                if (is_string($filter)) {
-                    $filterConfig = array('property' => $filter);
+                if (is_string($formFilter)) {
+                    $filterConfig = array('property' => $formFilter);
                 } else {
-                    if (!array_key_exists('property', $filter)) {
+                    if (!array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
                             sprintf(
-                                'One of the values of the "filters" option for the "list" view of the "%s" entity does not define the mandatory option "property".',
+                                'One of the values of the "form_filters" option for the "list" view of the "%s" entity does not define the mandatory option "property".',
                                 $entityConfig['class']
                             )
                         );
                     }
 
-                    $filterConfig = $filter;
+                    $filterConfig = $formFilter;
                 }
 
                 $this->configureFilter($entityConfig['class'], $filterConfig);
@@ -74,11 +74,11 @@ class ListFiltersConfigPass implements ConfigPassInterface
                     continue;
                 }
 
-                $filters[$filterConfig['property']] = $filterConfig;
+                $formFilters[$filterConfig['property']] = $filterConfig;
             }
 
-            // set filters config and form !
-            $backendConfig['entities'][$entityName]['list']['filters'] = $filters;
+            // set form filters config and form !
+            $backendConfig['entities'][$entityName]['list']['form_filters'] = $formFilters;
         }
 
         return $backendConfig;
@@ -120,8 +120,8 @@ class ListFiltersConfigPass implements ConfigPassInterface
                 $filterConfig['type'] = ChoiceType::class;
                 $defaultFilterConfigTypeOptions = array(
                     'choices' => array(
-                        'list_filters.default.boolean.true' => true,
-                        'list_filters.default.boolean.false' => false,
+                        'list.form_filters.default.boolean.true' => true,
+                        'list.form_filters.default.boolean.false' => false,
                     ),
                     'choice_translation_domain' => 'EasyAdminBundle',
                 );

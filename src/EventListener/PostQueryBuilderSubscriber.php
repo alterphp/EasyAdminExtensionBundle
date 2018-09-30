@@ -35,7 +35,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         if ($event->hasArgument('request')) {
             $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
-            $this->applyFormFilters($queryBuilder, $event->getArgument('request')->get('list_filters', array()));
+            $this->applyFormFilters($queryBuilder, $event->getArgument('request')->get('form_filters', array()));
         }
     }
 
