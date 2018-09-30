@@ -34,6 +34,20 @@
             <tag name="easyadmin.config_pass" priority="19"/>
         </service>
 
+        <!-- list form filters -->
+        <service id="alterphp.easyadmin_extension.config_pass.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ListFormFiltersConfigPass">
+            <argument type="service" id="doctrine" />
+            <tag name="easyadmin.config_pass" priority="0"/>
+        </service>
+        <service id="alterphp.easyadmin_extension.helper.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper">
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+        <service id="alterphp.easyadmin_extension.twig.extension.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Twig\ListFormFiltersExtension">
+            <argument type="service" id="alterphp.easyadmin_extension.helper.list_form_filters"/>
+            <tag name="twig.extension"/>
+        </service>
+
         <!-- Admin security roles -->
         <service id="alterphp.easyadmin_extension.helper.editable_roles" class="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper">
             <argument type="service" id="security.token_storage"/>

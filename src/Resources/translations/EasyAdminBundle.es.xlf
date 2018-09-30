@@ -7,7 +7,27 @@
 				<source>open.new_tab</source>
 				<target>Abrir en una nueva pestaña</target>
 			</trans-unit>
-
+			<!-- list_form_filters -->
+			<trans-unit id="list_form_filters.heading_title">
+				<source>list_form_filters.heading_title</source>
+				<target>Filtros</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.heading_expandcollapse">
+				<source>list_form_filters.heading_expandcollapse</source>
+				<target>Abrir / Cerrar</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.submit">
+				<source>list_form_filters.submit</source>
+				<target>Filtro</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.default.boolean.true">
+				<source>list_form_filters.default.boolean.true</source>
+				<target>Si</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.default.boolean.false">
+				<source>list_form_filters.default.boolean.false</source>
+				<target>No</target>
+			</trans-unit>
 			<!-- misc. elements -->
 			<trans-unit id="confirm_modal.content">
 				<source>confirm_modal.content</source>
