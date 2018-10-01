@@ -62,6 +62,9 @@ class AdminAuthorizationChecker
 
     protected function getRequiredRole(array $entityConfig, string $actionName)
     {
+        // Prevent from security breach: role for 'list' action was not required for 'List' nor 'LIST'...
+        $actionName = strtolower($actionName);
+
         if (isset($entityConfig[$actionName]) && isset($entityConfig[$actionName]['role'])) {
             return $entityConfig[$actionName]['role'];
         } elseif (isset($entityConfig['role_prefix'])) {
