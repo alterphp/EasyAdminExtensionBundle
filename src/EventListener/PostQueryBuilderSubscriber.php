@@ -35,6 +35,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         if ($event->hasArgument('request')) {
             $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
+            $this->applyFormFilters($queryBuilder, $event->getArgument('request')->get('form_filters', array()));
         }
     }
 
@@ -53,7 +54,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Applies filters on queryBuilder.
+     * Applies request filters on queryBuilder.
      *
      * @param QueryBuilder $queryBuilder
      * @param array        $filters
@@ -72,10 +73,46 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 continue;
             }
             // Sanitize parameter name
-            $parameter = 'filter_'.str_replace('.', '_', $field);
+            $parameter = 'request_filter_'.str_replace('.', '_', $field);
 
             $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
         }
+    }
+
+    /**
+     * Applies form filters on queryBuilder.
+     *
+     * @param QueryBuilder $queryBuilder
+     * @param array        $filters
+     */
+    protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = array())
+    {
+        foreach ($filters as $field => $value) {
+            $value = $this->filterEasyadminAutocompleteValue($value);
+            // Empty string and numeric keys is considered as "not applied filter"
+            if (is_int($field) || '' === $value) {
+                continue;
+            }
+            // Add root entity alias if none provided
+            $field = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
+            // Checks if filter is directly appliable on queryBuilder
+            if (!$this->isFilterAppliable($queryBuilder, $field)) {
+                continue;
+            }
+            // Sanitize parameter name
+            $parameter = 'form_filter_'.str_replace('.', '_', $field);
+
+            $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
+        }
+    }
+
+    private function filterEasyadminAutocompleteValue($value)
+    {
+        if (!is_array($value) || !isset($value['autocomplete']) || 1 !== count($value)) {
+            return $value;
+        }
+
+        return $value['autocomplete'];
     }
 
     /**

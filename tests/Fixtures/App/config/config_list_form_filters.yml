@@ -1,0 +1,15 @@
+imports:
+    - { resource: config.yml }
+
+easy_admin:
+    entities:
+        Category:
+            class: AppTestBundle\Entity\FunctionalTests\Category
+        Product:
+            class: AppTestBundle\Entity\FunctionalTests\Product
+            list:
+                form_filters:
+                    - { property: oddEven, type_options: { choices: {Odd: odd, Even: even} } }
+                    - { property: replenishmentType, type_options: { choices_static_callback: [getReplenishmentTypeValues, [true]] } }
+                    - enabled
+                    - category

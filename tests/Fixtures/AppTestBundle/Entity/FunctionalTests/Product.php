@@ -120,6 +120,14 @@ class Product
     protected $name;
 
     /**
+     * The replenishment type of the product.
+     *
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $replenishmentType;
+
+    /**
      * The description of the product.
      *
      * @var string
@@ -149,6 +157,21 @@ class Product
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $phone;
+
+    public static function getReplenishmentTypeValues($withLabelsAsIndexes = false)
+    {
+        $replenishmentTypeValues =  array(
+            'replenishment_type.auto' => 'auto',
+            'replenishment_type.trigger' => 'trigger',
+            'replenishment_type.manual' => 'manual',
+        );
+
+        if (!$withLabelsAsIndexes) {
+            return array_values($replenishmentTypeValues);
+        }
+
+        return $replenishmentTypeValues;
+    }
 
     /**
      * Constructor of the Product class.
@@ -301,6 +324,26 @@ class Product
     public function getHtmlFeatures()
     {
         return $this->htmlFeatures;
+    }
+
+    /**
+     * Set replenishment type.
+     *
+     * @param string $replenishmentType
+     */
+    public function setReplenishmentType($replenishmentType)
+    {
+        $this->replenishmentType = $replenishmentType;
+    }
+
+    /**
+     * Get replenishment type.
+     *
+     * @return string
+     */
+    public function getReplenishmentType()
+    {
+        return $this->replenishmentType;
     }
 
     /**
