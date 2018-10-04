@@ -7,7 +7,6 @@ easy_admin:
             class: AppTestBundle\Entity\FunctionalTests\Product
             form:
                 fields:
-                    # - { property: 'category', type: 'easyadmin_autocomplete', attr: { create: true } }
                     - { property: 'category', type: 'easyadmin_autocomplete', attr: { create: true } }
         Category:
             class: AppTestBundle\Entity\FunctionalTests\Category
