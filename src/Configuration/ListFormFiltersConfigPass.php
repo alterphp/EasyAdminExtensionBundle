@@ -156,7 +156,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 array(
                     'class' => $associationMapping['targetEntity'],
                     'multiple' => true,
-                    'attr' => array('data-widget' => 'select2'),
+                    'attr' => array('data-widget' => 'select2', 'create' => false),
                 ),
                 isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
             );
