@@ -234,7 +234,7 @@ Use following __template_options__ to build your own embedded list (see `field_e
 
 ### Autocomplete add new option 'create' for modal in new and edit
 
-#### Configure form type 'easyadmin_autocomplete', add attr: { create: true}
+#### Configure form type 'easyadmin_autocomplete', add attr: { create: true }
 
 ```yaml
 easy_admin:
