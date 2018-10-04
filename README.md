@@ -246,7 +246,7 @@ easy_admin:
             form:
                 fields:
                     # ...
-                    - { property: 'promoter', type: 'easyadmin_autocomplete', attr: { create: true} }
+                    - { property: 'promoter', type: 'easyadmin_autocomplete', attr: { create: true } }
 
 ```
 
