@@ -300,7 +300,7 @@ Entity _role_prefix_ defines all actions required roles by appending the action 
 
 #### Per entity field role permissions in form
 
-You can also define role permissions per entity field in form:
+You can also define role permissions per entity field in a form:
 
 ```yaml
 easy_admin:
