@@ -77,12 +77,13 @@
             <tag name="twig.extension"/>
         </service>
 
-        <!-- Form type configurators -->
-        <service id="alterphp.easyadmin_extension.form.type.configurator.unauthorized.field" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
+        <!-- Type Configurators -->
+
+        <service id="alterphp.easyadmin_extension.form.unauthorized.field" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
             <argument type="service" id="security.authorization_checker"/>
             <tag name="easyadmin.form.type.configurator" />
         </service>
-        <service id="alterphp.easyadmin_extension.form.type.configurator.autocomplete" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\AutocompleteTypeConfigurator">
+        <service id="alterphp.easyadmin_extension.form.autocomplete" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\AutocompleteTypeConfigurator">
             <tag name="easyadmin.form.type.configurator" />
         </service>
     </services>

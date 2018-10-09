@@ -17,8 +17,8 @@ class AutocompleteTypeConfigurator extends BaseAutocompleteTypeConfigurator
     {
         $options = parent::configure($name, $options, $metadata, $parentConfig);
         // by default, attr create = false
-        if (isset($metadata['attr']['create'])) {
-            $options['attr']['create'] = $metadata['attr']['create'];
+        if (isset($options['attr']['create'])) {
+            $options['attr']['create'] = $options['attr']['create'];
         } else {
             $options['attr']['create'] = false;
         }
