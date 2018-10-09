@@ -34,7 +34,7 @@ function createAutoCompleteCreateFields() {
             minimumInputLength: 1,
             language: {
                 noResults: function () {
-                    return '<a href="#" class="btn btn-info" onclick="ajaxModalEntityAction(\''+url_action+'\', \''+select_id+'\', \''+field_name+'\');return false;">'+button_text+' '+field_name+'</a>';
+                    return '<a href="#" class="btn btn-info" onclick="switchToEntityCreation(\''+url_action+'\', \''+select_id+'\', \''+field_name+'\');return false;">'+button_text+' '+field_name+'</a>';
                 }
             },
             escapeMarkup: function (markup) {
@@ -44,25 +44,25 @@ function createAutoCompleteCreateFields() {
     });
 }
 
-function ajaxModalEntityAction(url_action, select_id, field_name) {
+function switchToEntityCreation(url_action, select_id, field_name) {
     $('#'+select_id).select2('close');
     $.ajax({
         url : url_action,
         type: 'GET',
         success: function(data) {
-            showModalEntityForm(data, url_action, field_name, select_id);
-            $('#modal-entity-form').modal({ backdrop: true, keyboard: true });
+            openCreateEntityModal(data, url_action, field_name, select_id);
+            $('#create-entity-modal').modal({ backdrop: true, keyboard: true });
         }
     });
 }
 
-function showModalEntityForm(data, url_action, field_name, select_id) {
-    $('#modal-entity-form .modal-body').html(data.html);
+function openCreateEntityModal(data, url_action, field_name, select_id) {
+    $('#create-entity-modal .modal-body').html(data.html);
     $('form[name="'+field_name+'"]').attr('action', url_action);
-    initAjaxForm(field_name, select_id);
+    initCreateEntityAjaxForm(field_name, select_id);
 }
 
-function initAjaxForm(field_name, select_id) {
+function initCreateEntityAjaxForm(field_name, select_id) {
     $('form[name="'+field_name+'"]').submit(function( event ) {
         event.preventDefault();
         var url_action = $(this).attr('action');
@@ -75,7 +75,7 @@ function initAjaxForm(field_name, select_id) {
             processData: false,
             success: function(data) {
                 if (data.hasOwnProperty('option')) {
-                    $('#modal-entity-form').modal('hide');
+                    $('#create-entity-modal').modal('hide');
                     var newOption = new Option(data.option.text, data.option.id, true, true);
                     $('#'+select_id).append(newOption).trigger('change');
                     // manually trigger the `select2:select` event
@@ -85,7 +85,7 @@ function initAjaxForm(field_name, select_id) {
                     });
                 }
                 if (data.hasOwnProperty('html')) {
-                    showModalEntityForm(data, url_action, field_name, select_id);
+                    openCreateEntityModal(data, url_action, field_name, select_id);
                 }
             },
             error: function(error){
