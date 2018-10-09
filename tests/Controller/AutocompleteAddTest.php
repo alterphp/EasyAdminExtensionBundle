@@ -16,7 +16,7 @@ class AutocompleteAddTest extends AbstractTestCase
     public function testNewEntityAutocompleteModal()
     {
         $crawler = $this->requestNewView('Product');
-        $this->assertSame(1, $crawler->filter('select#product_category_autocomplete[data-easyadmin-autocomplete-action-url="/admin/?action=newAjax&entity=Category"]')->count());
+        $this->assertSame(1, $crawler->filter('select#product_category_autocomplete[data-easyadmin-autocomplete-create-action-url="/admin/?action=newAjax&entity=Category"]')->count());
 
         $crawlerAjax = $this->requestNewAjaxView('Category');
         $form = $crawlerAjax->filter('form[name=category]')->form(
