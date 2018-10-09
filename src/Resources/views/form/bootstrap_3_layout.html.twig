@@ -44,25 +44,3 @@
         item_id: _entity_id
     }, with_context = false) }}
 {% endblock item_actions %}
-
-{# EasyAdminAutocomplete form type #}
-{% block easyadmin_autocomplete_widget %}
-    {% if form.vars.attr.create %}
-        {{ form_widget(form.autocomplete, {
-            attr: attr|merge({
-                'data-easyadmin-autocomplete-add-url' : path('easyadmin', {
-                    action: 'autocomplete',
-                    entity: autocomplete_entity_name,
-                })|raw,
-                'data-easyadmin-autocomplete-action-url' : path('easyadmin', {
-                    action: 'newAjax',
-                    entity: autocomplete_entity_name,
-                })|raw,
-                'data-easyadmin-autocomplete-field-name' : name|raw,
-                'data-easyadmin-autocomplete-button-text' : 'action.add_new_item'|trans({}, 'EasyAdminBundle')
-            })
-        }) }}
-    {% else %}
-        {{- parent() -}}
-    {% endif %}
-{% endblock easyadmin_autocomplete_widget %}

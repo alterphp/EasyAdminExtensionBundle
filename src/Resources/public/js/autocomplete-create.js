@@ -1,14 +1,15 @@
 function createAutoCompleteCreateFields() {
-    var autocompleteCreateFields = $('[data-easyadmin-autocomplete-add-url]');
+    var autocompleteCreateFields = $('[data-easyadmin-autocomplete-create-action-url]');
 
     autocompleteCreateFields.each(function () {
-        var url = $(this).data('easyadmin-autocomplete-add-url'),
-            url_action = $(this).data('easyadmin-autocomplete-action-url'),
-            field_name = $(this).data('easyadmin-autocomplete-field-name'),
-            button_text = $(this).data('easyadmin-autocomplete-button-text'),
-            select_id = $(this).attr('id');
+        var $this = $(this),
+            url = $this.data('easyadmin-autocomplete-url'),
+            url_action = $this.data('easyadmin-autocomplete-create-action-url'),
+            field_name = $this.data('easyadmin-autocomplete-create-field-name'),
+            button_text = $this.data('easyadmin-autocomplete-create-button-text'),
+            select_id = $this.attr('id');
 
-        $(this).select2({
+        $this.select2({
             theme: 'bootstrap',
             ajax: {
                 url: url,
@@ -42,6 +43,7 @@ function createAutoCompleteCreateFields() {
         });
     });
 }
+
 function ajaxModalEntityAction(url_action, select_id, field_name) {
     $('#'+select_id).select2('close');
     $.ajax({
@@ -53,11 +55,13 @@ function ajaxModalEntityAction(url_action, select_id, field_name) {
         }
     });
 }
+
 function showModalEntityForm(data, url_action, field_name, select_id) {
     $('#modal-entity-form .modal-body').html(data.html);
     $('form[name="'+field_name+'"]').attr('action', url_action);
     initAjaxForm(field_name, select_id);
 }
+
 function initAjaxForm(field_name, select_id) {
     $('form[name="'+field_name+'"]').submit(function( event ) {
         event.preventDefault();
@@ -90,25 +94,7 @@ function initAjaxForm(field_name, select_id) {
         });
     });
 }
-//USAGE: $("#form").serializefiles();
-(function($) {
-$.fn.serializefiles = function() {
-    var obj = $(this);
-    /* ADD FILE TO PARAM AJAX */
-    var formData = new FormData();
-    $.each($(obj).find("input[type='file']"), function(i, tag) {
-        $.each($(tag)[0].files, function(i, file) {
-            formData.append(tag.name, file);
-        });
-    });
-    var params = $(obj).serializeArray();
-    $.each(params, function (i, val) {
-        formData.append(val.name, val.value);
-    });
 
-    return formData;
-};
-})(jQuery);
 $(function () {
     createAutoCompleteCreateFields();
 });
