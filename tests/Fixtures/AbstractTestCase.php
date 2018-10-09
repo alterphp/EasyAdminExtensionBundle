@@ -133,4 +133,17 @@ abstract class AbstractTestCase extends WebTestCase
             'id' => $entityId,
         ));
     }
+
+    /**
+     * @return Crawler
+     */
+    protected function requestNewAjaxView($entityName = 'Category')
+    {
+        $this->getBackendPage(array(
+            'action' => 'newAjax',
+            'entity' => $entityName,
+        ));
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        return new Crawler($response['html'], $this->client->getRequest()->getUri());
+    }
 }

@@ -19,4 +19,11 @@
       _trans_parameters: _trans_parameters|default([]),
     }, with_context = false) }}
   {% endblock confirm_modal %}
+
+  {% block create_entity_modal %}
+    {{ include('@EasyAdmin/includes/_create_entity_modal.html.twig', {
+      _translation_domain: _entity_config.translation_domain|default(easyadmin_config('translation_domain')),
+      _trans_parameters: _trans_parameters|default([]),
+    }, with_context = false) }}
+  {% endblock create_entity_modal %}
 {% endblock %}
