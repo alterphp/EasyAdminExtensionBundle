@@ -66,8 +66,7 @@ class AdminController extends BaseAdminController
         $this->dispatch(EasyAdminEvents::PRE_NEW);
 
         $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
-        $easyadmin = $this->request->attributes->get('easyadmin');
-        $easyadmin['item'] = $entity;
+        $easyadmin = array_merge($this->request->attributes->get('easyadmin'), array('item' => $entity));
         $this->request->attributes->set('easyadmin', $easyadmin);
 
         $fields = $this->entity['new']['fields'];
@@ -88,7 +87,7 @@ class AdminController extends BaseAdminController
         if (isset($this->entity['templates']['new_ajax'])) {
             $templatePath = $this->entity['templates']['new_ajax'];
         }
-        
+
         return new JsonResponse(['html' => $this->renderView($templatePath, $parameters)]);
     }
 }
