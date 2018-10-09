@@ -32,9 +32,19 @@ class AdminController extends BaseAdminController
      */
     protected function isActionAllowed($actionName)
     {
-        // autocomplete and embeddedList action are mapped to list action for access permissions
-        if (in_array($actionName, ['autocomplete', 'embeddedList'])) {
-            $actionName = 'list';
+        switch ($actionName) {
+            // autocomplete action is mapped to list action for access permissions
+            case 'autocomplete':
+            // embeddedList action is mapped to list action for access permissions
+            case 'embeddedList':
+                $actionName = 'list';
+                break;
+            // newAjax action is mapped to new action for access permissions
+            case 'newAjax':
+                $actionName = 'new';
+                break;
+            default:
+                break;
         }
 
         // Get item for edit/show or custom actions => security voters may apply
