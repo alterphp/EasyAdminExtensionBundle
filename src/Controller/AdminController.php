@@ -4,7 +4,6 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminController extends BaseAdminController
@@ -32,9 +31,19 @@ class AdminController extends BaseAdminController
      */
     protected function isActionAllowed($actionName)
     {
-        // autocomplete and embeddedList action are mapped to list action for access permissions
-        if (in_array($actionName, ['autocomplete', 'embeddedList'])) {
-            $actionName = 'list';
+        switch ($actionName) {
+            // autocomplete action is mapped to list action for access permissions
+            case 'autocomplete':
+            // embeddedList action is mapped to list action for access permissions
+            case 'embeddedList':
+                $actionName = 'list';
+                break;
+            // newAjax action is mapped to new action for access permissions
+            case 'newAjax':
+                $actionName = 'new';
+                break;
+            default:
+                break;
         }
 
         // Get item for edit/show or custom actions => security voters may apply
@@ -57,15 +66,12 @@ class AdminController extends BaseAdminController
         $this->dispatch(EasyAdminEvents::PRE_NEW);
 
         $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
-
         $easyadmin = $this->request->attributes->get('easyadmin');
         $easyadmin['item'] = $entity;
         $this->request->attributes->set('easyadmin', $easyadmin);
 
         $fields = $this->entity['new']['fields'];
-
         $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', [$entity, $fields]);
-
         $newForm->handleRequest($this->request);
         if ($newForm->isSubmitted() && $newForm->isValid()) {
             $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
@@ -75,24 +81,14 @@ class AdminController extends BaseAdminController
             return new JsonResponse(['option' => ['id' => $entity->getId(), 'text' => (string) $entity]]);
         }
 
-        $this->dispatch(EasyAdminEvents::POST_NEW, [
-            'entity_fields' => $fields,
-            'form' => $newForm,
-            'entity' => $entity,
-        ]);
+        $this->dispatch(EasyAdminEvents::POST_NEW, ['entity_fields' => $fields, 'form' => $newForm, 'entity' => $entity]);
 
-        $parameters = [
-            'form' => $newForm->createView(),
-            'entity_fields' => $fields,
-            'entity' => $entity,
-        ];
-
+        $parameters = ['form' => $newForm->createView(), 'entity_fields' => $fields, 'entity' => $entity];
+        $templatePath = '@EasyAdminExtension/default/new_ajax.html.twig';
         if (isset($this->entity['templates']['new_ajax'])) {
             $templatePath = $this->entity['templates']['new_ajax'];
-        } else {
-            $templatePath = '@EasyAdminExtension/default/new_ajax.html.twig';
         }
-
+        
         return new JsonResponse(['html' => $this->renderView($templatePath, $parameters)]);
     }
 }
