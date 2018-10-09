@@ -69,7 +69,7 @@ function initAjaxForm(field_name, select_id) {
         $.ajax({
             url: url_action,
             type: $(this).attr('method'),
-            data: $(this).serializefiles(),
+            data: $(this).serialize(),
             cache: false,
             contentType: false,
             processData: false,
