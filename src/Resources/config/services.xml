@@ -81,7 +81,7 @@
             <tag name="easyadmin.form.type.configurator" />
         </service>
 
-        <!-- easyadmin extension -->
+        <!-- easyadmin autocomplete extension -->
         <service id="alterphp.easyadmin_extension.form.type.extension.autocomplete" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Extension\EasyAdminAutocompleteTypeExtension">
             <argument type="service" id="router"/>
             <argument type="service" id="translator"/>
