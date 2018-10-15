@@ -72,6 +72,12 @@ class AdminController extends BaseAdminController
         $fields = $this->entity['new']['fields'];
         $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', [$entity, $fields]);
         $newForm->handleRequest($this->request);
+        
+        parse_str($this->request->getContent(), $output);
+        if ($output) {
+            $newForm->submit($output[strtolower($this->entity['name'])]);
+        }
+        
         if ($newForm->isSubmitted() && $newForm->isValid()) {
             $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
             $this->executeDynamicMethod('persist<EntityName>Entity', [$entity]);
