@@ -69,7 +69,7 @@ function initCreateEntityAjaxForm(field_name, select_id) {
         $.ajax({
             url: url_action,
             type: $(this).attr('method'),
-            data: $(this).serializeForm(),
+            data: serializeForm($(this)),
             cache: false,
             contentType: false,
             processData: false,
@@ -94,17 +94,6 @@ function initCreateEntityAjaxForm(field_name, select_id) {
         });
     });
 }
-
-(function($) {
-    $.fn.serializeForm = function() {
-        var formData = new FormData();
-        var params = $(this).serializeArray();
-        $.each(params, function (i, val) {
-            formData.append(val.name, val.value);
-        });
-        return formData;
-    };
-})(jQuery);
 
 $(function () {
     createAutoCompleteCreateFields();
