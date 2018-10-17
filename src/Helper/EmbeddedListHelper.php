@@ -85,7 +85,7 @@ class EmbeddedListHelper
             );
         }
 
-        if (1 < count($matchingEntityConfigs)) {
+        if (1 < \count($matchingEntityConfigs)) {
             throw new \RuntimeException(
                 sprintf('More than 1 entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
             );
@@ -113,12 +113,12 @@ class EmbeddedListHelper
         }
 
         $entityAssociations = $entityClassMetadata->getAssociationMappings();
-        $parentEntityFqcn = get_class($parentEntity);
+        $parentEntityFqcn = \get_class($parentEntity);
         foreach ($entityAssociations as $assoc) {
             // If association matches embeddedList relation
             if ($parentEntityFqcn === $assoc['targetEntity'] && $parentEntityProperty === $assoc['inversedBy']) {
                 // OneToMany association
-                if (isset($assoc['joinColumns']) && 1 === count($assoc['joinColumns'])) {
+                if (isset($assoc['joinColumns']) && 1 === \count($assoc['joinColumns'])) {
                     $assocFieldPart = 'entity.'.$assoc['fieldName'];
                     $assocIdentifierValue = PropertyAccess::createPropertyAccessor()->getValue(
                         $parentEntity, $assoc['joinColumns'][0]['referencedColumnName']

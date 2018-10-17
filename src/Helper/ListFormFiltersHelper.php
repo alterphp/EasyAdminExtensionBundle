@@ -29,7 +29,8 @@ class ListFormFiltersHelper
     private $listFiltersForm;
 
     /**
-     * @param FormFactory $formFactory
+     * @param FormFactory  $formFactory
+     * @param RequestStack $requestStack
      */
     public function __construct(FormFactory $formFactory, RequestStack $requestStack)
     {
@@ -39,13 +40,13 @@ class ListFormFiltersHelper
 
     public function getListFiltersForm(array $formFilters): FormInterface
     {
-        if (!isset($this->listFiltersForm)) {
+        if (null === $this->listFiltersForm) {
             $formBuilder = $this->formFactory->createNamedBuilder('form_filters');
 
             foreach ($formFilters as $name => $config) {
                 $formBuilder->add(
                     $name,
-                    isset($config['type']) ? $config['type'] : null,
+                    $config['type'] ?? null,
                     array_merge(
                         array('required' => false),
                         $config['type_options']

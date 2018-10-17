@@ -2,16 +2,25 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Twig;
 
+use AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper;
+use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AdminAuthorizationExtension extends AbstractExtension
 {
+    /**
+     * @var AdminAuthorizationChecker
+     */
     protected $adminAuthorizationChecker;
+
+    /**
+     * @var MenuHelper
+     */
     protected $menuHelper;
 
-    public function __construct($adminAuthorizationChecker, $menuHelper)
+    public function __construct(AdminAuthorizationChecker $adminAuthorizationChecker, MenuHelper $menuHelper)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
         $this->menuHelper = $menuHelper;
@@ -41,9 +50,8 @@ class AdminAuthorizationExtension extends AbstractExtension
         array $itemActions, array $entityConfig, array $forbiddenActions = [], $subject = null
     ) {
         return array_filter($itemActions, function ($action) use ($entityConfig, $forbiddenActions, $subject) {
-            return !in_array($action, $forbiddenActions)
-                    && $this->isEasyAdminGranted($entityConfig, $action, $subject)
-            ;
+            return !\in_array($action, $forbiddenActions)
+                && $this->isEasyAdminGranted($entityConfig, $action, $subject);
         }, ARRAY_FILTER_USE_KEY);
     }
 

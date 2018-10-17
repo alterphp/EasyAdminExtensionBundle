@@ -2,6 +2,8 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType;
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 
 /**
@@ -17,8 +19,8 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
     private static $configWithFormKeys = array('form', 'edit', 'new');
     private static $nativeShortFormTypes = array(
-        'embedded_list' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType',
-        'admin_roles' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType',
+        'embedded_list' => EasyAdminEmbeddedListType::class,
+        'admin_roles' => AdminRolesType::class,
     );
 
     public function __construct(array $customFormTypes = array())
@@ -37,7 +39,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     {
         if (
             !isset($backendConfig['entities'])
-            || !is_array($backendConfig['entities'])
+            || !\is_array($backendConfig['entities'])
         ) {
             return $backendConfig;
         }
@@ -57,14 +59,14 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
             if (
                 isset($entity[$configWithFormKey])
                 && isset($entity[$configWithFormKey]['fields'])
-                && is_array($entity[$configWithFormKey]['fields'])
+                && \is_array($entity[$configWithFormKey]['fields'])
             ) {
                 foreach ($entity[$configWithFormKey]['fields'] as $name => $field) {
                     if (!isset($field['type'])) {
                         continue;
                     }
 
-                    if (in_array($field['type'], array_keys($shortFormTypes))) {
+                    if (array_key_exists($field['type'], $shortFormTypes)) {
                         $entity[$configWithFormKey]['fields'][$name]['type'] = $shortFormTypes[$field['type']];
                     }
                 }

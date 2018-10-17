@@ -2,6 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type;
 
+use AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -10,9 +11,17 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EasyAdminEmbeddedListType extends AbstractType
 {
+    /**
+     * @var EmbeddedListHelper
+     */
     private $embeddedListHelper;
 
-    public function __construct($embeddedListHelper)
+    /**
+     * EasyAdminEmbeddedListType constructor.
+     *
+     * @param EmbeddedListHelper $embeddedListHelper
+     */
+    public function __construct(EmbeddedListHelper $embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
     }
@@ -36,11 +45,11 @@ class EasyAdminEmbeddedListType extends AbstractType
         $embeddedListFilters = $options['filters'];
 
         // Guess entity FQCN from parent metadata
-        $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(get_class($parentData), $form->getName());
+        $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(\get_class($parentData), $form->getName());
         if (null !== $entityFqcn) {
             $view->vars['entity_fqcn'] = $entityFqcn;
             // Guess embeddedList entity if not set
-            if (!isset($embeddedListEntity)) {
+            if (null === $embeddedListEntity) {
                 $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
             }
         }

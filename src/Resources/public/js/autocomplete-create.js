@@ -77,9 +77,11 @@ function initCreateEntityAjaxForm(field_name, select_id) {
                 if (data.hasOwnProperty('option')) {
                     $('#create-entity-modal').modal('hide');
                     var newOption = new Option(data.option.text, data.option.id, true, true);
-                    $('#'+select_id).append(newOption).trigger('change');
+
+                    var select_id = $('#'+select_id);
+	                select_id.append(newOption).trigger('change');
                     // manually trigger the `select2:select` event
-                    $('#'+select_id).trigger({
+	                select_id.trigger({
                         type: 'select2:select',
                         params: { data: data.option }
                     });

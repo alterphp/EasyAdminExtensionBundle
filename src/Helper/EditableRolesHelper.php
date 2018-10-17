@@ -53,7 +53,7 @@ class EditableRolesHelper
         }
 
         $roles = array_map(function ($rolesGroup) {
-            if (is_array($rolesGroup)) {
+            if (\is_array($rolesGroup)) {
                 $rolesGroup = array_combine($rolesGroup, $rolesGroup);
             }
 

@@ -2,14 +2,23 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Twig;
 
+use AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class ListFormFiltersExtension extends AbstractExtension
 {
+    /**
+     * @var ListFormFiltersHelper
+     */
     protected $listFiltersHelper;
 
-    public function __construct($listFiltersHelper)
+    /**
+     * ListFormFiltersExtension constructor.
+     *
+     * @param ListFormFiltersHelper $listFiltersHelper
+     */
+    public function __construct(ListFormFiltersHelper $listFiltersHelper)
     {
         $this->listFiltersHelper = $listFiltersHelper;
     }

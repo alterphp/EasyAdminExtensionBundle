@@ -4,7 +4,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl)
 
   $(containerPrefix).find('table .toggle input[type="checkbox"]').each(function (idx, el) {
     $(this).bootstrapToggle();
-  })
+  });
 
   // Reload sorted/paginated list in the embedded-list container
   $(containerPrefix)

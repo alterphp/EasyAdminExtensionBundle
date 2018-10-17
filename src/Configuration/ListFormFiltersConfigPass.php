@@ -41,7 +41,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
             foreach ($entityConfig['list']['form_filters'] as $i => $formFilter) {
                 // Detects invalid config node
-                if (!is_string($formFilter) && !is_array($formFilter)) {
+                if (!\is_string($formFilter) && !\is_array($formFilter)) {
                     throw new \RuntimeException(
                         sprintf(
                             'The values of the "form_filters" option for the list view of the "%s" entity can only be strings or arrays.',
@@ -51,7 +51,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 }
 
                 // Key mapping
-                if (is_string($formFilter)) {
+                if (\is_string($formFilter)) {
                     $filterConfig = array('property' => $formFilter);
                 } else {
                     if (!array_key_exists('property', $formFilter)) {
@@ -138,10 +138,10 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
 
         // Merge default type options when defined
-        if (isset($defaultFilterConfigTypeOptions)) {
+        if (null !== $defaultFilterConfigTypeOptions) {
             $filterConfig['type_options'] = array_merge(
                 $defaultFilterConfigTypeOptions,
-                isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+                $filterConfig['type_options'] ?? array()
             );
         }
     }
@@ -157,7 +157,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     'multiple' => true,
                     'attr' => array('data-widget' => 'select2'),
                 ),
-                isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+                $filterConfig['type_options'] ?? array()
             );
         }
     }
@@ -182,7 +182,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
 
         $callableParams = array();
-        if (is_string($filterConfig['type_options']['choices_static_callback'])) {
+        if (\is_string($filterConfig['type_options']['choices_static_callback'])) {
             $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback']);
         } else {
             $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback'][0]);

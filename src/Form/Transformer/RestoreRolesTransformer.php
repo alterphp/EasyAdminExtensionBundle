@@ -17,12 +17,12 @@ class RestoreRolesTransformer implements DataTransformerInterface
     /**
      * @var array|null
      */
-    protected $originalRoles = null;
+    protected $originalRoles;
 
     /**
      * @var EditableRolesHelper|null
      */
-    protected $rolesBuilder = null;
+    protected $rolesBuilder;
 
     /**
      * @param EditableRolesHelper $rolesBuilder
