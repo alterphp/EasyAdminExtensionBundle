@@ -17,9 +17,9 @@ class MenuHelper
     /**
      * MenuHelper constructor.
      *
-     * @param $adminAuthorizationChecker
+     * @param AdminAuthorizationChecker $adminAuthorizationChecker
      */
-    public function __construct($adminAuthorizationChecker)
+    public function __construct(AdminAuthorizationChecker $adminAuthorizationChecker)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
     }

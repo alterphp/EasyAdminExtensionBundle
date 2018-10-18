@@ -31,7 +31,7 @@ class AdminRolesType extends AbstractType
     /**
      * AdminRolesType constructor.
      *
-     * @param $editableRolesBuilder
+     * @param EditableRolesHelper $editableRolesBuilder
      */
     public function __construct(EditableRolesHelper $editableRolesBuilder)
     {
