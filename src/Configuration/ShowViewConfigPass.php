@@ -29,7 +29,7 @@ class ShowViewConfigPass implements ConfigPassInterface
      *
      * @param EmbeddedListHelper $embeddedListHelper
      */
-    public function __construct(EmbeddedListHelper $embeddedListHelper)
+    public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
     }
