@@ -53,7 +53,7 @@ class MenuHelper
             }
         }
 
-        return array_values($menuConfig);
+        return \array_values($menuConfig);
     }
 
     protected function pruneEmptyFolderEntries(array $menuConfig)
@@ -70,7 +70,7 @@ class MenuHelper
             }
         }
 
-        return array_values($menuConfig);
+        return \array_values($menuConfig);
     }
 
     protected function reindexMenuEntries($menuConfig)

@@ -64,8 +64,8 @@ class RestoreRolesTransformer implements DataTransformerInterface
             throw new \RuntimeException('Invalid state, originalRoles array is not set');
         }
         $availableRoles = $this->rolesBuilder->getRoles();
-        $hiddenRoles = array_diff($this->originalRoles, array_keys($availableRoles));
+        $hiddenRoles = \array_diff($this->originalRoles, \array_keys($availableRoles));
 
-        return array_merge($selectedRoles, $hiddenRoles);
+        return \array_merge($selectedRoles, $hiddenRoles);
     }
 }

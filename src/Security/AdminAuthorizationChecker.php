@@ -27,7 +27,7 @@ class AdminAuthorizationChecker
     {
         if ($this->adminMinimumRole && !$this->authorizationChecker->isGranted($this->adminMinimumRole)) {
             throw new AccessDeniedException(
-                sprintf('You must be granted %s role to access admin !', $this->adminMinimumRole)
+                \sprintf('You must be granted %s role to access admin !', $this->adminMinimumRole)
             );
         }
 
@@ -35,7 +35,7 @@ class AdminAuthorizationChecker
 
         if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole, $subject)) {
             throw new AccessDeniedException(
-                sprintf('You must be granted %s role to perform this entity action !', $requiredRole)
+                \sprintf('You must be granted %s role to perform this entity action !', $requiredRole)
             );
         }
     }
@@ -63,12 +63,12 @@ class AdminAuthorizationChecker
     protected function getRequiredRole(array $entityConfig, string $actionName)
     {
         // Prevent from security breach: role for 'list' action was not required for 'List' nor 'LIST'...
-        $actionName = strtolower($actionName);
+        $actionName = \strtolower($actionName);
 
         if (isset($entityConfig[$actionName]) && isset($entityConfig[$actionName]['role'])) {
             return $entityConfig[$actionName]['role'];
         } elseif (isset($entityConfig['role_prefix'])) {
-            return $entityConfig['role_prefix'].'_'.strtoupper($actionName);
+            return $entityConfig['role_prefix'].'_'.\strtoupper($actionName);
         }
 
         return $entityConfig['role'] ?? null;

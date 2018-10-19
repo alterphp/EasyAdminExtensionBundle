@@ -59,9 +59,9 @@ class EasyAdminEmbeddedListType extends AbstractType
 
         // Only for backward compatibility (when there were no guesser)
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $filters = array_map(function ($filter) use ($propertyAccessor, $form) {
-            if (0 === strpos($filter, 'form:')) {
-                $filter = $propertyAccessor->getValue($form, substr($filter, 5));
+        $filters = \array_map(function ($filter) use ($propertyAccessor, $form) {
+            if (0 === \strpos($filter, 'form:')) {
+                $filter = $propertyAccessor->getValue($form, \substr($filter, 5));
             }
 
             return $filter;

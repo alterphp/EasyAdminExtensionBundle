@@ -67,13 +67,13 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 continue;
             }
             // Add root entity alias if none provided
-            $field = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
+            $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
             // Checks if filter is directly appliable on queryBuilder
             if (!$this->isFilterAppliable($queryBuilder, $field)) {
                 continue;
             }
             // Sanitize parameter name
-            $parameter = 'request_filter_'.str_replace('.', '_', $field);
+            $parameter = 'request_filter_'.\str_replace('.', '_', $field);
 
             $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
         }
@@ -94,13 +94,13 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 continue;
             }
             // Add root entity alias if none provided
-            $field = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
+            $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
             // Checks if filter is directly appliable on queryBuilder
             if (!$this->isFilterAppliable($queryBuilder, $field)) {
                 continue;
             }
             // Sanitize parameter name
-            $parameter = 'form_filter_'.str_replace('.', '_', $field);
+            $parameter = 'form_filter_'.\str_replace('.', '_', $field);
 
             $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
         }

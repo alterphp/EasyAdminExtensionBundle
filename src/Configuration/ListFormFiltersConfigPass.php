@@ -43,7 +43,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 // Detects invalid config node
                 if (!\is_string($formFilter) && !\is_array($formFilter)) {
                     throw new \RuntimeException(
-                        sprintf(
+                        \sprintf(
                             'The values of the "form_filters" option for the list view of the "%s" entity can only be strings or arrays.',
                             $entityConfig['class']
                         )
@@ -54,9 +54,9 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 if (\is_string($formFilter)) {
                     $filterConfig = array('property' => $formFilter);
                 } else {
-                    if (!array_key_exists('property', $formFilter)) {
+                    if (!\array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
-                            sprintf(
+                            \sprintf(
                                 'One of the values of the "form_filters" option for the "list" view of the "%s" entity does not define the mandatory option "property".',
                                 $entityConfig['class']
                             )
@@ -139,7 +139,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         // Merge default type options when defined
         if (null !== $defaultFilterConfigTypeOptions) {
-            $filterConfig['type_options'] = array_merge(
+            $filterConfig['type_options'] = \array_merge(
                 $defaultFilterConfigTypeOptions,
                 $filterConfig['type_options'] ?? array()
             );
@@ -151,7 +151,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
             $filterConfig['type'] = EasyAdminAutocompleteType::class;
-            $filterConfig['type_options'] = array_merge(
+            $filterConfig['type_options'] = \array_merge(
                 array(
                     'class' => $associationMapping['targetEntity'],
                     'multiple' => true,
@@ -173,7 +173,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         if (!isset($filterConfig['type_options']['choices_static_callback'])) {
             throw new \RuntimeException(
-                sprintf(
+                \sprintf(
                     'Choice filter field "%s" for entity "%s" must provide either a static callback method returning choice list or choices option.',
                     $property,
                     $entityClass
@@ -190,6 +190,6 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
         unset($filterConfig['type_options']['choices_static_callback']);
 
-        return forward_static_call_array($callable, $callableParams);
+        return \forward_static_call_array($callable, $callableParams);
     }
 }

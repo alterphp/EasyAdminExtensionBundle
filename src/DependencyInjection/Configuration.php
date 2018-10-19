@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')
                         ->validate()
                             ->ifTrue(function ($v) {
-                                return !class_exists($v);
+                                return !\class_exists($v);
                             })
                                 ->thenInvalid('Class %s for custom type does not exist !')
                         ->end()

@@ -47,7 +47,7 @@ class ListFormFiltersHelper
                 $formBuilder->add(
                     $name,
                     $config['type'] ?? null,
-                    array_merge(
+                    \array_merge(
                         array('required' => false),
                         $config['type_options']
                     )

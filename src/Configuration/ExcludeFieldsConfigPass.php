@@ -91,11 +91,11 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
             return;
         }
 
-        throw new ConflictingConfigurationException(sprintf(
+        throw new ConflictingConfigurationException(\sprintf(
             '"%s" and "%s" are mutually conflicting. Pick just one of them in %s YAML configuration',
             'exclude_fields',
             'fields',
-            sprintf('easy_admin > entities > %s > %s', $entityName, $section)
+            \sprintf('easy_admin > entities > %s > %s', $entityName, $section)
         ));
     }
 
@@ -112,7 +112,7 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
         $entityClass = $entityConfig['class'] ?: $entityName;
         $entityReflectionClass = new ReflectionClass($entityClass);
 
-        return array_map(function (ReflectionProperty $reflectionProperty) {
+        return \array_map(function (ReflectionProperty $reflectionProperty) {
             return $reflectionProperty->getName();
         }, $entityReflectionClass->getProperties());
     }

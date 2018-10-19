@@ -66,7 +66,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
                         continue;
                     }
 
-                    if (array_key_exists($field['type'], $shortFormTypes)) {
+                    if (\array_key_exists($field['type'], $shortFormTypes)) {
                         $entity[$configWithFormKey]['fields'][$name]['type'] = $shortFormTypes[$field['type']];
                     }
                 }
@@ -78,6 +78,6 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
     private function getShortFormTypes()
     {
-        return array_merge(static::$nativeShortFormTypes, $this->customFormTypes);
+        return \array_merge(static::$nativeShortFormTypes, $this->customFormTypes);
     }
 }

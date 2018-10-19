@@ -72,7 +72,7 @@ class EmbeddedListHelper
      */
     public function guessEntityEntry(string $entityFqcn)
     {
-        $matchingEntityConfigs = array_filter(
+        $matchingEntityConfigs = \array_filter(
             $this->easyAdminConfig['entities'],
             function ($entityConfig) use ($entityFqcn) {
                 return $entityFqcn === $entityConfig['class'];
@@ -81,17 +81,17 @@ class EmbeddedListHelper
 
         if (empty($matchingEntityConfigs)) {
             throw new \RuntimeException(
-                sprintf('No entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
+                \sprintf('No entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
             );
         }
 
         if (1 < \count($matchingEntityConfigs)) {
             throw new \RuntimeException(
-                sprintf('More than 1 entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
+                \sprintf('More than 1 entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
             );
         }
 
-        return (string) key($matchingEntityConfigs);
+        return (string) \key($matchingEntityConfigs);
     }
 
     /**

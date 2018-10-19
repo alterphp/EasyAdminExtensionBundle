@@ -52,7 +52,7 @@ class ShowViewConfigPass implements ConfigPassInterface
     {
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
             foreach ($entityConfig['show']['fields'] as $fieldName => $fieldMetadata) {
-                if (array_key_exists($fieldMetadata['type'], static::$mapTypeToTemplates)) {
+                if (\array_key_exists($fieldMetadata['type'], static::$mapTypeToTemplates)) {
                     $template = $this->isFieldTemplateDefined($fieldMetadata)
                                     ? $fieldMetadata['template']
                                     : static::$mapTypeToTemplates[$fieldMetadata['type']];
