@@ -48,7 +48,7 @@ class ListFormFiltersHelper
                     isset($config['type']) ? $config['type'] : null,
                     array_merge(
                         array('required' => false),
-                        $config['type_options']
+                        isset($config['type_options']) ? $config['type_options'] : []
                     )
                 );
             }
