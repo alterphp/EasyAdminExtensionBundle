@@ -2,24 +2,22 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
-use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
-
 /**
  * @author Pierre-Charles Bertineau <pc.bertineau@alterphp.com>
  */
 class MenuHelper
 {
     /**
-     * @var AdminAuthorizationChecker
+     * @var \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker
      */
     protected $adminAuthorizationChecker;
 
     /**
      * MenuHelper constructor.
      *
-     * @param AdminAuthorizationChecker $adminAuthorizationChecker
+     * @param \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker $adminAuthorizationChecker
      */
-    public function __construct(AdminAuthorizationChecker $adminAuthorizationChecker)
+    public function __construct($adminAuthorizationChecker)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
     }
