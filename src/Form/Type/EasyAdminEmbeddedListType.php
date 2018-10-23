@@ -2,7 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type;
 
-use AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -12,7 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class EasyAdminEmbeddedListType extends AbstractType
 {
     /**
-     * @var EmbeddedListHelper
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper
      */
     private $embeddedListHelper;
 
@@ -21,7 +20,7 @@ class EasyAdminEmbeddedListType extends AbstractType
      *
      * @param EmbeddedListHelper $embeddedListHelper
      */
-    public function __construct(EmbeddedListHelper $embeddedListHelper)
+    public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
     }
