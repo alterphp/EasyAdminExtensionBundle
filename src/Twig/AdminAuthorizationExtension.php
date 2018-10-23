@@ -2,8 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Twig;
 
-use AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper;
-use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -11,16 +9,16 @@ use Twig\TwigFunction;
 class AdminAuthorizationExtension extends AbstractExtension
 {
     /**
-     * @var AdminAuthorizationChecker
+     * @var \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker
      */
     protected $adminAuthorizationChecker;
 
     /**
-     * @var MenuHelper
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper
      */
     protected $menuHelper;
 
-    public function __construct(AdminAuthorizationChecker $adminAuthorizationChecker, MenuHelper $menuHelper)
+    public function __construct($adminAuthorizationChecker, $menuHelper)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
         $this->menuHelper = $menuHelper;
