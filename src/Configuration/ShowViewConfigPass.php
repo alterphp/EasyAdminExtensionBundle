@@ -2,7 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
-use AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 
 /**
@@ -14,7 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 class ShowViewConfigPass implements ConfigPassInterface
 {
     /**
-     * @var EmbeddedListHelper
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper
      */
     private $embeddedListHelper;
 
@@ -27,7 +26,7 @@ class ShowViewConfigPass implements ConfigPassInterface
     /**
      * ShowViewConfigPass constructor.
      *
-     * @param EmbeddedListHelper $embeddedListHelper
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper $embeddedListHelper
      */
     public function __construct($embeddedListHelper)
     {
