@@ -31,7 +31,7 @@ class EasyAdminAutocompleteTypeExtension extends AbstractTypeExtension
             $view->vars['attr']['data-easyadmin-autocomplete-create-action-url'] = $this->router->generate(
                 'easyadmin', array('action' => 'newAjax', 'entity' => $view->vars['autocomplete_entity_name'])
             );
-            $view->vars['attr']['data-easyadmin-autocomplete-create-field-name'] = strtolower($view->vars['autocomplete_entity_name']);
+            $view->vars['attr']['data-easyadmin-autocomplete-create-field-name'] = \strtolower($view->vars['autocomplete_entity_name']);
             $view->vars['attr']['data-easyadmin-autocomplete-create-button-text'] = $this->translator->trans(
                 'action.add_new_item', array(), 'EasyAdminBundle'
             );

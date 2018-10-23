@@ -63,17 +63,17 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     {
         foreach ($filters as $field => $value) {
             // Empty string and numeric keys is considered as "not applied filter"
-            if (is_int($field) || '' === $value) {
+            if (\is_int($field) || '' === $value) {
                 continue;
             }
             // Add root entity alias if none provided
-            $field = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
+            $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
             // Checks if filter is directly appliable on queryBuilder
             if (!$this->isFilterAppliable($queryBuilder, $field)) {
                 continue;
             }
             // Sanitize parameter name
-            $parameter = 'request_filter_'.str_replace('.', '_', $field);
+            $parameter = 'request_filter_'.\str_replace('.', '_', $field);
 
             $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
         }
@@ -90,17 +90,17 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         foreach ($filters as $field => $value) {
             $value = $this->filterEasyadminAutocompleteValue($value);
             // Empty string and numeric keys is considered as "not applied filter"
-            if (is_int($field) || '' === $value) {
+            if (\is_int($field) || '' === $value) {
                 continue;
             }
             // Add root entity alias if none provided
-            $field = false === strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
+            $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
             // Checks if filter is directly appliable on queryBuilder
             if (!$this->isFilterAppliable($queryBuilder, $field)) {
                 continue;
             }
             // Sanitize parameter name
-            $parameter = 'form_filter_'.str_replace('.', '_', $field);
+            $parameter = 'form_filter_'.\str_replace('.', '_', $field);
 
             $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
         }
@@ -108,7 +108,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     private function filterEasyadminAutocompleteValue($value)
     {
-        if (!is_array($value) || !isset($value['autocomplete']) || 1 !== count($value)) {
+        if (!\is_array($value) || !isset($value['autocomplete']) || 1 !== \count($value)) {
             return $value;
         }
 
@@ -126,7 +126,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, string $parameter, $value)
     {
         // For multiple value, use an IN clause, equality otherwise
-        if (is_array($value)) {
+        if (\is_array($value)) {
             $filterDqlPart = $field.' IN (:'.$parameter.')';
         } elseif ('_NULL' === $value) {
             $parameter = null;

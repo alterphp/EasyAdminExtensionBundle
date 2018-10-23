@@ -2,6 +2,8 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType;
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Util\LegacyFormHelper;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -19,8 +21,8 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
     private static $configWithFormPaths = array('[form][fields]', '[edit][fields]', '[new][fields]', '[list][form_filters]');
     private static $nativeShortFormTypes = array(
-        'embedded_list' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType',
-        'admin_roles' => 'AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType',
+        'embedded_list' => EasyAdminEmbeddedListType::class,
+        'admin_roles' => AdminRolesType::class,
     );
 
     public function __construct(array $customFormTypes = array())
@@ -39,7 +41,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     {
         if (
             !isset($backendConfig['entities'])
-            || !is_array($backendConfig['entities'])
+            || !\is_array($backendConfig['entities'])
         ) {
             return $backendConfig;
         }
@@ -60,13 +62,13 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             $configPathItem = $propertyAccessor->getValue($objectConfig, $configWithFormPath);
 
-            if (null !== $configPathItem && is_array($configPathItem)) {
+            if (null !== $configPathItem && \is_array($configPathItem)) {
                 foreach ($configPathItem as $name => $field) {
                     if (!isset($field['type'])) {
                         continue;
                     }
 
-                    if (in_array($field['type'], array_keys($shortFormTypes))) {
+                    if (\array_key_exists($field['type'], $shortFormTypes)) {
                         $configPathItem[$name]['type'] = $shortFormTypes[$field['type']];
                     } elseif (self::isLegacyEasyAdminFormShortType($field['type'])) {
                         $configPathItem[$name]['type'] = LegacyFormHelper::getType($field['type']);
@@ -91,6 +93,6 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
     private function getShortFormTypes()
     {
-        return array_merge(static::$nativeShortFormTypes, $this->customFormTypes);
+        return \array_merge(static::$nativeShortFormTypes, $this->customFormTypes);
     }
 }

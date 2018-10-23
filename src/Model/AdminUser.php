@@ -82,10 +82,10 @@ class AdminUser implements UserInterface
         $roles = array('ROLE_ADMIN');
 
         foreach ($this->getGroups() as $group) {
-            $roles = array_merge($roles, $group->getRoles());
+            $roles = \array_merge($roles, $group->getRoles());
         }
 
-        return array_values(array_unique($roles));
+        return \array_values(\array_unique($roles));
     }
 
     /**

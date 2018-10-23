@@ -66,7 +66,7 @@ class AdminController extends BaseAdminController
         $this->dispatch(EasyAdminEvents::PRE_NEW);
 
         $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
-        $easyadmin = array_merge($this->request->attributes->get('easyadmin'), array('item' => $entity));
+        $easyadmin = \array_merge($this->request->attributes->get('easyadmin'), array('item' => $entity));
         $this->request->attributes->set('easyadmin', $easyadmin);
 
         $fields = $this->entity['new']['fields'];

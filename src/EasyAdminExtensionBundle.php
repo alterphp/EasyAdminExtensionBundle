@@ -26,19 +26,21 @@ class EasyAdminExtensionBundle extends Bundle
      * @see  https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/FOSUserBundle.php
      *
      * @param ContainerBuilder $container
+     *
+     * @throws \ReflectionException
      */
     private function addRegisterMappingsPass(ContainerBuilder $container)
     {
         $easyAdminExtensionBundleRefl = new \ReflectionClass($this);
 
         if ($easyAdminExtensionBundleRefl->isUserDefined()) {
-            $easyAdminExtensionBundlePath = dirname((string) $easyAdminExtensionBundleRefl->getFileName());
+            $easyAdminExtensionBundlePath = \dirname((string) $easyAdminExtensionBundleRefl->getFileName());
             $easyAdminExtensionDoctrineMapping = $easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping';
 
             $mappings = array(
-                realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
+                \realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
             );
-            if (class_exists('Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass')) {
+            if (\class_exists(DoctrineOrmMappingsPass::class)) {
                 $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
             }
         }

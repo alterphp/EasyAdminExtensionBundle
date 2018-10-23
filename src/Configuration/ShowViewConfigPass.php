@@ -12,6 +12,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
  */
 class ShowViewConfigPass implements ConfigPassInterface
 {
+    /**
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper
+     */
     private $embeddedListHelper;
 
     private static $mapTypeToTemplates = array(
@@ -20,6 +23,11 @@ class ShowViewConfigPass implements ConfigPassInterface
         'embedded_list' => '@EasyAdminExtension/default/field_embedded_list.html.twig',
     );
 
+    /**
+     * ShowViewConfigPass constructor.
+     *
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper $embeddedListHelper
+     */
     public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
@@ -43,7 +51,7 @@ class ShowViewConfigPass implements ConfigPassInterface
     {
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
             foreach ($entityConfig['show']['fields'] as $fieldName => $fieldMetadata) {
-                if (in_array($fieldMetadata['type'], array_keys(static::$mapTypeToTemplates))) {
+                if (\array_key_exists($fieldMetadata['type'], static::$mapTypeToTemplates)) {
                     $template = $this->isFieldTemplateDefined($fieldMetadata)
                                     ? $fieldMetadata['template']
                                     : static::$mapTypeToTemplates[$fieldMetadata['type']];
@@ -64,7 +72,7 @@ class ShowViewConfigPass implements ConfigPassInterface
     private function isFieldTemplateDefined(array $fieldMetadata)
     {
         return isset($fieldMetadata['template'])
-               && '@EasyAdmin/default/label_undefined.html.twig' != $fieldMetadata['template'];
+               && '@EasyAdmin/default/label_undefined.html.twig' !== $fieldMetadata['template'];
     }
 
     private function processTemplateOptions(string $type, array $fieldMetadata)

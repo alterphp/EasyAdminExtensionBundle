@@ -7,8 +7,16 @@ use Twig\TwigFunction;
 
 class EmbeddedListExtension extends AbstractExtension
 {
+    /**
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper
+     */
     protected $embeddedListHelper;
 
+    /**
+     * EmbeddedListExtension constructor.
+     *
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper $embeddedListHelper
+     */
     public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
