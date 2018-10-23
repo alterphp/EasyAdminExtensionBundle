@@ -2,23 +2,22 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Twig;
 
-use AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class EmbeddedListExtension extends AbstractExtension
 {
     /**
-     * @var EmbeddedListHelper
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper
      */
     protected $embeddedListHelper;
 
     /**
      * EmbeddedListExtension constructor.
      *
-     * @param EmbeddedListHelper $embeddedListHelper
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper $embeddedListHelper
      */
-    public function __construct(EmbeddedListHelper $embeddedListHelper)
+    public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
     }
