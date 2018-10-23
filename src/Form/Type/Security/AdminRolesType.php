@@ -3,7 +3,6 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type\Security;
 
 use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\RestoreRolesTransformer;
-use AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,16 +23,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AdminRolesType extends AbstractType
 {
     /**
-     * @var EditableRolesHelper
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper
      */
     private $rolesBuilder;
 
     /**
      * AdminRolesType constructor.
      *
-     * @param EditableRolesHelper $editableRolesBuilder
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper $editableRolesBuilder
      */
-    public function __construct(EditableRolesHelper $editableRolesBuilder)
+    public function __construct($editableRolesBuilder)
     {
         $this->rolesBuilder = $editableRolesBuilder;
     }
