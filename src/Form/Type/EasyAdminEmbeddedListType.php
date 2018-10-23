@@ -18,7 +18,7 @@ class EasyAdminEmbeddedListType extends AbstractType
     /**
      * EasyAdminEmbeddedListType constructor.
      *
-     * @param EmbeddedListHelper $embeddedListHelper
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper $embeddedListHelper
      */
     public function __construct($embeddedListHelper)
     {
