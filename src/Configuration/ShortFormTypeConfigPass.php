@@ -5,7 +5,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 use AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType;
 use AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Util\LegacyFormHelper;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Util\FormTypeHelper;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -71,7 +71,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
                     if (\array_key_exists($field['type'], $shortFormTypes)) {
                         $configPathItem[$name]['type'] = $shortFormTypes[$field['type']];
                     } elseif (self::isLegacyEasyAdminFormShortType($field['type'])) {
-                        $configPathItem[$name]['type'] = LegacyFormHelper::getType($field['type']);
+                        $configPathItem[$name]['type'] = FormTypeHelper::getTypeName($field['type']);
                     }
                 }
 
@@ -86,7 +86,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
     private static function isLegacyEasyAdminFormShortType(string $shortType)
     {
-        $legacyEasyAdminMatchingType = LegacyFormHelper::getType($shortType);
+        $legacyEasyAdminMatchingType = FormTypeHelper::getTypeClass($shortType);
 
         return class_exists($legacyEasyAdminMatchingType);
     }
