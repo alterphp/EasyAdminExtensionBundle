@@ -7,8 +7,16 @@ namespace AlterPHP\EasyAdminExtensionBundle\Helper;
  */
 class MenuHelper
 {
+    /**
+     * @var \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker
+     */
     protected $adminAuthorizationChecker;
 
+    /**
+     * MenuHelper constructor.
+     *
+     * @param \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker $adminAuthorizationChecker
+     */
     public function __construct($adminAuthorizationChecker)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
@@ -27,7 +35,7 @@ class MenuHelper
     {
         foreach ($menuConfig as $key => $entry) {
             if (
-                'entity' == $entry['type']
+                'entity' === $entry['type']
                 && isset($entry['entity'])
                 && !$this->adminAuthorizationChecker->isEasyAdminGranted(
                     $entitiesConfig[$entry['entity']],
@@ -38,12 +46,12 @@ class MenuHelper
                 continue;
             }
 
-            if (isset($entry['children']) && is_array($entry['children'])) {
+            if (isset($entry['children']) && \is_array($entry['children'])) {
                 $menuConfig[$key]['children'] = $this->pruneAccessDeniedEntries($entry['children'], $entitiesConfig);
             }
         }
 
-        return array_values($menuConfig);
+        return \array_values($menuConfig);
     }
 
     protected function pruneEmptyFolderEntries(array $menuConfig)
@@ -60,7 +68,7 @@ class MenuHelper
             }
         }
 
-        return array_values($menuConfig);
+        return \array_values($menuConfig);
     }
 
     protected function reindexMenuEntries($menuConfig)

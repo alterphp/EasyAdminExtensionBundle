@@ -22,8 +22,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AdminRolesType extends AbstractType
 {
+    /**
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper
+     */
     private $rolesBuilder;
 
+    /**
+     * AdminRolesType constructor.
+     *
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper $editableRolesBuilder
+     */
     public function __construct($editableRolesBuilder)
     {
         $this->rolesBuilder = $editableRolesBuilder;
@@ -75,9 +83,8 @@ class AdminRolesType extends AbstractType
                 if (!empty($parentChoices)) {
                     return array();
                 }
-                $roles = $this->rolesBuilder->getRoles();
 
-                return $roles;
+                return $this->rolesBuilder->getRoles();
             },
             'multiple' => true,
             'data_class' => null,

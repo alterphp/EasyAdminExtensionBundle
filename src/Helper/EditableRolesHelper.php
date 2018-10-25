@@ -52,9 +52,9 @@ class EditableRolesHelper
             unset($roles['ROLE_SUPER_ADMIN']);
         }
 
-        $roles = array_map(function ($rolesGroup) {
-            if (is_array($rolesGroup)) {
-                $rolesGroup = array_combine($rolesGroup, $rolesGroup);
+        $roles = \array_map(function ($rolesGroup) {
+            if (\is_array($rolesGroup)) {
+                $rolesGroup = \array_combine($rolesGroup, $rolesGroup);
             }
 
             return $rolesGroup;

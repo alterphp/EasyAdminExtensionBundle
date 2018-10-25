@@ -41,9 +41,9 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
             foreach ($entityConfig['list']['form_filters'] as $i => $formFilter) {
                 // Detects invalid config node
-                if (!is_string($formFilter) && !is_array($formFilter)) {
+                if (!\is_string($formFilter) && !\is_array($formFilter)) {
                     throw new \RuntimeException(
-                        sprintf(
+                        \sprintf(
                             'The values of the "form_filters" option for the list view of the "%s" entity can only be strings or arrays.',
                             $entityConfig['class']
                         )
@@ -51,12 +51,12 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 }
 
                 // Key mapping
-                if (is_string($formFilter)) {
+                if (\is_string($formFilter)) {
                     $filterConfig = array('property' => $formFilter);
                 } else {
-                    if (!array_key_exists('property', $formFilter)) {
+                    if (!\array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
-                            sprintf(
+                            \sprintf(
                                 'One of the values of the "form_filters" option for the "list" view of the "%s" entity does not define the mandatory option "property".',
                                 $entityConfig['class']
                             )
@@ -138,10 +138,10 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
 
         // Merge default type options when defined
-        if (isset($defaultFilterConfigTypeOptions)) {
-            $filterConfig['type_options'] = array_merge(
+        if (null !== $defaultFilterConfigTypeOptions) {
+            $filterConfig['type_options'] = \array_merge(
                 $defaultFilterConfigTypeOptions,
-                isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+                $filterConfig['type_options'] ?? array()
             );
         }
     }
@@ -151,13 +151,13 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
             $filterConfig['type'] = EasyAdminAutocompleteType::class;
-            $filterConfig['type_options'] = array_merge(
+            $filterConfig['type_options'] = \array_merge(
                 array(
                     'class' => $associationMapping['targetEntity'],
                     'multiple' => true,
                     'attr' => array('data-widget' => 'select2'),
                 ),
-                isset($filterConfig['type_options']) ? $filterConfig['type_options'] : array()
+                $filterConfig['type_options'] ?? array()
             );
         }
     }
@@ -173,7 +173,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         if (!isset($filterConfig['type_options']['choices_static_callback'])) {
             throw new \RuntimeException(
-                sprintf(
+                \sprintf(
                     'Choice filter field "%s" for entity "%s" must provide either a static callback method returning choice list or choices option.',
                     $property,
                     $entityClass
@@ -182,7 +182,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
 
         $callableParams = array();
-        if (is_string($filterConfig['type_options']['choices_static_callback'])) {
+        if (\is_string($filterConfig['type_options']['choices_static_callback'])) {
             $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback']);
         } else {
             $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback'][0]);
@@ -190,6 +190,6 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
         unset($filterConfig['type_options']['choices_static_callback']);
 
-        return forward_static_call_array($callable, $callableParams);
+        return \forward_static_call_array($callable, $callableParams);
     }
 }

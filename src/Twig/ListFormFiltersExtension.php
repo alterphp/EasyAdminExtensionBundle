@@ -7,8 +7,16 @@ use Twig\TwigFunction;
 
 class ListFormFiltersExtension extends AbstractExtension
 {
+    /**
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper
+     */
     protected $listFiltersHelper;
 
+    /**
+     * ListFormFiltersExtension constructor.
+     *
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper $listFiltersHelper
+     */
     public function __construct($listFiltersHelper)
     {
         $this->listFiltersHelper = $listFiltersHelper;

@@ -10,8 +10,16 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class EasyAdminEmbeddedListType extends AbstractType
 {
+    /**
+     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper
+     */
     private $embeddedListHelper;
 
+    /**
+     * EasyAdminEmbeddedListType constructor.
+     *
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper $embeddedListHelper
+     */
     public function __construct($embeddedListHelper)
     {
         $this->embeddedListHelper = $embeddedListHelper;
@@ -36,11 +44,11 @@ class EasyAdminEmbeddedListType extends AbstractType
         $embeddedListFilters = $options['filters'];
 
         // Guess entity FQCN from parent metadata
-        $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(get_class($parentData), $form->getName());
+        $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(\get_class($parentData), $form->getName());
         if (null !== $entityFqcn) {
             $view->vars['entity_fqcn'] = $entityFqcn;
             // Guess embeddedList entity if not set
-            if (!isset($embeddedListEntity)) {
+            if (null === $embeddedListEntity) {
                 $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
             }
         }
@@ -50,9 +58,9 @@ class EasyAdminEmbeddedListType extends AbstractType
 
         // Only for backward compatibility (when there were no guesser)
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $filters = array_map(function ($filter) use ($propertyAccessor, $form) {
-            if (0 === strpos($filter, 'form:')) {
-                $filter = $propertyAccessor->getValue($form, substr($filter, 5));
+        $filters = \array_map(function ($filter) use ($propertyAccessor, $form) {
+            if (0 === \strpos($filter, 'form:')) {
+                $filter = $propertyAccessor->getValue($form, \substr($filter, 5));
             }
 
             return $filter;

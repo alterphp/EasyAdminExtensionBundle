@@ -128,8 +128,7 @@ class Animation
 }
 ```
 
-Define your filters under `list`.`form_filters` entity configuration. Automatic guesser set up a ChoiceType for filters mapped on boolean (NULL, true, false) and string class properties. ChoiceType for string properties requires either a `choices` label/value array in `type_options` of a `choices_static_callback` static callable that returns label/value choices list.
-
+Define your filters under `list`.`form_filters` entity configuration
 
 ```yaml
 easy_admin:
@@ -147,6 +146,13 @@ easy_admin:
 Let's see the result !
 
 ![Embedded list example](/doc/res/img/list-form-filters.png)
+
+Guesser for list form filters are based on mapped entity property :
+* _boolean_: guessed filter is a choice list (null, Yes, No)
+* _string_: guessed filter is multiple choice list that requires either `choices` (value/label array) or `choices_static_callback` (static callback from entity class returning a value/label array) in `type_options`.
+* _*-to-one-relation_: guessed filter is a multiple autocomplete of relation target entity.
+
+Filters form's method is GET and submitted through `form_filter` parameter. It is transmitted to the referer used for post update/delete/create redirection AND for search !
 
 ### Filter list and search on request parameters
 

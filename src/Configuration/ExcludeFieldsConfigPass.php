@@ -23,6 +23,9 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
      * @param mixed[] $backendConfig
      *
      * @return mixed[]
+     *
+     * @throws ConflictingConfigurationException
+     * @throws \ReflectionException
      */
     public function process(array $backendConfig): array
     {
@@ -59,7 +62,10 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
     }
 
     /**
+     * @param string   $propertyName
      * @param string[] $excludedFields
+     *
+     * @return bool
      */
     private function shouldSkipField(string $propertyName, array $excludedFields): bool
     {
@@ -67,7 +73,7 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
             return true;
         }
 
-        return in_array($propertyName, $excludedFields, true);
+        return \in_array($propertyName, $excludedFields, true);
     }
 
     /**
@@ -76,32 +82,37 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
      * @param mixed[] $entityConfig
      * @param string  $entityName
      * @param string  $section
+     *
+     * @throws ConflictingConfigurationException
      */
     private function ensureFieldConfigurationIsValid(array $entityConfig, string $entityName, string $section)
     {
-        if (!isset($entityConfig[$section]['fields']) || !count($entityConfig[$section]['fields'])) {
+        if (!isset($entityConfig[$section]['fields']) || !\count($entityConfig[$section]['fields'])) {
             return;
         }
 
-        throw new ConflictingConfigurationException(sprintf(
+        throw new ConflictingConfigurationException(\sprintf(
             '"%s" and "%s" are mutually conflicting. Pick just one of them in %s YAML configuration',
             'exclude_fields',
             'fields',
-            sprintf('easy_admin > entities > %s > %s', $entityName, $section)
+            \sprintf('easy_admin > entities > %s > %s', $entityName, $section)
         ));
     }
 
     /**
      * @param mixed[] $entityConfig
+     * @param string  $entityName
      *
      * @return string[]
+     *
+     * @throws \ReflectionException
      */
     private function getPropertyNamesForEntity(array $entityConfig, string $entityName): array
     {
         $entityClass = $entityConfig['class'] ?: $entityName;
         $entityReflectionClass = new ReflectionClass($entityClass);
 
-        return array_map(function (ReflectionProperty $reflectionProperty) {
+        return \array_map(function (ReflectionProperty $reflectionProperty) {
             return $reflectionProperty->getName();
         }, $entityReflectionClass->getProperties());
     }

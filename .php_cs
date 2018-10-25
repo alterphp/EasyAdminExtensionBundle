@@ -24,5 +24,6 @@ return PhpCsFixer\Config::create()
         'php_unit_strict' => true,
         'phpdoc_summary' => false,
         'strict_comparison' => false,
+        'native_function_invocation'=> true
     ))
 ;

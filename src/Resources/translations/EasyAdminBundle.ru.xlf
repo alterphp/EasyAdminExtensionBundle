@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+	<file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+		<body>
+			<!-- page titles -->
+			<trans-unit id="open.new_tab">
+				<source>open.new_tab</source>
+				<target>Открыть в новой вкладке</target>
+			</trans-unit>
+			<!-- list_form_filters -->
+			<trans-unit id="list_form_filters.heading_title">
+				<source>list_form_filters.heading_title</source>
+				<target>Фильтры</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.heading_expandcollapse">
+				<source>list_form_filters.heading_expandcollapse</source>
+				<target>Раскрыть / Свернуть</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.submit">
+				<source>list_form_filters.submit</source>
+				<target>Фильтровать</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.default.boolean.true">
+				<source>list_form_filters.default.boolean.true</source>
+				<target>Да</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.default.boolean.false">
+				<source>list_form_filters.default.boolean.false</source>
+				<target>Нет</target>
+			</trans-unit>
+			<!-- misc. elements -->
+			<trans-unit id="confirm_modal.content">
+				<source>confirm_modal.content</source>
+				<target>Вы уверены?</target>
+			</trans-unit>
+			<trans-unit id="confirm_modal.action">
+				<source>confirm_modal.action</source>
+				<target>Подтвердить</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

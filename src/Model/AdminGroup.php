@@ -83,7 +83,7 @@ class AdminGroup
      */
     public function setRoles(array $roles)
     {
-        $this->roles = array_unique($roles);
+        $this->roles = \array_unique($roles);
 
         return $this;
     }
@@ -95,6 +95,6 @@ class AdminGroup
      */
     public function getRoles(): array
     {
-        return array_filter($this->roles);
+        return \array_filter($this->roles);
     }
 }
