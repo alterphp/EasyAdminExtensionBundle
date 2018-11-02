@@ -45,6 +45,16 @@ class MenuHelper
                 unset($menuConfig[$key]);
                 continue;
             }
+            else if (
+                'route' === $entry['type']
+                && isset($entry['role'])
+                && !$this->adminAuthorizationChecker->isEasyAdminGranted(
+                    ['list' => ['role' => $entry['role']]], 'list'
+                )
+            ) {
+                unset($menuConfig[$key]);
+                continue;
+            }
 
             if (isset($entry['children']) && \is_array($entry['children'])) {
                 $menuConfig[$key]['children'] = $this->pruneAccessDeniedEntries($entry['children'], $entitiesConfig);
