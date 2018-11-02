@@ -304,11 +304,12 @@ easy_admin:
 
 Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
 
-#### Security for type "route" only hide menu
+#### Security for all type if has rol only hide menu
 
 ```yaml
 easy_admin:
         menu:
+            - { label: 'Administrator', role: ROLE_SUPER_ADMIN }
             - { label: 'App action', route: 'app_action', role: ROLE_ADMIN }
 ```
 *It is necessary to use security:
