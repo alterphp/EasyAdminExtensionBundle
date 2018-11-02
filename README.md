@@ -304,7 +304,8 @@ easy_admin:
 
 Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
 
-#### Security for all type if has rol only hide menu
+#### Security for all type "except entity" if has rol only hide menu
+
 
 ```yaml
 easy_admin:
