@@ -311,6 +311,14 @@ easy_admin:
         menu:
             - { label: 'App action', route: 'app_action', role: ROLE_ADMIN }
 ```
+*It is necessary to use security:
+```yaml
+security:
+    ...
+    access_control:
+        ...
+        - { path: ^/admin/app/action, role: ROLE_ADMIN }
+```
 
 #### Per entity field role permissions in form
 
