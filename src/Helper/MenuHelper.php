@@ -54,8 +54,7 @@ class MenuHelper
                 continue;
             }
             else if (
-                'route' === $entry['type']
-                && isset($entry['role'])
+                isset($entry['role'])
                 && !$this->authorizationChecker->isGranted($entry['role'])
             ) {
                 unset($menuConfig[$key]);
