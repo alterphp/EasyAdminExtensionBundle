@@ -53,10 +53,7 @@ class MenuHelper
                 unset($menuConfig[$key]);
                 continue;
             }
-            elseif (
-                isset($entry['role'])
-                && !$this->authorizationChecker->isGranted($entry['role'])
-            ) {
+            elseif (isset($entry['role']) && !$this->authorizationChecker->isGranted($entry['role'])) {
                 unset($menuConfig[$key]);
                 continue;
             }
