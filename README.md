@@ -304,6 +304,24 @@ easy_admin:
 
 Entity _role_prefix_ defines all actions required roles by appending the action name to the prefix.
 
+#### Security for all type "except entity" if has rol only hide menu
+
+
+```yaml
+easy_admin:
+        menu:
+            - { label: 'Administrator', role: ROLE_SUPER_ADMIN }
+            - { label: 'App action', route: 'app_action', role: ROLE_ADMIN }
+```
+*It is necessary to use security:
+```yaml
+security:
+    ...
+    access_control:
+        ...
+        - { path: ^/admin/app/action, role: ROLE_ADMIN }
+```
+
 #### Per entity field role permissions in form
 
 You can also define role permissions per entity field in a form:

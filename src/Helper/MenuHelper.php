@@ -2,6 +2,8 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 /**
  * @author Pierre-Charles Bertineau <pc.bertineau@alterphp.com>
  */
@@ -11,15 +13,21 @@ class MenuHelper
      * @var \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker
      */
     protected $adminAuthorizationChecker;
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
 
     /**
      * MenuHelper constructor.
      *
      * @param \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker $adminAuthorizationChecker
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct($adminAuthorizationChecker)
+    public function __construct($adminAuthorizationChecker, $authorizationChecker)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function pruneMenuItems(array $menuConfig, array $entitiesConfig)
@@ -41,6 +49,13 @@ class MenuHelper
                     $entitiesConfig[$entry['entity']],
                     isset($entry['params']) && isset($entry['params']['action']) ? $entry['params']['action'] : 'list'
                 )
+            ) {
+                unset($menuConfig[$key]);
+                continue;
+            }
+            else if (
+                isset($entry['role'])
+                && !$this->authorizationChecker->isGranted($entry['role'])
             ) {
                 unset($menuConfig[$key]);
                 continue;
