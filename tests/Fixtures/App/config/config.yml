@@ -4,11 +4,6 @@ parameters:
     locale: en
     database_path: '%kernel.root_dir%/../../../build/test.db'
 
-# Remove deprecations
-sensio_framework_extra:
-    router:
-        annotations: false
-
 framework:
     secret:          secret
     translator:      ~
