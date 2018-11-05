@@ -5,6 +5,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Tests\Helper;
 use AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper;
 use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class MenuHelperTest extends TestCase
 {
@@ -36,6 +37,7 @@ class MenuHelperTest extends TestCase
     public function testAcessDeniedEntriesArePruned()
     {
         $adminAuthorizationChecker = $this->createMock(AdminAuthorizationChecker::class);
+        $symfonyAuthorizationChecker = $this->createMock(AuthorizationChecker::class);
 
         $grantedRoleMap = array(
             array($this->entitiesConfig['Organization'], 'list', null, true),
@@ -48,7 +50,7 @@ class MenuHelperTest extends TestCase
         );
         $adminAuthorizationChecker->method('isEasyAdminGranted')->will($this->returnValueMap($grantedRoleMap));
 
-        $helper = new MenuHelper($adminAuthorizationChecker);
+        $helper = new MenuHelper($adminAuthorizationChecker, $symfonyAuthorizationChecker);
 
         $prunedMenu = $helper->pruneMenuItems($this->menuConfig, $this->entitiesConfig);
 
