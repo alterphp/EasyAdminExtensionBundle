@@ -19,6 +19,7 @@ class EmbeddedListTest extends AbstractTestCase
 
         $forAttrValue = '/admin/?entity=AdminUser&action=embeddedList&filters%5Bentity.id%5D%5B0%5D=1&filters%5Bentity.id%5D%5B1%5D=2&filters%5Bentity.id%5D%5B2%5D=3&filters%5Bentity.id%5D%5B3%5D=4&filters%5Bentity.id%5D%5B4%5D=5&filters%5Bentity.id%5D%5B5%5D=6&filters%5Bentity.id%5D%5B6%5D=7&filters%5Bentity.id%5D%5B7%5D=8&filters%5Bentity.id%5D%5B8%5D=9&filters%5Bentity.id%5D%5B9%5D=10&filters%5Bentity.id%5D%5B10%5D=11&filters%5Bentity.id%5D%5B11%5D=12&filters%5Bentity.id%5D%5B12%5D=13&filters%5Bentity.id%5D%5B13%5D=14&filters%5Bentity.id%5D%5B14%5D=15&filters%5Bentity.id%5D%5B15%5D=16&filters%5Bentity.id%5D%5B16%5D=17&filters%5Bentity.id%5D%5B17%5D=18&filters%5Bentity.id%5D%5B18%5D=19&filters%5Bentity.id%5D%5B19%5D=20';
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
     }
 
@@ -27,6 +28,8 @@ class EmbeddedListTest extends AbstractTestCase
         $crawler = $this->requestEditView('Category', 1);
 
         $forAttrValue = '/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1';
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
     }
 
@@ -35,6 +38,8 @@ class EmbeddedListTest extends AbstractTestCase
         $crawler = $this->requestShowView('Category', 1);
 
         $forAttrValue = '/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1';
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
     }
 
@@ -42,6 +47,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array('entity.enabled' => false));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -49,6 +55,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array('entity.foo' => 'bar'));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(15, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -58,6 +65,7 @@ class EmbeddedListTest extends AbstractTestCase
             'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(5, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -65,6 +73,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array('enabled' => false));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -73,6 +82,8 @@ class EmbeddedListTest extends AbstractTestCase
         $crawler = $this->requestListView(
             'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
         );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
         $searchFormCrawler = $crawler->filter('.action-search form');
 
@@ -92,6 +103,7 @@ class EmbeddedListTest extends AbstractTestCase
             'Product', array('entity.oddEven' => array('odd', 'even'))
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 100',
             $crawler->filter('#main .list-pagination')->text()
@@ -122,6 +134,7 @@ class EmbeddedListTest extends AbstractTestCase
             'Product', array('entity.phone' => '_NULL')
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -130,6 +143,8 @@ class EmbeddedListTest extends AbstractTestCase
         $crawler = $this->requestListView(
             'Product', array('entity.phone' => '_NOT_NULL')
         );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 90',
             $crawler->filter('#main .list-pagination')->text()
@@ -143,6 +158,7 @@ class EmbeddedListTest extends AbstractTestCase
         $forAttrValue = '/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1';
         $createdAtTh = 'th[data-property-name="createdAt"].sorted';
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
     }
 
@@ -153,6 +169,7 @@ class EmbeddedListTest extends AbstractTestCase
         $forAttrValue = '/admin/?entity=Purchase&action=embeddedList';
         $createdAtTh = 'th[data-property-name="createdAt"].sorted';
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
     }
 
@@ -160,6 +177,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->getBackendPage(array('entity' => 'Product', 'action' => 'embeddedList'));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(0, $crawler->filter('.embedded-list .open-new-tab')->count());
     }
 
@@ -167,6 +185,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->getBackendPage(array('entity' => 'Purchase', 'action' => 'embeddedList'));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list .open-new-tab')->count());
     }
 }

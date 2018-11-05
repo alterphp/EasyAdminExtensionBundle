@@ -17,6 +17,8 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product');
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+
         $listFormFiltersCrawler = $crawler->filter('#list-form-filters');
 
         $this->assertSame(1, $listFormFiltersCrawler->filter('select#form_filters_oddEven[multiple]')->count());
@@ -29,6 +31,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array(), array('enabled' => false));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -36,6 +39,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array(), array('category' => array('autocomplete' => 1)));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 }

@@ -17,6 +17,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array('entity.enabled' => false));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -24,6 +25,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array('entity.foo' => 'bar'));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(15, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -33,6 +35,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(5, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -40,6 +43,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array('enabled' => false));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -48,6 +52,8 @@ class RequestParametersTest extends AbstractTestCase
         $crawler = $this->requestListView(
             'Product', array('entity.enabled' => false, 'entity.oddEven' => 'even')
         );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
         $searchFormCrawler = $crawler->filter('.action-search form');
 
@@ -67,6 +73,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', array('entity.oddEven' => array('odd', 'even'))
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 100',
             $crawler->filter('#main .list-pagination')->text()
@@ -88,6 +95,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestSearchView('ref000', 'Product', array('entity.enabled' => false));
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -97,6 +105,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', array('entity.phone' => '_NULL')
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
 
@@ -105,6 +114,8 @@ class RequestParametersTest extends AbstractTestCase
         $crawler = $this->requestListView(
             'Product', array('entity.phone' => '_NOT_NULL')
         );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 90',
             $crawler->filter('#main .list-pagination')->text()
@@ -117,6 +128,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', array('entity.phone' => '')
         );
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 100',
             $crawler->filter('#main .list-pagination')->text()

@@ -166,6 +166,7 @@ class UserRolesTest extends AbstractTestCase
         $this->client->followRedirects();
 
         $this->getBackendPage(['entity' => 'Product', 'action' => 'list']);
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
         $this->getBackendPage(['entity' => 'Product', 'action' => 'edit', 'id' => 1]);
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
@@ -186,6 +187,7 @@ class UserRolesTest extends AbstractTestCase
 
         $crawler = $this->getBackendPage(['entity' => 'AdminGroup', 'action' => 'edit', 'id' => 1]);
 
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(
             25,
             $crawler->filter('form#edit-admingroup-form .field-easyadmin_admin_roles input[type="checkbox"]')->count()
