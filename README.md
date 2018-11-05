@@ -313,7 +313,7 @@ easy_admin:
             - { label: 'App action', route: 'app_action', role: ROLE_ADMIN } # Hidden if user is not granted ROLE_ADMIN
 ```
 
-__Beware this ONLY HIDE the menu entry and do not secure secure access to the targeted URL/route !__
+:warning: __Beware this ONLY HIDE the menu entry and do not secure secure access to the targeted URL/route !__
 
 #### Per entity field role permissions in form
 
