@@ -87,7 +87,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         return $backendConfig;
     }
 
-    private function configureFilter(string $entityClass, array &$filterConfig, $translationDomain)
+    private function configureFilter(string $entityClass, array &$filterConfig, string $translationDomain)
     {
         // No need to guess type
         if (isset($filterConfig['type'])) {
@@ -107,7 +107,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         if ($entityMetadata->hasField($filterConfig['property'])) {
             $this->configureFieldFilter(
-                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig, $translationDomain
+                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig, string $translationDomain
             );
         } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
             $this->configureAssociationFilter(
@@ -116,7 +116,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
     }
 
-    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig, $translationDomain)
+    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig, string $translationDomain)
     {
         switch ($fieldMapping['type']) {
             case 'boolean':
