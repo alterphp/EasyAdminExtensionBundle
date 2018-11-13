@@ -66,7 +66,11 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     $filterConfig = $formFilter;
                 }
 
-                $this->configureFilter($entityConfig['class'], $filterConfig);
+                $this->configureFilter(
+                    $entityConfig['class'],
+                    $filterConfig,
+                    isset($backendConfig['translation_domain']) ? $backendConfig['translation_domain'] : 'EasyAdminBundle'
+                );
 
                 // If type is not configured at this steps => not guessable
                 if (!isset($filterConfig['type'])) {
@@ -83,7 +87,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         return $backendConfig;
     }
 
-    private function configureFilter(string $entityClass, array &$filterConfig)
+    private function configureFilter(string $entityClass, array &$filterConfig, $translationDomain)
     {
         // No need to guess type
         if (isset($filterConfig['type'])) {
@@ -103,7 +107,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         if ($entityMetadata->hasField($filterConfig['property'])) {
             $this->configureFieldFilter(
-                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig
+                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig, $translationDomain
             );
         } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
             $this->configureAssociationFilter(
@@ -112,7 +116,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
     }
 
-    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig)
+    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig, $translationDomain)
     {
         switch ($fieldMapping['type']) {
             case 'boolean':
@@ -122,7 +126,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                         'list_form_filters.default.boolean.true' => true,
                         'list_form_filters.default.boolean.false' => false,
                     ),
-                    'choice_translation_domain' => 'EasyAdminBundle',
+                    'choice_translation_domain' => $translationDomain,
                 );
                 break;
             case 'string':
@@ -131,6 +135,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     'multiple' => true,
                     'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
                     'attr' => array('data-widget' => 'select2'),
+                    'choice_translation_domain' => $translationDomain,
                 );
                 break;
             default:
