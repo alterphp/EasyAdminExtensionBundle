@@ -75,27 +75,31 @@
       </em>
     </div>
     <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'in' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
-      <div id="list-form-filters-panel-body" class="panel-body" style="display: flex; align-items: stretch;">
-        <div class="col-sm-10">
-          {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
-          {{ block('request_parameters_as_hidden') }}
-          <input type="hidden" name="action" value="search">
-          <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
-          <input type="hidden" name="sortField" value="{{ _entity_config.search.sort.field|default(_request_parameters.sortField) }}">
-          <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
-          <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
-          <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
-          {% for field in list_form_filters %}
-            <div class="col-sm-4">{{ form_row(field) }}</div>
-          {% endfor %}
+      <div id="list-form-filters-panel-body" class="panel-body">
+        <div class="row">
+          <div class="col-sm-10">
+            {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
+            {{ block('request_parameters_as_hidden') }}
+            <input type="hidden" name="action" value="search">
+            <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
+            <input type="hidden" name="sortField" value="{{ _entity_config.search.sort.field|default(_request_parameters.sortField) }}">
+            <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
+            <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
+            <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
+            <div class="row">
+              {% for field in list_form_filters %}
+                <div class="{{ field.vars.attr.class|default('col-sm-4') }}">{{ form_row(field) }}</div>
+              {% endfor %}
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
+              {{ 'list_form_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
+            </button>
+          </div>
           <div class="clearfix"></div>
         </div>
-        <div class="col-sm-2">
-          <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
-            {{ 'list_form_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
-          </button>
-        </div>
-        <div class="clearfix"></div>
       </div>
     </form>
   </div>
