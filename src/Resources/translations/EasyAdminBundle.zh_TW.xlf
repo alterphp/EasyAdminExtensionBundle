@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+	<file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+		<body>
+			<!-- page titles -->
+			<trans-unit id="open.new_tab">
+				<source>open.new_tab</source>
+				<target>在新標籤內打開</target>
+			</trans-unit>
+			<!-- list_form_filters -->
+			<trans-unit id="list_form_filters.heading_title">
+				<source>list_form_filters.heading_title</source>
+				<target>篩選條件</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.heading_expandcollapse">
+				<source>list_form_filters.heading_expandcollapse</source>
+				<target>展開 / 收起</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.submit">
+				<source>list_form_filters.submit</source>
+				<target>篩選</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.default.boolean.true">
+				<source>list_form_filters.default.boolean.true</source>
+				<target>是</target>
+			</trans-unit>
+			<trans-unit id="list_form_filters.default.boolean.false">
+				<source>list_form_filters.default.boolean.false</source>
+				<target>否</target>
+			</trans-unit>
+			<!-- misc. elements -->
+			<trans-unit id="confirm_modal.content">
+				<source>confirm_modal.content</source>
+				<target>您確定嗎?</target>
+			</trans-unit>
+			<trans-unit id="confirm_modal.action">
+				<source>confirm_modal.action</source>
+				<target>確認</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
