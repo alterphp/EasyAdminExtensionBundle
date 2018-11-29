@@ -34,6 +34,7 @@ class AdminController extends BaseAdminController
         switch ($actionName) {
             // autocomplete action is mapped to list action for access permissions
             case 'autocomplete':
+                break;
             // embeddedList action is mapped to list action for access permissions
             case 'embeddedList':
                 $actionName = 'list';
