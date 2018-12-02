@@ -68,9 +68,9 @@
   {% if _entity_config.list.form_filters is defined and _entity_config.list.form_filters is not empty %}
   {% set list_form_filters = list_form_filters(_entity_config.list.form_filters) %}
   <div id="list-form-filters" class="panel panel-default">
-    <div class="panel-heading toggle-list-form-filters" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
-      <span class="panel-title toggle-list-form-filters">{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
-      <em class="text-info pull-right toggle-list-form-filters">
+    <div class="panel-heading" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
+      <span class="panel-title">{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
+      <em class="text-info pull-right">
         <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
@@ -118,7 +118,7 @@
     $(function () {
       createAutoCompleteFields();
     });
-    $(".toggle-list-form-filters").click(function() {
+    $("#list-form-filters [data-toggle][data-target=\"#list-form-filters-form\"] *").click(function() {
       $('#list-form-filters-form').collapse('toggle');
     });
   </script>
