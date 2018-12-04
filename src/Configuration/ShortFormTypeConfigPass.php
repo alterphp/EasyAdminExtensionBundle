@@ -58,7 +58,6 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
         $shortFormTypes = $this->getShortFormTypes();
 
         foreach (static::$configWithFormPaths as $configWithFormPath) {
-
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             $configPathItem = $propertyAccessor->getValue($objectConfig, $configWithFormPath);
 
@@ -88,7 +87,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     {
         $legacyEasyAdminMatchingType = LegacyFormHelper::getType($shortType);
 
-        return class_exists($legacyEasyAdminMatchingType);
+        return \class_exists($legacyEasyAdminMatchingType);
     }
 
     private function getShortFormTypes()

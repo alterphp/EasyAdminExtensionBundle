@@ -2,8 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 /**
  * @author Pierre-Charles Bertineau <pc.bertineau@alterphp.com>
  */
@@ -21,7 +19,7 @@ class MenuHelper
     /**
      * MenuHelper constructor.
      *
-     * @param \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker $adminAuthorizationChecker
+     * @param \AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker        $adminAuthorizationChecker
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct($adminAuthorizationChecker, $authorizationChecker)
@@ -52,8 +50,7 @@ class MenuHelper
             ) {
                 unset($menuConfig[$key]);
                 continue;
-            }
-            elseif (isset($entry['role']) && !$this->authorizationChecker->isGranted($entry['role'])) {
+            } elseif (isset($entry['role']) && !$this->authorizationChecker->isGranted($entry['role'])) {
                 unset($menuConfig[$key]);
                 continue;
             }

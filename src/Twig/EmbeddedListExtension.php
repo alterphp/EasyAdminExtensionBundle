@@ -22,6 +22,7 @@ class EmbeddedListExtension extends AbstractExtension
     {
         $this->embeddedListHelper = $embeddedListHelper;
     }
+
     public function getFilters()
     {
         return array(
@@ -38,7 +39,7 @@ class EmbeddedListExtension extends AbstractExtension
 
     public function getEmbeddedListIdentifier(string $requestUri)
     {
-        return md5($requestUri);
+        return \md5($requestUri);
     }
 
     public function guessDefaultFilters(string $entityFqcn, string $parentEntityProperty, $parentEntity)
