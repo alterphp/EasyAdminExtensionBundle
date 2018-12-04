@@ -38,7 +38,7 @@ class ListFormFiltersHelper
         $this->requestStack = $requestStack;
     }
 
-    public function getListFiltersForm(array $formFilters): FormInterface
+    public function getListFormFilters(array $formFilters): FormInterface
     {
         if (null === $this->listFiltersForm) {
             $formBuilder = $this->formFactory->createNamedBuilder('form_filters');
