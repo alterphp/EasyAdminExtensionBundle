@@ -7,6 +7,17 @@ EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator
 
 :exclamation: This bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack.
 
+__Features__
+
+* [List filters form](#list-filters-form)
+* [Register its own form types and aliases](#register-your-own-form-types-with-a-short-name-aliasing-form-types)
+* [Embed lists in EDIT and SHOW views](#embed-lists-in-edit-and-show-views)
+* [Autocomplete option to create related entity](#autocomplete-add-new-option-create-for-modal-in-new-and-edit)
+* [Role based access permissions](#define-access-permissions)
+* [Confirmation modal for custom POST actions (without form)](#confirmation-modal-for-custom-post-actions-without-form)
+* [Form fields by exclusion](#exclude-fields-in-forms)
+* [Vertical theme for SHOW view](#use-template-show-vertical-boostrap)
+
 Installation
 ------------
 
