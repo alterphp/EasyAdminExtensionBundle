@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -41,7 +42,9 @@ class ListFormFiltersHelper
     public function getListFormFilters(array $formFilters): FormInterface
     {
         if (null === $this->listFiltersForm) {
-            $formBuilder = $this->formFactory->createNamedBuilder('form_filters');
+            $formBuilder = $this->formFactory->createNamedBuilder(
+                'form_filters', FormType::class, null, array('csrf_protection' => false)
+            );
 
             foreach ($formFilters as $name => $config) {
                 $formBuilder->add(

@@ -156,7 +156,9 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             // Multiple values leads to IN statement
             case $value instanceof Collection:
             case \is_array($value):
-                $filterDqlPart = $field.' IN (:'.$parameter.')';
+                if (0 < count($value)) {
+                    $filterDqlPart = $field.' IN (:'.$parameter.')';
+                }
                 break;
             // Special value for NULL evaluation
             case '_NULL' === $value:
@@ -174,9 +176,11 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 break;
         }
 
-        $queryBuilder->andWhere($filterDqlPart);
-        if (null !== $parameter) {
-            $queryBuilder->setParameter($parameter, $value);
+        if (isset($filterDqlPart)) {
+            $queryBuilder->andWhere($filterDqlPart);
+            if (null !== $parameter) {
+                $queryBuilder->setParameter($parameter, $value);
+            }
         }
     }
 
