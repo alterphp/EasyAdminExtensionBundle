@@ -126,7 +126,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                         'list_form_filters.default.boolean.true' => true,
                         'list_form_filters.default.boolean.false' => false,
                     ),
-                    'choice_translation_domain' => $translationDomain,
+                    'choice_translation_domain' => 'EasyAdminBundle',
                 );
                 break;
             case 'string':
