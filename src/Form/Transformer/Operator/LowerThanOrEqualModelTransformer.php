@@ -7,7 +7,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class LowerThanOrEqualModelTransformer implements DataTransformerInterface
 {
-    const OPERATOR_PREFIX = "_LTE";
+    const OPERATOR_PREFIX = '_LTE';
 
     use OperatorModelTransformerTrait;
 }

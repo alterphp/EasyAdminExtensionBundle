@@ -2,7 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type\Operator;
 
-
 use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\GreaterThanOrEqualModelTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,7 +13,6 @@ class GreaterThanOrEqualFilterTextType extends AbstractType
     {
         $builder->addModelTransformer(new GreaterThanOrEqualModelTransformer());
     }
-
 
     public function getParent()
     {

@@ -6,9 +6,9 @@ trait OperatorModelTransformerTrait
 {
     public function transform($value)
     {
-        if (strpos($value, static::OPERATOR_PREFIX) !== 0) {
+        if (0 !== \strpos($value, static::OPERATOR_PREFIX)) {
             // remove prefix if set
-            $value = substr($value, \strlen(static::OPERATOR_PREFIX)) ;
+            $value = \substr($value, \strlen(static::OPERATOR_PREFIX));
         }
 
         return $value;
@@ -16,12 +16,11 @@ trait OperatorModelTransformerTrait
 
     public function reverseTransform($value)
     {
-        if (strpos($value, static::OPERATOR_PREFIX) !== 0) {
+        if (0 !== \strpos($value, static::OPERATOR_PREFIX)) {
             // add prefix if not set
-            $value = static::OPERATOR_PREFIX . $value;
+            $value = static::OPERATOR_PREFIX.$value;
         }
 
         return $value;
     }
-
 }

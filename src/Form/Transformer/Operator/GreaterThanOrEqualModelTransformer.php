@@ -7,7 +7,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class GreaterThanOrEqualModelTransformer implements DataTransformerInterface
 {
-    const OPERATOR_PREFIX = "_GTE";
+    const OPERATOR_PREFIX = '_GTE';
 
     use OperatorModelTransformerTrait;
 }

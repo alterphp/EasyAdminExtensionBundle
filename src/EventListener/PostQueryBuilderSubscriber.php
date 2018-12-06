@@ -7,8 +7,8 @@ use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\GreaterThanOrEqu
 use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\LowerThanModelTransformer;
 use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\LowerThanOrEqualModelTransformer;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\QueryException;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -167,7 +167,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             // Multiple values leads to IN statement
             case $value instanceof Collection:
             case \is_array($value):
-                if (0 < count($value)) {
+                if (0 < \count($value)) {
                     $filterDqlPart = $field.' IN (:'.$parameter.')';
                 }
                 break;
@@ -184,11 +184,11 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             // Special case if value has an operatorPrefix
             case $operatorPrefix = $this->getOperatorPrefix($value):
                 // get value without prefix
-                $value = substr($value, \strlen($operatorPrefix));
+                $value = \substr($value, \strlen($operatorPrefix));
 
                 $operator = static::$operators[$operatorPrefix];
 
-                $filterDqlPart =  $field.' '. $operator .' :'.$parameter;
+                $filterDqlPart = $field.' '.$operator.' :'.$parameter;
                 break;
             // Default is equality
             default:
@@ -230,13 +230,14 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     protected function getOperatorPrefix($value): string
     {
-        $operatorPrefixes = array_keys(static::$operators);
+        $operatorPrefixes = \array_keys(static::$operators);
 
         foreach ($operatorPrefixes as $operatorPrefix) {
-            if (strpos($value, $operatorPrefix) === 0) {
+            if (0 === \strpos($value, $operatorPrefix)) {
                 return $operatorPrefix;
             }
         }
+
         return '';
     }
 }
