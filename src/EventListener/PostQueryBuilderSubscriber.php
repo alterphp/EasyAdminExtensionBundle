@@ -14,6 +14,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class PostQueryBuilderSubscriber implements EventSubscriberInterface
 {
+    protected static $operators = [
+        '_GT' => '>',
+        '_GTE' => '>=',
+        '_LT' => '<',
+        '_LTE' => '<=',
+    ];
+
     /**
      * @var \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper
      */
@@ -170,6 +177,15 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 $parameter = null;
                 $filterDqlPart = $field.' IS NOT NULL';
                 break;
+            // Special case if value has an operatorPrefix
+            case $operatorPrefix = $this->getOperatorPrefix($value):
+                // get value without prefix
+                $value = substr($value, \strlen($operatorPrefix));
+
+                $operator = static::$operators[$operatorPrefix];
+
+                $filterDqlPart =  $field.' '. $operator .' :'.$parameter;
+                break;
             // Default is equality
             default:
                 $filterDqlPart = $field.' = :'.$parameter;
@@ -206,5 +222,17 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         }
 
         return true;
+    }
+
+    protected function getOperatorPrefix($value): string
+    {
+        $operatorPrefixes = array_keys(static::$operators);
+
+        foreach ($operatorPrefixes as $operatorPrefix) {
+            if (strpos($value, $operatorPrefix) === 0) {
+                return $operatorPrefix;
+            }
+        }
+        return '';
     }
 }
