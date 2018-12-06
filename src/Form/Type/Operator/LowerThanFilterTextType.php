@@ -14,7 +14,6 @@ class LowerThanFilterTextType extends AbstractType
         $builder->addModelTransformer(new LowerThanModelTransformer());
     }
 
-
     public function getParent()
     {
         return TextType::class;

@@ -7,7 +7,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class GreaterThanModelTransformer implements DataTransformerInterface
 {
-    const OPERATOR_PREFIX = "_GT";
+    const OPERATOR_PREFIX = '_GT';
 
     use OperatorModelTransformerTrait;
 }
