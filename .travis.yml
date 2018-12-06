@@ -63,7 +63,7 @@ before_install:
 
 install:
     - if [[ "$CHECK_PHP_SYNTAX" == "yes" ]]; then composer require --dev --no-update friendsofphp/php-cs-fixer; fi;
-    - composer update --prefer-dist --no-interaction --no-suggest --no-progress --ansi $COMPOSER_FLAGS
+    - composer update --dev --prefer-dist --no-interaction --no-suggest --no-progress --ansi $COMPOSER_FLAGS
     - if [[ "$ENABLE_CODE_COVERAGE" == "true" ]]; then composer require --dev php-coveralls/php-coveralls; fi
 
 script:
