@@ -17,11 +17,6 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product');
 
-        if (500 === $this->client->getResponse()->getStatusCode()) {
-            echo $this->client->getResponse()->getContent();
-            echo PHP_EOL.PHP_EOL.PHP_EOL.PHP_EOL;
-        }
-
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
         $listFormFiltersCrawler = $crawler->filter('#list-form-filters');
@@ -36,11 +31,6 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', array(), array('enabled' => false));
 
-        if (500 === $this->client->getResponse()->getStatusCode()) {
-            echo $this->client->getResponse()->getContent();
-            echo PHP_EOL.PHP_EOL.PHP_EOL.PHP_EOL;
-        }
-
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
     }
@@ -48,11 +38,6 @@ class ListFormFiltersTest extends AbstractTestCase
     public function testFormSingleEasyadminAutocompleteFilterIsApplied()
     {
         $crawler = $this->requestListView('Product', array(), array('category' => array('autocomplete' => array(1))));
-
-        if (500 === $this->client->getResponse()->getStatusCode()) {
-            echo $this->client->getResponse()->getContent();
-            echo PHP_EOL.PHP_EOL.PHP_EOL.PHP_EOL;
-        }
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());

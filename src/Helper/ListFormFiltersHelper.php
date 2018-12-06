@@ -30,20 +30,31 @@ class ListFormFiltersHelper
     private $listFiltersForm;
 
     /**
+     * @var bool
+     */
+    private $formCsrfEnabled;
+
+    /**
      * @param FormFactory  $formFactory
      * @param RequestStack $requestStack
+     * @param bool         $formCsrfEnabled
      */
-    public function __construct(FormFactory $formFactory, RequestStack $requestStack)
+    public function __construct(FormFactory $formFactory, RequestStack $requestStack, $formCsrfEnabled)
     {
         $this->formFactory = $formFactory;
         $this->requestStack = $requestStack;
+        $this->formCsrfEnabled = $formCsrfEnabled;
     }
 
     public function getListFormFilters(array $formFilters): FormInterface
     {
         if (null === $this->listFiltersForm) {
+            $formOptions = array();
+            if ($this->formCsrfEnabled) {
+                $formOptions['csrf_protection'] = false;
+            }
             $formBuilder = $this->formFactory->createNamedBuilder(
-                'form_filters', FormType::class, null, array('csrf_protection' => false)
+                'form_filters', FormType::class, null, $formOptions
             );
 
             foreach ($formFilters as $name => $config) {
