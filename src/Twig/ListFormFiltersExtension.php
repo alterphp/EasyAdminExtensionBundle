@@ -10,16 +10,16 @@ class ListFormFiltersExtension extends AbstractExtension
     /**
      * @var \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper
      */
-    protected $listFiltersHelper;
+    protected $listFormFiltersHelper;
 
     /**
      * ListFormFiltersExtension constructor.
      *
-     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper $listFiltersHelper
+     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper $listFormFiltersHelper
      */
-    public function __construct($listFiltersHelper)
+    public function __construct($listFormFiltersHelper)
     {
-        $this->listFiltersHelper = $listFiltersHelper;
+        $this->listFormFiltersHelper = $listFormFiltersHelper;
     }
 
     public function getFunctions()
@@ -31,6 +31,6 @@ class ListFormFiltersExtension extends AbstractExtension
 
     public function getListFormFilters(array $filters)
     {
-        return $this->listFiltersHelper->getListFiltersForm($filters)->createView();
+        return $this->listFormFiltersHelper->getListFormFilters($filters)->createView();
     }
 }

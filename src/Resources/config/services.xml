@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="alterphp.easyadmin_extension.subscriber.post_query_builder" class="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber">
+            <argument type="service" id="alterphp.easyadmin_extension.helper.list_form_filters"/>
             <tag name="kernel.event_subscriber"/>
         </service>
         <service id="alterphp.easyadmin_extension.config_pass.exclude_fields" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ExcludeFieldsConfigPass">
@@ -42,6 +43,7 @@
         <service id="alterphp.easyadmin_extension.helper.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper">
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
+            <argument>%form.type_extension.csrf.enabled%</argument>
         </service>
         <service id="alterphp.easyadmin_extension.twig.extension.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Twig\ListFormFiltersExtension">
             <argument type="service" id="alterphp.easyadmin_extension.helper.list_form_filters"/>

@@ -10,7 +10,7 @@ framework:
     default_locale:  '%locale%'
     test:            ~
     router:          { resource: '%kernel.root_dir%/config/routing_base.yml' }
-    form:            true
+    form: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] }
     profiler:
