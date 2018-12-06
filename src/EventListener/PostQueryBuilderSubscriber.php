@@ -2,6 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
+use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\GreaterThanModelTransformer;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
@@ -15,7 +16,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class PostQueryBuilderSubscriber implements EventSubscriberInterface
 {
     protected static $operators = [
-        '_GT' => '>',
+        GreaterThanModelTransformer::OPERATOR_PREFIX => '>',
         '_GTE' => '>=',
         '_LT' => '<',
         '_LTE' => '<=',
