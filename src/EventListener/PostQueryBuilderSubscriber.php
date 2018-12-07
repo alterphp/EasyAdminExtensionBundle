@@ -156,7 +156,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             // Multiple values leads to IN statement
             case $value instanceof Collection:
             case \is_array($value):
-                if (0 < count($value)) {
+                if (0 < \count($value)) {
                     $filterDqlPart = $field.' IN (:'.$parameter.')';
                 }
                 break;
