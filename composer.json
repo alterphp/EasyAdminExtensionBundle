@@ -17,7 +17,7 @@
         "doctrine/common": "^2.4",
         "doctrine/doctrine-bundle": "~1.2",
         "doctrine/orm": "~2.3",
-        "easycorp/easyadmin-bundle": "^1.17",
+        "easycorp/easyadmin-bundle": "^2.0",
         "symfony/config": "~3.0|^4.0",
         "symfony/dependency-injection": "~3.0|^4.0",
         "symfony/event-dispatcher": "~3.0|^4.0",
