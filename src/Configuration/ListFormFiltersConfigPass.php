@@ -138,6 +138,9 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     'choice_translation_domain' => $translationDomain,
                 );
                 break;
+            case 'text':
+                $filterConfig['type'] = TextFeld::class;
+                break;                
             default:
                 return;
         }
