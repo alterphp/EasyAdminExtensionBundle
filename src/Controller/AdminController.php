@@ -2,12 +2,22 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AdminController extends BaseAdminController
+class AdminController extends EasyAdminController
 {
+
+    public static function getSubscribedServices(): array
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            ['admin_authorization_checker' => AdminAuthorizationChecker::class]
+        );
+    }
+
     protected function embeddedListAction()
     {
         $this->dispatch(EasyAdminEvents::PRE_LIST);
@@ -49,9 +59,7 @@ class AdminController extends BaseAdminController
         // Get item for edit/show or custom actions => security voters may apply
         $easyadmin = $this->request->attributes->get('easyadmin');
         $subject = $easyadmin['item'] ?? null;
-        $this->get('alterphp.easyadmin_extension.admin_authorization_checker')->checksUserAccess(
-            $this->entity, $actionName, $subject
-        );
+        $this->get('admin_authorization_checker')->checksUserAccess($this->entity, $actionName, $subject);
 
         return parent::isActionAllowed($actionName);
     }
