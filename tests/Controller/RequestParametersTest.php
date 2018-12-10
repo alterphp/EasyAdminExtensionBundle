@@ -76,7 +76,7 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 100',
-            $crawler->filter('#main .list-pagination')->text()
+            $crawler->filter('section.content-footer .list-pagination')->text()
         );
 
         $searchFormCrawler = $crawler->filter('.action-search form');
@@ -118,7 +118,7 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 90',
-            $crawler->filter('#main .list-pagination')->text()
+            $crawler->filter('section.content-footer .list-pagination')->text()
         );
     }
 
@@ -131,7 +131,7 @@ class RequestParametersTest extends AbstractTestCase
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '1 - 15 of 100',
-            $crawler->filter('#main .list-pagination')->text()
+            $crawler->filter('section.content-footer .list-pagination')->text()
         );
     }
 }
