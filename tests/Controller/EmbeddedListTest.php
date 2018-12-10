@@ -105,8 +105,8 @@ class EmbeddedListTest extends AbstractTestCase
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
-            '1 - 15 of 100',
-            $crawler->filter('section.content-footer .list-pagination')->text()
+            '100 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
         );
 
         $searchFormCrawler = $crawler->filter('.action-search form');
@@ -146,8 +146,8 @@ class EmbeddedListTest extends AbstractTestCase
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
-            '1 - 15 of 90',
-            $crawler->filter('section.content-footer .list-pagination')->text()
+            '90 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
         );
     }
 
