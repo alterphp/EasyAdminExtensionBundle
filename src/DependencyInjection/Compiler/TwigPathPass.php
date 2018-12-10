@@ -21,7 +21,7 @@ class TwigPathPass implements CompilerPassInterface
             $easyAdminExtensionTwigPath = $easyAdminExtensionBundlePath.'/Resources/views';
             $twigLoaderFilesystemDefinition->addMethodCall(
                 'prependPath',
-                array($easyAdminExtensionTwigPath, 'EasyAdmin')
+                [$easyAdminExtensionTwigPath, 'EasyAdmin']
             );
         }
 
@@ -32,7 +32,7 @@ class TwigPathPass implements CompilerPassInterface
             // Defines a namespace from native EasyAdmin templates
             $twigLoaderFilesystemDefinition->addMethodCall(
                 'addPath',
-                array($nativeEasyAdminTwigPath, 'BaseEasyAdmin')
+                [$nativeEasyAdminTwigPath, 'BaseEasyAdmin']
             );
         }
     }

@@ -25,7 +25,7 @@ class LoadCategories extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach (range(1, 100) as $i) {
+        foreach (\range(1, 100) as $i) {
             $category = new Category();
             $category->setName('Parent Category #'.$i);
 
@@ -35,7 +35,7 @@ class LoadCategories extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
 
-        foreach (range(1, 100) as $i) {
+        foreach (\range(1, 100) as $i) {
             $category = new Category();
             $category->setName('Category #'.$i);
             $category->setParent($this->getReference('category-'.$i));

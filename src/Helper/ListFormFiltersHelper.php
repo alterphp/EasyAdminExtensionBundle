@@ -49,7 +49,7 @@ class ListFormFiltersHelper
     public function getListFormFilters(array $formFilters): FormInterface
     {
         if (null === $this->listFiltersForm) {
-            $formOptions = array();
+            $formOptions = [];
             if ($this->formCsrfEnabled) {
                 $formOptions['csrf_protection'] = false;
             }
@@ -62,7 +62,7 @@ class ListFormFiltersHelper
                     $name,
                     $config['type'] ?? null,
                     \array_merge(
-                        array('required' => false),
+                        ['required' => false],
                         isset($config['type_options']) ? $config['type_options'] : []
                     )
                 );

@@ -10,7 +10,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->initClient(array('environment' => 'list_form_filters'));
+        $this->initClient(['environment' => 'list_form_filters']);
     }
 
     public function testListFiltersAreDisplaid()
@@ -29,7 +29,7 @@ class ListFormFiltersTest extends AbstractTestCase
 
     public function testFormSingleFilterIsApplied()
     {
-        $crawler = $this->requestListView('Product', array(), array('enabled' => false));
+        $crawler = $this->requestListView('Product', [], ['enabled' => false]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
@@ -37,7 +37,7 @@ class ListFormFiltersTest extends AbstractTestCase
 
     public function testFormSingleEasyadminAutocompleteFilterIsApplied()
     {
-        $crawler = $this->requestListView('Product', array(), array('category' => array('autocomplete' => array(1))));
+        $crawler = $this->requestListView('Product', [], ['category' => ['autocomplete' => [1]]]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());

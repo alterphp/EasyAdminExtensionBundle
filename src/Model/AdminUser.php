@@ -79,7 +79,7 @@ class AdminUser implements UserInterface
      */
     public function getRoles()
     {
-        $roles = array('ROLE_ADMIN');
+        $roles = ['ROLE_ADMIN'];
 
         foreach ($this->getGroups() as $group) {
             $roles = \array_merge($roles, $group->getRoles());

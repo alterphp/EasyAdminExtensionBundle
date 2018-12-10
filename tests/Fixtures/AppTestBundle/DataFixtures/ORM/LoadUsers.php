@@ -16,7 +16,7 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach (range(1, 20) as $i) {
+        foreach (\range(1, 20) as $i) {
             $user = new User();
             $user->setUsername('user'.$i);
             $user->setEmail('user'.$i.'@example.com');

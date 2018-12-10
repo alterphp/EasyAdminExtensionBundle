@@ -17,11 +17,11 @@ class ShowViewConfigPass implements ConfigPassInterface
      */
     private $embeddedListHelper;
 
-    private static $mapTypeToTemplates = array(
+    private static $mapTypeToTemplates = [
         // Use EasyAdminExtension namespace because EasyAdminTwigExtension checks namespaces
         // to detect custom templates.
         'embedded_list' => '@EasyAdminExtension/default/field_embedded_list.html.twig',
-    );
+    ];
 
     /**
      * ShowViewConfigPass constructor.

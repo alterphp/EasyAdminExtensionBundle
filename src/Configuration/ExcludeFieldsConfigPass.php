@@ -34,7 +34,7 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
         }
 
         foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            foreach (array('form', 'edit', 'new') as $section) {
+            foreach (['form', 'edit', 'new'] as $section) {
                 if (!isset($entityConfig[$section]['exclude_fields'])) {
                     continue;
                 }

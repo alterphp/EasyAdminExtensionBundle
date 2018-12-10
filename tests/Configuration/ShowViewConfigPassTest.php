@@ -23,53 +23,53 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
 
         $showViewConfigPass = new ShowViewConfigPass($embeddedListHelper);
 
-        $backendConfig = array(
-            'entities' => array(
-                'MyEntity' => array(
-                    'show' => array(
-                        'fields' => array(
-                            'foo' => array('type' => 'string'),
-                            'bar' => array('type' => 'boolean'),
-                            'relations' => array(
+        $backendConfig = [
+            'entities' => [
+                'MyEntity' => [
+                    'show' => [
+                        'fields' => [
+                            'foo' => ['type' => 'string'],
+                            'bar' => ['type' => 'boolean'],
+                            'relations' => [
                                 'property' => 'relations',
                                 'type' => 'embedded_list',
                                 'sourceEntity' => 'App\Entity\MyEntity',
-                            ),
-                            'qux' => array('type' => 'integer'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            ],
+                            'qux' => ['type' => 'integer'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $backendConfig = $showViewConfigPass->process($backendConfig);
 
-        $expectedBackendConfig = array(
-            'entities' => array(
-                'MyEntity' => array(
-                    'show' => array(
-                        'fields' => array(
-                            'foo' => array('type' => 'string'),
-                            'bar' => array('type' => 'boolean'),
-                            'relations' => array(
+        $expectedBackendConfig = [
+            'entities' => [
+                'MyEntity' => [
+                    'show' => [
+                        'fields' => [
+                            'foo' => ['type' => 'string'],
+                            'bar' => ['type' => 'boolean'],
+                            'relations' => [
                                 'property' => 'relations',
                                 'type' => 'embedded_list',
                                 'sourceEntity' => 'App\Entity\MyEntity',
                                 'template' => '@EasyAdminExtension/default/field_embedded_list.html.twig',
-                                'template_options' => array(
+                                'template_options' => [
                                     'entity_fqcn' => 'App\Entity\MyRelation',
                                     'parent_entity_property' => 'relations',
                                     'entity' => 'MyRelation',
-                                    'filters' => array(),
+                                    'filters' => [],
                                     'sort' => null,
-                                ),
-                            ),
-                            'qux' => array('type' => 'integer'),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                ],
+                            ],
+                            'qux' => ['type' => 'integer'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertSame($backendConfig, $expectedBackendConfig);
     }
@@ -90,57 +90,57 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
 
         $showViewConfigPass = new ShowViewConfigPass($embeddedListHelper);
 
-        $backendConfig = array(
-            'entities' => array(
-                'MyEntity' => array(
-                    'show' => array(
-                        'fields' => array(
-                            'relations' => array(
+        $backendConfig = [
+            'entities' => [
+                'MyEntity' => [
+                    'show' => [
+                        'fields' => [
+                            'relations' => [
                                 'property' => 'relations',
                                 'type' => 'embedded_list',
                                 'sourceEntity' => 'App\Entity\MyEntity',
                                 'template' => 'path/to/template.html.twig',
-                                'template_options' => array(
+                                'template_options' => [
                                     'parent_entity_fqcn' => 'Foo\Entity\MyEntity',
                                     'parent_entity_property' => 'children',
                                     'entity_fqcn' => 'Foo\Entity\Child',
                                     'entity' => 'Child',
-                                    'filters' => array('bar' => 'baz'),
-                                    'sort' => array('qux', 'ASC'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    'filters' => ['bar' => 'baz'],
+                                    'sort' => ['qux', 'ASC'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $backendConfig = $showViewConfigPass->process($backendConfig);
 
-        $expectedBackendConfig = array(
-            'entities' => array(
-                'MyEntity' => array(
-                    'show' => array(
-                        'fields' => array(
-                            'relations' => array(
+        $expectedBackendConfig = [
+            'entities' => [
+                'MyEntity' => [
+                    'show' => [
+                        'fields' => [
+                            'relations' => [
                                 'property' => 'relations',
                                 'type' => 'embedded_list',
                                 'sourceEntity' => 'App\Entity\MyEntity',
                                 'template' => 'path/to/template.html.twig',
-                                'template_options' => array(
+                                'template_options' => [
                                     'parent_entity_fqcn' => 'Foo\Entity\MyEntity',
                                     'parent_entity_property' => 'children',
                                     'entity_fqcn' => 'Foo\Entity\Child',
                                     'entity' => 'Child',
-                                    'filters' => array('bar' => 'baz'),
-                                    'sort' => array('field' => 'qux', 'direction' => 'ASC'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                                    'filters' => ['bar' => 'baz'],
+                                    'sort' => ['field' => 'qux', 'direction' => 'ASC'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertSame($backendConfig, $expectedBackendConfig);
     }

@@ -20,7 +20,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        return array(
+        return [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -29,16 +29,16 @@ class AppKernel extends Kernel
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new AlterPHP\EasyAdminExtensionBundle\EasyAdminExtensionBundle(),
             new AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AppTestBundle\AppTestBundle(),
-        );
+        ];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yaml');
         $loader->load(function (ContainerBuilder $container) {
-            $container->loadFromExtension('framework', array(
+            $container->loadFromExtension('framework', [
                 'assets' => null,
-            ));
+            ]);
         });
     }
 

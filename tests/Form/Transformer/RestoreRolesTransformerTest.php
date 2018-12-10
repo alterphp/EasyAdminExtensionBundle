@@ -23,7 +23,7 @@ class RestoreRolesTransformerTest extends TestCase
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
         $transformer = new RestoreRolesTransformer($roleBuilder);
-        $transformer->transform(array());
+        $transformer->transform([]);
     }
 
     public function testInvalidStateReverseTransform()
@@ -33,7 +33,7 @@ class RestoreRolesTransformerTest extends TestCase
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
         $transformer = new RestoreRolesTransformer($roleBuilder);
-        $transformer->reverseTransform(array());
+        $transformer->reverseTransform([]);
     }
 
     public function testNullIsTransformedToNull()
@@ -41,7 +41,7 @@ class RestoreRolesTransformerTest extends TestCase
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
         $transformer = new RestoreRolesTransformer($roleBuilder);
-        $transformer->setOriginalRoles(array());
+        $transformer->setOriginalRoles([]);
 
         $this->assertNull($transformer->transform(null));
     }
@@ -51,9 +51,9 @@ class RestoreRolesTransformerTest extends TestCase
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
         $transformer = new RestoreRolesTransformer($roleBuilder);
-        $transformer->setOriginalRoles(array());
+        $transformer->setOriginalRoles([]);
 
-        $data = array('ROLE_FOO');
+        $data = ['ROLE_FOO'];
 
         $this->assertSame($data, $transformer->transform($data));
     }
@@ -62,14 +62,14 @@ class RestoreRolesTransformerTest extends TestCase
     {
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
-        $roleBuilder->expects($this->once())->method('getRoles')->will($this->returnValue(array()));
+        $roleBuilder->expects($this->once())->method('getRoles')->will($this->returnValue([]));
 
         $transformer = new RestoreRolesTransformer($roleBuilder);
-        $transformer->setOriginalRoles(array('ROLE_HIDDEN'));
+        $transformer->setOriginalRoles(['ROLE_HIDDEN']);
 
-        $data = array('ROLE_FOO');
+        $data = ['ROLE_FOO'];
 
-        $this->assertSame(array('ROLE_FOO', 'ROLE_HIDDEN'), $transformer->reverseTransform($data));
+        $this->assertSame(['ROLE_FOO', 'ROLE_HIDDEN'], $transformer->reverseTransform($data));
     }
 
     public function testTransformAllowEmptyOriginalRoles()
@@ -79,7 +79,7 @@ class RestoreRolesTransformerTest extends TestCase
         $transformer = new RestoreRolesTransformer($roleBuilder);
         $transformer->setOriginalRoles(null);
 
-        $data = array('ROLE_FOO');
+        $data = ['ROLE_FOO'];
 
         $this->assertSame($data, $transformer->transform($data));
     }
@@ -88,36 +88,36 @@ class RestoreRolesTransformerTest extends TestCase
     {
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
-        $roleBuilder->expects($this->once())->method('getRoles')->will($this->returnValue(array()));
+        $roleBuilder->expects($this->once())->method('getRoles')->will($this->returnValue([]));
 
         $transformer = new RestoreRolesTransformer($roleBuilder);
         $transformer->setOriginalRoles(null);
 
-        $data = array('ROLE_FOO');
+        $data = ['ROLE_FOO'];
 
-        $this->assertSame(array('ROLE_FOO'), $transformer->reverseTransform($data));
+        $this->assertSame(['ROLE_FOO'], $transformer->reverseTransform($data));
     }
 
     public function testReverseTransformRevokedHierarchicalRole()
     {
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
-        $availableRoles = array(
+        $availableRoles = [
             'ROLE_SONATA_ADMIN' => 'ROLE_SONATA_ADMIN',
             'ROLE_COMPANY_PERSONAL_MODERATOR' => 'ROLE_COMPANY_PERSONAL_MODERATOR: ROLE_COMPANY_USER',
             'ROLE_COMPANY_NEWS_MODERATOR' => 'ROLE_COMPANY_NEWS_MODERATOR: ROLE_COMPANY_USER',
             'ROLE_COMPANY_BOOKKEEPER' => 'ROLE_COMPANY_BOOKKEEPER: ROLE_COMPANY_USER',
             'ROLE_USER' => 'ROLE_USER',
-        );
+        ];
         $roleBuilder->expects($this->once())->method('getRoles')->will($this->returnValue($availableRoles));
 
         // user roles
-        $userRoles = array('ROLE_COMPANY_PERSONAL_MODERATOR', 'ROLE_COMPANY_NEWS_MODERATOR', 'ROLE_COMPANY_BOOKKEEPER');
+        $userRoles = ['ROLE_COMPANY_PERSONAL_MODERATOR', 'ROLE_COMPANY_NEWS_MODERATOR', 'ROLE_COMPANY_BOOKKEEPER'];
         $transformer = new RestoreRolesTransformer($roleBuilder);
         $transformer->setOriginalRoles($userRoles);
 
         // now we want to revoke role ROLE_COMPANY_PERSONAL_MODERATOR
-        $revokedRole = array_shift($userRoles);
+        $revokedRole = \array_shift($userRoles);
         $processedRoles = $transformer->reverseTransform($userRoles);
 
         $this->assertNotContains($revokedRole, $processedRoles);
@@ -127,21 +127,21 @@ class RestoreRolesTransformerTest extends TestCase
     {
         $roleBuilder = $this->createMock(EditableRolesHelper::class);
 
-        $availableRoles = array(
+        $availableRoles = [
             'ROLE_SONATA_ADMIN' => 'ROLE_SONATA_ADMIN',
             'ROLE_ADMIN' => 'ROLE_ADMIN: ROLE_USER ROLE_COMPANY_ADMIN',
-        );
+        ];
         $roleBuilder->expects($this->once())->method('getRoles')->will($this->returnValue($availableRoles));
 
         // user roles
-        $userRoles = array('ROLE_USER', 'ROLE_SUPER_ADMIN');
+        $userRoles = ['ROLE_USER', 'ROLE_SUPER_ADMIN'];
         $transformer = new RestoreRolesTransformer($roleBuilder);
         $transformer->setOriginalRoles($userRoles);
 
         // add a new role
-        array_push($userRoles, 'ROLE_SONATA_ADMIN');
+        \array_push($userRoles, 'ROLE_SONATA_ADMIN');
         // remove existing user role that is not availableRoles
-        unset($userRoles[array_search('ROLE_SUPER_ADMIN', $userRoles)]);
+        unset($userRoles[\array_search('ROLE_SUPER_ADMIN', $userRoles)]);
         $processedRoles = $transformer->reverseTransform($userRoles);
 
         $this->assertContains('ROLE_SUPER_ADMIN', $processedRoles);

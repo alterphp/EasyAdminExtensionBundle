@@ -1,5 +1,8 @@
 # Basic config common to all functional tests
 # Can be easily overridden in each test config
+imports:
+    - { resource: services.yaml }
+
 parameters:
     locale: en
     database_path: '%kernel.root_dir%/../../../build/test.db'
@@ -9,7 +12,7 @@ framework:
     translator:      ~
     default_locale:  '%locale%'
     test:            ~
-    router:          { resource: '%kernel.root_dir%/config/routing_base.yml' }
+    router:          { resource: '%kernel.root_dir%/config/routing_base.yaml' }
     form: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] }

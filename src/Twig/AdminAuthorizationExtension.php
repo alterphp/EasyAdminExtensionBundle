@@ -26,17 +26,17 @@ class AdminAuthorizationExtension extends AbstractExtension
 
     public function getFilters()
     {
-        return array(
-            new TwigFilter('prune_item_actions', array($this, 'pruneItemsActions')),
-            new TwigFilter('prune_menu_items', array($this, 'pruneMenuItems')),
-        );
+        return [
+            new TwigFilter('prune_item_actions', [$this, 'pruneItemsActions']),
+            new TwigFilter('prune_menu_items', [$this, 'pruneMenuItems']),
+        ];
     }
 
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('is_easyadmin_granted', array($this, 'isEasyAdminGranted')),
-        );
+        return [
+            new TwigFunction('is_easyadmin_granted', [$this, 'isEasyAdminGranted']),
+        ];
     }
 
     public function isEasyAdminGranted(array $entityConfig, string $actionName = 'list', $subject = null)

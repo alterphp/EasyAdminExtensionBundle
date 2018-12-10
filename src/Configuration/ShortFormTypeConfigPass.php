@@ -17,15 +17,15 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class ShortFormTypeConfigPass implements ConfigPassInterface
 {
-    private $customFormTypes = array();
+    private $customFormTypes = [];
 
-    private static $configWithFormPaths = array('[form][fields]', '[edit][fields]', '[new][fields]', '[list][form_filters]');
-    private static $nativeShortFormTypes = array(
+    private static $configWithFormPaths = ['[form][fields]', '[edit][fields]', '[new][fields]', '[list][form_filters]'];
+    private static $nativeShortFormTypes = [
         'embedded_list' => EasyAdminEmbeddedListType::class,
         'admin_roles' => AdminRolesType::class,
-    );
+    ];
 
-    public function __construct(array $customFormTypes = array())
+    public function __construct(array $customFormTypes = [])
     {
         $this->customFormTypes = $customFormTypes;
     }

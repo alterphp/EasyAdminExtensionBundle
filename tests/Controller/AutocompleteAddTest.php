@@ -10,12 +10,16 @@ class AutocompleteAddTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->initClient(array('environment' => 'autocomplete_add'));
+        $this->initClient(['environment' => 'autocomplete_add']);
     }
 
     public function testNewEntityAutocompleteModal()
     {
         $crawler = $this->requestNewView('Product');
+
+        if (200 !== $this->client->getResponse()->getStatusCode()) {
+            echo $this->client->getResponse()->getContent();
+        }
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('select#product_category_autocomplete[data-easyadmin-autocomplete-create-action-url="/admin/?action=newAjax&entity=Category"]')->count());

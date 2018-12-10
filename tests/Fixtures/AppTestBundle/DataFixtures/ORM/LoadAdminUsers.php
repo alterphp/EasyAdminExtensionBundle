@@ -16,14 +16,14 @@ class LoadAdminUsers extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach (range(1, 20) as $i) {
+        foreach (\range(1, 20) as $i) {
             $adminUser = new AdminUser();
-            $adminUser->updateFromData(array(
+            $adminUser->updateFromData([
                 'gSuiteId' => 'g-suite-id-'.$i,
                 'email' => 'email-'.$i.'@easyadmin.com',
                 'lastname' => 'lastname-'.$i,
                 'firstname' => 'firstname-'.$i,
-            ));
+            ]);
 
             // All users are members of first AdminGroup
             $adminUser->addGroup($this->getReference('admin-group-1'));

@@ -1,5 +1,5 @@
 imports:
-    - { resource: config.yml }
+    - { resource: config.yaml }
 security:
     role_hierarchy:
         ROLE_GROUP_TEST:
