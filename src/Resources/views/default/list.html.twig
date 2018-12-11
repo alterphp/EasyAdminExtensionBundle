@@ -30,9 +30,10 @@
     {% endif %}
   </h1>
   <div class="pull-right collapse" id="applied-request-filters">
-    <dl class="dl-horizontal">
+    <dl class="row">
     {% for filterKey, filterValue in requestFilters %}
-      <dt>{{ filterKey }}</dt><dd>{{ filterValue is iterable ? filterValue|join(',') : filterValue }}</dd>
+      <dt class="col-6">{{ filterKey }}</dt>
+      <dd class="col-6">{{ filterValue is iterable ? filterValue|join(',') : filterValue }}</dd>
     {% endfor %}
     </dl>
   </div>
@@ -68,38 +69,36 @@
   {% if _entity_config.list.form_filters is defined and _entity_config.list.form_filters is not empty %}
   {% set list_form_filters = list_form_filters(_entity_config.list.form_filters) %}
   <div id="list-form-filters" class="card">
-    <div class="card-header" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
-      <span class="card-title">{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</span>
+    <div id="list-form-filters-header" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
+      <strong>{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</strong>
       <em class="text-info pull-right">
         <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
     <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'in' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
-      <div id="list-form-filters-card-body" class="card-body">
-        <div class="row" style="display: flex; align-items: stretch;">
-          <div class="col-sm-10">
-            {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_4.html.twig' %}
-            {{ block('request_parameters_as_hidden') }}
-            <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
-            <input type="hidden" name="sortField" value="{{ _entity_config.search.sort.field|default(_request_parameters.sortField) }}">
-            <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
-            <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
-            <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
-            <div class="row">
-              {% for field in list_form_filters %}
-                <div class="col-sm-4">{{ form_row(field) }}</div>
-              {% endfor %}
-              <div class="clearfix"></div>
-            </div>
+      {#<div class="row">#}
+        <div class="col-md-10">
+          {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_4.html.twig' %}
+          {{ block('request_parameters_as_hidden') }}
+          <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
+          <input type="hidden" name="sortField" value="{{ _entity_config.search.sort.field|default(_request_parameters.sortField) }}">
+          <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
+          <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
+          <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
+          <div class="row">
+            {% for field in list_form_filters %}
+              <div class="col-md-4">{{ form_row(field) }}</div>
+            {% endfor %}
+            <div class="clearfix"></div>
           </div>
-          <div class="col-sm-2">
-            <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
-              {{ 'list_form_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
-            </button>
-          </div>
-          <div class="clearfix"></div>
         </div>
-      </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
+            {{ 'list_form_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
+          </button>
+        </div>
+        <div class="clearfix"></div>
+      {#</div>#}
     </form>
   </div>
   {% endif %}
@@ -117,9 +116,6 @@
   <script type="text/javascript">
     $(function () {
       createAutoCompleteFields();
-    });
-    $("#list-form-filters [data-toggle][data-target=\"#list-form-filters-form\"] *").click(function() {
-      $('#list-form-filters-form').collapse('toggle');
     });
   </script>
 {% endblock %}

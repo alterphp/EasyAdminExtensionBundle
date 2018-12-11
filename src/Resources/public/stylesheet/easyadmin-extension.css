@@ -2,6 +2,6 @@
   margin: 10px 0;
 }
 
-#list-form-filters .card-header[data-toggle^="collapse"] {
+#list-form-filters-header[data-toggle^="collapse"] {
   cursor: pointer;
 }
