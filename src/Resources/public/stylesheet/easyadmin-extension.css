@@ -1,3 +1,7 @@
 #list-form-filters {
   margin: 10px 0;
 }
+
+#list-form-filters .card-header[data-toggle^="collapse"] {
+  cursor: pointer;
+}
