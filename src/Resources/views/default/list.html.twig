@@ -17,33 +17,36 @@
   {% endfor %}
 {% endblock %}
 
-{% block content_title_wrapper %}
-  <h1 class="title">
-    {{ block('content_title') }}
-    {# Show applied filters informations #}
-    {% if requestFilters|length > 0 %}
-      <span class="pull-right">
-        <a href="#" id="applied-request-filters-popover" data-toggle="collapse" data-target="#applied-request-filters">
-          <i class="fa fa-filter text-warning"></i>
-        </a>
-      </span>
-    {% endif %}
-  </h1>
-  <div class="pull-right collapse" id="applied-request-filters">
-    <dl class="row">
-    {% for filterKey, filterValue in requestFilters %}
-      <dt class="col-6">{{ filterKey }}</dt>
-      <dd class="col-6">{{ filterValue is iterable ? filterValue|join(',') : filterValue }}</dd>
-    {% endfor %}
-    </dl>
-  </div>
-{% endblock %}
+{#% block global_actions %#}
+  {#{ dump(requestFilters) }#}
+  {#{% if requestFilters|length > 0 %}
+    <span class="pull-right">
+      <a href="#" id="applied-request-filters-popover" data-toggle="collapse" data-target="#applied-request-filters">
+        <i class="fa fa-filter text-warning"></i>
+      </a>
+    </span>
+    <div class="pull-right collapse" id="applied-request-filters">
+      <dl class="row">
+      {% for filterKey, filterValue in requestFilters %}
+        <dt class="col-6">{{ filterKey }}</dt>
+        <dd class="col-6">{{ filterValue is iterable ? filterValue|join(',') : filterValue }}</dd>
+      {% endfor %}
+      </dl>
+    </div>
+  {% endif %}#}
+  {#{ parent() }#}
+{#% endblock %#}
 
 {# Do not display SEARCH form if not granted #}
 {% block search_action %}
   {% if is_easyadmin_granted(_entity_config, 'search') %}
     {{ parent() }}
   {% endif %}
+{% endblock %}
+{# Adds request filters to the search form #}
+{% block search_form %}
+  {{ block('request_parameters_as_hidden') }}
+  {{ parent() }}
 {% endblock %}
 
 {# Do not display NEW button if not granted #}
@@ -56,12 +59,6 @@
 {# Do not display list action items if not granted #}
 {% block item_actions %}
   {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config, [], item) %}
-  {{ parent() }}
-{% endblock %}
-
-{# Adds request filters to the search form #}
-{% block search_form %}
-  {{ block('request_parameters_as_hidden') }}
   {{ parent() }}
 {% endblock %}
 
