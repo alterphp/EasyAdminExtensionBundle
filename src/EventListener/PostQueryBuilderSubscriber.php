@@ -2,10 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
-use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\GreaterThanModelTransformer;
-use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\GreaterThanOrEqualModelTransformer;
-use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\LowerThanModelTransformer;
-use AlterPHP\EasyAdminExtensionBundle\Form\Transformer\Operator\LowerThanOrEqualModelTransformer;
+use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
@@ -18,12 +15,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class PostQueryBuilderSubscriber implements EventSubscriberInterface
 {
-    protected static $operators = [
-        GreaterThanModelTransformer::OPERATOR_PREFIX => '>',
-        GreaterThanOrEqualModelTransformer::OPERATOR_PREFIX => '>=',
-        LowerThanModelTransformer::OPERATOR_PREFIX => '<',
-        LowerThanOrEqualModelTransformer::OPERATOR_PREFIX => '<=',
-    ];
 
     /**
      * @var \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper
@@ -126,21 +117,28 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = array())
     {
         foreach ($filters as $field => $value) {
+
             $value = $this->filterEasyadminAutocompleteValue($value);
             // Empty string and numeric keys is considered as "not applied filter"
             if (null === $value || '' === $value || \is_int($field)) {
                 continue;
             }
+
             // Add root entity alias if none provided
             $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
+            $property = $field;
+            if ($value instanceof ListFilter && $value->getProperty()) {
+                // if a property is specified in the ListFilter, it is on that property that we must filter
+                $property = $queryBuilder->getRootAlias().'.' .$value->getProperty();
+            }
             // Checks if filter is directly appliable on queryBuilder
-            if (!$this->isFilterAppliable($queryBuilder, $field)) {
+            if (!$this->isFilterAppliable($queryBuilder, $property)) {
                 continue;
             }
             // Sanitize parameter name
             $parameter = 'form_filter_'.\str_replace('.', '_', $field);
 
-            $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
+            $this->filterQueryBuilder($queryBuilder, $property, $parameter, $value);
         }
     }
 
@@ -167,7 +165,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             // Multiple values leads to IN statement
             case $value instanceof Collection:
             case \is_array($value):
-                if (0 < \count($value)) {
+                if (0 < count($value)) {
                     $filterDqlPart = $field.' IN (:'.$parameter.')';
                 }
                 break;
@@ -181,14 +179,15 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 $parameter = null;
                 $filterDqlPart = $field.' IS NOT NULL';
                 break;
-            // Special case if value has an operatorPrefix
-            case $operatorPrefix = $this->getOperatorPrefix($value):
-                // get value without prefix
-                $value = \substr($value, \strlen($operatorPrefix));
+            // Special case if value is a ListFilter
+            case $value instanceof ListFilter:
+                if ($value->getValue() === null || $value->getValue() === '') {
+                    // Break if there is not value
+                    break;
+                }
 
-                $operator = static::$operators[$operatorPrefix];
-
-                $filterDqlPart = $field.' '.$operator.' :'.$parameter;
+                $filterDqlPart = $field.' ' .$value->getOperator() .' :'.$parameter;
+                $value = $value->getValue();
                 break;
             // Default is equality
             default:
@@ -228,16 +227,4 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         return true;
     }
 
-    protected function getOperatorPrefix($value): string
-    {
-        $operatorPrefixes = \array_keys(static::$operators);
-
-        foreach ($operatorPrefixes as $operatorPrefix) {
-            if (0 === \strpos($value, $operatorPrefix)) {
-                return $operatorPrefix;
-            }
-        }
-
-        return '';
-    }
 }
