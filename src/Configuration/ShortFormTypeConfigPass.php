@@ -69,7 +69,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
                     if (\array_key_exists($field['type'], $shortFormTypes)) {
                         $configPathItem[$name]['type'] = $shortFormTypes[$field['type']];
-                    } elseif (self::isLegacyEasyAdminFormShortType($field['type'])) {
+                    } elseif (self::isEasyAdminFormShortType($field['type'])) {
                         $configPathItem[$name]['type'] = FormTypeHelper::getTypeClass($field['type']);
                     }
                 }
@@ -83,7 +83,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
         return $objectConfig;
     }
 
-    private static function isLegacyEasyAdminFormShortType(string $shortType)
+    private static function isEasyAdminFormShortType(string $shortType)
     {
         $legacyEasyAdminMatchingType = FormTypeHelper::getTypeClass($shortType);
 
