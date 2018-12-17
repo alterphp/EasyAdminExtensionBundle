@@ -3,7 +3,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
 
   // Reload sorted/paginated list in the embedded-list container
   $(containerPrefix)
-    .on('click', 'th[data-property-name] a', function (e) {
+    .on('click', 'th a', function (e) {
       e.preventDefault();
       $.ajax({
         url: e.target.href,
