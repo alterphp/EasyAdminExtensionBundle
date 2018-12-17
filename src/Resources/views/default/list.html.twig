@@ -62,16 +62,16 @@
 {% block list_form_filters %}
   {% if _entity_config.list.form_filters is defined and _entity_config.list.form_filters is not empty %}
   {% set list_form_filters = list_form_filters(_entity_config.list.form_filters) %}
-  <div id="list-form-filters" class="card">
-    <div id="list-form-filters-header" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
+  <div id="list-form-filters">
+    <div id="list-form-filters-header" class="{{ not list_form_filters.vars.submitted ? 'collapsed' }}" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
       <strong>{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</strong>
       <em class="text-info pull-right">
         <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
-    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'in' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
-      {#<div class="row">#}
-        <div class="col-md-10">
+    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'show' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
+      <div class="row">
+        <div class="col-11">
           {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_4.html.twig' %}
           {{ block('request_parameters_as_hidden') }}
           <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
@@ -81,18 +81,18 @@
           <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
           <div class="row">
             {% for field in list_form_filters %}
-              <div class="col-md-4">{{ form_row(field) }}</div>
+              <div class="col-4">{{ form_row(field) }}</div>
             {% endfor %}
             <div class="clearfix"></div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-1">
           <button class="btn btn-primary btn-block" style="height: 100%;" type="submit">
             {{ 'list_form_filters.submit'|trans(_trans_parameters, 'EasyAdminBundle') }}
           </button>
         </div>
         <div class="clearfix"></div>
-      {#</div>#}
+      </div>
     </form>
   </div>
   {% endif %}
@@ -104,7 +104,7 @@
   {{ parent() }}
 {% endblock %}
 
-{% block body_javascript %}
+{#% block body_javascript %}
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
   <script type="text/javascript">
@@ -112,4 +112,4 @@
       createAutoCompleteFields();
     });
   </script>
-{% endblock %}
+{% endblock %#}

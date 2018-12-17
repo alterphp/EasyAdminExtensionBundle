@@ -1,5 +1,3 @@
-- Upgrade to Bootstrap 4field_toggle (checkbox-switch)
-
 - reprendre embedded_list.html.twig à partir de list.html.twig
 
 

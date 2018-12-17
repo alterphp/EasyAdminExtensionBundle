@@ -160,7 +160,6 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 [
                     'class' => $associationMapping['targetEntity'],
                     'multiple' => true,
-                    'attr' => ['data-widget' => 'select2'],
                 ],
                 $filterConfig['type_options'] ?? []
             );
