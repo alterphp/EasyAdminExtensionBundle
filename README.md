@@ -6,6 +6,7 @@ EasyAdmin Extension
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
 :exclamation: Branch `1.x` of this bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack and is suitable for EasyAdmin `1.x`.
+
 :exclamation: Branch `master` of this bundle requires at least __PHP 7.1__ and __Symfony 4.1__ components or stack and is suitable for EasyAdmin `2.x`.
 
 __Features__
