@@ -3,11 +3,11 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
 use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController as BaseEasyAdminControler;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class EasyAdminController extends EasyAdminController
+class EasyAdminController extends BaseEasyAdminControler
 {
     public static function getSubscribedServices(): array
     {
