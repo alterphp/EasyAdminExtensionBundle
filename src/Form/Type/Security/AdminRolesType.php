@@ -76,19 +76,19 @@ class AdminRolesType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             // make expanded default value
             'expanded' => true,
             'choices' => function (Options $options, $parentChoices) {
                 if (!empty($parentChoices)) {
-                    return array();
+                    return [];
                 }
 
                 return $this->rolesBuilder->getRoles();
             },
             'multiple' => true,
             'data_class' => null,
-        ));
+        ]);
     }
 
     /**

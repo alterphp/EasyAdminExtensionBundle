@@ -37,7 +37,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 continue;
             }
 
-            $formFilters = array();
+            $formFilters = [];
 
             foreach ($entityConfig['list']['form_filters'] as $i => $formFilter) {
                 // Detects invalid config node
@@ -52,7 +52,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
                 // Key mapping
                 if (\is_string($formFilter)) {
-                    $filterConfig = array('property' => $formFilter);
+                    $filterConfig = ['property' => $formFilter];
                 } else {
                     if (!\array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
@@ -121,22 +121,22 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         switch ($fieldMapping['type']) {
             case 'boolean':
                 $filterConfig['type'] = ChoiceType::class;
-                $defaultFilterConfigTypeOptions = array(
-                    'choices' => array(
+                $defaultFilterConfigTypeOptions = [
+                    'choices' => [
                         'list_form_filters.default.boolean.true' => true,
                         'list_form_filters.default.boolean.false' => false,
-                    ),
+                    ],
                     'choice_translation_domain' => 'EasyAdminBundle',
-                );
+                ];
                 break;
             case 'string':
                 $filterConfig['type'] = ChoiceType::class;
-                $defaultFilterConfigTypeOptions = array(
+                $defaultFilterConfigTypeOptions = [
                     'multiple' => true,
                     'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
-                    'attr' => array('data-widget' => 'select2'),
+                    'attr' => ['data-widget' => 'select2'],
                     'choice_translation_domain' => $translationDomain,
-                );
+                ];
                 break;
             default:
                 return;
@@ -146,7 +146,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         if (null !== $defaultFilterConfigTypeOptions) {
             $filterConfig['type_options'] = \array_merge(
                 $defaultFilterConfigTypeOptions,
-                $filterConfig['type_options'] ?? array()
+                $filterConfig['type_options'] ?? []
             );
         }
     }
@@ -157,12 +157,11 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
             $filterConfig['type'] = EasyAdminAutocompleteType::class;
             $filterConfig['type_options'] = \array_merge(
-                array(
+                [
                     'class' => $associationMapping['targetEntity'],
                     'multiple' => true,
-                    'attr' => array('data-widget' => 'select2'),
-                ),
-                $filterConfig['type_options'] ?? array()
+                ],
+                $filterConfig['type_options'] ?? []
             );
         }
     }
@@ -186,11 +185,11 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             );
         }
 
-        $callableParams = array();
+        $callableParams = [];
         if (\is_string($filterConfig['type_options']['choices_static_callback'])) {
-            $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback']);
+            $callable = [$entityClass, $filterConfig['type_options']['choices_static_callback']];
         } else {
-            $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback'][0]);
+            $callable = [$entityClass, $filterConfig['type_options']['choices_static_callback'][0]];
             $callableParams = $filterConfig['type_options']['choices_static_callback'][1];
         }
         unset($filterConfig['type_options']['choices_static_callback']);

@@ -1,13 +1,9 @@
 function reloadEmbeddedList(identifier, toggleBaseUrl) {
   var containerPrefix = '.embedded-list[for="'+identifier+'"]';
 
-  $(containerPrefix).find('table .toggle input[type="checkbox"]').each(function (idx, el) {
-    $(this).bootstrapToggle();
-  });
-
   // Reload sorted/paginated list in the embedded-list container
   $(containerPrefix)
-    .on('click', 'th[data-property-name] a', function (e) {
+    .on('click', 'th a', function (e) {
       e.preventDefault();
       $.ajax({
         url: e.target.href,
@@ -29,29 +25,31 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
     })
   ;
 
-  $(containerPrefix).find('table .toggle input[type="checkbox"]').change(function() {
-    var toggle = $(this);
-    var newValue = toggle.prop('checked');
-    var oldValue = !newValue;
+  const toggles = $(containerPrefix).find('table .checkbox-switch input[type="checkbox"]');
+  for (i = 0; i < toggles.length; i++) {
+      toggles[i].addEventListener('change', function () {
+          const toggle = this;
+          const newValue = this.checked;
+          const oldValue = !newValue;
+          const propertyName = this.closest('.checkbox-switch').dataset.propertyname;
 
-    var columnIndex = $(this).closest('td').index() + 1;
-    var propertyName = $(containerPrefix + ' table th.toggle:nth-child(' + columnIndex + ')').data('property-name');
+          const toggleUrl = toggleBaseUrl
+              + "&id=" + this.closest('tr').dataset.id
+              + "&property=" + propertyName
+              + "&newValue=" + newValue.toString();
 
-    var toggleUrl = toggleBaseUrl
-      + "&id=" + $(this).closest('tr').data('id')
-      + "&property=" + propertyName
-      + "&newValue=" + newValue.toString();
+          let toggleRequest = $.ajax({ type: "GET", url: toggleUrl, data: {} });
 
-    var toggleRequest = $.ajax({ type: "GET", url: toggleUrl, data: {} });
+          toggleRequest.done(function(result) {});
 
-    toggleRequest.done(function(result) {});
-
-    toggleRequest.fail(function() {
-      // in case of error, restore the original value and disable the toggle
-      toggle.bootstrapToggle(oldValue == true ? 'on' : 'off');
-      toggle.bootstrapToggle('disable');
-    });
-  });
+          toggleRequest.fail(function() {
+              // in case of error, restore the original value and disable the toggle
+              toggle.checked = oldValue;
+              toggle.disabled = true;
+              toggle.closest('.checkbox-switch').classList.add('disabled');
+          });
+      });
+  }
 }
 
 $(function() {
@@ -73,15 +71,6 @@ $(function() {
     $('#modal-confirm #confirm-form').attr('action', href);
 
     $('#modal-confirm').modal({ backdrop: true, keyboard: true });
-  });
-
-  // Deal with panel-heading toggling collapsible panel-body
-  // (@see https://stackoverflow.com/questions/33725181/bootstrap-using-panel-heading-to-collapse-panel-body)
-  $('.panel-heading[data-toggle^="collapse"]').click(function(){
-    var target = $(this).attr('data-target');
-    $(target).collapse('toggle');
-  }).children().click(function(e) {
-    e.stopPropagation();
   });
 });
 

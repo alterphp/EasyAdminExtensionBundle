@@ -1,5 +1,5 @@
 imports:
-    - { resource: config.yml }
+    - { resource: config.yaml }
 
 easy_admin_extension:
     embedded_list:

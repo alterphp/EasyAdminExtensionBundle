@@ -1,3 +1,10 @@
-#list-form-filters {
-  margin: 10px 0;
+#list-form-filters-header {
+  padding: 10px 20px;
+}
+#list-form-filters-header[data-toggle^="collapse"] {
+  cursor: pointer;
+}
+
+#list-form-filters-form {
+  padding: 5px;
 }

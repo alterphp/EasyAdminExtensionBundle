@@ -5,7 +5,9 @@ EasyAdmin Extension
 
 EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
 
-:exclamation: This bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack.
+:exclamation: Branch `1.x` of this bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack and is suitable for EasyAdmin `1.x`.
+
+:exclamation: Branch `master` of this bundle requires at least __PHP 7.1__ and __Symfony 4.1__ components or stack and is suitable for EasyAdmin `2.x`.
 
 __Features__
 
@@ -53,31 +55,19 @@ class AppKernel extends Kernel
 
 ### Step 3: Replace EasyAdmin controller
 
-Instead of loading routes from EasyAdminBundle AdminController, load them from __EasyAdminExtensionBundle__ AdminController.
+Instead of loading routes from EasyAdminBundle EasyAdminController, load them from __EasyAdminExtensionBundle__ EasyAdminController.
 
-Symfony 4 directory structure :
 ```yaml
 # config/routes/easy_admin.yaml
 easy_admin_bundle:
-    resource: '@EasyAdminExtensionBundle/Controller/AdminController.php'
+    resource: '@EasyAdminExtensionBundle/Controller/EasyAdminController.php'
     type:     annotation
     prefix:   /admin
 
 # ...
 ```
 
-Former Symfony 2/3 directory structure :
-```yaml
-# app/config/routing.yml
-easy_admin_bundle:
-    resource: "@EasyAdminExtensionBundle/Controller/AdminController.php"
-    type:     annotation
-    prefix:   /admin
-
-# ...
-```
-
-If you have defined your own admin controllers, make them extend EasyAdminExtensionBundle admin controller.
+If you have defined your own admin controllers, make them extend EasyAdminExtensionBundle EasyAdminController.
 
 Features
 --------
@@ -197,9 +187,9 @@ Use pre-configured type `embedded_list` in the form definition :
 easy_admin:
     entities:
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
             form:
                 fields:
                     # ...
@@ -214,9 +204,9 @@ But in many cases, the EmbeddedListHelper guesses type_options for you, and you 
 easy_admin:
     entities:
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
             form:
                 fields:
                     # ...
@@ -237,9 +227,9 @@ Using guesser for classic \*ToMany relations :
 easy_admin:
     entities:
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
             show:
                 fields:
                     # ...
@@ -257,9 +247,9 @@ Use following __template_options__ to build your own embedded list (see `field_e
 easy_admin:
     entities:
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
             form:
                 fields:
                     # ...

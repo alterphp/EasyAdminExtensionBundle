@@ -2,12 +2,18 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController as BaseEasyAdminControler;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AdminController extends BaseAdminController
+class EasyAdminController extends BaseEasyAdminControler
 {
+    public static function getSubscribedServices(): array
+    {
+        return \array_merge(parent::getSubscribedServices(), [AdminAuthorizationChecker::class]);
+    }
+
     protected function embeddedListAction()
     {
         $this->dispatch(EasyAdminEvents::PRE_LIST);
@@ -15,13 +21,13 @@ class AdminController extends BaseAdminController
         $fields = $this->entity['list']['fields'];
         $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->config['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'));
 
-        $this->dispatch(EasyAdminEvents::POST_LIST, array('paginator' => $paginator));
+        $this->dispatch(EasyAdminEvents::POST_LIST, ['paginator' => $paginator]);
 
-        return $this->render('@EasyAdminExtension/default/embedded_list.html.twig', array(
+        return $this->render('@EasyAdminExtension/default/embedded_list.html.twig', [
             'paginator' => $paginator,
             'fields' => $fields,
             'masterRequest' => $this->get('request_stack')->getMasterRequest(),
-        ));
+        ]);
     }
 
     /**
@@ -49,9 +55,7 @@ class AdminController extends BaseAdminController
         // Get item for edit/show or custom actions => security voters may apply
         $easyadmin = $this->request->attributes->get('easyadmin');
         $subject = $easyadmin['item'] ?? null;
-        $this->get('alterphp.easyadmin_extension.admin_authorization_checker')->checksUserAccess(
-            $this->entity, $actionName, $subject
-        );
+        $this->get(AdminAuthorizationChecker::class)->checksUserAccess($this->entity, $actionName, $subject);
 
         return parent::isActionAllowed($actionName);
     }
@@ -66,7 +70,7 @@ class AdminController extends BaseAdminController
         $this->dispatch(EasyAdminEvents::PRE_NEW);
 
         $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
-        $easyadmin = \array_merge($this->request->attributes->get('easyadmin'), array('item' => $entity));
+        $easyadmin = \array_merge($this->request->attributes->get('easyadmin'), ['item' => $entity]);
         $this->request->attributes->set('easyadmin', $easyadmin);
 
         $fields = $this->entity['new']['fields'];

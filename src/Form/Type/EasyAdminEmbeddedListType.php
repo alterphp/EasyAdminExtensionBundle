@@ -82,7 +82,7 @@ class EasyAdminEmbeddedListType extends AbstractType
     {
         $resolver
             ->setDefault('entity', null)
-            ->setDefault('filters', array())
+            ->setDefault('filters', [])
             ->setDefault('sort', null)
             ->setAllowedTypes('entity', ['null', 'string'])
             ->setAllowedTypes('filters', ['array'])

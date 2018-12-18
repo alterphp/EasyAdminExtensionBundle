@@ -25,16 +25,16 @@ class EmbeddedListExtension extends AbstractExtension
 
     public function getFilters()
     {
-        return array(
-            new TwigFilter('embedded_list_identifier', array($this, 'getEmbeddedListIdentifier')),
-        );
+        return [
+            new TwigFilter('embedded_list_identifier', [$this, 'getEmbeddedListIdentifier']),
+        ];
     }
 
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('guess_default_filters', array($this, 'guessDefaultFilters')),
-        );
+        return [
+            new TwigFunction('guess_default_filters', [$this, 'guessDefaultFilters']),
+        ];
     }
 
     public function getEmbeddedListIdentifier(string $requestUri)

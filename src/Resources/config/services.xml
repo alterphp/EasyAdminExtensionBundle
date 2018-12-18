@@ -4,88 +4,93 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="alterphp.easyadmin_extension.subscriber.post_query_builder" class="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber">
-            <argument type="service" id="alterphp.easyadmin_extension.helper.list_form_filters"/>
+
+        <service id="AlterPHP\EasyAdminExtensionBundle\Controller\EasyAdminController" parent="EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController" autowire="true">
+            <tag name="container.service_subscriber" />
+        </service>
+
+        <service id="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper"/>
             <tag name="kernel.event_subscriber"/>
         </service>
-        <service id="alterphp.easyadmin_extension.config_pass.exclude_fields" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ExcludeFieldsConfigPass">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\ExcludeFieldsConfigPass">
             <tag name="easyadmin.config_pass" priority="120"/>
         </service>
-        <service id="alterphp.easyadmin_extension.config_pass.short_form_types" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ShortFormTypeConfigPass">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\ShortFormTypeConfigPass">
             <argument>%easy_admin_extension.custom_form_types%</argument>
             <!-- Makes it process just before PropertyConfigPass -->
             <tag name="easyadmin.config_pass" priority="41"/>
         </service>
-        <service id="alterphp.easyadmin_extension.config_pass.embedded_list_view" class="AlterPHP\EasyAdminExtensionBundle\Configuration\EmbeddedListViewConfigPass">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\EmbeddedListViewConfigPass">
             <argument>%easy_admin_extension.embedded_list.open_new_tab%</argument>
             <!-- Makes it process just after ViewConfigPass -->
             <tag name="easyadmin.config_pass" priority="29"/>
         </service>
-        <service id="alterphp.easyadmin_extension.helper.embedded_list" class="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper">
             <argument type="service" id="doctrine"/>
             <argument>%easyadmin.config%</argument>
         </service>
-        <service id="alterphp.easyadmin_extension.form.embedded_list_type" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType">
-            <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper"/>
             <tag name="form.type"/>
         </service>
-        <service id="alterphp.easyadmin_extension.config_pass.show_view" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ShowViewConfigPass">
-            <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\ShowViewConfigPass">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper"/>
             <!-- Makes it process just after EasyAdmin TemplateConfigPass -->
             <tag name="easyadmin.config_pass" priority="19"/>
         </service>
 
         <!-- list form filters -->
-        <service id="alterphp.easyadmin_extension.config_pass.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Configuration\ListFormFiltersConfigPass">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\ListFormFiltersConfigPass">
             <argument type="service" id="doctrine" />
             <tag name="easyadmin.config_pass" priority="0"/>
         </service>
-        <service id="alterphp.easyadmin_extension.helper.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper">
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
             <argument>%form.type_extension.csrf.enabled%</argument>
         </service>
-        <service id="alterphp.easyadmin_extension.twig.extension.list_form_filters" class="AlterPHP\EasyAdminExtensionBundle\Twig\ListFormFiltersExtension">
-            <argument type="service" id="alterphp.easyadmin_extension.helper.list_form_filters"/>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Twig\ListFormFiltersExtension">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper"/>
             <tag name="twig.extension"/>
         </service>
 
         <!-- Admin security roles -->
-        <service id="alterphp.easyadmin_extension.helper.editable_roles" class="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper">
             <argument type="service" id="security.token_storage"/>
             <argument>%security.role_hierarchy.roles%</argument>
         </service>
-        <service id="alterphp.easyadmin_extension.form.security.admin_roles_type" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType">
-            <argument key="$editableRolesBuilder" type="service" id="alterphp.easyadmin_extension.helper.editable_roles" />
+        <service id="AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType">
+            <argument key="$editableRolesBuilder" type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\EditableRolesHelper" />
             <tag name="form.type"/>
         </service>
-        <service id="alterphp.easyadmin_extension.twig.extension.checkbox_tree" class="AlterPHP\EasyAdminExtensionBundle\Twig\CheckboxTreeExtension">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Twig\CheckboxTreeExtension">
             <tag name="twig.extension"/>
         </service>
-        <service id="alterphp.easyadmin_extension.admin_authorization_checker" class="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker" public="true">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker" public="true">
             <argument type="service" id="security.authorization_checker"/>
             <argument>%easy_admin_extension.minimum_role%</argument>
         </service>
-        <service id="alterphp.easyadmin_extension.helper.menu" class="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper">
-            <argument type="service" id="alterphp.easyadmin_extension.admin_authorization_checker"/>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker"/>
             <argument type="service" id="security.authorization_checker"/>
         </service>
-        <service id="alterphp.easyadmin_extension.twig.extension.embedded_list" class="AlterPHP\EasyAdminExtensionBundle\Twig\EmbeddedListExtension">
-            <argument type="service" id="alterphp.easyadmin_extension.helper.embedded_list"/>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Twig\EmbeddedListExtension">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper"/>
             <tag name="twig.extension"/>
         </service>
-        <service id="alterphp.easyadmin_extension.twig.extension.admin_authorization" class="AlterPHP\EasyAdminExtensionBundle\Twig\AdminAuthorizationExtension">
-            <argument type="service" id="alterphp.easyadmin_extension.admin_authorization_checker"/>
-            <argument type="service" id="alterphp.easyadmin_extension.helper.menu"/>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Twig\AdminAuthorizationExtension">
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker"/>
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper"/>
             <tag name="twig.extension"/>
         </service>
-        <service id="alterphp.easyadmin_extension.form.type.configurator.unauthorized.field" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
             <argument type="service" id="security.authorization_checker"/>
             <tag name="easyadmin.form.type.configurator" />
         </service>
 
         <!-- easyadmin autocomplete extension -->
-        <service id="alterphp.easyadmin_extension.form.type.extension.autocomplete" class="AlterPHP\EasyAdminExtensionBundle\Form\Type\Extension\EasyAdminAutocompleteTypeExtension">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Form\Type\Extension\EasyAdminAutocompleteTypeExtension">
             <argument type="service" id="router"/>
             <argument type="service" id="translator"/>
             <tag name="form.type_extension" extended-type="EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType"/>

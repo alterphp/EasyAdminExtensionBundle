@@ -37,9 +37,9 @@ class EasyAdminExtensionBundle extends Bundle
             $easyAdminExtensionBundlePath = \dirname((string) $easyAdminExtensionBundleRefl->getFileName());
             $easyAdminExtensionDoctrineMapping = $easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping';
 
-            $mappings = array(
+            $mappings = [
                 \realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
-            );
+            ];
             if (\class_exists(DoctrineOrmMappingsPass::class)) {
                 $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
             }

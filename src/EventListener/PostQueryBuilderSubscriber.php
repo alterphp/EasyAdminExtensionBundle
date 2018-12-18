@@ -3,8 +3,8 @@
 namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\QueryException;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -34,10 +34,10 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            EasyAdminEvents::POST_LIST_QUERY_BUILDER => array('onPostListQueryBuilder'),
-            EasyAdminEvents::POST_SEARCH_QUERY_BUILDER => array('onPostSearchQueryBuilder'),
-        );
+        return [
+            EasyAdminEvents::POST_LIST_QUERY_BUILDER => ['onPostListQueryBuilder'],
+            EasyAdminEvents::POST_SEARCH_QUERY_BUILDER => ['onPostSearchQueryBuilder'],
+        ];
     }
 
     /**
@@ -51,7 +51,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         // Request filters
         if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', []));
         }
 
         // List form filters
@@ -76,7 +76,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         $queryBuilder = $event->getArgument('query_builder');
 
         if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', array()));
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', []));
         }
     }
 
@@ -86,7 +86,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      * @param QueryBuilder $queryBuilder
      * @param array        $filters
      */
-    protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = array())
+    protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
         foreach ($filters as $field => $value) {
             // Empty string and numeric keys is considered as "not applied filter"
@@ -112,7 +112,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      * @param QueryBuilder $queryBuilder
      * @param array        $filters
      */
-    protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = array())
+    protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
         foreach ($filters as $field => $value) {
             $value = $this->filterEasyadminAutocompleteValue($value);

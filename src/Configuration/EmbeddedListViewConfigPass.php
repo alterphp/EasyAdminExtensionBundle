@@ -61,9 +61,9 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
                 }
 
                 if (\is_string($sortConfig)) {
-                    $sortConfig = array('field' => $sortConfig, 'direction' => 'DESC');
+                    $sortConfig = ['field' => $sortConfig, 'direction' => 'DESC'];
                 } else {
-                    $sortConfig = array('field' => $sortConfig[0], 'direction' => \strtoupper($sortConfig[1]));
+                    $sortConfig = ['field' => $sortConfig[0], 'direction' => \strtoupper($sortConfig[1])];
                 }
 
                 $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $sortConfig;

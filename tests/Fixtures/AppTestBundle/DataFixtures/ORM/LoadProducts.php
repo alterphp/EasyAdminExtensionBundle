@@ -18,7 +18,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
 {
-    private $phrases = array(
+    private $phrases = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         'Pellentesque vitae velit ex.',
         'Mauris dapibus, risus quis suscipit vulputate, eros diam egestas libero, eu vulputate eros eros eu risus.',
@@ -36,7 +36,7 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
         'Sed varius a risus eget aliquam.',
         'Nunc viverra elit ac laoreet suscipit.',
         'Pellentesque et sapien pulvinar, consectetur eros ac, vehicula odio.',
-    );
+    ];
 
     public function getOrder()
     {
@@ -45,12 +45,12 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach (range(1, 100) as $i) {
+        foreach (\range(1, 100) as $i) {
             $category = $i <= 10 ? $this->getReference('category-1') : $this->getRandomCategory();
             $product = new Product();
             $product->setEnabled($i % 10 ? true : false);
             $product->setOddEven($i % 4 ? 'odd' : 'even');
-            $product->setReference('ref'.str_pad($i, 6, '0', STR_PAD_LEFT));
+            $product->setReference('ref'.\str_pad($i, 6, '0', STR_PAD_LEFT));
             $product->setName($this->getRandomName());
             $product->setReplenishmentType($this->getReplenishmentType());
             $product->setPrice($this->getRandomPrice());
@@ -70,7 +70,7 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
 
     public function getRandomTags()
     {
-        $tags = array(
+        $tags = [
             'books',
             'electronics',
             'GPS',
@@ -86,25 +86,25 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
             'TV & video',
             'videogames',
             'wearables',
-        );
+        ];
 
-        $numTags = mt_rand(2, 4);
-        shuffle($tags);
+        $numTags = \mt_rand(2, 4);
+        \shuffle($tags);
 
-        return array_slice($tags, 0, $numTags - 1);
+        return \array_slice($tags, 0, $numTags - 1);
     }
 
     public function getRandomEan()
     {
-        $chars = str_split('0123456789');
-        $count = count($chars) - 1;
+        $chars = \str_split('0123456789');
+        $count = \count($chars) - 1;
         $ean13 = '';
         do {
-            $ean13 .= $chars[mt_rand(0, $count)];
-        } while (strlen($ean13) < 13);
+            $ean13 .= $chars[\mt_rand(0, $count)];
+        } while (\strlen($ean13) < 13);
 
         $checksum = 0;
-        foreach (str_split(strrev($ean13)) as $pos => $val) {
+        foreach (\str_split(\strrev($ean13)) as $pos => $val) {
             $checksum += $val * (3 - 2 * ($pos % 2));
         }
         $checksum = ((10 - ($checksum % 10)) % 10);
@@ -114,52 +114,52 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
 
     public function getRandomName()
     {
-        $words = array(
+        $words = [
             'Lorem', 'Ipsum', 'Sit', 'Amet', 'Adipiscing', 'Elit',
             'Vitae', 'Velit', 'Mauris', 'Dapibus', 'Suscipit', 'Vulputate',
             'Eros', 'Diam', 'Egestas', 'Libero', 'Platea', 'Dictumst',
             'Tempus', 'Commodo', 'Mattis', 'Donec', 'Posuere', 'Eleifend',
-        );
+        ];
 
         $numWords = 2;
-        shuffle($words);
+        \shuffle($words);
 
-        return 'Product '.implode(' ', array_slice($words, 0, $numWords));
+        return 'Product '.\implode(' ', \array_slice($words, 0, $numWords));
     }
 
     public function getRandomPrice()
     {
-        $cents = array('00', '29', '39', '49', '99');
+        $cents = ['00', '29', '39', '49', '99'];
 
-        return (float) mt_rand(2, 79).'.'.$cents[array_rand($cents)];
+        return (float) \mt_rand(2, 79).'.'.$cents[\array_rand($cents)];
     }
 
     private function getRandomCategory()
     {
         // First category is reserved for first products (test purpose)
-        return $this->getReference('category-'.mt_rand(2, 100));
+        return $this->getReference('category-'.\mt_rand(2, 100));
     }
 
     public function getRandomDescription()
     {
-        $numPhrases = mt_rand(5, 10);
-        shuffle($this->phrases);
+        $numPhrases = \mt_rand(5, 10);
+        \shuffle($this->phrases);
 
-        return implode(' ', array_slice($this->phrases, 0, $numPhrases - 1));
+        return \implode(' ', \array_slice($this->phrases, 0, $numPhrases - 1));
     }
 
     public function getRandomHtmlFeatures()
     {
         $numFeatures = 2;
-        shuffle($this->phrases);
+        \shuffle($this->phrases);
 
-        return '<ul><li>'.implode('</li><li>', array_slice($this->phrases, 0, $numFeatures)).'</li></ul>';
+        return '<ul><li>'.\implode('</li><li>', \array_slice($this->phrases, 0, $numFeatures)).'</li></ul>';
     }
 
     public function getReplenishmentType()
     {
         $replenishmentTypeValues = Product::getReplenishmentTypeValues();
 
-        return $replenishmentTypeValues[mt_rand(0, count($replenishmentTypeValues)-1)];
+        return $replenishmentTypeValues[\mt_rand(0, \count($replenishmentTypeValues) - 1)];
     }
 }

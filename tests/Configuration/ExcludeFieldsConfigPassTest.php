@@ -20,47 +20,47 @@ class ExcludeFieldsConfigPassTest extends \PHPUnit_Framework_TestCase
 
     public function testExcludeFields()
     {
-        $backendConfig = array(
-            'entities' => array(
-                'TestEntity' => array(
+        $backendConfig = [
+            'entities' => [
+                'TestEntity' => [
                     'class' => Dummy::class,
-                    'form' => array(
-                        'exclude_fields' => array('exclude')
-                    ),
-                ),
-            ),
-        );
+                    'form' => [
+                        'exclude_fields' => ['exclude'],
+                    ],
+                ],
+            ],
+        ];
 
         $processedBackendConfig = $this->excludeFieldsConfigPass->process($backendConfig);
 
-        $expectedBackendConfig = array(
-            'entities' => array(
-                'TestEntity' => array(
+        $expectedBackendConfig = [
+            'entities' => [
+                'TestEntity' => [
                     'class' => Dummy::class,
-                    'form' => array(
-                        'exclude_fields' => array('exclude'),
-                        'fields' => array('name', 'title')
-                    ),
-                ),
-            ),
-        );
+                    'form' => [
+                        'exclude_fields' => ['exclude'],
+                        'fields' => ['name', 'title'],
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertSame($processedBackendConfig, $expectedBackendConfig);
     }
 
     public function testExcludeFieldThrowsConflictingConfigurationException()
     {
-        $backendConfig = array(
-            'entities' => array(
-                'TestEntity' => array(
+        $backendConfig = [
+            'entities' => [
+                'TestEntity' => [
                     'class' => Dummy::class,
-                    'form' => array(
-                        'fields' => array('name', 'title'),
-                        'exclude_fields' => array('exclude'),
-                    ),
-                ),
-            ),
-        );
+                    'form' => [
+                        'fields' => ['name', 'title'],
+                        'exclude_fields' => ['exclude'],
+                    ],
+                ],
+            ],
+        ];
 
         $this->expectException(ConflictingConfigurationException::class);
 
