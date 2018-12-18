@@ -1,1 +1,0 @@
-- UPGRADE doc images !
