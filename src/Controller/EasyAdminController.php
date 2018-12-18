@@ -7,7 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AdminController extends EasyAdminController
+class EasyAdminController extends EasyAdminController
 {
     public static function getSubscribedServices(): array
     {
