@@ -156,10 +156,9 @@ class EmbeddedListTest extends AbstractTestCase
         $crawler = $this->requestEditView('Category', 1);
 
         $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1');
-        $createdAtTh = 'th[data-property-name="createdAt"].sorted';
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
+        $this->assertSame('Created at', trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
     }
 
     public function testDefinedSortIsUsedForEmbedddLists()
@@ -167,10 +166,9 @@ class EmbeddedListTest extends AbstractTestCase
         $crawler = $this->getBackendPage(['entity' => 'Purchase', 'action' => 'embeddedList']);
 
         $forAttrValue = \md5('/admin/?entity=Purchase&action=embeddedList');
-        $createdAtTh = 'th[data-property-name="createdAt"].sorted';
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"] '.$createdAtTh)->count());
+        $this->assertSame('Created at', trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
     }
 
     public function testDefaultOpenNewTabConfigForEmbedddLists()
