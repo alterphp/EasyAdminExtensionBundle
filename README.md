@@ -146,6 +146,14 @@ Define your filters under `list`.`form_filters` entity configuration
 
 ```yaml
 easy_admin:
+    design:
+        assets:
+            css:
+                - 'bundles/easyadmin/bootstrap-all.css'
+            js:
+                # By default, EasyAdminBundle embeds a limited version of Bootstrap JS.
+                # For collapsible form filters to work, a full version should be added:
+                - 'bundles/easyadmin/bootstrap-all.js'
     entities:
         Animation:
             class: App\Entity\Animation
