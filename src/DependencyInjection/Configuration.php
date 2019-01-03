@@ -17,10 +17,10 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('easy_admin_extension');
+        $treeBuilder = new TreeBuilder('easy_admin_extension');
 
-        $rootNode
+        $treeBuilder
+            ->getRootNode()
             ->children()
                 ->arrayNode('custom_form_types')
                     ->useAttributeAsKey('short_name')
