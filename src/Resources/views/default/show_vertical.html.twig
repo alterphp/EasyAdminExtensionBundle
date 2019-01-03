@@ -1,32 +1,15 @@
 {% extends '@EasyAdminExtension/default/show.html.twig' %}
 
 {% block main %}
-    <div class="row">
-        {% block show_fields %}
-            {% for field, metadata in fields %}
-                {% block show_field %}
-                    <div class="form-group field-{{ metadata.type|default('default')|lower }} {{ metadata.css_class|default('') }}">
-                        <label class="control-label">
-                            {{ (metadata.label ?: field|humanize)|trans(_trans_parameters)|raw }}
-                        </label>
-                        <div class="form-control">
-                            {{ easyadmin_render_field_for_show_view(_entity_config.name, entity, metadata) }}
-                        </div>
+  <div class="form-vertical">
+    {{ block('show_fields') }}
+  </div>
 
-                        {% if metadata.help|default('') != '' %}
-                            <span class="help-block"><i class="fa fa-info-circle"></i> {{ metadata.help|trans|raw }}</span>
-                        {% endif %}
-                    </div>
-                {% endblock %}
-            {% endfor %}
-        {% endblock %}
-
-        <div class="form-group form-actions">
-            <div class="col-md-10 col-md-offset-2">
-                {{ block('item_actions') }}
-            </div>
-        </div>
+  <section class="content-footer">
+    <div class="form-actions">
+      {{ block('item_actions') }}
     </div>
+  </section>
 
-    {{ block('delete_form') }}
+  {{ block('delete_form') }}
 {% endblock %}

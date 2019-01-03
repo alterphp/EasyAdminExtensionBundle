@@ -8,3 +8,18 @@
 #list-form-filters-form {
   padding: 5px;
 }
+
+/* SHOW vertical */
+.form-vertical .form-group {
+  display: block;
+  flex-wrap: unset;
+  align-items: unset;
+}
+.form-vertical .form-group .control-label {
+  font-weight: bold;
+}
+.form-vertical .form-widget {
+  flex: unset;
+  flex-direction: unset;
+  align-items: unset;
+}
