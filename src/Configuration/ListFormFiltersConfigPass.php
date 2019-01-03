@@ -69,7 +69,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 $this->configureFilter(
                     $entityConfig['class'],
                     $filterConfig,
-                    isset($backendConfig['translation_domain']) ? $backendConfig['translation_domain'] : 'EasyAdminBundle'
+                    $backendConfig['translation_domain'] ?? 'EasyAdminBundle'
                 );
 
                 // If type is not configured at this steps => not guessable

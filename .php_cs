@@ -14,6 +14,8 @@ return PhpCsFixer\Config::create()
     ->setFinder($finder)
     ->setRules([
         '@Symfony' => true,
+        '@PHP70Migration' => true,
+        '@PHP71Migration' => true,
         'array_syntax' => ['syntax' => 'short'],
         'binary_operator_spaces' => [
             'align_double_arrow' => false,

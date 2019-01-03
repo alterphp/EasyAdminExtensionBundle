@@ -158,7 +158,7 @@ class EmbeddedListTest extends AbstractTestCase
         $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1');
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame('Created at', trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
+        $this->assertSame('Created at', \trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
     }
 
     public function testDefinedSortIsUsedForEmbedddLists()
@@ -168,7 +168,7 @@ class EmbeddedListTest extends AbstractTestCase
         $forAttrValue = \md5('/admin/?entity=Purchase&action=embeddedList');
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame('Created at', trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
+        $this->assertSame('Created at', \trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
     }
 
     public function testDefaultOpenNewTabConfigForEmbedddLists()
