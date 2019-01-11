@@ -3,7 +3,7 @@ EasyAdmin Extension
 
 [![Latest Stable Version](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/v/stable)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle) [![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.symfony.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.svg)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802) [![Coverage Status](https://coveralls.io/repos/github/alterphp/EasyAdminExtensionBundle/badge.svg?branch=master)](https://coveralls.io/github/alterphp/EasyAdminExtensionBundle?branch=master) [![License](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/license)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle)
 
-EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
+EasyAdmin Extension provides some useful extensions to [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle) admin generator for Symfony.
 
 :exclamation: Branch `1.x` of this bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack and is suitable for EasyAdmin `1.x`.
 
