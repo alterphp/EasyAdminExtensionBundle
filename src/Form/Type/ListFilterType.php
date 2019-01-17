@@ -24,22 +24,13 @@ class ListFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $operator = $options['operator'];
-        if (!array_key_exists($operator, static::$operators)) {
-            throw new \InvalidArgumentException('operator should be one of ' . implode(', ', array_keys(static::$operators)) . ". $operator passed");
-        }
-
-        $property = $options['property'];
-        $type = $options['input_type'];
-        unset($options['operator'], $options['input_type'], $options['property']);
-
         $builder
             ->add('value', $type, $options['input_type_options'] + [
                 'label' => false,
                 'required' => false
             ])
             ->add('operator', HiddenType::class, [
-                'data' => self::$operators[$operator]
+                'data' => self::$operators[$options['operator']]
             ]);
         if ($property !== null) {
             $builder
@@ -62,5 +53,6 @@ class ListFilterType extends AbstractType
         $resolver->setDefined([
             'property',
         ]);
+        $resolver->setAllowedValues('operator', static::$operators);
     }
 }
