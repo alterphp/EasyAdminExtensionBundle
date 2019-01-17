@@ -25,17 +25,17 @@ class ListFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value', $type, $options['input_type_options'] + [
+            ->add('value', $options['input_type'], $options['input_type_options'] + [
                 'label' => false,
                 'required' => false
             ])
             ->add('operator', HiddenType::class, [
                 'data' => self::$operators[$options['operator']]
             ]);
-        if ($property !== null) {
+        if ($options['property'] !== null) {
             $builder
                 ->add('property', HiddenType::class, [
-                    'data' => $property
+                    'data' => $options['property']
                 ]);
         }
         
@@ -48,7 +48,7 @@ class ListFilterType extends AbstractType
             'operator' => 'equals',
             'data_class' => ListFilter::class,
             'input_type' =>  TextType::class,
-            'input_type_options' => []
+            'input_type_options' => [],
         ));
         $resolver->setDefined([
             'property',
