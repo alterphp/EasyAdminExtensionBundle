@@ -53,6 +53,6 @@ class ListFilterType extends AbstractType
         $resolver->setDefined([
             'property',
         ]);
-        $resolver->setAllowedValues('operator', static::$operators);
+        $resolver->setAllowedValues('operator', array_keys(static::$operators));
     }
 }
