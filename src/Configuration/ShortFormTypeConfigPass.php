@@ -24,7 +24,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     private static $nativeShortFormTypes = array(
         'embedded_list' => EasyAdminEmbeddedListType::class,
         'admin_roles' => AdminRolesType::class,
-        'operator' => ListFilterType::class
+        'list_filter' => ListFilterType::class
     );
 
     public function __construct(array $customFormTypes = array())
