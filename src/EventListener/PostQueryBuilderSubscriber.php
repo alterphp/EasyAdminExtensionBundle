@@ -181,7 +181,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 break;
             // Special case if value is a ListFilter
             case $value instanceof ListFilter:
-                if ($value->getValue() === null || $value->getValue() === '') {
+                if (null === $value->getValue()  || '' === $value->getValue() ) {
                     // Break if there is not value
                     break;
                 }
