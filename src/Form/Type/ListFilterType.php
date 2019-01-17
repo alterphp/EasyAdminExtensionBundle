@@ -32,7 +32,7 @@ class ListFilterType extends AbstractType
             ->add('operator', HiddenType::class, [
                 'data' => self::$operators[$options['operator']]
             ]);
-        if ($options['property'] !== null) {
+        if (isset($options['property'])) {
             $builder
                 ->add('property', HiddenType::class, [
                     'data' => $options['property']
