@@ -67,26 +67,9 @@
         <service id="AlterPHP\EasyAdminExtensionBundle\Twig\CheckboxTreeExtension">
             <tag name="twig.extension"/>
         </service>
-        <service id="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker" public="true">
-            <argument type="service" id="security.authorization_checker"/>
-            <argument>%easy_admin_extension.minimum_role%</argument>
-        </service>
-        <service id="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper">
-            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker"/>
-            <argument type="service" id="security.authorization_checker"/>
-        </service>
         <service id="AlterPHP\EasyAdminExtensionBundle\Twig\EmbeddedListExtension">
             <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper"/>
             <tag name="twig.extension"/>
-        </service>
-        <service id="AlterPHP\EasyAdminExtensionBundle\Twig\AdminAuthorizationExtension">
-            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker"/>
-            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper"/>
-            <tag name="twig.extension"/>
-        </service>
-        <service id="AlterPHP\EasyAdminExtensionBundle\Form\Type\Configurator\UnauthorizedFieldConfigurator">
-            <argument type="service" id="security.authorization_checker"/>
-            <tag name="easyadmin.form.type.configurator" />
         </service>
 
         <!-- easyadmin autocomplete extension -->

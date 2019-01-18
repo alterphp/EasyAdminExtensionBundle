@@ -16,32 +16,3 @@
 {% block easyadmin_admin_roles_widget %}
   {{ checkbox_tree(form) }}
 {% endblock %}
-
-{% block item_actions %}
-    {% set _translation_domain = easyadmin.entity.translation_domain %}
-    {% set _trans_parameters = { '%entity_name%':  easyadmin.entity.name|trans, '%entity_label%': easyadmin.entity.label|trans } %}
-
-    {# the 'save' action is hardcoded for the 'edit' and 'new' views #}
-    <button type="submit" class="btn btn-primary action-save">
-        <i class="fa fa-save"></i>
-        <span class="btn-label">{{ 'action.save'|trans(_trans_parameters, _translation_domain) }}</span>
-    </button>
-
-    {% set _entity_actions = (easyadmin.view == 'new')
-        ? easyadmin_get_actions_for_new_item(easyadmin.entity.name)
-        : easyadmin_get_actions_for_edit_item(easyadmin.entity.name) %}
-
-    {% set _entity_id = (easyadmin.view == 'new')
-        ? null
-        : attribute(easyadmin.item, easyadmin.entity.primary_key_field_name) %}
-
-    {% set _request_parameters = { entity: easyadmin.entity.name, referer: app.request.query.get('referer') } %}
-
-    {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
-        actions: _entity_actions|prune_item_actions(easyadmin.entity, [], value),
-        request_parameters: _request_parameters,
-        translation_domain: _translation_domain,
-        trans_parameters: _trans_parameters,
-        item_id: _entity_id
-    }, with_context = false) }}
-{% endblock item_actions %}

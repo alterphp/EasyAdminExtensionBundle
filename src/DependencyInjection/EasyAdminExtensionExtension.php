@@ -23,7 +23,6 @@ class EasyAdminExtensionExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('easy_admin_extension.custom_form_types', $config['custom_form_types']);
-        $container->setParameter('easy_admin_extension.minimum_role', $config['minimum_role']);
         $container->setParameter(
             'easy_admin_extension.embedded_list.open_new_tab',
             $config['embedded_list']['open_new_tab']

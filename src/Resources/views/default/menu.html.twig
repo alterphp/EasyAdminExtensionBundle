@@ -1,6 +1,0 @@
-{% extends '@BaseEasyAdmin/default/menu.html.twig' %}
-
-{% block main_menu %}
-  {% set _menu_items = _menu_items|prune_menu_items(easyadmin_config('entities')) %}
-  {{ parent() }}
-{% endblock %}

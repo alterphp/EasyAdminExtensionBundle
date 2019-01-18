@@ -34,28 +34,9 @@
   {{ parent() }}
 {% endblock %}
 
-{# Do not display SEARCH form if not granted #}
-{% block search_action %}
-  {% if is_easyadmin_granted(_entity_config, 'search') %}
-    {{ parent() }}
-  {% endif %}
-{% endblock %}
 {# Adds request filters to the search form #}
 {% block search_form %}
   {{ block('request_parameters_as_hidden') }}
-  {{ parent() }}
-{% endblock %}
-
-{# Do not display NEW button if not granted #}
-{% block new_action %}
-  {% if is_easyadmin_granted(_entity_config, 'new') %}
-    {{ parent() }}
-  {% endif %}
-{% endblock %}
-
-{# Do not display list action items if not granted #}
-{% block item_actions %}
-  {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config, [], item) %}
   {{ parent() }}
 {% endblock %}
 
