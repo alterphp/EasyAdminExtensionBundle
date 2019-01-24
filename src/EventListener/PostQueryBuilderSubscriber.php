@@ -126,19 +126,20 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
             // Add root entity alias if none provided
             $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
-            $property = $field;
-            if ($value instanceof ListFilter && $value->getProperty()) {
+            $ormField = $field;
+            if ($value instanceof ListFilter && $value->hasProperty()) {
                 // if a property is specified in the ListFilter, it is on that property that we must filter
-                $property = $queryBuilder->getRootAlias().'.' .$value->getProperty();
+                $ormField = $value->getProperty();
+                $ormField = false === \strpos($ormField, '.') ? $queryBuilder->getRootAlias().'.'.$ormField : $ormField;
             }
             // Checks if filter is directly appliable on queryBuilder
-            if (!$this->isFilterAppliable($queryBuilder, $property)) {
+            if (!$this->isFilterAppliable($queryBuilder, $ormField)) {
                 continue;
             }
             // Sanitize parameter name
             $parameter = 'form_filter_'.\str_replace('.', '_', $field);
 
-            $this->filterQueryBuilder($queryBuilder, $property, $parameter, $value);
+            $this->filterQueryBuilder($queryBuilder, $ormField, $parameter, $value);
         }
     }
 
@@ -182,11 +183,11 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             // Special case if value is a ListFilter
             case $value instanceof ListFilter:
                 if (null === $value->getValue()  || '' === $value->getValue() ) {
-                    // Break if there is not value
+                    // Break if there is no value
                     break;
                 }
 
-                $filterDqlPart = $field.' ' .$value->getOperator() .' :'.$parameter;
+                $filterDqlPart = $field.' '.$this->translateListFilterOperator($value->getOperator()).' :'.$parameter;
                 $value = $value->getValue();
                 break;
             // Default is equality
@@ -225,6 +226,31 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         }
 
         return true;
+    }
+
+    protected function translateListFilterOperator(string $listFilterOperator)
+    {
+        switch ($listFilterOperator) {
+            case ListFilter::OPERATOR_EQUALS:
+                $operator = '=';
+                break;
+            case ListFilter::OPERATOR_GT:
+                $operator = '>';
+                break;
+            case ListFilter::OPERATOR_GTE:
+                $operator = '>=';
+                break;
+            case ListFilter::OPERATOR_LT:
+                $operator = '<';
+                break;
+            case ListFilter::OPERATOR_LTE:
+                $operator = '<=';
+                break;
+            default:
+                $operator = $listFilterOperator;
+        }
+
+        return $operator;
     }
 
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\ListFilterType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
@@ -60,11 +61,12 @@ class ListFormFiltersHelper
             foreach ($formFilters as $name => $config) {
                 $formBuilder->add(
                     $name,
-                    $config['type'] ?? null,
-                    \array_merge(
-                        ['required' => false],
-                        $config['type_options'] ?? []
-                    )
+                    ListFilterType::class,
+                    [
+                        'label' => $config['label'] ?? false,
+                        'input_type' => $config['type'],
+                        'input_type_options' => \array_merge(['required' => false], $config['type_options'] ?? []),
+                    ]
                 );
             }
 
