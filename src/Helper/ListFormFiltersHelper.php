@@ -63,9 +63,10 @@ class ListFormFiltersHelper
                     $name,
                     ListFilterType::class,
                     [
-                        'label' => $config['label'] ?? false,
+                        'label' => $config['label'] ?? null,
+                        'required' => false,
                         'input_type' => $config['type'],
-                        'input_type_options' => \array_merge(['required' => false], $config['type_options'] ?? []),
+                        'input_type_options' => $config['type_options'] ?? [],
                     ]
                 );
             }
