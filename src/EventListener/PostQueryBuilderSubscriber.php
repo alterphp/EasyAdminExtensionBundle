@@ -135,14 +135,16 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      */
     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, ListFilter $listFilter)
     {
-        // Add root entity alias if none provided
-        $queryField = $listFilter->getProperty();
-        $queryField = false === \strpos($queryField, '.') ? $queryBuilder->getRootAlias().'.'.$queryField : $queryField;
-
         $value = $this->filterEasyadminAutocompleteValue($listFilter->getValue());
         // Empty string and numeric keys is considered as "not applied filter"
         if (null === $value || '' === $value || \is_int($field)) {
             return;
+        }
+
+        // Add root entity alias if none provided
+        $queryField = $listFilter->getProperty();
+        if (false === \strpos($queryField, '.')) {
+            $queryBuilder->getRootAlias().'.'.$queryField;
         }
 
         // Checks if filter is directly appliable on queryBuilder
