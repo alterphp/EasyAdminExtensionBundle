@@ -2,6 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
+use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
@@ -130,6 +131,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 ];
                 break;
             case 'string':
+                $filterConfig['operator'] = ListFilter::OPERATOR_IN;
                 $filterConfig['type'] = ChoiceType::class;
                 $defaultFilterConfigTypeOptions = [
                     'multiple' => true,
@@ -155,6 +157,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
     {
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
+            $filterConfig['operator'] = ListFilter::OPERATOR_IN;
             $filterConfig['type'] = EasyAdminAutocompleteType::class;
             $filterConfig['type_options'] = \array_merge(
                 [

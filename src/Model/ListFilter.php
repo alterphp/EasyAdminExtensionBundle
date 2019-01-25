@@ -20,6 +20,9 @@ class ListFilter
     protected $property;
 
     public const OPERATOR_EQUALS = 'equals';
+    public const OPERATOR_NOT = 'not';
+    public const OPERATOR_IN = 'in';
+    public const OPERATOR_NOTIN = 'notin';
     public const OPERATOR_GT = 'gt';
     public const OPERATOR_GTE = 'gte';
     public const OPERATOR_LT = 'lt';

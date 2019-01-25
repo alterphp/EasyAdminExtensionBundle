@@ -116,40 +116,14 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      */
     protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
-        foreach ($filters as $field => $value) {
+        foreach ($filters as $field => $listFilter) {
 
-            $value = $this->filterEasyadminAutocompleteValue($value);
-            // Empty string and numeric keys is considered as "not applied filter"
-            if (null === $value || '' === $value || \is_int($field)) {
+            if (null === $listFilter) {
                 continue;
             }
 
-            // Add root entity alias if none provided
-            $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
-            $ormField = $field;
-            if ($value instanceof ListFilter && $value->hasProperty()) {
-                // if a property is specified in the ListFilter, it is on that property that we must filter
-                $ormField = $value->getProperty();
-                $ormField = false === \strpos($ormField, '.') ? $queryBuilder->getRootAlias().'.'.$ormField : $ormField;
-            }
-            // Checks if filter is directly appliable on queryBuilder
-            if (!$this->isFilterAppliable($queryBuilder, $ormField)) {
-                continue;
-            }
-            // Sanitize parameter name
-            $parameter = 'form_filter_'.\str_replace('.', '_', $field);
-
-            $this->filterQueryBuilder($queryBuilder, $ormField, $parameter, $value);
+            $this->filterQueryBuilder($queryBuilder, $field, $listFilter);
         }
-    }
-
-    private function filterEasyadminAutocompleteValue($value)
-    {
-        if (!\is_array($value) || !isset($value['autocomplete']) || 1 !== \count($value)) {
-            return $value;
-        }
-
-        return $value['autocomplete'];
     }
 
     /**
@@ -157,51 +131,99 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
      *
      * @param QueryBuilder $queryBuilder
      * @param string       $field
-     * @param string       $parameter
-     * @param mixed        $value
+     * @param ListFilter   $listFilter
      */
-    protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, string $parameter, $value)
+    protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, ListFilter $listFilter)
     {
-        switch (true) {
-            // Multiple values leads to IN statement
-            case $value instanceof Collection:
-            case \is_array($value):
+        // Add root entity alias if none provided
+        $queryField = $listFilter->getProperty();
+        $queryField = false === \strpos($queryField, '.') ? $queryBuilder->getRootAlias().'.'.$queryField : $queryField;
+
+        $value = $this->filterEasyadminAutocompleteValue($listFilter->getValue());
+        // Empty string and numeric keys is considered as "not applied filter"
+        if (null === $value || '' === $value || \is_int($field)) {
+            return;
+        }
+
+        // Checks if filter is directly appliable on queryBuilder
+        if (!$this->isFilterAppliable($queryBuilder, $queryField)) {
+            return;
+        }
+
+        $operator = $listFilter->getOperator();
+        // Sanitize parameter name
+        $parameter = 'form_filter_'.\str_replace('.', '_', $field);
+
+        switch ($operator) {
+            case ListFilter::OPERATOR_EQUALS:
+                if ('_NULL' === $listFilter->getValue()) {
+                    $queryBuilder->andWhere(sprintf('%s IS NULL', $queryField));
+                } elseif ('_NOT_NULL' === $value) {
+                    $queryBuilder->andWhere(sprintf('%s IS NOT NULL', $queryField));
+                } else {
+                    $queryBuilder
+                        ->andWhere(sprintf('%s %s :%s', $queryField, '=', $parameter))
+                        ->setParameter($parameter, $value)
+                    ;
+                }
+                break;
+            case ListFilter::OPERATOR_NOT:
+                $queryBuilder
+                    ->andWhere(sprintf('%s %s :%s', $queryField, '!=', $parameter))
+                    ->setParameter($parameter, $value)
+                ;
+                break;
+            case ListFilter::OPERATOR_IN:
+                // Checks that $value is not an empty Traversable
                 if (0 < count($value)) {
-                    $filterDqlPart = $field.' IN (:'.$parameter.')';
+                    $queryBuilder
+                        ->andWhere(sprintf('%s %s (:%s)', $queryField, 'IN', $parameter))
+                        ->setParameter($parameter, $value)
+                    ;
                 }
                 break;
-            // Special value for NULL evaluation
-            case '_NULL' === $value:
-                $parameter = null;
-                $filterDqlPart = $field.' IS NULL';
+            case ListFilter::OPERATOR_NOTIN:
+                $queryBuilder
+                    ->andWhere(sprintf('%s %s (:%s)', $queryField, 'NOT IN', $parameter))
+                    ->setParameter($parameter, $value)
+                ;
                 break;
-            // Special value for NOT NULL evaluation
-            case '_NOT_NULL' === $value:
-                $parameter = null;
-                $filterDqlPart = $field.' IS NOT NULL';
+            case ListFilter::OPERATOR_GT:
+                $queryBuilder
+                    ->andWhere(sprintf('%s %s :%s', $queryField, '>', $parameter))
+                    ->setParameter($parameter, $value)
+                ;
                 break;
-            // Special case if value is a ListFilter
-            case $value instanceof ListFilter:
-                if (null === $value->getValue()  || '' === $value->getValue() ) {
-                    // Break if there is no value
-                    break;
-                }
-
-                $filterDqlPart = $field.' '.$this->translateListFilterOperator($value->getOperator()).' :'.$parameter;
-                $value = $value->getValue();
+            case ListFilter::OPERATOR_GTE:
+                $queryBuilder
+                    ->andWhere(sprintf('%s %s :%s', $queryField, '>=', $parameter))
+                    ->setParameter($parameter, $value)
+                ;
                 break;
-            // Default is equality
+            case ListFilter::OPERATOR_LT:
+                $queryBuilder
+                    ->andWhere(sprintf('%s %s :%s', $queryField, '<', $parameter))
+                    ->setParameter($parameter, $value)
+                ;
+                break;
+            case ListFilter::OPERATOR_LTE:
+                $queryBuilder
+                    ->andWhere(sprintf('%s %s :%s', $queryField, '<=', $parameter))
+                    ->setParameter($parameter, $value)
+                ;
+                break;
             default:
-                $filterDqlPart = $field.' = :'.$parameter;
-                break;
+                throw new \RuntimeException(sprintf('Operator "%s" is not supported !', $operator));
+        }
+    }
+
+    protected function filterEasyadminAutocompleteValue($value)
+    {
+        if (!\is_array($value) || !isset($value['autocomplete']) || 1 !== \count($value)) {
+            return $value;
         }
 
-        if (isset($filterDqlPart)) {
-            $queryBuilder->andWhere($filterDqlPart);
-            if (null !== $parameter) {
-                $queryBuilder->setParameter($parameter, $value);
-            }
-        }
+        return $value['autocomplete'];
     }
 
     /**
@@ -227,30 +249,4 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         return true;
     }
-
-    protected function translateListFilterOperator(string $listFilterOperator)
-    {
-        switch ($listFilterOperator) {
-            case ListFilter::OPERATOR_EQUALS:
-                $operator = '=';
-                break;
-            case ListFilter::OPERATOR_GT:
-                $operator = '>';
-                break;
-            case ListFilter::OPERATOR_GTE:
-                $operator = '>=';
-                break;
-            case ListFilter::OPERATOR_LT:
-                $operator = '<';
-                break;
-            case ListFilter::OPERATOR_LTE:
-                $operator = '<=';
-                break;
-            default:
-                $operator = $listFilterOperator;
-        }
-
-        return $operator;
-    }
-
 }

@@ -24,11 +24,14 @@ class ListFilterType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $listFilter = $event->getData();
+            $form = $event->getForm();
 
             if (null !== $listFilter) {
                 $listFilter->setOperator($options['operator']);
                 if (isset($options['property']) && !empty($options['property'])) {
                     $listFilter->setProperty($options['property']);
+                } else {
+                    $listFilter->setProperty($form->getName());
                 }
             }
         });

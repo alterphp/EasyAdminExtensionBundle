@@ -58,17 +58,22 @@ class ListFormFiltersHelper
                 'form_filters', FormType::class, null, $formOptions
             );
 
+
             foreach ($formFilters as $name => $config) {
-                $formBuilder->add(
-                    $name,
-                    ListFilterType::class,
-                    [
-                        'label' => $config['label'] ?? null,
-                        'required' => false,
-                        'input_type' => $config['type'],
-                        'input_type_options' => $config['type_options'] ?? [],
-                    ]
-                );
+                $listFilterformOptions = [
+                    'label' => $config['label'] ?? null,
+                    'required' => false,
+                    'input_type' => $config['type'],
+                    'input_type_options' => $config['type_options'] ?? [],
+                ];
+                if (isset($config['operator'])) {
+                    $listFilterformOptions['operator'] = $config['operator'];
+                }
+                if (isset($config['property'])) {
+                    $listFilterformOptions['property'] = $config['property'];
+                }
+
+                $formBuilder->add($name, ListFilterType::class, $listFilterformOptions);
             }
 
             $this->listFiltersForm = $formBuilder->setMethod('GET')->getForm();
