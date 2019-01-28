@@ -3,7 +3,6 @@
 namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
@@ -15,7 +14,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class PostQueryBuilderSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper
      */
@@ -117,7 +115,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
         foreach ($filters as $field => $listFilter) {
-
             if (null === $listFilter) {
                 continue;
             }
@@ -159,63 +156,63 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         switch ($operator) {
             case ListFilter::OPERATOR_EQUALS:
                 if ('_NULL' === $listFilter->getValue()) {
-                    $queryBuilder->andWhere(sprintf('%s IS NULL', $queryField));
+                    $queryBuilder->andWhere(\sprintf('%s IS NULL', $queryField));
                 } elseif ('_NOT_NULL' === $value) {
-                    $queryBuilder->andWhere(sprintf('%s IS NOT NULL', $queryField));
+                    $queryBuilder->andWhere(\sprintf('%s IS NOT NULL', $queryField));
                 } else {
                     $queryBuilder
-                        ->andWhere(sprintf('%s %s :%s', $queryField, '=', $parameter))
+                        ->andWhere(\sprintf('%s %s :%s', $queryField, '=', $parameter))
                         ->setParameter($parameter, $value)
                     ;
                 }
                 break;
             case ListFilter::OPERATOR_NOT:
                 $queryBuilder
-                    ->andWhere(sprintf('%s %s :%s', $queryField, '!=', $parameter))
+                    ->andWhere(\sprintf('%s %s :%s', $queryField, '!=', $parameter))
                     ->setParameter($parameter, $value)
                 ;
                 break;
             case ListFilter::OPERATOR_IN:
                 // Checks that $value is not an empty Traversable
-                if (0 < count($value)) {
+                if (0 < \count($value)) {
                     $queryBuilder
-                        ->andWhere(sprintf('%s %s (:%s)', $queryField, 'IN', $parameter))
+                        ->andWhere(\sprintf('%s %s (:%s)', $queryField, 'IN', $parameter))
                         ->setParameter($parameter, $value)
                     ;
                 }
                 break;
             case ListFilter::OPERATOR_NOTIN:
                 $queryBuilder
-                    ->andWhere(sprintf('%s %s (:%s)', $queryField, 'NOT IN', $parameter))
+                    ->andWhere(\sprintf('%s %s (:%s)', $queryField, 'NOT IN', $parameter))
                     ->setParameter($parameter, $value)
                 ;
                 break;
             case ListFilter::OPERATOR_GT:
                 $queryBuilder
-                    ->andWhere(sprintf('%s %s :%s', $queryField, '>', $parameter))
+                    ->andWhere(\sprintf('%s %s :%s', $queryField, '>', $parameter))
                     ->setParameter($parameter, $value)
                 ;
                 break;
             case ListFilter::OPERATOR_GTE:
                 $queryBuilder
-                    ->andWhere(sprintf('%s %s :%s', $queryField, '>=', $parameter))
+                    ->andWhere(\sprintf('%s %s :%s', $queryField, '>=', $parameter))
                     ->setParameter($parameter, $value)
                 ;
                 break;
             case ListFilter::OPERATOR_LT:
                 $queryBuilder
-                    ->andWhere(sprintf('%s %s :%s', $queryField, '<', $parameter))
+                    ->andWhere(\sprintf('%s %s :%s', $queryField, '<', $parameter))
                     ->setParameter($parameter, $value)
                 ;
                 break;
             case ListFilter::OPERATOR_LTE:
                 $queryBuilder
-                    ->andWhere(sprintf('%s %s :%s', $queryField, '<=', $parameter))
+                    ->andWhere(\sprintf('%s %s :%s', $queryField, '<=', $parameter))
                     ->setParameter($parameter, $value)
                 ;
                 break;
             default:
-                throw new \RuntimeException(sprintf('Operator "%s" is not supported !', $operator));
+                throw new \RuntimeException(\sprintf('Operator "%s" is not supported !', $operator));
         }
     }
 

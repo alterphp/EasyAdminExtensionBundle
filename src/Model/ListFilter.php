@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AlterPHP\EasyAdminExtensionBundle\Model;
-
 
 class ListFilter
 {
@@ -39,14 +37,14 @@ class ListFilter
     {
         // Build $operatorValues if this is the first call
         if (null === static::$operatorValues) {
-            static::$operatorValues = array();
-            $refClass = new \ReflectionClass(get_called_class());
+            static::$operatorValues = [];
+            $refClass = new \ReflectionClass(\get_called_class());
             $classConstants = $refClass->getConstants();
             $className = $refClass->getShortName();
 
             $constantPrefix = 'OPERATOR_';
             foreach ($classConstants as $key => $val) {
-                if (substr($key, 0, strlen($constantPrefix)) === $constantPrefix) {
+                if (\substr($key, 0, \strlen($constantPrefix)) === $constantPrefix) {
                     static::$operatorValues[] = $val;
                 }
             }

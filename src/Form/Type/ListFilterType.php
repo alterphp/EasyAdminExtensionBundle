@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AlterPHP\EasyAdminExtensionBundle\Form\Type;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
@@ -18,7 +17,7 @@ class ListFilterType extends AbstractType
         $builder
             ->add('value', $options['input_type'], $options['input_type_options'] + [
                 'label' => false,
-                'required' => false
+                'required' => false,
             ])
         ;
 
@@ -37,15 +36,14 @@ class ListFilterType extends AbstractType
         });
     }
 
-
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'operator' => ListFilter::OPERATOR_EQUALS,
             'data_class' => ListFilter::class,
-            'input_type' =>  TextType::class,
+            'input_type' => TextType::class,
             'input_type_options' => [],
-        ));
+        ]);
         $resolver->setDefined(['property']);
         $resolver->setAllowedValues('operator', ListFilter::getOperatorsList());
     }

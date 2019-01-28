@@ -58,7 +58,6 @@ class ListFormFiltersHelper
                 'form_filters', FormType::class, null, $formOptions
             );
 
-
             foreach ($formFilters as $name => $config) {
                 $listFilterformOptions = [
                     'label' => $config['label'] ?? null,
