@@ -28,6 +28,19 @@ class ListFilter
 
     private static $operatorValues = null;
 
+    public static function createFromRequest(string $property, $operator, $value)
+    {
+        $listFilter = new static();
+
+        $listFilter
+            ->setProperty($property)
+            ->setOperator($operator)
+            ->setValue($value)
+        ;
+
+        return $listFilter;
+    }
+
     /**
      * Returns operators list.
      *
@@ -60,6 +73,10 @@ class ListFilter
 
     public function setOperator(string $operator)
     {
+        if (!in_array($operator, static::getOperatorsList())) {
+            throw new \InvalidArgumentException(sprintf('Operator "%s" is not allowed !', $operator));
+        }
+
         $this->operator = $operator;
 
         return $this;

@@ -93,16 +93,11 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             if ('' === $value || \is_int($field)) {
                 continue;
             }
-            // Add root entity alias if none provided
-            $field = false === \strpos($field, '.') ? $queryBuilder->getRootAlias().'.'.$field : $field;
-            // Checks if filter is directly appliable on queryBuilder
-            if (!$this->isFilterAppliable($queryBuilder, $field)) {
-                continue;
-            }
-            // Sanitize parameter name
-            $parameter = 'request_filter_'.\str_replace('.', '_', $field);
 
-            $this->filterQueryBuilder($queryBuilder, $field, $parameter, $value);
+            $operator = is_array($value) ? ListFilter::OPERATOR_IN : ListFilter::OPERATOR_EQUALS;
+            $listFilter = ListFilter::createFromRequest($field, $operator, $value);
+
+            $this->filterQueryBuilder($queryBuilder, $field, $listFilter);
         }
     }
 
@@ -141,7 +136,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         // Add root entity alias if none provided
         $queryField = $listFilter->getProperty();
         if (false === \strpos($queryField, '.')) {
-            $queryBuilder->getRootAlias().'.'.$queryField;
+            $queryField = $queryBuilder->getRootAlias().'.'.$queryField;
         }
 
         // Checks if filter is directly appliable on queryBuilder
