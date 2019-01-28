@@ -32,7 +32,10 @@ class ListFormFiltersTest extends AbstractTestCase
         $crawler = $this->requestListView('Product', [], ['enabled' => [ 'value' => false]]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testFormSingleEasyadminAutocompleteFilterIsApplied()
@@ -40,6 +43,68 @@ class ListFormFiltersTest extends AbstractTestCase
         $crawler = $this->requestListView('Product', [], ['category' => [ 'value' => ['autocomplete' => [1]]]]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterGreaterThanOperator()
+    {
+        $crawler = $this->requestListView('Product', [], ['priceGreaterThan' => ['value' => 5100]]);
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '49 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterGreaterThanOrEqualsOperator()
+    {
+        $crawler = $this->requestListView('Product', [], ['priceGreaterThanOrEquals' => ['value' => 5100]]);
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '50 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterLowerThanOperator()
+    {
+        $crawler = $this->requestListView('Product', [], ['priceLowerThan' => ['value' => 5100]]);
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '50 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterLowerThanOrEqualsOperator()
+    {
+        $crawler = $this->requestListView('Product', [], ['priceLowerThanOrEquals' => ['value' => 5100]]);
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '51 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterCombinedOperator()
+    {
+        $crawler = $this->requestListView(
+            'Product',
+            [],
+            ['priceLowerThanOrEquals' => ['value' => 5100], 'priceGreaterThan' => ['value' => 3000]]
+        );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '21 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 }

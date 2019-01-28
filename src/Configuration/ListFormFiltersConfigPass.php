@@ -4,10 +4,13 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Types\type as DBALType;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
  * Guess form types for list form filters.
@@ -53,7 +56,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
                 // Key mapping
                 if (\is_string($formFilter)) {
-                    $filterConfig = ['property' => $formFilter];
+                    $filterConfig = ['name' => $formFilter, 'property' => $formFilter];
                 } else {
                     if (!\array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
@@ -65,6 +68,8 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     }
 
                     $filterConfig = $formFilter;
+                    // Auto set name with property value
+                    $filterConfig['name'] = $filterConfig['name'] ?? $filterConfig['property'];
                 }
 
                 $this->configureFilter(
@@ -78,7 +83,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     continue;
                 }
 
-                $formFilters[$filterConfig['property']] = $filterConfig;
+                $formFilters[$filterConfig['name']] = $filterConfig;
             }
 
             // set form filters config and form !
@@ -120,7 +125,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
     private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig, string $translationDomain)
     {
         switch ($fieldMapping['type']) {
-            case 'boolean':
+            case DBALType::BOOLEAN:
                 $filterConfig['type'] = ChoiceType::class;
                 $defaultFilterConfigTypeOptions = [
                     'choices' => [
@@ -130,8 +135,8 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     'choice_translation_domain' => 'EasyAdminBundle',
                 ];
                 break;
-            case 'string':
-                $filterConfig['operator'] = ListFilter::OPERATOR_IN;
+            case DBALType::STRING:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
                 $filterConfig['type'] = ChoiceType::class;
                 $defaultFilterConfigTypeOptions = [
                     'multiple' => true,
@@ -139,6 +144,19 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     'attr' => ['data-widget' => 'select2'],
                     'choice_translation_domain' => $translationDomain,
                 ];
+                break;
+            case DBALType::SMALLINT:
+            case DBALType::INTEGER:
+            case DBALType::BIGINT:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
+                $filterConfig['type'] = IntegerType::class;
+                $defaultFilterConfigTypeOptions = [];
+                break;
+            case DBALType::DECIMAL:
+            case DBALType::FLOAT:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
+                $filterConfig['type'] = NumberType::class;
+                $defaultFilterConfigTypeOptions = [];
                 break;
             default:
                 return;

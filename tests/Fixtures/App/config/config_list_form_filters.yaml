@@ -13,3 +13,7 @@ easy_admin:
                     - { property: replenishmentType, type_options: { choices_static_callback: [getReplenishmentTypeValues, [true]] } }
                     - enabled
                     - category
+                    - { name: priceGreaterThan, property: price, operator: gt }
+                    - { name: priceGreaterThanOrEquals, property: price, operator: gte }
+                    - { name: priceLowerThan, property: price, operator: lt }
+                    - { name: priceLowerThanOrEquals, property: price, operator: lte }
