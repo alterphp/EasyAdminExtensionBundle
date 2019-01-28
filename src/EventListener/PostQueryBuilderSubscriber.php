@@ -150,7 +150,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         switch ($operator) {
             case ListFilter::OPERATOR_EQUALS:
-                if ('_NULL' === $listFilter->getValue()) {
+                if ('_NULL' === $value) {
                     $queryBuilder->andWhere(\sprintf('%s IS NULL', $queryField));
                 } elseif ('_NOT_NULL' === $value) {
                     $queryBuilder->andWhere(\sprintf('%s IS NOT NULL', $queryField));
@@ -177,10 +177,13 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 }
                 break;
             case ListFilter::OPERATOR_NOTIN:
-                $queryBuilder
-                    ->andWhere(\sprintf('%s %s (:%s)', $queryField, 'NOT IN', $parameter))
-                    ->setParameter($parameter, $value)
-                ;
+                // Checks that $value is not an empty Traversable
+                if (0 < \count($value)) {
+                    $queryBuilder
+                        ->andWhere(\sprintf('%s %s (:%s)', $queryField, 'NOT IN', $parameter))
+                        ->setParameter($parameter, $value)
+                    ;
+                }
                 break;
             case ListFilter::OPERATOR_GT:
                 $queryBuilder

@@ -95,11 +95,6 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
     private function configureFilter(string $entityClass, array &$filterConfig, string $translationDomain)
     {
-        // No need to guess type
-        if (isset($filterConfig['type'])) {
-            return;
-        }
-
         $em = $this->doctrine->getManagerForClass($entityClass);
         $entityMetadata = $em->getMetadataFactory()->getMetadataFor($entityClass);
 
@@ -122,11 +117,13 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
     }
 
-    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig, string $translationDomain)
-    {
+    private function configureFieldFilter(
+        string $entityClass, array $fieldMapping, array &$filterConfig, string $translationDomain
+    ) {
         switch ($fieldMapping['type']) {
             case DBALType::BOOLEAN:
-                $filterConfig['type'] = ChoiceType::class;
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
+                $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
                 $defaultFilterConfigTypeOptions = [
                     'choices' => [
                         'list_form_filters.default.boolean.true' => true,
@@ -137,9 +134,10 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 break;
             case DBALType::STRING:
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
-                $filterConfig['type'] = ChoiceType::class;
+                $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
                 $defaultFilterConfigTypeOptions = [
-                    'multiple' => true,
+                    'multiple' => in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN]),
+                    'placeholder' => '-',
                     'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
                     'attr' => ['data-widget' => 'select2'],
                     'choice_translation_domain' => $translationDomain,
@@ -149,17 +147,26 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             case DBALType::INTEGER:
             case DBALType::BIGINT:
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
-                $filterConfig['type'] = IntegerType::class;
+                $filterConfig['type'] = $filterConfig['type'] ?? IntegerType::class;
                 $defaultFilterConfigTypeOptions = [];
                 break;
             case DBALType::DECIMAL:
             case DBALType::FLOAT:
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
-                $filterConfig['type'] = NumberType::class;
+                $filterConfig['type'] = $filterConfig['type'] ?? NumberType::class;
                 $defaultFilterConfigTypeOptions = [];
                 break;
             default:
                 return;
+        }
+
+        // Auto set multiple on ChoiceType when operator requires array
+        if (ChoiceType::class === $filterConfig['type']) {
+            $defaultFilterConfigTypeOptions['choices'] = $defaultFilterConfigTypeOptions['choices'] ?? $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
+
+            if (in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
+                $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
+            }
         }
 
         // Merge default type options when defined
@@ -175,8 +182,8 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
     {
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
-            $filterConfig['operator'] = ListFilter::OPERATOR_IN;
-            $filterConfig['type'] = EasyAdminAutocompleteType::class;
+            $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
+            $filterConfig['type'] = $filterConfig['type'] ?? EasyAdminAutocompleteType::class;
             $filterConfig['type_options'] = \array_merge(
                 [
                     'class' => $associationMapping['targetEntity'],

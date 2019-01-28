@@ -29,7 +29,7 @@ class ListFormFiltersTest extends AbstractTestCase
 
     public function testFormSingleFilterIsApplied()
     {
-        $crawler = $this->requestListView('Product', [], ['enabled' => [ 'value' => false]]);
+        $crawler = $this->requestListView('Product', [], ['enabled' => ['value' => false]]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
@@ -40,7 +40,7 @@ class ListFormFiltersTest extends AbstractTestCase
 
     public function testFormSingleEasyadminAutocompleteFilterIsApplied()
     {
-        $crawler = $this->requestListView('Product', [], ['category' => [ 'value' => ['autocomplete' => [1]]]]);
+        $crawler = $this->requestListView('Product', [], ['category' => ['value' => ['autocomplete' => [1]]]]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
@@ -89,6 +89,32 @@ class ListFormFiltersTest extends AbstractTestCase
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains(
             '51 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterNotOperator()
+    {
+        $crawler = $this->requestListView('Product', [], ['notOddEven' => ['value' => 'even']]);
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '75 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
+    public function testListFilterNotInOperator()
+    {
+        $crawler = $this->requestListView(
+            'Product',
+            [],
+            ['notInPhone' => ['value' => ['0123456789-0', '0123456789-1', '0123456789-2', '0123456789-3']]]
+        );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '54 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
         );
     }

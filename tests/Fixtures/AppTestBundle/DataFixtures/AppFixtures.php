@@ -174,7 +174,7 @@ class AppFixtures extends Fixture
             $product->setCategory($category);
             $product->setDescription($this->getRandomDescription());
             $product->setHtmlFeatures($this->getRandomHtmlFeatures());
-            $product->setPhone($i <= 10 ? null : '0123456789');
+            $product->setPhone($i <= 10 ? null : '0123456789-'.($i % 10));
 
             $this->addReference('product-'.$i, $product);
             $products[] = $product;
