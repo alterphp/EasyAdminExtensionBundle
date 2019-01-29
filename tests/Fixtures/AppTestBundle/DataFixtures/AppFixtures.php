@@ -169,6 +169,7 @@ class AppFixtures extends Fixture
             $product->setName($this->getRandomName());
             $product->setReplenishmentType($this->getReplenishmentType());
             $product->setPrice($i * 100);
+            $product->setStock(($i % 4) * 10);
             $product->setTags($this->getRandomTags());
             $product->setEan($this->getRandomEan());
             $product->setCategory($category);

@@ -133,4 +133,19 @@ class ListFormFiltersTest extends AbstractTestCase
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
         );
     }
+
+    public function testListFilterDefaultInteger()
+    {
+        $crawler = $this->requestListView(
+            'Product',
+            [],
+            ['stock' => ['value' => 30]]
+        );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '25 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
 }
