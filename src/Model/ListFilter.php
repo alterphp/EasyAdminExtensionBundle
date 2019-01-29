@@ -28,7 +28,7 @@ class ListFilter
 
     private static $operatorValues = null;
 
-    public static function createFromRequest(string $property, $operator, $value)
+    public static function createFromRequest(string $property, string $operator, $value)
     {
         $listFilter = new static();
 
@@ -51,7 +51,7 @@ class ListFilter
         // Build $operatorValues if this is the first call
         if (null === static::$operatorValues) {
             static::$operatorValues = [];
-            $refClass = new \ReflectionClass(\get_called_class());
+            $refClass = new \ReflectionClass(static::class);
             $classConstants = $refClass->getConstants();
             $className = $refClass->getShortName();
 
