@@ -18,7 +18,10 @@ class RequestParametersTest extends AbstractTestCase
         $crawler = $this->requestListView('Product', ['entity.enabled' => false]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testRequestNoFieldFilterCausesNoError()
@@ -26,7 +29,10 @@ class RequestParametersTest extends AbstractTestCase
         $crawler = $this->requestListView('Product', ['entity.foo' => 'bar']);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(15, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '100 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testRequestManyFiltersAreApplied()
@@ -36,7 +42,10 @@ class RequestParametersTest extends AbstractTestCase
         );
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(5, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '5 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testRequestFilterWithoutAliasIsCompletedAndApplied()
@@ -44,7 +53,10 @@ class RequestParametersTest extends AbstractTestCase
         $crawler = $this->requestListView('Product', ['enabled' => false]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testRequestFiltersArePassedToSearchForm()
@@ -96,7 +108,10 @@ class RequestParametersTest extends AbstractTestCase
         $crawler = $this->requestSearchView('ref000', 'Product', ['entity.enabled' => false]);
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testRequestNullFilterIsApplied()
@@ -106,7 +121,10 @@ class RequestParametersTest extends AbstractTestCase
         );
 
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
-        $this->assertSame(10, $crawler->filter('#main tr[data-id]')->count());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
     }
 
     public function testRequestNotNullFilterIsApplied()

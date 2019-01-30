@@ -3,6 +3,7 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Form\Type\EasyAdminEmbeddedListType;
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\ListFilterType;
 use AlterPHP\EasyAdminExtensionBundle\Form\Type\Security\AdminRolesType;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Util\FormTypeHelper;
@@ -23,6 +24,7 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
     private static $nativeShortFormTypes = [
         'embedded_list' => EasyAdminEmbeddedListType::class,
         'admin_roles' => AdminRolesType::class,
+        'list_filter' => ListFilterType::class,
     ];
 
     public function __construct(array $customFormTypes = [])

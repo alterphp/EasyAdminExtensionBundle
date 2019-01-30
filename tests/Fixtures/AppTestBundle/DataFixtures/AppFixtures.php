@@ -168,13 +168,14 @@ class AppFixtures extends Fixture
             $product->setReference('ref'.\str_pad($i, 6, '0', STR_PAD_LEFT));
             $product->setName($this->getRandomName());
             $product->setReplenishmentType($this->getReplenishmentType());
-            $product->setPrice($this->getRandomPrice());
+            $product->setPrice($i * 100);
+            $product->setStock(($i % 4) * 10);
             $product->setTags($this->getRandomTags());
             $product->setEan($this->getRandomEan());
             $product->setCategory($category);
             $product->setDescription($this->getRandomDescription());
             $product->setHtmlFeatures($this->getRandomHtmlFeatures());
-            $product->setPhone($i <= 10 ? null : '0123456789');
+            $product->setPhone($i <= 10 ? null : '0123456789-'.($i % 10));
 
             $this->addReference('product-'.$i, $product);
             $products[] = $product;

@@ -104,6 +104,14 @@ class Product
     protected $price = 0.0;
 
     /**
+     * The stock of the product.
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $stock = 0;
+
+    /**
      * The reference of the product.
      *
      * @var string
@@ -424,6 +432,26 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Set the stock.
+     *
+     * @param int $stock
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+    }
+
+    /**
+     * Get the stock of the product.
+     *
+     * @return int
+     */
+    public function getStock()
+    {
+        return $this->stock;
     }
 
     /**

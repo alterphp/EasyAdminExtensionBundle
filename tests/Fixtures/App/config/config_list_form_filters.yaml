@@ -8,8 +8,38 @@ easy_admin:
         Product:
             class: AppTestBundle\Entity\FunctionalTests\Product
             list:
+                max_results: 200
+                fields:
+                    - id
+                    - ean
+                    - oddEven
+                    - price
+                    - replenishmentType
+                    - phone
                 form_filters:
                     - { property: oddEven, type_options: { choices: {Odd: odd, Even: even} } }
+                    - { name: notOddEven, property: oddEven, operator: not, type_options: { choices: {Odd: odd, Even: even} } }
                     - { property: replenishmentType, type_options: { choices_static_callback: [getReplenishmentTypeValues, [true]] } }
                     - enabled
                     - category
+                    - stock
+                    - { name: priceGreaterThan, property: price, operator: gt }
+                    - { name: priceGreaterThanOrEquals, property: price, operator: gte }
+                    - { name: priceLowerThan, property: price, operator: lt }
+                    - { name: priceLowerThanOrEquals, property: price, operator: lte }
+                    - name: notInPhone
+                      property: phone
+                      operator: notin
+                      type: choice
+                      type_options:
+                        choices:
+                            '0123456789-0': '0123456789-0'
+                            '0123456789-1': '0123456789-1'
+                            '0123456789-2': '0123456789-2'
+                            '0123456789-3': '0123456789-3'
+                            '0123456789-4': '0123456789-4'
+                            '0123456789-5': '0123456789-5'
+                            '0123456789-6': '0123456789-6'
+                            '0123456789-7': '0123456789-7'
+                            '0123456789-8': '0123456789-8'
+                            '0123456789-9': '0123456789-9'

@@ -4,9 +4,11 @@
 #list-form-filters-header[data-toggle^="collapse"] {
   cursor: pointer;
 }
-
 #list-form-filters-form {
   padding: 5px;
+}
+#list-form-filters-form .field-list_filter > .form-widget > .form-widget-compound > .collection-empty {
+  display: none;
 }
 
 /* SHOW vertical */
