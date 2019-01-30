@@ -126,6 +126,13 @@ class Animation
     private $type;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $maxSubscriptions;
+
+    /**
      * @var Organization
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="animations")
@@ -169,12 +176,43 @@ Let's see the result !
 
 ![Embedded list example](/doc/res/img/list-form-filters.png)
 
+#### Automatic list filter guesser
+
 Guesser for list form filters are based on mapped entity property :
 * _boolean_: guessed filter is a choice list (null, Yes, No)
 * _string_: guessed filter is multiple choice list that requires either `choices` (value/label array) or `choices_static_callback` (static callback from entity class returning a value/label array) in `type_options`.
+* _integer_, _smallint_, _bigint_: guessed filter is an integer input
+* _decimal_, _float_: guessed filter is a number input
 * _*-to-one-relation_: guessed filter is a multiple autocomplete of relation target entity.
 
 Filters form's method is GET and submitted through `form_filter` parameter. It is transmitted to the referer used for post update/delete/create redirection AND for search !
+
+#### List filter operator
+
+By default, list filter use `equals` operator or `in` for multiple value filters.
+
+But you can use more operators with the `operator` attribute :
+
+```yaml
+entities:
+        Animation:
+            class: App\Entity\Animation
+            list:
+                form_filters:
+                    - { name: maxSubscriptionGTE, property: maxSubscriptions, label: 'Max subscriptions >=', operator: gte }
+                    - { name: maxSubscriptionLTE, property: maxSubscriptions, label: 'Max subscriptions <=', operator: lte }
+```
+
+Available built-in operators are listed in `AlterPHP\EasyAdminExtensionBundle\Model\ListFilter` class, as constant `OPERATOR_*` :
+* __equals__: Is equal to
+* __not__: Is different of
+* __in__: Is in (`array` or Doctrine `Collection` expected)
+* __notin__:  Is not in (`array` or Doctrine `Collection` expected)
+* __gt__: Is greater than
+* __gte__: Is greater than or equal to
+* __lt__: Is lower than
+* __lte__: Is lower than or equal to
+
 
 ### Filter list and search on request parameters
 
