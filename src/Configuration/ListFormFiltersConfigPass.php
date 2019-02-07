@@ -56,7 +56,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
                 // Key mapping
                 if (\is_string($formFilter)) {
-                    $filterConfig = ['name' => $formFilter, 'property' => $formFilter];
+                    $filterConfig = ['property' => $formFilter];
                 } else {
                     if (!\array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
@@ -68,9 +68,12 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     }
 
                     $filterConfig = $formFilter;
-                    // Auto set name with property value
-                    $filterConfig['name'] = $filterConfig['name'] ?? $filterConfig['property'];
                 }
+
+                // Auto set name with property value
+                $filterConfig['name'] = $filterConfig['name'] ?? $filterConfig['property'];
+                // Auto set label with name value
+                $filterConfig['label'] = $filterConfig['label'] ?? $filterConfig['name'];
 
                 $this->configureFilter(
                     $entityConfig['class'],
