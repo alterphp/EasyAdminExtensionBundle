@@ -127,24 +127,29 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             case DBALType::BOOLEAN:
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
                 $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
-                $defaultFilterConfigTypeOptions = [
-                    'choices' => [
-                        'list_form_filters.default.boolean.true' => true,
-                        'list_form_filters.default.boolean.false' => false,
-                    ],
-                    'choice_translation_domain' => 'EasyAdminBundle',
-                ];
+                if (ChoiceType::class === $filterConfig['type']) {
+                    $defaultFilterConfigTypeOptions = [
+                        'placeholder' => '-',
+                        'choices' => [
+                            'list_form_filters.default.boolean.true' => true,
+                            'list_form_filters.default.boolean.false' => false,
+                        ],
+                        'attr' => ['data-widget' => 'select2'],
+                        'choice_translation_domain' => 'EasyAdminBundle',
+                    ];
+                }
                 break;
             case DBALType::STRING:
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
                 $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
-                $defaultFilterConfigTypeOptions = [
-                    'multiple' => \in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN]),
-                    'placeholder' => '-',
-                    'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
-                    'attr' => ['data-widget' => 'select2'],
-                    'choice_translation_domain' => $translationDomain,
-                ];
+                if (ChoiceType::class === $filterConfig['type']) {
+                    $defaultFilterConfigTypeOptions = [
+                        'placeholder' => '-',
+                        'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
+                        'attr' => ['data-widget' => 'select2'],
+                        'choice_translation_domain' => $translationDomain,
+                    ];
+                }
                 break;
             case DBALType::SMALLINT:
             case DBALType::INTEGER:
@@ -163,7 +168,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 return;
         }
 
-        // Auto set multiple on ChoiceType when operator requires array
+        // Auto-set ChoiceType options
         if (ChoiceType::class === $filterConfig['type']) {
             $defaultFilterConfigTypeOptions['choices'] = $defaultFilterConfigTypeOptions['choices'] ?? $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
 
