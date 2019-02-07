@@ -136,7 +136,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
                 $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
                 $defaultFilterConfigTypeOptions = [
-                    'multiple' => in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN]),
+                    'multiple' => \in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN]),
                     'placeholder' => '-',
                     'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
                     'attr' => ['data-widget' => 'select2'],
@@ -164,7 +164,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         if (ChoiceType::class === $filterConfig['type']) {
             $defaultFilterConfigTypeOptions['choices'] = $defaultFilterConfigTypeOptions['choices'] ?? $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
 
-            if (in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
+            if (\in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
                 $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
             }
         }

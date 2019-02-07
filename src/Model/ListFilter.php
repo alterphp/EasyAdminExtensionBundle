@@ -73,8 +73,8 @@ class ListFilter
 
     public function setOperator(string $operator)
     {
-        if (!in_array($operator, static::getOperatorsList())) {
-            throw new \InvalidArgumentException(sprintf('Operator "%s" is not allowed !', $operator));
+        if (!\in_array($operator, static::getOperatorsList())) {
+            throw new \InvalidArgumentException(\sprintf('Operator "%s" is not allowed !', $operator));
         }
 
         $this->operator = $operator;

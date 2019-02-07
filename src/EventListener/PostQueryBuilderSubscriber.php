@@ -94,7 +94,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                 continue;
             }
 
-            $operator = is_array($value) ? ListFilter::OPERATOR_IN : ListFilter::OPERATOR_EQUALS;
+            $operator = \is_array($value) ? ListFilter::OPERATOR_IN : ListFilter::OPERATOR_EQUALS;
             $listFilter = ListFilter::createFromRequest($field, $operator, $value);
 
             $this->filterQueryBuilder($queryBuilder, $field, $listFilter);
