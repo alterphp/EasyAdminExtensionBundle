@@ -94,7 +94,8 @@ function initCreateEntityAjaxForm(field_name, select_id) {
     });
   });
 }
-
-$(function () {
-  createAutoCompleteCreateFields();
+window.addEventListener('load', function() {
+  $(function () {
+    createAutoCompleteCreateFields();
+  });
 });
