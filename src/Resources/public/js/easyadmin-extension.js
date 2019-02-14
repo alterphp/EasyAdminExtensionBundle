@@ -52,25 +52,27 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
   }
 }
 
-$(function() {
-  $('[data-confirm]').on('click', function(e) {
-    e.preventDefault();
+window.addEventListener('load', function() {
+  $(function() {
+    $('[data-confirm]').on('click', function(e) {
+      e.preventDefault();
 
-    var message = $(this).data('confirm');
-    var content = $('#modal-confirm p.modal-body-content');
-    content.html(message);
+      var message = $(this).data('confirm');
+      var content = $('#modal-confirm p.modal-body-content');
+      content.html(message);
 
-    var confirmButton = $('#modal-confirm #modal-confirm-button');
-    if (!confirmButton.find('i').length) { confirmButton.prepend('<i></i>'); }
-    confirmButton.find('i')
-      .removeClass()
-      .addClass($(this).find('i').attr('class'))
-    ;
+      var confirmButton = $('#modal-confirm #modal-confirm-button');
+      if (!confirmButton.find('i').length) { confirmButton.prepend('<i></i>'); }
+      confirmButton.find('i')
+        .removeClass()
+        .addClass($(this).find('i').attr('class'))
+      ;
 
-    var href = $(this).data('href');
-    $('#modal-confirm #confirm-form').attr('action', href);
+      var href = $(this).data('href');
+      $('#modal-confirm #confirm-form').attr('action', href);
 
-    $('#modal-confirm').modal({ backdrop: true, keyboard: true });
+      $('#modal-confirm').modal({ backdrop: true, keyboard: true });
+    });
   });
 });
 
