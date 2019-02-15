@@ -81,7 +81,6 @@ easy_admin:
     design:
         assets:
             css:
-                - 'bundles/easyadmin/app.css'
                 - 'bundles/easyadminextension/stylesheet/full-width.css'
 ```
 
