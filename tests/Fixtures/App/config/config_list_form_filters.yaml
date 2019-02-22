@@ -43,3 +43,4 @@ easy_admin:
                             '0123456789-7': '0123456789-7'
                             '0123456789-8': '0123456789-8'
                             '0123456789-9': '0123456789-9'
+                    - { name: referenceLike, property: reference, type: text, operator: like }
