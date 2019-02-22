@@ -74,12 +74,10 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 $filterConfig['name'] = $filterConfig['name'] ?? $filterConfig['property'];
                 // Auto set label with name value
                 $filterConfig['label'] = $filterConfig['label'] ?? $filterConfig['name'];
+                // Auto-set translation_domain
+                $filterConfig['translation_domain'] = $filterConfig['translation_domain'] ?? $entityConfig['translation_domain'];
 
-                $this->configureFilter(
-                    $entityConfig['class'],
-                    $filterConfig,
-                    $backendConfig['translation_domain'] ?? 'EasyAdminBundle'
-                );
+                $this->configureFilter($entityConfig['class'], $filterConfig);
 
                 // If type is not configured at this steps => not guessable
                 if (!isset($filterConfig['type'])) {
@@ -96,7 +94,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         return $backendConfig;
     }
 
-    private function configureFilter(string $entityClass, array &$filterConfig, string $translationDomain)
+    private function configureFilter(string $entityClass, array &$filterConfig)
     {
         $em = $this->doctrine->getManagerForClass($entityClass);
         $entityMetadata = $em->getMetadataFactory()->getMetadataFor($entityClass);
@@ -111,8 +109,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         if ($entityMetadata->hasField($filterConfig['property'])) {
             $this->configureFieldFilter(
-                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig, $translationDomain
-            );
+                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig);
         } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
             $this->configureAssociationFilter(
                 $entityClass, $entityMetadata->getAssociationMapping($filterConfig['property']), $filterConfig
@@ -120,9 +117,8 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
     }
 
-    private function configureFieldFilter(
-        string $entityClass, array $fieldMapping, array &$filterConfig, string $translationDomain
-    ) {
+    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig)
+    {
         $defaultFilterConfigTypeOptions = [];
 
         switch ($fieldMapping['type']) {
@@ -146,7 +142,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     $defaultFilterConfigTypeOptions['placeholder'] = '-';
                     $defaultFilterConfigTypeOptions['choices'] = $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
                     $defaultFilterConfigTypeOptions['attr'] = ['data-widget' => 'select2'];
-                    $defaultFilterConfigTypeOptions['choice_translation_domain'] = $translationDomain;
+                    $defaultFilterConfigTypeOptions['choice_translation_domain'] = $filterConfig['translation_domain'];
                 }
                 break;
             case DBALType::SMALLINT:
