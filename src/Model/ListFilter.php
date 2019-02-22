@@ -25,6 +25,7 @@ class ListFilter
     public const OPERATOR_GTE = 'gte';
     public const OPERATOR_LT = 'lt';
     public const OPERATOR_LTE = 'lte';
+    public const OPERATOR_LIKE = 'like';
 
     private static $operatorValues = null;
 
