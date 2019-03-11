@@ -178,18 +178,28 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
     private function configureAssociationFilter(string $entityClass, array $associationMapping, array &$filterConfig)
     {
+        $defaultFilterConfigTypeOptions = [];
+
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
             $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
             $filterConfig['type'] = $filterConfig['type'] ?? EasyAdminAutocompleteType::class;
-            $filterConfig['type_options'] = \array_merge(
-                [
-                    'class' => $associationMapping['targetEntity'],
-                    'multiple' => true,
-                ],
-                $filterConfig['type_options'] ?? []
-            );
         }
+
+        // Auto-set EasyAdminAutocompleteType options
+        if (EasyAdminAutocompleteType::class === $filterConfig['type']) {
+            $defaultFilterConfigTypeOptions['class'] = $associationMapping['targetEntity'];
+
+            if (\in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
+                $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
+            }
+        }
+
+        // Merge default type options
+        $filterConfig['type_options'] = \array_merge(
+            $defaultFilterConfigTypeOptions,
+            $filterConfig['type_options'] ?? []
+        );
     }
 
     private function getChoiceList(string $entityClass, string $property, array &$filterConfig)
