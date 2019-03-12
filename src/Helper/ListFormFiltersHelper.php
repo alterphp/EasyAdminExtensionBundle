@@ -61,6 +61,7 @@ class ListFormFiltersHelper
             foreach ($formFilters as $name => $config) {
                 $listFilterformOptions = [
                     'label' => $config['label'] ?? null,
+                    'translation_domain' => $config['translation_domain'] ?? null,
                     'required' => false,
                     'input_type' => $config['type'],
                     'input_type_options' => $config['type_options'] ?? [],

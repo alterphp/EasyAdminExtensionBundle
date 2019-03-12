@@ -119,6 +119,21 @@ class ListFormFiltersTest extends AbstractTestCase
         );
     }
 
+    public function testListFilterLikeOperator()
+    {
+        $crawler = $this->requestListView(
+            'Product',
+            [],
+            ['referenceLike' => ['value' => 'ref00001']]
+        );
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains(
+            '10 results',
+            $crawler->filter('section.content-footer .list-pagination-counter')->text()
+        );
+    }
+
     public function testListFilterCombinedOperator()
     {
         $crawler = $this->requestListView(
