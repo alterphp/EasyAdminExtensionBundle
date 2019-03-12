@@ -57,7 +57,10 @@ function switchToEntityCreation(url_action, select_id, field_name) {
 }
 
 function openCreateEntityModal(data, url_action, field_name, select_id) {
-  $('#create-entity-modal .modal-body').html(data.html);
+  var data_html = $(data.html);
+  data_html.find('.form-actions > a[name=list]').remove();
+  data_html.find('.form-actions > a[name=delete]').remove();
+  $('#create-entity-modal .modal-body').html(data_html);
   $('form[name="'+field_name+'"]').attr('action', url_action);
   initCreateEntityAjaxForm(field_name, select_id);
 }
