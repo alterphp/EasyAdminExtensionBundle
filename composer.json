@@ -18,6 +18,8 @@
         "doctrine/doctrine-bundle": "^1.8",
         "doctrine/orm": "^2.6",
         "easycorp/easyadmin-bundle": "^2.0",
+        "league/uri-manipulations": "^1.3",
+        "league/uri-schemes": "^1.2",
         "symfony/config": "^4.1",
         "symfony/dependency-injection": "^4.1",
         "symfony/event-dispatcher": "^4.1",
@@ -49,7 +51,10 @@
         "symfony/var-dumper": "^4.1"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "ext-intl": "1.0"
+        }
     },
     "autoload": {
         "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\": "src/" },
