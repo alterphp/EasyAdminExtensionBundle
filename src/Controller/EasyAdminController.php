@@ -5,6 +5,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController as BaseEasyAdminControler;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use League\Uri;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EasyAdminController extends BaseEasyAdminControler
@@ -23,10 +24,17 @@ class EasyAdminController extends BaseEasyAdminControler
 
         $this->dispatch(EasyAdminEvents::POST_LIST, ['paginator' => $paginator]);
 
+        // Removes existing referer
+        $baseMasterRequestUri = !$this->request->isXmlHttpRequest()
+                            ? $this->get('request_stack')->getMasterRequest()->getUri()
+                            : $this->request->headers->get('referer');
+        $baseMasterRequestUri = Uri\create($baseMasterRequestUri);
+        $masterRequestUri = Uri\remove_pairs($baseMasterRequestUri, ['referer']);
+
         return $this->render('@EasyAdminExtension/default/embedded_list.html.twig', [
             'paginator' => $paginator,
             'fields' => $fields,
-            'masterRequest' => $this->get('request_stack')->getMasterRequest(),
+            'masterRequestUri' => (string) $masterRequestUri,
         ]);
     }
 
