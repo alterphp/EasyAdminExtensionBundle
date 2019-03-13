@@ -72,18 +72,6 @@ If you have defined your own admin controllers, make them extend EasyAdminExtens
 Features
 --------
 
-### Full width theme
-
-New EasyAdmin theme based on Stripe fits content in a max-width body. In order to use as much space as possible, simply add following stylesheet in the `design.assets.css` config :
-
-```yaml
-easy_admin:
-    design:
-        assets:
-            css:
-                - 'bundles/easyadminextension/stylesheet/full-width.css'
-```
-
 ### List filters form
 
 Add filters on list views by configuration.

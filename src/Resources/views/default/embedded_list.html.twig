@@ -4,7 +4,7 @@
 
 {# OVERRIDE referer #}
 {% set _request_parameters = app.request.query.all %}
-{% set _request_parameters = _request_parameters|merge({ referer: masterRequest.requestUri|url_encode }) %}
+{% set _request_parameters = _request_parameters|merge({ referer: masterRequestUri }) %}
 
 {% set widget_identifier = app.request.requestUri|embedded_list_identifier %}
 
