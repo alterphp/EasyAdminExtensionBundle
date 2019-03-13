@@ -50,7 +50,10 @@
         "symfony/var-dumper": "^4.1"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "ext-intl": "1.0"
+        }
     },
     "autoload": {
         "psr-4": { "AlterPHP\\EasyAdminExtensionBundle\\": "src/" },
