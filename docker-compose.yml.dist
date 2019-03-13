@@ -2,20 +2,13 @@ version: '3.2'
 
 services:
 
-    php:
-        image: php
-        volumes:
-            - ./:/app
-        entrypoint:
-          - php
-
     phpunit:
         build: docker/phpunit
         volumes:
             - ./:/app
         entrypoint:
           - php
-          - /app/vendor/phpunit/phpunit/phpunit
+          - /app/vendor/bin/simple-phpunit
 
     php-cs-fixer:
         image: ekreative/php-cs-fixer
