@@ -199,6 +199,7 @@ Available built-in operators are listed in `AlterPHP\EasyAdminExtensionBundle\Mo
 * __gte__: Is greater than or equal to
 * __lt__: Is lower than
 * __lte__: Is lower than or equal to
+* __like__: Is LIKE %filterValue%
 
 
 ### Filter list and search on request parameters
