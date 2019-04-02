@@ -55,7 +55,7 @@ class EasyAdminExtensionExtension extends Extension implements PrependExtensionI
 
         // Waiting this PR or any alternative is implemented by Symfony itself
         // @see https://github.com/symfony/symfony/pull/30527
-        // Put back user default path (even not user-defined twig.default_path, but TwigBundle default value)
+        // Put back user default path
         $userDefaultPath = $twigDefaultPath.'/bundles/EasyAdminBundle/';
         if (file_exists($userDefaultPath)) {
             $paths[$userDefaultPath] = 'EasyAdmin';
