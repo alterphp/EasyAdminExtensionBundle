@@ -1,4 +1,4 @@
-{% extends '@BaseEasyAdmin/default/list.html.twig' %}
+{% extends '@!EasyAdmin/default/list.html.twig' %}
 
 {% set requestFilters = app.request.get('filters', {}) %}
 {% set _request_parameters = _request_parameters|default({})|merge({

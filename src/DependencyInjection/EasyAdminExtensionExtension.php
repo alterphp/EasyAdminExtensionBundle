@@ -64,15 +64,6 @@ class EasyAdminExtensionExtension extends Extension implements PrependExtensionI
         // EasyAdminExtension overrides EasyAdmin templates
         $paths[\dirname(__DIR__).'/Resources/views/'] = 'EasyAdmin';
 
-        // Creates BaseEasyAdmin namespace to specifically target to original EasyAdmin templates
-        $nativeEasyAdminBundleRefl = new \ReflectionClass(EasyAdminBundle::class);
-        if ($nativeEasyAdminBundleRefl->isUserDefined()) {
-            $nativeEasyAdminBundlePath = \dirname((string) $nativeEasyAdminBundleRefl->getFileName());
-            $nativeEasyAdminTwigPath = $nativeEasyAdminBundlePath.'/Resources/views';
-            // Defines a namespace from native EasyAdmin templates
-            $paths[$nativeEasyAdminTwigPath] = 'BaseEasyAdmin';
-        }
-
         $container->prependExtensionConfig('twig', ['paths' => $paths]);
     }
 }
