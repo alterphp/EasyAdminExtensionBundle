@@ -50,8 +50,9 @@ class EasyAdminExtensionExtension extends Extension implements PrependExtensionI
             }
         }
 
-        $twigDefaultPathDefaultValue = $container->getParameterBag()->resolveValue('%kernel.project_dir%/templates');
-        $twigDefaultPath = $userDefinedTwigDefaultPath ?? $twigDefaultPathDefaultValue;
+        $twigDefaultPath = $container->getParameterBag()->resolveValue(
+            $userDefinedTwigDefaultPath ?? '%kernel.project_dir%/templates'
+        );
 
         // Waiting this PR or any alternative is implemented by Symfony itself
         // @see https://github.com/symfony/symfony/pull/30527
