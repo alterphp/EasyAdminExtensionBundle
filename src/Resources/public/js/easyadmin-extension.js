@@ -6,7 +6,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
     .on('click', 'th a', function (e) {
       e.preventDefault();
       $.ajax({
-        url: e.target.href,
+        url: e.currentTarget.href,
         dataType: 'html',
         success: function (data, textStatus, jqXHR) {
           $(containerPrefix).replaceWith(data);
@@ -16,7 +16,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
     .on('click', '.list-pagination a', function (e) {
       e.preventDefault();
       $.ajax({
-        url: e.target.href,
+        url: e.currentTarget.href,
         dataType: 'html',
         success: function (data, textStatus, jqXHR) {
           $(containerPrefix).replaceWith(data);
