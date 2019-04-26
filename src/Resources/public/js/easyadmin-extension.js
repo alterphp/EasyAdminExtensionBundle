@@ -5,6 +5,12 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
   $(containerPrefix)
     .on('click', 'th a', function (e) {
       e.preventDefault();
+
+      // Prevent from "disbaled" links
+      if ($(e.currentTarget).hasClass('disabled')) {
+        return false;
+      }
+
       $.ajax({
         url: e.currentTarget.href,
         dataType: 'html',
@@ -15,6 +21,12 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
     })
     .on('click', '.list-pagination a', function (e) {
       e.preventDefault();
+
+      // Prevent from out-of-bounds pagination
+      if ($(e.currentTarget).hasClass('disabled')) {
+        return false;
+      }
+
       $.ajax({
         url: e.currentTarget.href,
         dataType: 'html',
