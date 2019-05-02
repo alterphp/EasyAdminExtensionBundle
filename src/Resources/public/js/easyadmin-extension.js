@@ -66,7 +66,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
 
 window.addEventListener('load', function() {
   $(function() {
-    $('[data-confirm]').on('click', function(e) {
+    $(document).on('click', '[data-confirm]', function(e) {
       e.preventDefault();
 
       var message = $(this).data('confirm');
