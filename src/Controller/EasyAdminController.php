@@ -43,7 +43,7 @@ class EasyAdminController extends BaseEasyAdminControler
     /**
      * {@inheritdoc}
      *
-     * @throws \Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
     protected function isActionAllowed($actionName)
     {
