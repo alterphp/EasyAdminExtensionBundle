@@ -6,7 +6,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
 use AlterPHP\EasyAdminExtensionBundle\Form\Type\ListFilterType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ListFormFiltersHelper
 {
     /**
-     * @var FormFactory
+     * @var FormFactoryInterface
      */
     private $formFactory;
 
@@ -36,11 +36,11 @@ class ListFormFiltersHelper
     private $formCsrfEnabled;
 
     /**
-     * @param FormFactory  $formFactory
-     * @param RequestStack $requestStack
-     * @param bool         $formCsrfEnabled
+     * @param FormFactoryInterface $formFactory
+     * @param RequestStack         $requestStack
+     * @param bool                 $formCsrfEnabled
      */
-    public function __construct(FormFactory $formFactory, RequestStack $requestStack, $formCsrfEnabled)
+    public function __construct(FormFactoryInterface $formFactory, RequestStack $requestStack, $formCsrfEnabled)
     {
         $this->formFactory = $formFactory;
         $this->requestStack = $requestStack;
