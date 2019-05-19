@@ -87,7 +87,13 @@ class EmbeddedListHelper
 
         if (1 < \count($matchingEntityConfigs)) {
             throw new \RuntimeException(
-                \sprintf('More than 1 entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
+                \sprintf(
+                    'More than 1 entity defined in EasyAdmin configuration matches %s FQCN.'.
+                    ' Try setting option "entity" (in type_options for NEW/EDIT/FORM view, or template_options for SHOW view)'.
+                    ' with one of [%s].',
+                    $entityFqcn,
+                    \implode(', ', $matchingEntityConfigs)
+                )
             );
         }
 
