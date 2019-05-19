@@ -54,7 +54,6 @@ class ListFilter
             static::$operatorValues = [];
             $refClass = new \ReflectionClass(static::class);
             $classConstants = $refClass->getConstants();
-            $className = $refClass->getShortName();
 
             $constantPrefix = 'OPERATOR_';
             foreach ($classConstants as $key => $val) {
