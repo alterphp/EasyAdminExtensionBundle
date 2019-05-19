@@ -162,11 +162,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         // Auto-set ChoiceType options
         if (ChoiceType::class === $filterConfig['type']) {
-            $defaultFilterConfigTypeOptions['choices'] = $defaultFilterConfigTypeOptions['choices'] ?? $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
-
-            if (\in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
-                $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
-            }
+            $this->autosetChoiceTypeOptions($entityClass, $defaultFilterConfigTypeOptions, $filterConfig);
         }
 
         // Merge default type options
@@ -195,11 +191,25 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             }
         }
 
+        // Auto-set ChoiceType options
+        if (ChoiceType::class === $filterConfig['type']) {
+            $this->autosetChoiceTypeOptions($entityClass, $defaultFilterConfigTypeOptions, $filterConfig);
+        }
+
         // Merge default type options
         $filterConfig['type_options'] = \array_merge(
             $defaultFilterConfigTypeOptions,
             $filterConfig['type_options'] ?? []
         );
+    }
+
+    private function autosetChoiceTypeOptions(string $entityClass, array &$defaultFilterConfigTypeOptions, array &$filterConfig)
+    {
+        $defaultFilterConfigTypeOptions['choices'] = $defaultFilterConfigTypeOptions['choices'] ?? $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
+
+        if (\in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
+            $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
+        }
     }
 
     private function getChoiceList(string $entityClass, string $property, array &$filterConfig)
