@@ -24,7 +24,7 @@
     {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config, ['delete']) %}
     {% set _columns_count = fields|length + (_list_item_actions|length > 0 ? 1 : 0) %}
 
-    <table class="table datagrid">
+    <table class="table table-sm datagrid">
         <thead>
         {% block table_head %}
             <tr>
