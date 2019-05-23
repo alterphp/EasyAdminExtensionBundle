@@ -263,7 +263,7 @@ easy_admin:
 
 ```
 
-But in many cases, the EmbeddedListHelper guesses type_options for you, and you just have to write :
+But in many cases, the EmbeddedListHelper guesses __type_options__ for you, and you just have to write :
 
 ```yaml
 easy_admin:
@@ -302,7 +302,7 @@ easy_admin:
 
 ```
 
-Use following __template_options__ to build your own embedded list (see `field_embedded_list.html.twig`) : entity_fqcn, parent_entity_property, filters, entity, hidden_fields, sort.
+Use following __template_options__ to pass options.
 
 ### Autocomplete add new option 'create' for modal in new and edit
 
