@@ -92,7 +92,7 @@ class EmbeddedListHelper
                     ' Try setting option "entity" (in type_options for NEW/EDIT/FORM view, or template_options for SHOW view)'.
                     ' with one of [%s].',
                     $entityFqcn,
-                    \implode(', ', $matchingEntityConfigs)
+                    \implode(', ', \array_keys($matchingEntityConfigs))
                 )
             );
         }
