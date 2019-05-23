@@ -9,6 +9,7 @@
   {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
     entity: entity,
     filters: filters,
+    hidden_fields: hidden_fields,
     sort: sort|default(null)
   } only %}
 {% endblock %}

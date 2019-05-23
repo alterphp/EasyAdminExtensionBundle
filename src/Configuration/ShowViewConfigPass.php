@@ -98,6 +98,9 @@ class ShowViewConfigPass implements ConfigPassInterface
                 if (!isset($templateOptions['filters'])) {
                     $templateOptions['filters'] = [];
                 }
+                if (!isset($templateOptions['hidden_fields'])) {
+                    $templateOptions['hidden_fields'] = [];
+                }
                 if (isset($templateOptions['sort'])) {
                     $sortOptions = $templateOptions['sort'];
                     $templateOptions['sort'] = [
