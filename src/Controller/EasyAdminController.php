@@ -20,10 +20,19 @@ class EasyAdminController extends BaseEasyAdminControler
     {
         $this->dispatch(EasyAdminEvents::PRE_LIST);
 
-        $fields = $this->entity['list']['fields'];
         $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->config['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
 
         $this->dispatch(EasyAdminEvents::POST_LIST, ['paginator' => $paginator]);
+
+        // Filter displaid columns
+        $hiddenFields = $this->request->query->get('hidden-fields', []);
+        $fields = \array_filter(
+            $this->entity['list']['fields'],
+            function ($name) use ($hiddenFields) {
+                return !in_array($name, $hiddenFields);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
 
         // Removes existing referer
         $baseMasterRequestUri = !$this->request->isXmlHttpRequest()

@@ -42,7 +42,6 @@ class EasyAdminEmbeddedListType extends AbstractType
 
         $embeddedListEntity = $options['entity'];
         $embeddedListFilters = $options['filters'];
-
         // Guess entity FQCN from parent metadata
         $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(\get_class($parentData), $form->getName());
         if (null !== $entityFqcn) {
@@ -52,7 +51,6 @@ class EasyAdminEmbeddedListType extends AbstractType
                 $embeddedListEntity = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
             }
         }
-
         $view->vars['entity'] = $embeddedListEntity;
         $view->vars['parent_entity_property'] = $form->getConfig()->getName();
 
@@ -65,8 +63,9 @@ class EasyAdminEmbeddedListType extends AbstractType
 
             return $filter;
         }, $embeddedListFilters);
-
         $view->vars['filters'] = $filters;
+
+        $view->vars['hidden_fields'] = $options['hidden_fields'];
 
         if ($options['sort']) {
             $sort['field'] = $options['sort'][0];
@@ -83,9 +82,11 @@ class EasyAdminEmbeddedListType extends AbstractType
         $resolver
             ->setDefault('entity', null)
             ->setDefault('filters', [])
+            ->setDefault('hidden_fields', [])
             ->setDefault('sort', null)
             ->setAllowedTypes('entity', ['null', 'string'])
             ->setAllowedTypes('filters', ['array'])
+            ->setAllowedTypes('hidden_fields', ['array'])
             ->setAllowedTypes('sort', ['null', 'string', 'array'])
         ;
     }
