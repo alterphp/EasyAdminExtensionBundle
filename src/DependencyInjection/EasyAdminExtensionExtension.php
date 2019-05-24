@@ -2,7 +2,6 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\DependencyInjection;
 
-use EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -58,7 +57,7 @@ class EasyAdminExtensionExtension extends Extension implements PrependExtensionI
         // @see https://github.com/symfony/symfony/pull/30527
         // Put back user default path
         $userDefaultPath = $twigDefaultPath.'/bundles/EasyAdminBundle/';
-        if (file_exists($userDefaultPath)) {
+        if (\file_exists($userDefaultPath)) {
             $paths[$userDefaultPath] = 'EasyAdmin';
         }
 

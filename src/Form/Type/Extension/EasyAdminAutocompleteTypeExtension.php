@@ -23,7 +23,7 @@ class EasyAdminAutocompleteTypeExtension extends AbstractTypeExtension
     public function getExtendedType()
     {
         $extendedTypes = static::getExtendedTypes();
-        $extendedType = reset($extendedTypes);
+        $extendedType = \reset($extendedTypes);
 
         return $extendedType;
     }

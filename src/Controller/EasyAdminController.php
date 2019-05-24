@@ -29,7 +29,7 @@ class EasyAdminController extends BaseEasyAdminControler
         $fields = \array_filter(
             $this->entity['list']['fields'],
             function ($name) use ($hiddenFields) {
-                return !in_array($name, $hiddenFields);
+                return !\in_array($name, $hiddenFields);
             },
             ARRAY_FILTER_USE_KEY
         );
