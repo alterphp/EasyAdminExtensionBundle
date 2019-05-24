@@ -242,7 +242,9 @@ Available options are :
 
 #### Options guesser based on ORM metadata
 
-TODO
+Service EmbeddedListHelper is intended to guess `entity` entry for embedded_list. It's reads ORM metadata, based on parent entity (the one that embeds the list) and property name.
+
+It also guess default filter (relation between the parent and embedded list) for most of cases.
 
 #### Edit view
 
