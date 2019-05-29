@@ -42,10 +42,13 @@ class EasyAdminController extends BaseEasyAdminControler
         $removeRefererModifier = new RemoveQueryParams(['referer']);
         $masterRequestUri = $removeRefererModifier->process($baseMasterRequestUri);
 
+        $requestParameters = $this->request->query->all();
+        $requestParameters['referer'] = (string) $masterRequestUri;
+
         return $this->render('@EasyAdminExtension/default/embedded_list.html.twig', [
             'paginator' => $paginator,
             'fields' => $fields,
-            'masterRequestUri' => (string) $masterRequestUri,
+            '_request_parameters' => $requestParameters,
         ]);
     }
 

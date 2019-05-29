@@ -2,10 +2,6 @@
 {% trans_default_domain _entity_config.translation_domain %}
 {% set _trans_parameters = { '%entity_name%': _entity_config.name|trans, '%entity_label%': _entity_config.label|trans } %}
 
-{# OVERRIDE referer #}
-{% set _request_parameters = app.request.query.all %}
-{% set _request_parameters = _request_parameters|merge({ referer: masterRequestUri }) %}
-
 {% set widget_identifier = app.request.requestUri|embedded_list_identifier %}
 
 {% set _content_title %}
