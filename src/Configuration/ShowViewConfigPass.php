@@ -102,7 +102,7 @@ class ShowViewConfigPass implements ConfigPassInterface
                     $templateOptions['hidden_fields'] = [];
                 }
                 if (!isset($templateOptions['max_results'])) {
-                    $templateOptions['max_results'] = [];
+                    $templateOptions['max_results'] = null;
                 }
                 if (isset($templateOptions['sort'])) {
                     $sortOptions = $templateOptions['sort'];
