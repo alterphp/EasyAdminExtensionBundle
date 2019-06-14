@@ -2,5 +2,8 @@
 {% if sort is not null %}
   {% set action_params = action_params|merge({ sortField: sort.field, sortDirection: sort.direction}) %}
 {% endif %}
+{% if 0 < max_results|default %}
+  {% set action_params = action_params|merge({ 'max-results': max_results}) %}
+{% endif %}
 
 {{ render(path('easyadmin', action_params)) }}

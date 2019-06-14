@@ -66,6 +66,7 @@ class EasyAdminEmbeddedListType extends AbstractType
         $view->vars['filters'] = $filters;
 
         $view->vars['hidden_fields'] = $options['hidden_fields'];
+        $view->vars['max_results'] = $options['max_results'];
 
         if ($options['sort']) {
             $sort['field'] = $options['sort'][0];
@@ -83,10 +84,12 @@ class EasyAdminEmbeddedListType extends AbstractType
             ->setDefault('entity', null)
             ->setDefault('filters', [])
             ->setDefault('hidden_fields', [])
+            ->setDefault('max_results', null)
             ->setDefault('sort', null)
             ->setAllowedTypes('entity', ['null', 'string'])
             ->setAllowedTypes('filters', ['array'])
             ->setAllowedTypes('hidden_fields', ['array'])
+            ->setAllowedTypes('max_results', ['null', 'int'])
             ->setAllowedTypes('sort', ['null', 'string', 'array'])
         ;
     }

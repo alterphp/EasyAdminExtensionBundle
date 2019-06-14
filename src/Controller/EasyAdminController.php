@@ -20,7 +20,9 @@ class EasyAdminController extends BaseEasyAdminControler
     {
         $this->dispatch(EasyAdminEvents::PRE_LIST);
 
-        $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->config['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
+        $maxResults = (int) $this->request->query->get('max-results', $this->config['list']['max_results']);
+
+        $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $maxResults, $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
 
         $this->dispatch(EasyAdminEvents::POST_LIST, ['paginator' => $paginator]);
 

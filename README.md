@@ -235,6 +235,7 @@ Available options are :
 - `entity`: Entity config name (key under the EasyAdmin `entities` config)
 - `filters`: Request filters to apply on the list
 - `hidden_fields`: List of fields (columns) to hide from list fields config
+- `max_results`: Number of items par page (list.max_results config is used if not defined)
 - `sort`: Sort to apply
 - `parent_entity_fqcn`: Parent entity FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
 - `parent_entity_property`: Matching property name on parent entity FQCN (only when embedded in *SHOW* view, if `property` is not an ORM field)
