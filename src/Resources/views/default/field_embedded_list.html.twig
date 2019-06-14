@@ -1,12 +1,16 @@
 {% set default_filters = guess_default_filters(
   field_options.template_options.entity_fqcn, field_options.template_options.parent_entity_property, item
-  ) %}
+) %}
 {% set filters = default_filters|merge(field_options.template_options.filters) %}
 
-{% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
+{% set embedded_list_parameters = {
     entity: field_options.template_options.entity,
     filters: filters,
     hidden_fields: field_options.template_options.hidden_fields,
-    max_results: field_options.template_options.max_results is defined ? field_options.template_options.max_results : entity_config.show.max_results,
     sort: field_options.template_options.sort
-  } only %}
+} %}
+{% if field_options.template_options.max_results is defined %}
+  {% set embedded_list_parameters = embedded_list_parameters|merge({max_results: field_options.template_options.max_results}) %}
+{% endif %}
+
+{% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with embedded_list_parameters only %}
