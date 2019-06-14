@@ -7,5 +7,6 @@
     entity: field_options.template_options.entity,
     filters: filters,
     hidden_fields: field_options.template_options.hidden_fields,
+    maxResults: field_options.template_options.max_results is defined ? field_options.template_options.max_results : entity_config.show.max_results,
     sort: field_options.template_options.sort
   } only %}
