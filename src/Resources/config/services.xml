@@ -49,6 +49,7 @@
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
             <argument>%form.type_extension.csrf.enabled%</argument>
+            <argument type="service" id="security.helper"/>
         </service>
         <service id="AlterPHP\EasyAdminExtensionBundle\Twig\ListFormFiltersExtension">
             <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper"/>
