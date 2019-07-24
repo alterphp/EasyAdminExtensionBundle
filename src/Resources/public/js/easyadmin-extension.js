@@ -10,7 +10,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
     .on('click', 'th[data-property-name] a', function (e) {
       e.preventDefault();
       $.ajax({
-        url: e.target.href,
+        url: $(this).attr("href"),
         dataType: 'html',
         success: function (data, textStatus, jqXHR) {
           $(containerPrefix).replaceWith(data);
