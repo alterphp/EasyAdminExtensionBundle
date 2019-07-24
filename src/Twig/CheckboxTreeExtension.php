@@ -11,19 +11,19 @@ class CheckboxTreeExtension extends AbstractExtension
 {
     public function getFunctions()
     {
-        return array(
+        return [
             new TwigFunction(
                 'checkbox_tree',
-                array($this, 'renderCheckboxTree'),
-                array('is_safe' => array('html'), 'needs_environment' => true)
+                [$this, 'renderCheckboxTree'],
+                ['is_safe' => ['html'], 'needs_environment' => true]
             ),
-            new TwigFunction('pick_checkbox_form', array($this, 'pickCheckboxForm')),
-        );
+            new TwigFunction('pick_checkbox_form', [$this, 'pickCheckboxForm']),
+        ];
     }
 
     public function renderCheckboxTree(Environment $env, FormView $checkboxGroup)
     {
-        return $env->render('@EasyAdmin/form/checkbox_tree.html.twig', array('checkboxGroup' => $checkboxGroup));
+        return $env->render('@EasyAdmin/form/checkbox_tree.html.twig', ['checkboxGroup' => $checkboxGroup]);
     }
 
     public function pickCheckboxForm(array $checkboxList, string $value)

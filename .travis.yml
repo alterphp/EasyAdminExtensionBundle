@@ -30,19 +30,6 @@ matrix:
           env:
             - SYMFONY_VERSION="4.1.*"
             - TWIG_VERSION="^2.4"
-        # Symfony 4
-        - php: 7.1
-          env:
-            - SYMFONY_VERSION="4.0.*"
-            - STABILITY=beta
-            # Deprecations breaks CI (sensio frameworkextrabundle + sf 4.1)
-            # - SYMFONY_DEPRECATIONS_HELPER="strict"
-        # Symfony 3 LTS
-        - php: 7.0
-          env:
-            - SYMFONY_VERSION="3.4.*"
-            - TWIG_VERSION="1.x-dev"
-            # Only 7.0 php images on Travis have xdebug enabled
             - ENABLE_CODE_COVERAGE="true"
     allow_failures:
         # code coverage is very slow; allow a failure to get the Travis result early

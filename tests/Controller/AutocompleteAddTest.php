@@ -10,7 +10,7 @@ class AutocompleteAddTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->initClient(array('environment' => 'autocomplete_add'));
+        $this->initClient(['environment' => 'autocomplete_add']);
     }
 
     public function testNewEntityAutocompleteModal()

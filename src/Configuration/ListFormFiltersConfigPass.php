@@ -2,11 +2,15 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
+use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Types\Type as DBALType;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
  * Guess form types for list form filters.
@@ -37,7 +41,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                 continue;
             }
 
-            $formFilters = array();
+            $formFilters = [];
 
             foreach ($entityConfig['list']['form_filters'] as $i => $formFilter) {
                 // Detects invalid config node
@@ -52,7 +56,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
                 // Key mapping
                 if (\is_string($formFilter)) {
-                    $filterConfig = array('property' => $formFilter);
+                    $filterConfig = ['property' => $formFilter];
                 } else {
                     if (!\array_key_exists('property', $formFilter)) {
                         throw new \RuntimeException(
@@ -66,18 +70,21 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     $filterConfig = $formFilter;
                 }
 
-                $this->configureFilter(
-                    $entityConfig['class'],
-                    $filterConfig,
-                    isset($backendConfig['translation_domain']) ? $backendConfig['translation_domain'] : 'EasyAdminBundle'
-                );
+                // Auto set name with property value
+                $filterConfig['name'] = $filterConfig['name'] ?? $filterConfig['property'];
+                // Auto set label with name value
+                $filterConfig['label'] = $filterConfig['label'] ?? $filterConfig['name'];
+                // Auto-set translation_domain
+                $filterConfig['translation_domain'] = $filterConfig['translation_domain'] ?? $entityConfig['translation_domain'];
+
+                $this->configureFilter($entityConfig['class'], $filterConfig);
 
                 // If type is not configured at this steps => not guessable
                 if (!isset($filterConfig['type'])) {
                     continue;
                 }
 
-                $formFilters[$filterConfig['property']] = $filterConfig;
+                $formFilters[$filterConfig['name']] = $filterConfig;
             }
 
             // set form filters config and form !
@@ -87,13 +94,8 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         return $backendConfig;
     }
 
-    private function configureFilter(string $entityClass, array &$filterConfig, string $translationDomain)
+    private function configureFilter(string $entityClass, array &$filterConfig)
     {
-        // No need to guess type
-        if (isset($filterConfig['type'])) {
-            return;
-        }
-
         $em = $this->doctrine->getManagerForClass($entityClass);
         $entityMetadata = $em->getMetadataFactory()->getMetadataFor($entityClass);
 
@@ -107,8 +109,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
 
         if ($entityMetadata->hasField($filterConfig['property'])) {
             $this->configureFieldFilter(
-                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig, $translationDomain
-            );
+                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig);
         } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
             $this->configureAssociationFilter(
                 $entityClass, $entityMetadata->getAssociationMapping($filterConfig['property']), $filterConfig
@@ -116,54 +117,98 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
     }
 
-    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig, string $translationDomain)
+    private function configureFieldFilter(string $entityClass, array $fieldMapping, array &$filterConfig)
     {
+        $defaultFilterConfigTypeOptions = [];
+
         switch ($fieldMapping['type']) {
-            case 'boolean':
-                $filterConfig['type'] = ChoiceType::class;
-                $defaultFilterConfigTypeOptions = array(
-                    'choices' => array(
-                        'list_form_filters.default.boolean.true' => true,
-                        'list_form_filters.default.boolean.false' => false,
-                    ),
-                    'choice_translation_domain' => 'EasyAdminBundle',
-                );
+            case DBALType::BOOLEAN:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
+                $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
+                if (ChoiceType::class === $filterConfig['type']) {
+                    $defaultFilterConfigTypeOptions['placeholder'] = '-';
+                    $defaultFilterConfigTypeOptions['choices'] = [
+                            'list_form_filters.default.boolean.true' => true,
+                            'list_form_filters.default.boolean.false' => false,
+                        ];
+                    $defaultFilterConfigTypeOptions['attr'] = ['data-widget' => 'select2'];
+                    $defaultFilterConfigTypeOptions['choice_translation_domain'] = 'EasyAdminBundle';
+                }
                 break;
-            case 'string':
-                $filterConfig['type'] = ChoiceType::class;
-                $defaultFilterConfigTypeOptions = array(
-                    'multiple' => true,
-                    'choices' => $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig),
-                    'attr' => array('data-widget' => 'select2'),
-                    'choice_translation_domain' => $translationDomain,
-                );
+            case DBALType::STRING:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
+                $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
+                if (ChoiceType::class === $filterConfig['type']) {
+                    $defaultFilterConfigTypeOptions['placeholder'] = '-';
+                    $defaultFilterConfigTypeOptions['choices'] = $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
+                    $defaultFilterConfigTypeOptions['attr'] = ['data-widget' => 'select2'];
+                    $defaultFilterConfigTypeOptions['choice_translation_domain'] = $filterConfig['translation_domain'];
+                }
+                break;
+            case DBALType::SMALLINT:
+            case DBALType::INTEGER:
+            case DBALType::BIGINT:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
+                $filterConfig['type'] = $filterConfig['type'] ?? IntegerType::class;
+                break;
+            case DBALType::DECIMAL:
+            case DBALType::FLOAT:
+                $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
+                $filterConfig['type'] = $filterConfig['type'] ?? NumberType::class;
                 break;
             default:
                 return;
         }
 
-        // Merge default type options when defined
-        if (null !== $defaultFilterConfigTypeOptions) {
-            $filterConfig['type_options'] = \array_merge(
-                $defaultFilterConfigTypeOptions,
-                $filterConfig['type_options'] ?? array()
-            );
+        // Auto-set ChoiceType options
+        if (ChoiceType::class === $filterConfig['type']) {
+            $this->autosetChoiceTypeOptions($entityClass, $defaultFilterConfigTypeOptions, $filterConfig);
         }
+
+        // Merge default type options
+        $filterConfig['type_options'] = \array_merge(
+            $defaultFilterConfigTypeOptions,
+            $filterConfig['type_options'] ?? []
+        );
     }
 
     private function configureAssociationFilter(string $entityClass, array $associationMapping, array &$filterConfig)
     {
+        $defaultFilterConfigTypeOptions = [];
+
         // To-One (EasyAdminAutocompleteType)
         if ($associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
-            $filterConfig['type'] = EasyAdminAutocompleteType::class;
-            $filterConfig['type_options'] = \array_merge(
-                array(
-                    'class' => $associationMapping['targetEntity'],
-                    'multiple' => true,
-                    'attr' => array('data-widget' => 'select2'),
-                ),
-                $filterConfig['type_options'] ?? array()
-            );
+            $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
+            $filterConfig['type'] = $filterConfig['type'] ?? EasyAdminAutocompleteType::class;
+        }
+
+        // Auto-set EasyAdminAutocompleteType options
+        if (EasyAdminAutocompleteType::class === $filterConfig['type']) {
+            $defaultFilterConfigTypeOptions['class'] = $associationMapping['targetEntity'];
+
+            if (\in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
+                $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
+            }
+        }
+
+        // Auto-set ChoiceType options
+        if (ChoiceType::class === $filterConfig['type']) {
+            $this->autosetChoiceTypeOptions($entityClass, $defaultFilterConfigTypeOptions, $filterConfig);
+        }
+
+        // Merge default type options
+        $filterConfig['type_options'] = \array_merge(
+            $defaultFilterConfigTypeOptions,
+            $filterConfig['type_options'] ?? []
+        );
+    }
+
+    private function autosetChoiceTypeOptions(string $entityClass, array &$defaultFilterConfigTypeOptions, array &$filterConfig)
+    {
+        $defaultFilterConfigTypeOptions['choices'] = $defaultFilterConfigTypeOptions['choices'] ?? $this->getChoiceList($entityClass, $filterConfig['property'], $filterConfig);
+
+        if (\in_array($filterConfig['operator'], [ListFilter::OPERATOR_IN, ListFilter::OPERATOR_NOTIN])) {
+            $defaultFilterConfigTypeOptions['multiple'] = $defaultFilterConfigTypeOptions['multiple'] ?? true;
         }
     }
 
@@ -186,11 +231,11 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             );
         }
 
-        $callableParams = array();
+        $callableParams = [];
         if (\is_string($filterConfig['type_options']['choices_static_callback'])) {
-            $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback']);
+            $callable = [$entityClass, $filterConfig['type_options']['choices_static_callback']];
         } else {
-            $callable = array($entityClass, $filterConfig['type_options']['choices_static_callback'][0]);
+            $callable = [$entityClass, $filterConfig['type_options']['choices_static_callback'][0]];
             $callableParams = $filterConfig['type_options']['choices_static_callback'][1];
         }
         unset($filterConfig['type_options']['choices_static_callback']);

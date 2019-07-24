@@ -12,11 +12,14 @@ return PhpCsFixer\Config::create()
     ->setUsingCache(true)
     ->setRiskyAllowed(true)
     ->setFinder($finder)
-    ->setRules(array(
+    ->setRules([
         '@Symfony' => true,
-        'binary_operator_spaces' => array(
+        '@PHP70Migration' => true,
+        '@PHP71Migration' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'binary_operator_spaces' => [
             'align_double_arrow' => false,
-        ),
+        ],
         'combine_consecutive_unsets' => true,
         'no_useless_else' => true,
         'no_useless_return' => true,
@@ -25,5 +28,5 @@ return PhpCsFixer\Config::create()
         'phpdoc_summary' => false,
         'strict_comparison' => false,
         'native_function_invocation'=> true
-    ))
+    ])
 ;

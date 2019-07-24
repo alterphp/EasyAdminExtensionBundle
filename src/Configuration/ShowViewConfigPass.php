@@ -17,11 +17,11 @@ class ShowViewConfigPass implements ConfigPassInterface
      */
     private $embeddedListHelper;
 
-    private static $mapTypeToTemplates = array(
+    private static $mapTypeToTemplates = [
         // Use EasyAdminExtension namespace because EasyAdminTwigExtension checks namespaces
         // to detect custom templates.
         'embedded_list' => '@EasyAdminExtension/default/field_embedded_list.html.twig',
-    );
+    ];
 
     /**
      * ShowViewConfigPass constructor.
@@ -97,6 +97,12 @@ class ShowViewConfigPass implements ConfigPassInterface
                 }
                 if (!isset($templateOptions['filters'])) {
                     $templateOptions['filters'] = [];
+                }
+                if (!isset($templateOptions['hidden_fields'])) {
+                    $templateOptions['hidden_fields'] = [];
+                }
+                if (!isset($templateOptions['max_results'])) {
+                    $templateOptions['max_results'] = null;
                 }
                 if (isset($templateOptions['sort'])) {
                     $sortOptions = $templateOptions['sort'];

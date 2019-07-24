@@ -1,11 +1,13 @@
 EasyAdmin Extension
 ===================
 
-[![Latest Stable Version](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/v/stable)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle) [![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.symfony.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.svg)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802) [![Coverage Status](https://coveralls.io/repos/github/alterphp/EasyAdminExtensionBundle/badge.svg?branch=master)](https://coveralls.io/github/alterphp/EasyAdminExtensionBundle?branch=master) [![License](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/license)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle)
+[![Latest Stable Version](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/v/stable)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle) [![Build Status](https://travis-ci.org/alterphp/EasyAdminExtensionBundle.svg?branch=master)](https://travis-ci.org/alterphp/EasyAdminExtensionBundle) [![SensioLabsInsight](https://insight.symfony.com/projects/a7179df5-4ed7-468c-899c-891535dbe802/mini.svg)](https://insight.sensiolabs.com/projects/a7179df5-4ed7-468c-899c-891535dbe802) [![Coverage Status](https://coveralls.io/repos/github/alterphp/EasyAdminExtensionBundle/badge.svg?branch=master)](https://coveralls.io/github/alterphp/EasyAdminExtensionBundle?branch=master) [![MIT Licensed](https://poser.pugx.org/alterphp/easyadmin-extension-bundle/license)](https://packagist.org/packages/alterphp/easyadmin-extension-bundle)
 
-EasyAdmin Extension provides some useful extensions to EasyAdmin admin generator for Symfony.
+EasyAdmin Extension provides some useful extensions to [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle) admin generator for Symfony.
 
-:exclamation: This bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack.
+:exclamation: Branch `1.x` of this bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack and is suitable for EasyAdmin `1.x`.
+
+:exclamation: Branch `master` of this bundle requires at least __PHP 7.1__ and __Symfony 4.1__ components or stack and is suitable for EasyAdmin `2.x`.
 
 __Features__
 
@@ -53,31 +55,19 @@ class AppKernel extends Kernel
 
 ### Step 3: Replace EasyAdmin controller
 
-Instead of loading routes from EasyAdminBundle AdminController, load them from __EasyAdminExtensionBundle__ AdminController.
+Instead of loading routes from EasyAdminBundle EasyAdminController, load them from __EasyAdminExtensionBundle__ EasyAdminController.
 
-Symfony 4 directory structure :
 ```yaml
 # config/routes/easy_admin.yaml
 easy_admin_bundle:
-    resource: '@EasyAdminExtensionBundle/Controller/AdminController.php'
+    resource: '@EasyAdminExtensionBundle/Controller/EasyAdminController.php'
     type:     annotation
     prefix:   /admin
 
 # ...
 ```
 
-Former Symfony 2/3 directory structure :
-```yaml
-# app/config/routing.yml
-easy_admin_bundle:
-    resource: "@EasyAdminExtensionBundle/Controller/AdminController.php"
-    type:     annotation
-    prefix:   /admin
-
-# ...
-```
-
-If you have defined your own admin controllers, make them extend EasyAdminExtensionBundle admin controller.
+If you have defined your own admin controllers, make them extend EasyAdminExtensionBundle EasyAdminController.
 
 Features
 --------
@@ -123,6 +113,13 @@ class Animation
     private $type;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $maxSubscriptions;
+
+    /**
      * @var Organization
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="animations")
@@ -143,6 +140,14 @@ Define your filters under `list`.`form_filters` entity configuration
 
 ```yaml
 easy_admin:
+    design:
+        assets:
+            css:
+                - 'bundles/easyadmin/bootstrap-all.css'
+            js:
+                # By default, EasyAdminBundle embeds a limited version of Bootstrap JS.
+                # For collapsible form filters to work, a full version should be added:
+                - 'bundles/easyadmin/bootstrap-all.js'
     entities:
         Animation:
             class: App\Entity\Animation
@@ -158,12 +163,44 @@ Let's see the result !
 
 ![Embedded list example](/doc/res/img/list-form-filters.png)
 
+#### Automatic list filter guesser
+
 Guesser for list form filters are based on mapped entity property :
 * _boolean_: guessed filter is a choice list (null, Yes, No)
 * _string_: guessed filter is multiple choice list that requires either `choices` (value/label array) or `choices_static_callback` (static callback from entity class returning a value/label array) in `type_options`.
+* _integer_, _smallint_, _bigint_: guessed filter is an integer input
+* _decimal_, _float_: guessed filter is a number input
 * _*-to-one-relation_: guessed filter is a multiple autocomplete of relation target entity.
 
 Filters form's method is GET and submitted through `form_filter` parameter. It is transmitted to the referer used for post update/delete/create redirection AND for search !
+
+#### List filter operator
+
+By default, list filter use `equals` operator or `in` for multiple value filters.
+
+But you can use more operators with the `operator` attribute :
+
+```yaml
+entities:
+        Animation:
+            class: App\Entity\Animation
+            list:
+                form_filters:
+                    - { name: maxSubscriptionGTE, property: maxSubscriptions, label: 'Max subscriptions >=', operator: gte }
+                    - { name: maxSubscriptionLTE, property: maxSubscriptions, label: 'Max subscriptions <=', operator: lte }
+```
+
+Available built-in operators are listed in `AlterPHP\EasyAdminExtensionBundle\Model\ListFilter` class, as constant `OPERATOR_*` :
+* __equals__: Is equal to
+* __not__: Is different of
+* __in__: Is in (`array` or Doctrine `Collection` expected)
+* __notin__:  Is not in (`array` or Doctrine `Collection` expected)
+* __gt__: Is greater than
+* __gte__: Is greater than or equal to
+* __lt__: Is lower than
+* __lte__: Is lower than or equal to
+* __like__: Is LIKE %filterValue%
+
 
 ### Filter list and search on request parameters
 
@@ -189,6 +226,27 @@ easy_admin_extension:
 
 ### Embed lists in edit and show views
 
+#### Options
+
+Embedded lists are useful to show relations to en entity in its *NEW/EDIT/FORM* or *SHOW* view. It relies on the *LIST* view of the related entities you want to embed in the parent EDIT/SHOW view. Options must be defined in `type_options` key for a *NEW/EDIT/FORM* view, or in `template_options` for a *SHOW* view.
+
+Available options are :
+
+- `entity`: Entity config name (key under the EasyAdmin `entities` config)
+- `filters`: Request filters to apply on the list
+- `hidden_fields`: List of fields (columns) to hide from list fields config
+- `max_results`: Number of items par page (list.max_results config is used if not defined)
+- `sort`: Sort to apply
+- `parent_entity_fqcn`: Parent entity FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
+- `parent_entity_property`: Matching property name on parent entity FQCN (only when embedded in *SHOW* view, if `property` is not an ORM field)
+- `entity_fqcn`: Listed entities FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
+
+#### Options guesser based on ORM metadata
+
+Service EmbeddedListHelper is intended to guess `entity` entry for embedded_list. It's reads ORM metadata, based on parent entity (the one that embeds the list) and property name.
+
+It also guess default filter (relation between the parent and embedded list) for most of cases.
+
 #### Edit view
 
 Use pre-configured type `embedded_list` in the form definition :
@@ -197,9 +255,9 @@ Use pre-configured type `embedded_list` in the form definition :
 easy_admin:
     entities:
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
             form:
                 fields:
                     # ...
@@ -208,15 +266,15 @@ easy_admin:
 
 ```
 
-But in many cases, the EmbeddedListHelper guesses type_options for you, and you just have to write :
+But in many cases, the EmbeddedListHelper guesses __type_options__ for you, and you just have to write :
 
 ```yaml
 easy_admin:
     entities:
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
             form:
                 fields:
                     # ...
@@ -237,9 +295,9 @@ Using guesser for classic \*ToMany relations :
 easy_admin:
     entities:
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
             show:
                 fields:
                     # ...
@@ -247,7 +305,7 @@ easy_admin:
 
 ```
 
-Use following __template_options__ to build your own embedded list (see `field_embedded_list.html.twig`) : entity_fqcn, parent_entity_property, filters, entity, sort.
+Use following __template_options__ to pass options.
 
 ### Autocomplete add new option 'create' for modal in new and edit
 
@@ -257,9 +315,9 @@ Use following __template_options__ to build your own embedded list (see `field_e
 easy_admin:
     entities:
         Promoter:
-            class: AppBundle\Entity\Promoter
+            class: App\Entity\Promoter
         Event:
-            class: Tm\EventBundle\Entity\Event
+            class: App\Entity\Event
             form:
                 fields:
                     # ...

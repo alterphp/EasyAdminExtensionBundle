@@ -10,40 +10,40 @@ class EmbeddedListViewConfigPassTest extends \PHPUnit_Framework_TestCase
     {
         $embeddedListViewConfigPass = new EmbeddedListViewConfigPass(true);
 
-        $backendConfig = array(
-            'entities' => array(
-                'NotSetEntity' => array(
-                ),
-                'SetTrueEntity' => array(
-                    'embeddedList' => array('open_new_tab' => true),
-                ),
-                'SetFalseEntity' => array(
-                    'embeddedList' => array('open_new_tab' => false),
-                ),
-            ),
-        );
+        $backendConfig = [
+            'entities' => [
+                'NotSetEntity' => [
+                ],
+                'SetTrueEntity' => [
+                    'embeddedList' => ['open_new_tab' => true],
+                ],
+                'SetFalseEntity' => [
+                    'embeddedList' => ['open_new_tab' => false],
+                ],
+            ],
+        ];
 
         $backendConfig = $embeddedListViewConfigPass->process($backendConfig);
 
-        $expectedBackendConfig = array(
-            'entities' => array(
-                'NotSetEntity' => array(
-                    'embeddedList' => array(
+        $expectedBackendConfig = [
+            'entities' => [
+                'NotSetEntity' => [
+                    'embeddedList' => [
                         'open_new_tab' => true,
-                    ),
-                ),
-                'SetTrueEntity' => array(
-                    'embeddedList' => array(
+                    ],
+                ],
+                'SetTrueEntity' => [
+                    'embeddedList' => [
                         'open_new_tab' => true,
-                    ),
-                ),
-                'SetFalseEntity' => array(
-                    'embeddedList' => array(
+                    ],
+                ],
+                'SetFalseEntity' => [
+                    'embeddedList' => [
                         'open_new_tab' => false,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertSame($backendConfig, $expectedBackendConfig);
     }

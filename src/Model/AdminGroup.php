@@ -37,7 +37,7 @@ class AdminGroup
      */
     public function __construct()
     {
-        $this->roles = array();
+        $this->roles = [];
     }
 
     /**

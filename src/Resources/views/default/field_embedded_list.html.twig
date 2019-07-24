@@ -6,5 +6,7 @@
 {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
     entity: field_options.template_options.entity,
     filters: filters,
+    hidden_fields: field_options.template_options.hidden_fields,
+    max_results: field_options.template_options.max_results,
     sort: field_options.template_options.sort
   } only %}

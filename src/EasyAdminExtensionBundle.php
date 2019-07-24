@@ -2,9 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle;
 
-use AlterPHP\EasyAdminExtensionBundle\DependencyInjection\Compiler\TwigPathPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -13,8 +11,6 @@ class EasyAdminExtensionBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-
-        $container->addCompilerPass(new TwigPathPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
 
         $this->addRegisterMappingsPass($container);
     }
@@ -37,9 +33,9 @@ class EasyAdminExtensionBundle extends Bundle
             $easyAdminExtensionBundlePath = \dirname((string) $easyAdminExtensionBundleRefl->getFileName());
             $easyAdminExtensionDoctrineMapping = $easyAdminExtensionBundlePath.'/Resources/config/doctrine-mapping';
 
-            $mappings = array(
+            $mappings = [
                 \realpath($easyAdminExtensionDoctrineMapping) => 'AlterPHP\EasyAdminExtensionBundle\Model',
-            );
+            ];
             if (\class_exists(DoctrineOrmMappingsPass::class)) {
                 $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
             }

@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AppTestBundle\DataFixtures\AppFixtures:
+        tags: ['doctrine.fixture.orm']

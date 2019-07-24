@@ -44,7 +44,7 @@ class Product
      * @var string[]
      * @ORM\Column(type="simple_array")
      */
-    protected $tags = array();
+    protected $tags = [];
 
     /**
      * The EAN 13 of the product. (type set to string in PHP due to 32 bit limitation).
@@ -81,7 +81,7 @@ class Product
      * @var array
      * @ORM\Column(type="array")
      */
-    protected $features = array();
+    protected $features = [];
 
     /**
      * Features of the product as a formatted HTML content.
@@ -102,6 +102,14 @@ class Product
      * @ORM\Column(type="float")
      */
     protected $price = 0.0;
+
+    /**
+     * The stock of the product.
+     *
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $stock = 0;
 
     /**
      * The reference of the product.
@@ -160,14 +168,14 @@ class Product
 
     public static function getReplenishmentTypeValues($withLabelsAsIndexes = false)
     {
-        $replenishmentTypeValues =  array(
+        $replenishmentTypeValues = [
             'replenishment_type.auto' => 'auto',
             'replenishment_type.trigger' => 'trigger',
             'replenishment_type.manual' => 'manual',
-        );
+        ];
 
         if (!$withLabelsAsIndexes) {
-            return array_values($replenishmentTypeValues);
+            return \array_values($replenishmentTypeValues);
         }
 
         return $replenishmentTypeValues;
@@ -424,6 +432,26 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Set the stock.
+     *
+     * @param int $stock
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+    }
+
+    /**
+     * Get the stock of the product.
+     *
+     * @return int
+     */
+    public function getStock()
+    {
+        return $this->stock;
     }
 
     /**

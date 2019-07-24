@@ -29,7 +29,7 @@ class EditableRolesHelper
      * @param TokenStorageInterface $tokenStorage
      * @param array                 $roleHierarchy
      */
-    public function __construct(TokenStorageInterface $tokenStorage, array $roleHierarchy = array())
+    public function __construct(TokenStorageInterface $tokenStorage, array $roleHierarchy = [])
     {
         $this->tokenStorage = $tokenStorage;
         $this->roleHierarchy = $roleHierarchy;
@@ -40,7 +40,7 @@ class EditableRolesHelper
      */
     public function getRoles()
     {
-        $roles = array();
+        $roles = [];
 
         if (!$this->tokenStorage->getToken()) {
             return $roles;

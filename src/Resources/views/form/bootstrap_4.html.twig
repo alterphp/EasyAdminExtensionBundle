@@ -1,4 +1,4 @@
-{% use '@BaseEasyAdmin/form/bootstrap_3_layout.html.twig' %}
+{% use '@!EasyAdmin/form/bootstrap_4.html.twig' %}
 
 {% block easyadmin_embedded_list_row %}
   {% set default_filters = entity_fqcn is defined
@@ -9,6 +9,8 @@
   {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
     entity: entity,
     filters: filters,
+    hidden_fields: hidden_fields,
+    max_results: max_results,
     sort: sort|default(null)
   } only %}
 {% endblock %}
@@ -23,7 +25,8 @@
 
     {# the 'save' action is hardcoded for the 'edit' and 'new' views #}
     <button type="submit" class="btn btn-primary action-save">
-        <i class="fa fa-save"></i> {{ 'action.save'|trans(_trans_parameters, _translation_domain) }}
+        <i class="fa fa-save"></i>
+        <span class="btn-label">{{ 'action.save'|trans(_trans_parameters, _translation_domain) }}</span>
     </button>
 
     {% set _entity_actions = (easyadmin.view == 'new')
