@@ -47,11 +47,16 @@ class EasyAdminController extends BaseEasyAdminControler
         $requestParameters = $this->request->query->all();
         $requestParameters['referer'] = (string) $masterRequestUri;
 
-        return $this->render('@EasyAdminExtension/default/embedded_list.html.twig', [
+        $viewVars = [
             'paginator' => $paginator,
             'fields' => $fields,
             '_request_parameters' => $requestParameters,
-        ]);
+        ];
+
+        return $this->executeDynamicMethod(
+            'render<EntityName>Template',
+            ['embeddedList', $this->entity['embeddedList']['template'], $viewVars]
+        );
     }
 
     /**

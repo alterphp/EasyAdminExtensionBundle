@@ -19,6 +19,7 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
 
     public function process(array $backendConfig)
     {
+        $backendConfig = $this->processTemplateConfig($backendConfig);
         $backendConfig = $this->processSortingConfig($backendConfig);
         $backendConfig = $this->processOpenNewTabConfig($backendConfig);
 
@@ -67,6 +68,17 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
                 }
 
                 $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $sortConfig;
+            }
+        }
+
+        return $backendConfig;
+    }
+
+    private function processTemplateConfig(array $backendConfig)
+    {
+        foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
+            if (!isset($entityConfig['embeddedList']['template'])) {
+                $backendConfig['entities'][$entityName]['embeddedList']['template'] = '@EasyAdminExtension/default/embedded_list.html.twig';
             }
         }
 
