@@ -133,6 +133,11 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
             return;
         }
 
+        // Ignore EasyAdmin's dynamic filters
+        if (\is_array($value) && array_key_exists('comparison', $value)) {
+            return;
+        }
+
         // Add root entity alias if none provided
         $queryField = $listFilter->getProperty();
         if (false === \strpos($queryField, '.')) {
