@@ -86,6 +86,7 @@ class EasyAdminEmbeddedListType extends AbstractType
             ->setDefault('hidden_fields', [])
             ->setDefault('max_results', null)
             ->setDefault('sort', null)
+            ->setDefault('mapped', false)
             ->setAllowedTypes('entity', ['null', 'string'])
             ->setAllowedTypes('filters', ['array'])
             ->setAllowedTypes('hidden_fields', ['array'])
