@@ -27,7 +27,7 @@
         "symfony/http-kernel": "~3.0|^4.0",
         "symfony/property-access": "~3.0|^4.0",
         "symfony/validator": "~3.0|^4.0",
-        "twig/twig": "~1.26|~2.0"
+        "twig/twig": "~1.38|~2.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "~2.2",
