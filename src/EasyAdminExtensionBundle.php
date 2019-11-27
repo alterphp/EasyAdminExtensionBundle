@@ -21,8 +21,6 @@ class EasyAdminExtensionBundle extends Bundle
      *
      * @see  https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/FOSUserBundle.php
      *
-     * @param ContainerBuilder $container
-     *
      * @throws \ReflectionException
      */
     private function addRegisterMappingsPass(ContainerBuilder $container)

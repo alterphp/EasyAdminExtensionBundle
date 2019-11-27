@@ -42,8 +42,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Called on POST_LIST_QUERY_BUILDER event.
-     *
-     * @param GenericEvent $event
      */
     public function onPostListQueryBuilder(GenericEvent $event)
     {
@@ -68,8 +66,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Called on POST_SEARCH_QUERY_BUILDER event.
-     *
-     * @param GenericEvent $event
      */
     public function onPostSearchQueryBuilder(GenericEvent $event)
     {
@@ -82,9 +78,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Applies request filters on queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param array        $filters
      */
     protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
@@ -103,9 +96,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Applies form filters on queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param array        $filters
      */
     protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
@@ -120,10 +110,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Filters queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param string       $field
-     * @param ListFilter   $listFilter
      */
     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, ListFilter $listFilter)
     {
@@ -231,11 +217,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Checks if filter is directly appliable on queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param string       $field
-     *
-     * @return bool
      */
     protected function isFilterAppliable(QueryBuilder $queryBuilder, string $field): bool
     {

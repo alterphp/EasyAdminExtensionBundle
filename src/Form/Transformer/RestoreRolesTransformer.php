@@ -24,17 +24,11 @@ class RestoreRolesTransformer implements DataTransformerInterface
      */
     protected $rolesBuilder;
 
-    /**
-     * @param EditableRolesHelper $rolesBuilder
-     */
     public function __construct(EditableRolesHelper $rolesBuilder)
     {
         $this->rolesBuilder = $rolesBuilder;
     }
 
-    /**
-     * @param array|null $originalRoles
-     */
     public function setOriginalRoles(array $originalRoles = null)
     {
         $this->originalRoles = $originalRoles ?: [];

@@ -6,7 +6,7 @@ use AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AbstractTestCase;
 
 class RequestParametersTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -17,7 +17,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', ['entity.enabled' => false]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -28,7 +28,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', ['entity.foo' => 'bar']);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '100 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -41,7 +41,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', ['entity.enabled' => false, 'entity.oddEven' => 'even']
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '5 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -52,7 +52,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', ['enabled' => false]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -65,7 +65,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', ['entity.enabled' => false, 'entity.oddEven' => 'even']
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
 
         $searchFormCrawler = $crawler->filter('.action-search form');
 
@@ -85,7 +85,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', ['entity.oddEven' => ['odd', 'even']]
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '100 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -95,11 +95,11 @@ class RequestParametersTest extends AbstractTestCase
 
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven][]"][value="odd"]')->count()
+            $searchFormCrawler->filter('input[name="filters[entity.oddEven][0]"][value="odd"]')->count()
         );
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven][]"][value="even"]')->count()
+            $searchFormCrawler->filter('input[name="filters[entity.oddEven][1]"][value="even"]')->count()
         );
     }
 
@@ -107,7 +107,7 @@ class RequestParametersTest extends AbstractTestCase
     {
         $crawler = $this->requestSearchView('ref000', 'Product', ['entity.enabled' => false]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -120,7 +120,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', ['entity.phone' => '_NULL']
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -133,7 +133,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', ['entity.phone' => '_NOT_NULL']
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '90 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -146,7 +146,7 @@ class RequestParametersTest extends AbstractTestCase
             'Product', ['entity.phone' => '']
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '100 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()

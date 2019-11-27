@@ -43,8 +43,6 @@ class ShowViewConfigPass implements ConfigPassInterface
     /**
      * Process custom types for SHOW view.
      *
-     * @param array $backendConfig
-     *
      * @return array
      */
     private function processCustomShowTypes(array $backendConfig)

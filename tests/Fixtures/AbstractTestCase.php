@@ -1,31 +1,17 @@
 <?php
 
-/*
- * This file is part of the EasyAdminBundle.
- *
- * (c) Javier Eguiluz <javier.eguiluz@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures;
 
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-/**
- * Class AbstractTestCase. Code copied from
- * https://github.com/Orbitale/CmsBundle/blob/master/Tests/Fixtures/AbstractTestCase.php
- * (c) Alexandre Rock Ancelet <alex@orbitale.io>.
- */
 abstract class AbstractTestCase extends WebTestCase
 {
     /** @var Client */
-    protected $client;
+    protected static $client;
+    protected static $options = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->initDatabase();
@@ -33,7 +19,9 @@ abstract class AbstractTestCase extends WebTestCase
 
     protected function initClient(array $options = [])
     {
-        $this->client = static::createClient($options);
+        static::ensureKernelShutdown();
+
+        static::$client = static::createClient($options + static::$options);
     }
 
     /**
@@ -55,13 +43,11 @@ abstract class AbstractTestCase extends WebTestCase
     }
 
     /**
-     * @param array $queryParameters
-     *
      * @return Crawler
      */
-    protected function getBackendPage(array $queryParameters = [])
+    protected function getBackendPage(array $queryParameters = [], array $serverParameters = [])
     {
-        return $this->client->request('GET', '/admin/?'.\http_build_query($queryParameters, '', '&'));
+        return static::$client->request('GET', '/admin/?'.\http_build_query($queryParameters, '', '&'), [], [], $serverParameters);
     }
 
     /**
@@ -125,6 +111,20 @@ abstract class AbstractTestCase extends WebTestCase
     /**
      * @return Crawler
      */
+    protected function requestNewAjaxView($entityName = 'Category')
+    {
+        $this->getBackendPage([
+            'action' => 'newAjax',
+            'entity' => $entityName,
+        ]);
+        $response = \json_decode(static::$client->getResponse()->getContent(), true);
+
+        return new Crawler($response['html'], static::$client->getRequest()->getUri());
+    }
+
+    /**
+     * @return Crawler
+     */
     protected function requestEditView($entityName = 'Category', $entityId = '200')
     {
         return $this->getBackendPage([
@@ -132,19 +132,5 @@ abstract class AbstractTestCase extends WebTestCase
             'entity' => $entityName,
             'id' => $entityId,
         ]);
-    }
-
-    /**
-     * @return Crawler
-     */
-    protected function requestNewAjaxView($entityName = 'Category')
-    {
-        $this->getBackendPage([
-            'action' => 'newAjax',
-            'entity' => $entityName,
-        ]);
-        $response = \json_decode($this->client->getResponse()->getContent(), true);
-
-        return new Crawler($response['html'], $this->client->getRequest()->getUri());
     }
 }

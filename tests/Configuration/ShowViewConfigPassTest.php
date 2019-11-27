@@ -4,8 +4,9 @@ namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Configuration\ShowViewConfigPass;
 use AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper;
+use PHPUnit\Framework\TestCase;
 
-class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
+class ShowViewConfigPassTest extends TestCase
 {
     public function testDefaultEmbeddedListShow()
     {

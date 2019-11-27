@@ -23,10 +23,6 @@ class EmbeddedListHelper
      */
     private $easyAdminConfig;
 
-    /**
-     * @param ManagerRegistry $doctrine
-     * @param array           $easyAdminConfig
-     */
     public function __construct(ManagerRegistry $doctrine, array $easyAdminConfig)
     {
         $this->doctrine = $doctrine;
@@ -35,9 +31,6 @@ class EmbeddedListHelper
 
     /**
      * Returns EasyAdmin entity entry name for a parent FQCN and property for embedded list.
-     *
-     * @param string $parentFqcn
-     * @param string $parentProperty
      *
      * @return mixed
      *
@@ -64,8 +57,6 @@ class EmbeddedListHelper
     /**
      * Returns EasyAdmin entity entry name for a FQCN.
      *
-     * @param string $entityFqcn
-     *
      * @return string
      *
      * @throws \RuntimeException
@@ -80,21 +71,11 @@ class EmbeddedListHelper
         );
 
         if (empty($matchingEntityConfigs)) {
-            throw new \RuntimeException(
-                \sprintf('No entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn)
-            );
+            throw new \RuntimeException(\sprintf('No entity defined in EasyAdmin configuration matches %s FQCN.', $entityFqcn));
         }
 
         if (1 < \count($matchingEntityConfigs)) {
-            throw new \RuntimeException(
-                \sprintf(
-                    'More than 1 entity defined in EasyAdmin configuration matches %s FQCN.'.
-                    ' Try setting option "entity" (in type_options for NEW/EDIT/FORM view, or template_options for SHOW view)'.
-                    ' with one of [%s].',
-                    $entityFqcn,
-                    \implode(', ', \array_keys($matchingEntityConfigs))
-                )
-            );
+            throw new \RuntimeException(\sprintf('More than 1 entity defined in EasyAdmin configuration matches %s FQCN.'.' Try setting option "entity" (in type_options for NEW/EDIT/FORM view, or template_options for SHOW view)'.' with one of [%s].', $entityFqcn, \implode(', ', \array_keys($matchingEntityConfigs))));
         }
 
         return (string) \key($matchingEntityConfigs);
@@ -103,8 +84,6 @@ class EmbeddedListHelper
     /**
      * Returns default filter for embeddedList.
      *
-     * @param string $entityFqcn
-     * @param string $parentEntityProperty
      * @param object $parentEntity
      *
      * @return array

@@ -62,10 +62,7 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
     }
 
     /**
-     * @param string   $propertyName
      * @param string[] $excludedFields
-     *
-     * @return bool
      */
     private function shouldSkipField(string $propertyName, array $excludedFields): bool
     {
@@ -80,8 +77,6 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
      * Explicit "fields" option and "exclude_fields" won't work together
      *
      * @param mixed[] $entityConfig
-     * @param string  $entityName
-     * @param string  $section
      *
      * @throws ConflictingConfigurationException
      */
@@ -91,17 +86,11 @@ class ExcludeFieldsConfigPass implements ConfigPassInterface
             return;
         }
 
-        throw new ConflictingConfigurationException(\sprintf(
-            '"%s" and "%s" are mutually conflicting. Pick just one of them in %s YAML configuration',
-            'exclude_fields',
-            'fields',
-            \sprintf('easy_admin > entities > %s > %s', $entityName, $section)
-        ));
+        throw new ConflictingConfigurationException(\sprintf('"%s" and "%s" are mutually conflicting. Pick just one of them in %s YAML configuration', 'exclude_fields', 'fields', \sprintf('easy_admin > entities > %s > %s', $entityName, $section)));
     }
 
     /**
      * @param mixed[] $entityConfig
-     * @param string  $entityName
      *
      * @return string[]
      *

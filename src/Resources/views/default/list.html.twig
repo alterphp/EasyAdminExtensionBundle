@@ -40,11 +40,6 @@
     {{ parent() }}
   {% endif %}
 {% endblock %}
-{# Adds request filters to the search form #}
-{% block search_form %}
-  {{ block('request_parameters_as_hidden') }}
-  {{ parent() }}
-{% endblock %}
 
 {# Do not display NEW button if not granted #}
 {% block new_action %}

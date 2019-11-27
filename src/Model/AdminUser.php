@@ -66,8 +66,6 @@ class AdminUser implements UserInterface
 
     /**
      * Get groups.
-     *
-     * @return Collection
      */
     public function getGroups(): Collection
     {
