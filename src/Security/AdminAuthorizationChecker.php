@@ -27,7 +27,10 @@ class AdminAuthorizationChecker
     {
         if ($this->adminMinimumRole && !$this->authorizationChecker->isGranted($this->adminMinimumRole)) {
             throw new AccessDeniedException(
-                \sprintf('You must be granted %s role to access admin !', $this->adminMinimumRole)
+                \sprintf(
+                    'You must be granted one of following role(s) [%s] to access admin !',
+                    \is_array($this->adminMinimumRole) ? \implode('|', $this->adminMinimumRole) : $this->adminMinimumRole
+                )
             );
         }
 
@@ -35,7 +38,10 @@ class AdminAuthorizationChecker
 
         if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole, $subject)) {
             throw new AccessDeniedException(
-                \sprintf('You must be granted %s role to perform this entity action !', $requiredRole)
+                \sprintf(
+                    'You must be granted one of following role(s) [%s] to perform this entity action !',
+                    \is_array($requiredRole) ? \implode('|', $requiredRole) : $requiredRole
+                )
             );
         }
     }
