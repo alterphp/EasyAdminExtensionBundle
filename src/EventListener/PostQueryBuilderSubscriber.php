@@ -49,7 +49,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         // Request filters
         if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', []));
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('ext_filters', []));
         }
 
         // List form filters
@@ -72,7 +72,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         $queryBuilder = $event->getArgument('query_builder');
 
         if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', []));
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('ext_filters', []));
         }
     }
 

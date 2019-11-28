@@ -41,7 +41,7 @@ class EasyAdminEmbeddedListType extends AbstractType
         $parentData = $form->getParent()->getData();
 
         $embeddedListEntity = $options['entity'];
-        $embeddedListFilters = $options['filters'];
+        $embeddedListFilters = $options['ext_filters'];
         // Guess entity FQCN from parent metadata
         $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(\get_class($parentData), $form->getName());
         if (null !== $entityFqcn) {
@@ -56,14 +56,14 @@ class EasyAdminEmbeddedListType extends AbstractType
 
         // Only for backward compatibility (when there were no guesser)
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $filters = \array_map(function ($filter) use ($propertyAccessor, $form) {
+        $extFilters = \array_map(function ($filter) use ($propertyAccessor, $form) {
             if (0 === \strpos($filter, 'form:')) {
                 $filter = $propertyAccessor->getValue($form, \substr($filter, 5));
             }
 
             return $filter;
         }, $embeddedListFilters);
-        $view->vars['filters'] = $filters;
+        $view->vars['ext_filters'] = $extFilters;
 
         $view->vars['hidden_fields'] = $options['hidden_fields'];
         $view->vars['max_results'] = $options['max_results'];
@@ -82,13 +82,13 @@ class EasyAdminEmbeddedListType extends AbstractType
     {
         $resolver
             ->setDefault('entity', null)
-            ->setDefault('filters', [])
+            ->setDefault('ext_filters', [])
             ->setDefault('hidden_fields', [])
             ->setDefault('max_results', null)
             ->setDefault('sort', null)
             ->setDefault('mapped', false)
             ->setAllowedTypes('entity', ['null', 'string'])
-            ->setAllowedTypes('filters', ['array'])
+            ->setAllowedTypes('ext_filters', ['array'])
             ->setAllowedTypes('hidden_fields', ['array'])
             ->setAllowedTypes('max_results', ['null', 'int'])
             ->setAllowedTypes('sort', ['null', 'string', 'array'])

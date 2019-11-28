@@ -6,6 +6,7 @@ EasyAdmin Extension
 EasyAdmin Extension provides some useful extensions to [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle) admin generator for Symfony.
 
 :exclamation: Branch `2.2.x` of this bundle requires at least __PHP 7.1__ and __Symfony 4.2__ components or stack and is suitable for EasyAdmin `^2.2.0`. It allows installation of EasyAdmin `2.2.0` or upper and Symfony 5 as well. __Extension bundle implementation of list filters is NOT COMPATIBLE with EasyAdmin dynamic list filters !__ Use extension implementation if you want to use embedded list, OR do not use embedded list.
+> Important BC BREAK: list filters implemented by this extension bundle now use `ext_filters` query/form parameter, as `filters` is now used by native EasyAdmin for its own implementation of dynamic list filters.
 
 :exclamation: Branch `2.0.x` and `2.1.x` of this bundle requires at least __PHP 7.1__ and __Symfony 4.1__ components or stack and is suitable for EasyAdmin `2.0.x` and `2.1.x`. __It does not allow installation of EasyAdmin `2.2.0` or upper !__
 
@@ -210,9 +211,9 @@ Available built-in operators are listed in `AlterPHP\EasyAdminExtensionBundle\Mo
 
 * EasyAdmin allows filtering list with `dql_filter` configuration entry. But this is not dynamic and must be configured as an apart list in `easy_admin` configuration.*
 
-This extension allows to __dynamically filter lists__ by adding `filters` parameter in the URL parameters. Having a list of books at URL `<url-to-admin>?action=list&entity=Book` with a releaseYear field, you can filter on books releasd in 2016 by requesting `<url-to-admin>?action=list&entity=Book&filters[entity.releaseDate]=2016`. It only matches exact values, but you can chain them. To request books released in 2015 and 2016, you must request `<url-to-admin>?action=list&entity=Book&filters[entity.releaseDate][]=2015&filters[entity.releaseDate][]=2016`.
+This extension allows to __dynamically filter lists__ by adding `ext_filters` parameter in the URL parameters. Having a list of books at URL `<url-to-admin>?action=list&entity=Book` with a releaseYear field, you can filter on books releasd in 2016 by requesting `<url-to-admin>?action=list&entity=Book&ext_filters[entity.releaseDate]=2016`. It only matches exact values, but you can chain them. To request books released in 2015 and 2016, you must request `<url-to-admin>?action=list&entity=Book&ext_filters[entity.releaseDate][]=2015&ext_filters[entity.releaseDate][]=2016`.
 
-This `filters` parameter is transmitted to the referer used for post update/delete/create redirection AND for search !
+This `ext_filters` parameter is transmitted to the referer used for post update/delete/create redirection AND for search !
 
 ### Register your own form types with a short name (aliasing form types)
 
@@ -237,7 +238,7 @@ Embedded lists are useful to show relations to en entity in its *NEW/EDIT/FORM* 
 Available options are :
 
 - `entity`: Entity config name (key under the EasyAdmin `entities` config)
-- `filters`: Request filters to apply on the list
+- `ext_filters`: Request filters to apply on the list
 - `hidden_fields`: List of fields (columns) to hide from list fields config
 - `max_results`: Number of items par page (list.max_results config is used if not defined)
 - `sort`: Sort to apply
@@ -266,7 +267,7 @@ easy_admin:
                 fields:
                     # ...
                     - { type: group, label: Events, css_class: 'col-sm-12', icon: calendar }
-                    - { property: events, label: '', type: embedded_list, type_options: { entity: Event, filters: { 'entity.promoter': 'form:parent.data.id' } } }
+                    - { property: events, label: '', type: embedded_list, type_options: { entity: Event, ext_filters: { 'entity.promoter': 'form:parent.data.id' } } }
 
 ```
 

@@ -71,11 +71,11 @@ class RequestParametersTest extends AbstractTestCase
 
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.enabled]"][value="0"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.enabled]"][value="0"]')->count()
         );
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven]"][value="even"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.oddEven]"][value="even"]')->count()
         );
     }
 
@@ -95,11 +95,11 @@ class RequestParametersTest extends AbstractTestCase
 
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven][0]"][value="odd"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.oddEven][]"][value="odd"]')->count()
         );
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven][1]"][value="even"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.oddEven][]"][value="even"]')->count()
         );
     }
 

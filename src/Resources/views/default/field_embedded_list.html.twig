@@ -1,11 +1,11 @@
-{% set default_filters = guess_default_filters(
+{% set default_ext_filters = guess_default_filters(
   field_options.template_options.entity_fqcn, field_options.template_options.parent_entity_property, item
   ) %}
-{% set filters = default_filters|merge(field_options.template_options.filters) %}
+{% set ext_filters = default_ext_filters|merge(field_options.template_options.ext_filters) %}
 
 {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
     entity: field_options.template_options.entity,
-    filters: filters,
+    ext_filters: ext_filters,
     hidden_fields: field_options.template_options.hidden_fields,
     max_results: field_options.template_options.max_results,
     sort: field_options.template_options.sort

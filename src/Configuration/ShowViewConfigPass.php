@@ -93,8 +93,8 @@ class ShowViewConfigPass implements ConfigPassInterface
                 if (!isset($templateOptions['entity'])) {
                     $templateOptions['entity'] = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
                 }
-                if (!isset($templateOptions['filters'])) {
-                    $templateOptions['filters'] = [];
+                if (!isset($templateOptions['ext_filters'])) {
+                    $templateOptions['ext_filters'] = [];
                 }
                 if (!isset($templateOptions['hidden_fields'])) {
                     $templateOptions['hidden_fields'] = [];

@@ -67,7 +67,7 @@ abstract class AbstractTestCase extends WebTestCase
             'action' => 'list',
             'entity' => $entityName,
             'view' => 'list',
-            'filters' => $requestFilters,
+            'ext_filters' => $requestFilters,
             'form_filters' => $formFilters,
         ]);
     }
@@ -93,7 +93,7 @@ abstract class AbstractTestCase extends WebTestCase
             'action' => 'search',
             'entity' => $entityName,
             'query' => $searchQuery,
-            'filters' => $requestFilters,
+            'ext_filters' => $requestFilters,
         ]);
     }
 

@@ -1,33 +1,33 @@
 {% extends '@!EasyAdmin/default/list.html.twig' %}
 
-{% set requestFilters = app.request.get('filters', {}) %}
+{% set requestExtFilters = app.request.get('ext_filters', {}) %}
 {% set _request_parameters = _request_parameters|default({})|merge({
-    filters: requestFilters
+    ext_filters: requestExtFilters
 }) %}
 
 {% block request_parameters_as_hidden %}
-  {% for field, value in requestFilters %}
+  {% for field, value in requestExtFilters %}
     {% if value is iterable %}
       {% for val in value %}
-        <input type="hidden" name="filters[{{ field }}][]" value="{{ val }}">
+        <input type="hidden" name="ext_filters[{{ field }}][]" value="{{ val }}">
       {% endfor %}
     {% else %}
-      <input type="hidden" name="filters[{{ field }}]" value="{{ value }}">
+      <input type="hidden" name="ext_filters[{{ field }}]" value="{{ value }}">
     {% endif %}
   {% endfor %}
 {% endblock %}
 
 {% block global_actions %}
-  {% if requestFilters|length > 0 %}
-    {% set requestFiltersPopover %}
+  {% if requestExtFilters|length > 0 %}
+    {% set requestExtFiltersPopover %}
       <dl>
-        {% for filterKey, filterValue in requestFilters %}
+        {% for filterKey, filterValue in requestExtFilters %}
           <dt>{{ filterKey }}</dt>
           <dd>{{ filterValue is iterable ? filterValue|join(',') : filterValue }}</dd>
         {% endfor %}
       </dl>
     {% endset %}
-    <a href="#" class="btn" data-toggle="popover" data-content="{{ requestFiltersPopover|e('html_attr') }}" data-html="true" data-placement="left">
+    <a href="#" class="btn" data-toggle="popover" data-content="{{ requestExtFiltersPopover|e('html_attr') }}" data-html="true" data-placement="left">
       <i class="fa fa-filter text-warning"></i>
     </a>
   {% endif %}
@@ -39,6 +39,11 @@
   {% if is_easyadmin_granted(_entity_config, 'search') %}
     {{ parent() }}
   {% endif %}
+{% endblock %}
+{# Adds request filters to the search form #}
+{% block search_form %}
+  {{ block('request_parameters_as_hidden') }}
+  {{ parent() }}
 {% endblock %}
 
 {# Do not display NEW button if not granted #}

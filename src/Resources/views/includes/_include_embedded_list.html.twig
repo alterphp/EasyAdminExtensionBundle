@@ -1,4 +1,4 @@
-{% set action_params = { entity: entity, action: 'embeddedList', filters: filters, 'hidden-fields': hidden_fields } %}
+{% set action_params = { entity: entity, action: 'embeddedList', ext_filters: ext_filters, 'hidden-fields': hidden_fields } %}
 {% if sort is not null %}
   {% set action_params = action_params|merge({ sortField: sort.field, sortDirection: sort.direction}) %}
 {% endif %}

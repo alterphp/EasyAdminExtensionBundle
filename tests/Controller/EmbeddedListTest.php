@@ -17,7 +17,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestEditView('AdminGroup', 1);
 
-        $forAttrValue = \md5('/admin/?entity=AdminUser&action=embeddedList&filters%5Bentity.id%5D%5B0%5D=1&filters%5Bentity.id%5D%5B1%5D=2&filters%5Bentity.id%5D%5B2%5D=3&filters%5Bentity.id%5D%5B3%5D=4&filters%5Bentity.id%5D%5B4%5D=5&filters%5Bentity.id%5D%5B5%5D=6&filters%5Bentity.id%5D%5B6%5D=7&filters%5Bentity.id%5D%5B7%5D=8&filters%5Bentity.id%5D%5B8%5D=9&filters%5Bentity.id%5D%5B9%5D=10&filters%5Bentity.id%5D%5B10%5D=11&filters%5Bentity.id%5D%5B11%5D=12&filters%5Bentity.id%5D%5B12%5D=13&filters%5Bentity.id%5D%5B13%5D=14&filters%5Bentity.id%5D%5B14%5D=15&filters%5Bentity.id%5D%5B15%5D=16&filters%5Bentity.id%5D%5B16%5D=17&filters%5Bentity.id%5D%5B17%5D=18&filters%5Bentity.id%5D%5B18%5D=19&filters%5Bentity.id%5D%5B19%5D=20');
+        $forAttrValue = \md5('/admin/?entity=AdminUser&action=embeddedList&ext_filters%5Bentity.id%5D%5B0%5D=1&ext_filters%5Bentity.id%5D%5B1%5D=2&ext_filters%5Bentity.id%5D%5B2%5D=3&ext_filters%5Bentity.id%5D%5B3%5D=4&ext_filters%5Bentity.id%5D%5B4%5D=5&ext_filters%5Bentity.id%5D%5B5%5D=6&ext_filters%5Bentity.id%5D%5B6%5D=7&ext_filters%5Bentity.id%5D%5B7%5D=8&ext_filters%5Bentity.id%5D%5B8%5D=9&ext_filters%5Bentity.id%5D%5B9%5D=10&ext_filters%5Bentity.id%5D%5B10%5D=11&ext_filters%5Bentity.id%5D%5B11%5D=12&ext_filters%5Bentity.id%5D%5B12%5D=13&ext_filters%5Bentity.id%5D%5B13%5D=14&ext_filters%5Bentity.id%5D%5B14%5D=15&ext_filters%5Bentity.id%5D%5B15%5D=16&ext_filters%5Bentity.id%5D%5B16%5D=17&ext_filters%5Bentity.id%5D%5B17%5D=18&ext_filters%5Bentity.id%5D%5B18%5D=19&ext_filters%5Bentity.id%5D%5B19%5D=20');
 
         $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
@@ -27,7 +27,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestEditView('Category', 1);
 
-        $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1');
+        $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&ext_filters%5Bentity.category%5D=1');
 
         $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
@@ -37,7 +37,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestShowView('Category', 1);
 
-        $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1');
+        $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&ext_filters%5Bentity.category%5D=1');
 
         $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertSame(1, $crawler->filter('.embedded-list[for="'.$forAttrValue.'"]')->count());
@@ -101,11 +101,11 @@ class EmbeddedListTest extends AbstractTestCase
 
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.enabled]"][value="0"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.enabled]"][value="0"]')->count()
         );
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven]"][value="even"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.oddEven]"][value="even"]')->count()
         );
     }
 
@@ -125,11 +125,11 @@ class EmbeddedListTest extends AbstractTestCase
 
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven][0]"][value="odd"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.oddEven][]"][value="odd"]')->count()
         );
         $this->assertSame(
             1,
-            $searchFormCrawler->filter('input[name="filters[entity.oddEven][1]"][value="even"]')->count()
+            $searchFormCrawler->filter('input[name="ext_filters[entity.oddEven][]"][value="even"]')->count()
         );
     }
 
@@ -173,7 +173,7 @@ class EmbeddedListTest extends AbstractTestCase
     {
         $crawler = $this->requestEditView('Category', 1);
 
-        $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&filters%5Bentity.category%5D=1');
+        $forAttrValue = \md5('/admin/?entity=Product&action=embeddedList&ext_filters%5Bentity.category%5D=1');
 
         $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertSame('Created at', \trim($crawler->filter('.embedded-list[for="'.$forAttrValue.'"] th.sorted')->text()));
