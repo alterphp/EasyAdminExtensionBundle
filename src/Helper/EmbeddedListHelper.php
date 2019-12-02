@@ -142,10 +142,11 @@ class EmbeddedListHelper
                         try {
                             $reflGetIdMethod = new \ReflectionMethod($entity, 'getId');
                             $hasGetIdMethod = $reflGetIdMethod->isPublic();
-                        } catch (\ReflectionException $e) {}
+                        } catch (\ReflectionException $e) {
+                        }
                         
                         if (!$hasGetIdMethod) {
-                            throw new \RuntimeException('EmbeddedListHelper requires a public `getId` method on root entity in order to guess filters to apply!');   
+                            throw new \RuntimeException('EmbeddedListHelper requires a public getId method on root entity in order to guess filters to apply!');
                         }
                         
                         return $entity->getId();
