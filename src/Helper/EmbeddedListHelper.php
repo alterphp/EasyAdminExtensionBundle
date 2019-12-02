@@ -137,7 +137,17 @@ class EmbeddedListHelper
                     $relatedItems = PropertyAccess::createPropertyAccessor()->getValue(
                         $parentEntity, $parentEntityProperty
                     );
-                    $itemIds = $relatedItems->map(function ($entity) {
+                    $itemIds = $relatedItems->map(function (object $entity) {
+                        $hasGetIdMethod = false;
+                        try {
+                            $reflGetIdMethod = new \ReflectionMethod($entity, 'getId');
+                            $hasGetIdMethod = $reflGetIdMethod->isPublic();
+                        } catch (\ReflectionException $e) {}
+                        
+                        if (!$hasGetIdMethod) {
+                            throw new \RuntimeException('EmbeddedListHelper requires a public `getId` method on root entity in order to guess filters to apply!');   
+                        }
+                        
                         return $entity->getId();
                     });
 
