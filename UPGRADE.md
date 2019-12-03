@@ -1,10 +1,10 @@
 # UPGRADE guide for EasyAdminExtension bundle
 
-## v2.2.0
+## v3.0.0
 
-This version unlocks dependency to EasyAdmin by allowing __EasyAdmin ^2.2.0__. As this version of EasyAdmin introduce its own implementation of list filyters (using query parameter `filter`), and considering it is not compatible with extension bundle's implementation : __I decided to rename the parameter to pass filters used by the extension__. This is an important BC BREAK.
+This version unlocks dependency to EasyAdmin by allowing __EasyAdmin ^2.2.0__. As this version of EasyAdmin introduce its own implementation of list filters (using query parameter `filter`), and considering it is not compatible with extension bundle's implementation : __I decided to rename the parameter to pass filters used by the extension__. This is an important BC BREAK.
 
-### Renamed query parameter for list filters
+### Renamed query parameter for list filters (BC break)
 
 `filter` is now used by native EasyAdmin implementation. Use `ext_filters` for extension implementation (for embedded lists) !
 

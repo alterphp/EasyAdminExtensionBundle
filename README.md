@@ -5,10 +5,10 @@ EasyAdmin Extension
 
 EasyAdmin Extension provides some useful extensions to [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle) admin generator for Symfony.
 
-* Branch `2.2.x` of this bundle requires at least __PHP 7.1__ and __Symfony 4.2__ components or stack and is suitable for EasyAdmin `^2.2.0`. It allows installation of EasyAdmin `2.2.0` or upper and Symfony 5 as well. __Extension bundle implementation of list filters is NOT COMPATIBLE with EasyAdmin dynamic list filters !__ That's why we introduced the following change :
-    > :exclamation: __Important BC BREAK__ list filters implemented by this extension bundle now use `ext_filters` query/form parameter, as `filters` is now used by native EasyAdmin for its own implementation of dynamic list filters.
+* Branch `3.x` of this bundle requires at least __PHP 7.1__ and __Symfony 4.2__ components or stack and is suitable for EasyAdmin `^2.2.0`. It allows installation of EasyAdmin `2.2.0` or upper and Symfony 5 as well. __Extension bundle implementation of list filters is NOT COMPATIBLE with EasyAdmin dynamic list filters !__ That's why we introduced the following change :
+    > :exclamation: __BC BREAK__ list filters implemented by this extension bundle now use `ext_filters` query/form parameter, as `filters` is now used by native EasyAdmin for its own implementation of dynamic list filters.
 
-* Branch `2.0.x` and `2.1.x` of this bundle requires at least __PHP 7.1__ and __Symfony 4.1__ components or stack and is suitable for EasyAdmin `2.0.x` and `2.1.x`. __It does not allow installation of EasyAdmin `2.2.0` or upper !__
+* Branch `2.x` of this bundle requires at least __PHP 7.1__ and __Symfony 4.1__ components or stack and is suitable for EasyAdmin `2.0.x` and `2.1.x`. __It does not allow installation of EasyAdmin `2.2.0` or upper !__
 
 * Branch `1.x` of this bundle requires at least __PHP 7.0__ and __Symfony 3.0__ components or stack and is suitable for EasyAdmin `1.x`.
 
@@ -387,7 +387,7 @@ easy_admin:
             - { label: 'App action', route: 'app_action', role: ROLE_ADMIN } # Hidden if user is not granted ROLE_ADMIN
 ```
 
-:warning: __Beware this ONLY HIDE the menu entry and do not secure secure access to the targeted URL/route !__
+:warning: __Beware this ONLY HIDE the menu entry and do not secure access to the targeted URL/route !__
 
 #### Per entity field role permissions in form
 
