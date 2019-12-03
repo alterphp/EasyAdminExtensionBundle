@@ -52,7 +52,7 @@
         "symfony/yaml": "^4.2|^5.0"
     },
     "conflict": {
-        "easycorp/easyadmin-bundle": "<2.2.0"
+        "easycorp/easyadmin-bundle": "<2.2.2"
     },
     "config": {
         "sort-packages": true,
