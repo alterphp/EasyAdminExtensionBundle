@@ -13,22 +13,15 @@ class AdminAuthorizationExtension extends AbstractExtension
      */
     protected $adminAuthorizationChecker;
 
-    /**
-     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\MenuHelper
-     */
-    protected $menuHelper;
-
-    public function __construct($adminAuthorizationChecker, $menuHelper)
+    public function __construct($adminAuthorizationChecker)
     {
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
-        $this->menuHelper = $menuHelper;
     }
 
     public function getFilters()
     {
         return [
             new TwigFilter('prune_item_actions', [$this, 'pruneItemsActions']),
-            new TwigFilter('prune_menu_items', [$this, 'pruneMenuItems']),
         ];
     }
 
@@ -51,10 +44,5 @@ class AdminAuthorizationExtension extends AbstractExtension
             return !\in_array($action, $forbiddenActions)
                 && $this->isEasyAdminGranted($entityConfig, $action, $subject);
         }, ARRAY_FILTER_USE_KEY);
-    }
-
-    public function pruneMenuItems(array $menuConfig, array $entitiesConfig)
-    {
-        return $this->menuHelper->pruneMenuItems($menuConfig, $entitiesConfig);
     }
 }

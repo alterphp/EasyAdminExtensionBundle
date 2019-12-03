@@ -51,6 +51,32 @@ easy_admin:
 
 ```
 
+### Use of native role based menu permissions
+
+Replace `role` option in menu configuration by `permission` (native EasyAdmin implementation). Empty menu folders are not pruned nor re-indexed with EasyAdmin implementation.
+
+__BEFORE__
+
+```yaml
+easy_admin:
+    design:
+        menu:
+            - { label: Dashboard, route: admin_dashboard, icon: home, default: true }
+            - { label: Challenges, entity: Challenge, icon: running, role: ROLE_CHALLENGE_LIST }
+```
+
+__AFTER__
+
+```yaml
+easy_admin:
+    design:
+        menu:
+            - { label: Dashboard, route: admin_dashboard, icon: home, default: true }
+            - { label: Challenges, entity: Challenge, icon: running, permission: ROLE_CHALLENGE_LIST }
+```
+
+Note that `prune_menu_items` Twig function and `MenuHelper` service have been removed too.
+
 
 ## v2.1.0
 

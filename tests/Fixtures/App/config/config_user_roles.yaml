@@ -36,23 +36,22 @@ security:
 easy_admin_extension:
     minimum_role: ROLE_ADMIN
 
-
 easy_admin:
     design:
         menu:
             - label: Catalog
               children:
-                - { label: Categories, entity: Category, role: ROLE_CATEGORY_LIST }
-                - { label: Products, entity: Product, role: ROLE_PRODUCT_LIST }
-            - { label: Images, entity: Image, role: ROLE_IMAGE_LIST }
+                - { label: Categories, entity: Category, permission: ROLE_CATEGORY_LIST }
+                - { label: Products, entity: Product, permission: ROLE_PRODUCT_LIST }
+            - { label: Images, entity: Image, permission: ROLE_IMAGE_LIST }
             - label: Sales
               children:
-                - { label: Purchases, entity: Purchase, role: ROLE_PURCHASE_LIST }
-                - { label: Purchases items, entity: PurchaseItem, role: ROLE_PURCHASEITEM_LIST }
+                - { label: Purchases, entity: Purchase, permission: ROLE_PURCHASE_LIST }
+                - { label: Purchases items, entity: PurchaseItem, permission: ROLE_PURCHASEITEM_LIST }
             - label: System
               children:
-                - { label: Admin users, entity: AdminUser, role: ROLE_ADMINUSER_LIST }
-                - { label: Admin groups, entity: AdminGroup, role: ROLE_ADMINGROUP_LIST }
+                - { label: Admin users, entity: AdminUser, permission: ROLE_ADMINUSER_LIST }
+                - { label: Admin groups, entity: AdminGroup, permission: ROLE_ADMINGROUP_LIST }
     entities:
         Category:
             class: AppTestBundle\Entity\FunctionalTests\Category

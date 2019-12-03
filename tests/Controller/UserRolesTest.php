@@ -85,8 +85,9 @@ class UserRolesTest extends AbstractTestCase
             0,
             $menuCrawler->filter('li > a:contains("Images")')->count()
         );
+        // XXX: Native EasyAdmin do not prune empty menu folders
         $this->assertSame(
-            0,
+            1,
             $menuCrawler->filter('li > a:contains("Sales")')->count()
         );
         $this->assertSame(
@@ -96,42 +97,6 @@ class UserRolesTest extends AbstractTestCase
         $this->assertSame(
             0,
             $menuCrawler->filter('li ul li > a:contains("Purchases items")')->count()
-        );
-    }
-
-    public function testMenuIsWellIndexedWhenPruned()
-    {
-        $this->logIn(['ROLE_ADMIN', 'ROLE_CATEGORY_LIST', 'ROLE_IMAGE_LIST', 'ROLE_ADMINGROUP_LIST']);
-
-        static::$client->followRedirects();
-
-        $crawler = $this->getBackendPage();
-
-        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
-
-        /*
-         * Tests following menuIdex AND subMenuIndex !
-         *
-         * Catalog => (not to test because it is landing page)
-         *     Categories => 0
-         * Images  => 1
-         * System  => 2
-         *     Admin groups => 0
-         */
-
-        $menuCrawler = $crawler->filter('body ul.sidebar-menu');
-
-        $this->assertRegexp(
-            '/menuIndex=0&submenuIndex=0/',
-            $menuCrawler->selectLink('Categories')->link()->getUri()
-        );
-        $this->assertRegexp(
-            '/menuIndex=1&submenuIndex=-1/',
-            $menuCrawler->selectLink('Images')->link()->getUri()
-        );
-        $this->assertRegexp(
-            '/menuIndex=2&submenuIndex=0/',
-            $menuCrawler->selectLink('Admin groups')->link()->getUri()
         );
     }
 
