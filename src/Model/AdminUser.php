@@ -91,6 +91,7 @@ class AdminUser implements UserInterface
      */
     public function getPassword()
     {
+        return null;
     }
 
     /**
@@ -98,6 +99,7 @@ class AdminUser implements UserInterface
      */
     public function getSalt()
     {
+        return null;
     }
 
     /**

@@ -115,7 +115,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     {
         $value = $this->filterEasyadminAutocompleteValue($listFilter->getValue());
         // Empty string and numeric keys is considered as "not applied filter"
-        if (null === $value || '' === $value || \is_int($field)) {
+        if (null === $value || '' === $value || \is_numeric($field)) {
             return;
         }
 

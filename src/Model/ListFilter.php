@@ -29,6 +29,10 @@ class ListFilter
 
     private static $operatorValues = null;
 
+    final public function __construct()
+    {
+    }
+
     public static function createFromRequest(string $property, string $operator, $value)
     {
         $listFilter = new static();

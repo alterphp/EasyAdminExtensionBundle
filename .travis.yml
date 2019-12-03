@@ -23,6 +23,7 @@ matrix:
                TWIG_VERSION="^2.4"
 
         - php: 7.2
+          env: COMPOSER_FLAGS="--ignore-platform-reqs"
 
         - php: 7.3
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=weak
@@ -51,6 +52,8 @@ install:
 script:
     - composer validate --strict --no-check-lock
     - if [[ "$CHECK_PHP_SYNTAX" == "true" ]]; then php php-cs-fixer --no-interaction --dry-run --diff -v fix; fi
+    # this run PHPStan level 5 static analysis
+    - vendor/bin/phpstan analyse -c phpstan.neon --level=5 src
     # this checks that the Twig template files contain no syntax errors
     - ./tests/bin/console lint:twig "src" "tests"
     # this checks that the YAML config files contain no syntax errors

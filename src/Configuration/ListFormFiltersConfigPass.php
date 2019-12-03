@@ -92,13 +92,16 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             return;
         }
 
-        if ($entityMetadata->hasField($filterConfig['property'])) {
-            $this->configureFieldFilter(
-                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig);
-        } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
-            $this->configureAssociationFilter(
-                $entityClass, $entityMetadata->getAssociationMapping($filterConfig['property']), $filterConfig
-            );
+        // Only applicable to ORM ClassMetadataInfo instances
+        if ($entityMetadata instanceof ClassMetadataInfo) {
+            if ($entityMetadata->hasField($filterConfig['property'])) {
+                $this->configureFieldFilter(
+                    $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig);
+            } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
+                $this->configureAssociationFilter(
+                    $entityClass, $entityMetadata->getAssociationMapping($filterConfig['property']), $filterConfig
+                );
+            }
         }
     }
 

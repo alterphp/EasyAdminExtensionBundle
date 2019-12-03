@@ -484,7 +484,7 @@ Locally with Docker :
 
 Locally with Docker :
 
-    docker-compose run --rm php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon --level=6 /app/src
+    docker-compose run --rm php /app/vendor/bin/phpstan analyse -c /app/phpstan.neon --level=5 /app/src
 
 License
 -------
