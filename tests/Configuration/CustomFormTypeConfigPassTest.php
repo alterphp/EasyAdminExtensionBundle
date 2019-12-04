@@ -3,9 +3,10 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Configuration\ShortFormTypeConfigPass;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class ShortFormTypeConfigPassTest extends \PHPUnit_Framework_TestCase
+class ShortFormTypeConfigPassTest extends TestCase
 {
     public function testCustomFormTypesAreReplaced()
     {

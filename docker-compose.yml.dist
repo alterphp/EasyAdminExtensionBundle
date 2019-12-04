@@ -7,14 +7,8 @@ services:
         volumes:
             - ./:/app
         entrypoint:
-          - php
-          - /app/vendor/bin/simple-phpunit
+          - 'php'
+          - '/app/vendor/bin/simple-phpunit'
+          - '-c'
+          - '/app/phpunit.xml.dist'
 
-    php-cs-fixer:
-        image: ekreative/php-cs-fixer
-        volumes:
-            - ./:/app
-        entrypoint:
-          - /usr/local/bin/php-cs-fixer
-          - fix
-          - /app

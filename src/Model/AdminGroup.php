@@ -77,8 +77,6 @@ class AdminGroup
     /**
      * Set roles.
      *
-     * @param array $roles
-     *
      * @return static
      */
     public function setRoles(array $roles)
@@ -90,8 +88,6 @@ class AdminGroup
 
     /**
      * Get roles.
-     *
-     * @return array
      */
     public function getRoles(): array
     {

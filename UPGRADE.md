@@ -1,5 +1,83 @@
 # UPGRADE guide for EasyAdminExtension bundle
 
+## v3.0.0
+
+This version unlocks dependency to EasyAdmin by allowing __EasyAdmin ^2.2.0__. As this version of EasyAdmin introduce its own implementation of list filters (using query parameter `filter`), and considering it is not compatible with extension bundle's implementation : __I decided to rename the parameter to pass filters used by the extension__. This is an important BC BREAK.
+
+### Renamed query parameter for list filters (BC break)
+
+`filter` is now used by native EasyAdmin implementation. Use `ext_filters` for extension implementation (for embedded lists) !
+
+__BEFORE__
+
+`<url-to-admin>?action=list&entity=Book&filters[entity.releaseDate]=2016`
+
+__AFTER__
+
+`<url-to-admin>?action=list&entity=Book&ext_filters[entity.releaseDate]=2016`
+
+
+__BEFORE__
+
+```yaml
+easy_admin:
+    entities:
+        Event:
+            class: App\Entity\Event
+        Promoter:
+            class: App\Entity\Promoter
+            form:
+                fields:
+                    # ...
+                    - { type: group, label: Events, css_class: 'col-sm-12', icon: calendar }
+                    - { property: events, label: '', type: embedded_list, type_options: { entity: Event, filters: { 'entity.promoter': 'form:parent.data.id' } } }
+
+```
+
+__AFTER__
+
+```yaml
+easy_admin:
+    entities:
+        Event:
+            class: App\Entity\Event
+        Promoter:
+            class: App\Entity\Promoter
+            form:
+                fields:
+                    # ...
+                    - { type: group, label: Events, css_class: 'col-sm-12', icon: calendar }
+                    - { property: events, label: '', type: embedded_list, type_options: { entity: Event, ext_filters: { 'entity.promoter': 'form:parent.data.id' } } }
+
+```
+
+### Use of native role based menu permissions
+
+Replace `role` option in menu configuration by `permission` (native EasyAdmin implementation). Empty menu folders are not pruned nor re-indexed with EasyAdmin implementation.
+
+__BEFORE__
+
+```yaml
+easy_admin:
+    design:
+        menu:
+            - { label: Dashboard, route: admin_dashboard, icon: home, default: true }
+            - { label: Challenges, entity: Challenge, icon: running, role: ROLE_CHALLENGE_LIST }
+```
+
+__AFTER__
+
+```yaml
+easy_admin:
+    design:
+        menu:
+            - { label: Dashboard, route: admin_dashboard, icon: home, default: true }
+            - { label: Challenges, entity: Challenge, icon: running, permission: ROLE_CHALLENGE_LIST }
+```
+
+Note that `prune_menu_items` Twig function and `MenuHelper` service have been removed too.
+
+
 ## v2.1.0
 
 List filters form have been improved, with minor BC breaks :

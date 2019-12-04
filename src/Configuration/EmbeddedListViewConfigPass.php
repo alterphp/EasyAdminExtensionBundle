@@ -27,8 +27,6 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
     }
 
     /**
-     * @param array $backendConfig
-     *
      * @return array
      */
     private function processOpenNewTabConfig(array $backendConfig)
@@ -43,8 +41,6 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
     }
 
     /**
-     * @param array $backendConfig
-     *
      * @return array
      */
     private function processSortingConfig(array $backendConfig)

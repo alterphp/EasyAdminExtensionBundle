@@ -3,8 +3,9 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Configuration\EmbeddedListViewConfigPass;
+use PHPUnit\Framework\TestCase;
 
-class EmbeddedListViewConfigPassTest extends \PHPUnit_Framework_TestCase
+class EmbeddedListViewConfigPassTest extends TestCase
 {
     public function testOpenNewTabOption()
     {

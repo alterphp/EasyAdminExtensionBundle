@@ -19,39 +19,25 @@ class AdminAuthorizationChecker
     /**
      * Throws an error if user has no access to the entity action.
      *
-     * @param array  $entityConfig
-     * @param string $actionName
-     * @param mixed  $subject
+     * @param mixed $subject
      */
     public function checksUserAccess(array $entityConfig, string $actionName, $subject = null)
     {
         if ($this->adminMinimumRole && !$this->authorizationChecker->isGranted($this->adminMinimumRole)) {
-            throw new AccessDeniedException(
-                \sprintf(
-                    'You must be granted one of following role(s) [%s] to access admin !',
-                    \is_array($this->adminMinimumRole) ? \implode('|', $this->adminMinimumRole) : $this->adminMinimumRole
-                )
-            );
+            throw new AccessDeniedException(\sprintf('You must be granted one of following role(s) [%s] to access admin !', \is_array($this->adminMinimumRole) ? \implode('|', $this->adminMinimumRole) : $this->adminMinimumRole));
         }
 
         $requiredRole = $this->getRequiredRole($entityConfig, $actionName);
 
         if ($requiredRole && !$this->authorizationChecker->isGranted($requiredRole, $subject)) {
-            throw new AccessDeniedException(
-                \sprintf(
-                    'You must be granted one of following role(s) [%s] to perform this entity action !',
-                    \is_array($requiredRole) ? \implode('|', $requiredRole) : $requiredRole
-                )
-            );
+            throw new AccessDeniedException(\sprintf('You must be granted one of following role(s) [%s] to perform this entity action !', \is_array($requiredRole) ? \implode('|', $requiredRole) : $requiredRole));
         }
     }
 
     /**
      * Returns user access as boolean, no exception thrown.
      *
-     * @param array  $entityConfig
-     * @param string $actionName
-     * @param mixed  $subject
+     * @param mixed $subject
      *
      * @return bool
      */

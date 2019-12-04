@@ -66,8 +66,6 @@ class AdminUser implements UserInterface
 
     /**
      * Get groups.
-     *
-     * @return Collection
      */
     public function getGroups(): Collection
     {
@@ -93,6 +91,7 @@ class AdminUser implements UserInterface
      */
     public function getPassword()
     {
+        return '';
     }
 
     /**
@@ -100,6 +99,7 @@ class AdminUser implements UserInterface
      */
     public function getSalt()
     {
+        return '';
     }
 
     /**

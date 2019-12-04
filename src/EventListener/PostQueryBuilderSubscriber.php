@@ -42,8 +42,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Called on POST_LIST_QUERY_BUILDER event.
-     *
-     * @param GenericEvent $event
      */
     public function onPostListQueryBuilder(GenericEvent $event)
     {
@@ -51,7 +49,7 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
         // Request filters
         if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', []));
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('ext_filters', []));
         }
 
         // List form filters
@@ -68,23 +66,18 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Called on POST_SEARCH_QUERY_BUILDER event.
-     *
-     * @param GenericEvent $event
      */
     public function onPostSearchQueryBuilder(GenericEvent $event)
     {
         $queryBuilder = $event->getArgument('query_builder');
 
         if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('filters', []));
+            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('ext_filters', []));
         }
     }
 
     /**
      * Applies request filters on queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param array        $filters
      */
     protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
@@ -103,9 +96,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Applies form filters on queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param array        $filters
      */
     protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = [])
     {
@@ -120,16 +110,12 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Filters queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param string       $field
-     * @param ListFilter   $listFilter
      */
     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, ListFilter $listFilter)
     {
         $value = $this->filterEasyadminAutocompleteValue($listFilter->getValue());
         // Empty string and numeric keys is considered as "not applied filter"
-        if (null === $value || '' === $value || \is_int($field)) {
+        if (null === $value || '' === $value || \is_numeric($field)) {
             return;
         }
 
@@ -231,11 +217,6 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
 
     /**
      * Checks if filter is directly appliable on queryBuilder.
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param string       $field
-     *
-     * @return bool
      */
     protected function isFilterAppliable(QueryBuilder $queryBuilder, string $field): bool
     {

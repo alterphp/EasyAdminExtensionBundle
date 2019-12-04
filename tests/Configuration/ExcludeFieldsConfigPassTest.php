@@ -5,15 +5,16 @@ namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 use AlterPHP\EasyAdminExtensionBundle\Configuration\ExcludeFieldsConfigPass;
 use AlterPHP\EasyAdminExtensionBundle\Exception\ConflictingConfigurationException;
 use AppTestBundle\Entity\FunctionalTests\Dummy;
+use PHPUnit\Framework\TestCase;
 
-class ExcludeFieldsConfigPassTest extends \PHPUnit_Framework_TestCase
+class ExcludeFieldsConfigPassTest extends TestCase
 {
     /**
      * @var ExcludeFieldsConfigPass
      */
     private $excludeFieldsConfigPass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->excludeFieldsConfigPass = new ExcludeFieldsConfigPass();
     }

@@ -25,11 +25,6 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * @param array $backendConfig
-     *
-     * @return array
-     */
     public function process(array $backendConfig): array
     {
         if (!isset($backendConfig['entities'])) {
@@ -46,12 +41,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             foreach ($entityConfig['list']['form_filters'] as $i => $formFilter) {
                 // Detects invalid config node
                 if (!\is_string($formFilter) && !\is_array($formFilter)) {
-                    throw new \RuntimeException(
-                        \sprintf(
-                            'The values of the "form_filters" option for the list view of the "%s" entity can only be strings or arrays.',
-                            $entityConfig['class']
-                        )
-                    );
+                    throw new \RuntimeException(\sprintf('The values of the "form_filters" option for the list view of the "%s" entity can only be strings or arrays.', $entityConfig['class']));
                 }
 
                 // Key mapping
@@ -59,12 +49,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     $filterConfig = ['property' => $formFilter];
                 } else {
                     if (!\array_key_exists('property', $formFilter)) {
-                        throw new \RuntimeException(
-                            \sprintf(
-                                'One of the values of the "form_filters" option for the "list" view of the "%s" entity does not define the mandatory option "property".',
-                                $entityConfig['class']
-                            )
-                        );
+                        throw new \RuntimeException(\sprintf('One of the values of the "form_filters" option for the "list" view of the "%s" entity does not define the mandatory option "property".', $entityConfig['class']));
                     }
 
                     $filterConfig = $formFilter;
@@ -107,13 +92,16 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
             return;
         }
 
-        if ($entityMetadata->hasField($filterConfig['property'])) {
-            $this->configureFieldFilter(
-                $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig);
-        } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
-            $this->configureAssociationFilter(
-                $entityClass, $entityMetadata->getAssociationMapping($filterConfig['property']), $filterConfig
-            );
+        // Only applicable to ORM ClassMetadataInfo instances
+        if ($entityMetadata instanceof ClassMetadataInfo) {
+            if ($entityMetadata->hasField($filterConfig['property'])) {
+                $this->configureFieldFilter(
+                    $entityClass, $entityMetadata->getFieldMapping($filterConfig['property']), $filterConfig);
+            } elseif ($entityMetadata->hasAssociation($filterConfig['property'])) {
+                $this->configureAssociationFilter(
+                    $entityClass, $entityMetadata->getAssociationMapping($filterConfig['property']), $filterConfig
+                );
+            }
         }
     }
 
@@ -222,13 +210,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         }
 
         if (!isset($filterConfig['type_options']['choices_static_callback'])) {
-            throw new \RuntimeException(
-                \sprintf(
-                    'Choice filter field "%s" for entity "%s" must provide either a static callback method returning choice list or choices option.',
-                    $property,
-                    $entityClass
-                )
-            );
+            throw new \RuntimeException(\sprintf('Choice filter field "%s" for entity "%s" must provide either a static callback method returning choice list or choices option.', $property, $entityClass));
         }
 
         $callableParams = [];

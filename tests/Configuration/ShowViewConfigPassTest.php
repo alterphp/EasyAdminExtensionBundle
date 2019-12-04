@@ -4,8 +4,9 @@ namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Configuration\ShowViewConfigPass;
 use AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper;
+use PHPUnit\Framework\TestCase;
 
-class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
+class ShowViewConfigPassTest extends TestCase
 {
     public function testDefaultEmbeddedListShow()
     {
@@ -60,7 +61,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
                                     'entity_fqcn' => 'App\Entity\MyRelation',
                                     'parent_entity_property' => 'relations',
                                     'entity' => 'MyRelation',
-                                    'filters' => [],
+                                    'ext_filters' => [],
                                     'hidden_fields' => [],
                                     'max_results' => null,
                                     'sort' => null,
@@ -107,7 +108,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
                                     'parent_entity_property' => 'children',
                                     'entity_fqcn' => 'Foo\Entity\Child',
                                     'entity' => 'Child',
-                                    'filters' => ['bar' => 'baz'],
+                                    'ext_filters' => ['bar' => 'baz'],
                                     'sort' => ['qux', 'ASC'],
                                 ],
                             ],
@@ -134,7 +135,7 @@ class ShowViewConfigPassTest extends \PHPUnit_Framework_TestCase
                                     'parent_entity_property' => 'children',
                                     'entity_fqcn' => 'Foo\Entity\Child',
                                     'entity' => 'Child',
-                                    'filters' => ['bar' => 'baz'],
+                                    'ext_filters' => ['bar' => 'baz'],
                                     'sort' => ['field' => 'qux', 'direction' => 'ASC'],
                                     'hidden_fields' => [],
                                     'max_results' => null,

@@ -69,7 +69,7 @@ class EasyAdminController extends BaseEasyAdminControler
         switch ($actionName) {
             // autocomplete action is mapped to list action for access permissions
             case 'autocomplete':
-            // filters (EasyAdmin new list filetrs) action is mapped to list action for access permissions
+            // filters (EasyAdmin new list filters) action is mapped to list action for access permissions
             case 'filters':
             // embeddedList action is mapped to list action for access permissions
             case 'embeddedList':

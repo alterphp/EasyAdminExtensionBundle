@@ -6,7 +6,7 @@ use AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AbstractTestCase;
 
 class ListFormFiltersTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -17,7 +17,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product');
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
 
         $listFormFiltersCrawler = $crawler->filter('#list-form-filters');
 
@@ -31,7 +31,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['enabled' => ['value' => false]]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -42,7 +42,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['category' => ['value' => ['autocomplete' => [1]]]]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -53,7 +53,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['priceGreaterThan' => ['value' => 5100]]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '49 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -64,7 +64,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['priceGreaterThanOrEquals' => ['value' => 5100]]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '50 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -75,7 +75,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['priceLowerThan' => ['value' => 5100]]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '50 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -86,7 +86,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['priceLowerThanOrEquals' => ['value' => 5100]]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '51 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -97,7 +97,7 @@ class ListFormFiltersTest extends AbstractTestCase
     {
         $crawler = $this->requestListView('Product', [], ['notOddEven' => ['value' => 'even']]);
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '75 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -112,7 +112,7 @@ class ListFormFiltersTest extends AbstractTestCase
             ['notInPhone' => ['value' => ['0123456789-0', '0123456789-1', '0123456789-2', '0123456789-3']]]
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '54 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -127,7 +127,7 @@ class ListFormFiltersTest extends AbstractTestCase
             ['referenceLike' => ['value' => 'ref00001']]
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '10 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -142,7 +142,7 @@ class ListFormFiltersTest extends AbstractTestCase
             ['priceLowerThanOrEquals' => ['value' => 5100], 'priceGreaterThan' => ['value' => 3000]]
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '21 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()
@@ -157,7 +157,7 @@ class ListFormFiltersTest extends AbstractTestCase
             ['stock' => ['value' => 30]]
         );
 
-        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(200, static::$client->getResponse()->getStatusCode());
         $this->assertContains(
             '25 results',
             $crawler->filter('section.content-footer .list-pagination-counter')->text()

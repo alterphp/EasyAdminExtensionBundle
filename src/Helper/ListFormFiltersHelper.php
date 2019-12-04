@@ -36,9 +36,7 @@ class ListFormFiltersHelper
     private $formCsrfEnabled;
 
     /**
-     * @param FormFactoryInterface $formFactory
-     * @param RequestStack         $requestStack
-     * @param bool                 $formCsrfEnabled
+     * @param bool $formCsrfEnabled
      */
     public function __construct(FormFactoryInterface $formFactory, RequestStack $requestStack, $formCsrfEnabled)
     {
