@@ -312,6 +312,18 @@ easy_admin:
 
 Use following __template_options__ to pass options.
 
+#### Tweak embedded list view
+If you do not want the display ne "open.new_tab" button at the bottom of the lust, you can just use:
+```yaml
+easy_admin:
+    entities:
+        Event:
+            class: App\Entity\Event
+            embeddedList:
+                open_new_tab: false
+```
+
+
 ### Autocomplete add new option 'create' for modal in new and edit
 
 #### Configure form type 'easyadmin_autocomplete', add type_options: { attr: { create: true } }
