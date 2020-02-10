@@ -312,6 +312,27 @@ easy_admin:
 
 Use following __template_options__ to pass options.
 
+#### Disabling "Open in new tab" link at the bottom of embedded lists
+
+* __globally__ in `config/packages/easy_admin_extension.yaml` :
+
+    ```yaml
+        easy_admin_extension:
+            embedded_list:
+                open_new_tab: false
+    ```
+
+* __by entity__ in `config/packages/easy_admin.yaml` :
+
+    ```yaml
+        easy_admin:
+            entities:
+                YourEntity:
+                    class: App\Entity\YourEntity
+                    embeddedList:
+                        open_new_tab: false
+    ```
+
 ### Autocomplete add new option 'create' for modal in new and edit
 
 #### Configure form type 'easyadmin_autocomplete', add type_options: { attr: { create: true } }
