@@ -45,7 +45,6 @@
         "symfony/phpunit-bridge": "^4.3.5|^5.0",
         "symfony/polyfill-mbstring": "^1.7",
         "symfony/security-bundle": "^4.2|^5.0",
-        "symfony/templating": "^4.2|^5.0",
         "symfony/thanks": "^1.2.4",
         "symfony/twig-bundle": "^4.2|^5.0",
         "symfony/var-dumper": "^4.2|^5.0",
