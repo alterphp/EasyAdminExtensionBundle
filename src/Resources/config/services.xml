@@ -8,6 +8,9 @@
         <service id="AlterPHP\EasyAdminExtensionBundle\Controller\EasyAdminController" parent="EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController" autowire="true">
             <tag name="container.service_subscriber" />
         </service>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Controller\MongoOdmEasyAdminController" parent="AlterPHP\EasyAdminMongoOdmBundle\Controller\EasyAdminController" autowire="true">
+            <tag name="container.service_subscriber" />
+        </service>
 
         <service id="AlterPHP\EasyAdminExtensionBundle\Twig\EasyAdminExtensionTwigExtension">
             <argument type="service" id="router" />
