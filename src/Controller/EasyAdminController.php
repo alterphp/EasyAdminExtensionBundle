@@ -13,4 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class EasyAdminController extends BaseEasyAdminControler
 {
     use AdminExtensionControllerTrait;
+	
+	public static function getSubscribedServices(): array
+    {
+        return \array_merge(parent::getSubscribedServices(), [AdminAuthorizationChecker::class]);
+    }
 }

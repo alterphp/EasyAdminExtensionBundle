@@ -10,11 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait AdminExtensionControllerTrait
 {
-    public static function getSubscribedServices(): array
-    {
-        return \array_merge(parent::getSubscribedServices(), [AdminAuthorizationChecker::class]);
-    }
-
     protected function embeddedListAction()
     {
         $this->dispatch(EasyAdminEvents::PRE_LIST);
