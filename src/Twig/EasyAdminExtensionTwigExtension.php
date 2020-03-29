@@ -6,6 +6,7 @@ use AlterPHP\EasyAdminMongoOdmBundle\Configuration\ConfigManager as MongoOdmConf
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager as EntityConfigManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -37,7 +38,7 @@ class EasyAdminExtensionTwigExtension extends AbstractExtension
     }
 
     public function getActionsForItem(
-        \Twig_Environment $twig, string $view, string $objectType, string $objectName
+        Environment $twig, string $view, string $objectType, string $objectName
     ) {
         if ('document' === $objectType && $twig->getFunction('easyadmin_mongo_odm_get_actions_for_*_item')) {
             $function = $twig->getFunction('easyadmin_mongo_odm_get_actions_for_*_item');
@@ -49,7 +50,7 @@ class EasyAdminExtensionTwigExtension extends AbstractExtension
     }
 
     public function renderObjectField(
-        \Twig_Environment $twig, string $view, string $objectType, string $objectName, $item, array $fieldMetadata
+        Environment $twig, string $view, string $objectType, string $objectName, $item, array $fieldMetadata
     ) {
         if ('document' === $objectType && $twig->getFunction('easyadmin_mongo_odm_render_field_for_*_view')) {
             $function = $twig->getFunction('easyadmin_mongo_odm_render_field_for_*_view');
