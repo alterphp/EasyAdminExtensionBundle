@@ -4,8 +4,8 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 
 use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use League\Uri\Modifiers\RemoveQueryParams;
-use League\Uri\Schemes\Http;
+use League\Uri\Uri;
+use League\Uri\UriModifier;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait AdminExtensionControllerTrait
@@ -34,9 +34,9 @@ trait AdminExtensionControllerTrait
         $baseMasterRequestUri = !$this->request->isXmlHttpRequest()
             ? $this->get('request_stack')->getMasterRequest()->getUri()
             : $this->request->headers->get('referer');
-        $baseMasterRequestUri = Http::createFromString($baseMasterRequestUri);
-        $removeRefererModifier = new RemoveQueryParams(['referer']);
-        $masterRequestUri = $removeRefererModifier->process($baseMasterRequestUri);
+
+        $baseMasterRequestUri = Uri::createFromString($baseMasterRequestUri);
+        $masterRequestUri = UriModifier::removeParams($baseMasterRequestUri, 'referer');
 
         $requestParameters = $this->request->query->all();
         $requestParameters['referer'] = (string) $masterRequestUri;
