@@ -32,9 +32,9 @@ trait AdminExtensionControllerTrait
         $baseMasterRequestUri = !$this->request->isXmlHttpRequest()
             ? $this->get('request_stack')->getMasterRequest()->getUri()
             : $this->request->headers->get('referer');
-        parse_str(parse_url($baseMasterRequestUri, PHP_URL_QUERY), $parameters);
-        unset($parameters['referer']);
-        $masterRequestUri = sprintf('%s?%s', strtok($baseMasterRequestUri, '?'), http_build_query($parameters));
+        \parse_str(\parse_url($baseMasterRequestUri, PHP_URL_QUERY), $queryParameters);
+        unset($queryParameters['referer']);
+        $masterRequestUri = \sprintf('%s?%s', \strtok($baseMasterRequestUri, '?'), \http_build_query($queryParameters));
 
         $requestParameters = $this->request->query->all();
         $requestParameters['referer'] = $masterRequestUri;
