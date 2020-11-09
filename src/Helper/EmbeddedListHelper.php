@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -99,6 +100,7 @@ class EmbeddedListHelper
 
         $entityAssociations = $entityClassMetadata->getAssociationMappings();
         $parentEntityFqcn = \get_class($parentEntity);
+        $parentEntityFqcn = ClassUtils::getRealClass($parentEntityFqcn);
         foreach ($entityAssociations as $assoc) {
             // If association matches embeddedList relation
             if ($parentEntityFqcn === $assoc['targetEntity'] && $parentEntityProperty === $assoc['inversedBy']) {
