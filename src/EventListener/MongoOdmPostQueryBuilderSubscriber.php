@@ -59,33 +59,33 @@ class MongoOdmPostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscri
         switch ($operator) {
             case ListFilter::OPERATOR_EQUALS:
                 if ('_NULL' === $value) {
-                    $filterExpr = $queryBuilder->expr()->field($field)->equals(null);
+                    $filterExpr = $queryBuilder->expr()->field($queryField)->equals(null);
                 } elseif ('_NOT_NULL' === $value) {
-                    $filterExpr = $queryBuilder->expr()->field($field)->notEqual(null);
+                    $filterExpr = $queryBuilder->expr()->field($queryField)->notEqual(null);
                 } else {
-                    $filterExpr = $queryBuilder->expr()->field($field)->equals($value);
+                    $filterExpr = $queryBuilder->expr()->field($queryField)->equals($value);
                 }
                 break;
             case ListFilter::OPERATOR_NOT:
-                $filterExpr = $queryBuilder->expr()->field($field)->not($value);
+                $filterExpr = $queryBuilder->expr()->field($queryField)->not($value);
                 break;
             case ListFilter::OPERATOR_IN:
                 // Checks that $value is not an empty Traversable
                 if (0 < \count($value)) {
-                    $filterExpr = $queryBuilder->expr()->field($field)->in($value);
+                    $filterExpr = $queryBuilder->expr()->field($queryField)->in($value);
                 }
                 break;
             case ListFilter::OPERATOR_GT:
-                $filterExpr = $queryBuilder->expr()->field($field)->gt($value);
+                $filterExpr = $queryBuilder->expr()->field($queryField)->gt($value);
                 break;
             case ListFilter::OPERATOR_GTE:
-                $filterExpr = $queryBuilder->expr()->field($field)->gte($value);
+                $filterExpr = $queryBuilder->expr()->field($queryField)->gte($value);
                 break;
             case ListFilter::OPERATOR_LT:
-                $filterExpr = $queryBuilder->expr()->field($field)->lt($value);
+                $filterExpr = $queryBuilder->expr()->field($queryField)->lt($value);
                 break;
             case ListFilter::OPERATOR_LTE:
-                $filterExpr = $queryBuilder->expr()->field($field)->lte($value);
+                $filterExpr = $queryBuilder->expr()->field($queryField)->lte($value);
                 break;
 
             case ListFilter::OPERATOR_NOTIN:
