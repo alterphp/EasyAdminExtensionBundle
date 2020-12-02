@@ -3,7 +3,7 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Types\Type as DBALType;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
