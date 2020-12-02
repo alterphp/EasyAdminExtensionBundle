@@ -19,7 +19,6 @@ matrix:
         - php: 7.1
           env: CHECK_PHP_SYNTAX="true"
                COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=weak
-               SYMFONY_VERSION="4.2.*"
                TWIG_VERSION="^2.4"
 
         - php: 7.2
@@ -27,7 +26,6 @@ matrix:
 
         - php: 7.3
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=weak
-               SYMFONY_VERSION="4.2.*"
                TWIG_VERSION="^2.4"
                ENABLE_CODE_COVERAGE="true"
 
