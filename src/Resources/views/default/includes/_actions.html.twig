@@ -11,7 +11,7 @@
 
   {% set confirm = false %}
   {% if action.confirm is defined %}
-    {% set confirm = action.confirm|default('confirm_modal.content'|trans(trans_parameters, 'EasyAdminBundle')) %}
+    {% set confirm = (action.confirm|trans({}, translation_domain))|default('confirm_modal.content'|trans({}, 'EasyAdminBundle')) %}
   {% endif %}
 
   {{ action_macros.action_tpl(action, item_id, action_href, confirm, trans_parameters, translation_domain) }}
