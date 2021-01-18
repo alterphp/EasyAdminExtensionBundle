@@ -3,9 +3,9 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Types\Type as DBALType;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
