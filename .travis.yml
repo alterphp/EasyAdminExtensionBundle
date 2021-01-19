@@ -21,9 +21,6 @@ matrix:
                COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=weak
                TWIG_VERSION="^2.4"
 
-        - php: 7.2
-          env: COMPOSER_FLAGS="--ignore-platform-reqs"
-
         - php: 7.3
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=weak
                TWIG_VERSION="^2.4"
@@ -39,12 +36,12 @@ matrix:
 before_install:
     - phpenv config-rm xdebug.ini || true
     - if [[ "$CHECK_PHP_SYNTAX" == "true" ]]; then wget https://cs.symfony.com/download/php-cs-fixer-v2.phar -O php-cs-fixer; fi
-    - phpenv global 7.2; composer global require --prefer-dist --no-progress --no-scripts --no-plugins symfony/flex dev-master; phpenv global $TRAVIS_PHP_VERSION
+    - phpenv global 7.3; composer global require --prefer-dist --no-progress --no-scripts --no-plugins symfony/flex dev-master; phpenv global $TRAVIS_PHP_VERSION
     - if [[ "$ENABLE_CODE_COVERAGE" != "true" && "$TRAVIS_EVENT_TYPE" != "cron" ]]; then rm -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini; fi;
 
 install:
     - composer update $COMPOSER_FLAGS --no-interaction
-    - phpenv global 7.2; ./vendor/bin/simple-phpunit install; phpenv global $TRAVIS_PHP_VERSION
+    - phpenv global 7.3; ./vendor/bin/simple-phpunit install; phpenv global $TRAVIS_PHP_VERSION
     - if [[ "$ENABLE_CODE_COVERAGE" == "true" ]]; then composer require --dev php-coveralls/php-coveralls; fi
 
 script:
