@@ -3,7 +3,7 @@
 namespace AlterPHP\EasyAdminExtensionBundle\Tests\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Configuration\ListFormFiltersConfigPass;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class ListFormFiltersConfigPassTest extends \PHPUnit_Framework_TestCase
 {
