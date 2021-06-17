@@ -69,13 +69,19 @@
                         {% set _column_label =  'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') %}
                         <td class="actions">
                         {% block item_actions %}
-                            {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
-                                actions: _list_item_actions|prune_item_actions(_entity_config, ['delete'], item),
-                                request_parameters: _request_parameters,
-                                translation_domain: _entity_config.translation_domain,
-                                trans_parameters: _trans_parameters,
-                                item_id: _item_id
-                            }, with_context = false) }}
+                          {% set _actions_template = _entity_config.list.collapse_actions
+                            ? '@EasyAdmin/default/includes/_actions_dropdown.html.twig'
+                            : '@EasyAdmin/default/includes/_actions.html.twig'
+                          %}
+                          {{ include(_actions_template, {
+                            actions: _list_item_actions|prune_item_actions(_entity_config, ['delete'], item),
+                            entity_config: _entity_config,
+                            request_parameters: _request_parameters,
+                            translation_domain: _entity_config.translation_domain,
+                            trans_parameters: _trans_parameters,
+                            item_id: _item_id,
+                            item: item
+                          }, with_context = false) }}
                         {% endblock item_actions %}
                         </td>
                     {% endif %}

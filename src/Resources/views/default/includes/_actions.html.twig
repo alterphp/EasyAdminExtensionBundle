@@ -1,5 +1,3 @@
-{% import _self as action_macros %}
-
 {% for action in actions %}
   {% if 'list' == action.name %}
       {% set action_href = request_parameters.referer|default('') ? request_parameters.referer|easyadmin_urldecode : path('easyadmin', request_parameters|merge({ action: 'list' })) %}
@@ -14,14 +12,17 @@
     {% set confirm = (action.confirm|trans({}, translation_domain))|default('confirm_modal.content'|trans({}, 'EasyAdminBundle')) %}
   {% endif %}
 
-  {{ action_macros.action_tpl(action, item_id, action_href, confirm, trans_parameters, translation_domain) }}
-{% endfor %}
 
-{% macro action_tpl(action, item_id, action_href, confirm, trans_parameters, translation_domain) %}
-  <a name="{{ action.name }}" class="{{ action.css_class|default('') }}" title="{{ action.title|default('') is empty ? '' : action.title|trans(trans_parameters, translation_domain) }}" {% if not confirm %}href="{{ action_href }}" target="{{ action.target }}"{% else %}href="#" data-href="{{ action_href }}" data-confirm="{{ confirm }}"{% endif %}>
-    {%- if action.icon %}<i class="fa fa-{{ action.icon }}"></i> {% endif -%}
-    {%- if action.label is defined and not action.label is empty -%}
-      {{ action.label|trans(trans_parameters|merge({ '%entity_id%': item_id }), translation_domain) }}
-    {%- endif -%}
-  </a>
-{% endmacro %}
+  {{ include(action.template, {
+    action: action,
+    action_href: action_href,
+    is_dropdown: is_dropdown|default(false),
+    item: item,
+    item_id: item_id,
+    request_parameters: request_parameters,
+    translation_domain: translation_domain,
+    trans_parameters: trans_parameters,
+    confirm: confirm
+  }, with_context = false) }}
+
+{% endfor %}
