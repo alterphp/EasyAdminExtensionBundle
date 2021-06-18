@@ -422,6 +422,9 @@ easyadmin:
                     - { name: disable, icon: ban, title: Disable user, label: false, target: _blank, confirm: User will lose any access to the platform ! }
 ```
 
+To keep the confirmation modal behavior while creating [a custom action template](https://symfony.com/doc/2.x/bundles/EasyAdminBundle/tutorials/custom-actions.html#custom-templates-for-actions) you need to use the action template provided by this bundle, replacing ` {{ include('@EasyAdmin/default/action.html.twig') }}
+` by ` {{ include('@EasyAdminExtension/default/action.html.twig') }}`.
+
 ### Exclude fields in forms
 
 ```yaml
