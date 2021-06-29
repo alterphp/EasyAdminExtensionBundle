@@ -37,7 +37,7 @@ trait AdminExtensionControllerTrait
         $masterRequestUri = \sprintf('%s?%s', \strtok($baseMasterRequestUri, '?'), \http_build_query($queryParameters));
 
         $requestParameters = $this->request->query->all();
-        $requestParameters['referer'] = $masterRequestUri;
+        $requestParameters['referer'] = urlencode($masterRequestUri);
 
         $viewVars = [
             'paginator' => $paginator,
