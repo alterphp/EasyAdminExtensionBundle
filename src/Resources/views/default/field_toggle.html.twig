@@ -1,5 +1,18 @@
 {% if is_easyadmin_granted(entity_config, 'edit', item) %}
-    {% include '@!EasyAdmin/default/field_toggle.html.twig' %}
-{% else %}
+  {# Copied from original field_toggle.html.twig #}
+  {% trans_default_domain 'EasyAdminBundle' %}
+
+  {% if view == 'show' or ('edit' in backend_config.disabled_actions) %}
     {% include '@EasyAdmin/default/field_boolean.html.twig' %}
+  {% else %}
+    <div class="checkbox-switch" data-propertyname="{{ field_options.property }}">
+      <label>
+        <input type="checkbox" autocomplete="off" {{ value == true ? 'checked' }}>
+        {# the empty <span> is needed for styling. Don't remove it! #}<span></span>
+      </label>
+    </div>
+  {% endif %}
+
+{% else %}
+  {% include '@EasyAdmin/default/field_boolean.html.twig' %}
 {% endif %}
