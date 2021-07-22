@@ -1,4 +1,6 @@
-{% extends '@!EasyAdmin/default/layout.html.twig' %}
+{% extends easyadmin_object_base_twig_path(app.request, 'default/layout.html.twig') %}
+
+{% set _object_config = easyadmin_object(app.request) %}
 
 {% block head_stylesheets %}
   {{ parent() }}
@@ -15,7 +17,7 @@
 
   {% block create_entity_modal %}
     {{ include('@EasyAdmin/includes/_create_entity_modal.html.twig', {
-      _translation_domain: _entity_config.translation_domain|default(easyadmin_config('translation_domain')),
+      _translation_domain: _object_config.translation_domain|default(easyadmin_config('translation_domain')),
       _trans_parameters: _trans_parameters|default([]),
     }, with_context = false) }}
   {% endblock create_entity_modal %}
@@ -24,7 +26,7 @@
 
   {% block confirm_modal %}
     {{ include('@EasyAdmin/includes/_confirm_modal.html.twig', {
-      _translation_domain: _entity_config.translation_domain|default(easyadmin_config('translation_domain')),
+      _translation_domain: _object_config.translation_domain|default(easyadmin_config('translation_domain')),
       _trans_parameters: _trans_parameters|default([]),
     }, with_context = false) }}
   {% endblock confirm_modal %}

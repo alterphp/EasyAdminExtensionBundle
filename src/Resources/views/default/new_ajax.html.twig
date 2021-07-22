@@ -2,17 +2,17 @@
 
 {% block head_stylesheets %}
     <style>
-        #create-entity-modal .main-sidebar,
-        #create-entity-modal .main-header {
+        #create-object-modal .main-sidebar,
+        #create-object-modal .main-header {
             display: none !important;
         }
-        #create-entity-modal .wrapper {
+        #create-object-modal .wrapper {
             grid-template-columns: none !important;
             grid-column-gap: none !important;
             grid-template-areas: none !important;
         }
-        #create-entity-modal .content-wrapper,
-        #create-entity-modal .main-footer {
+        #create-object-modal .content-wrapper,
+        #create-object-modal .main-footer {
             margin-left: 0 !important;
         }
     </style>
@@ -23,7 +23,7 @@
 {% block header %}{% endblock %}
 {% block sidebar %}{% endblock %}
 {% block confirm_modal %}{% endblock %}
-{% block create_entity_modal %}{% endblock %}
+{% block create_object_modal %}{% endblock %}
 {% block body_javascript %}
     {% set _select2_locales = ['ar', 'az', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'is', 'it', 'ja', 'km', 'ko', 'lt', 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'pt-BR', 'pt', 'ro', 'ru', 'sk', 'sr-Cyrl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-CN', 'zh-TW'] %}
     {% set _app_language = app.request.locale|split('-')|first|split('_')|first %}
@@ -38,7 +38,7 @@
     $(function() {
         // Select2 widget is only enabled for the <select> elements which
         // explicitly ask for it
-        $('#create-entity-modal').find('form select[data-widget="select2"]').select2({
+        $('#create-object-modal').find('form select[data-widget="select2"]').select2({
             theme: 'bootstrap',
             language: '{{ _select2_locale }}'
         });
