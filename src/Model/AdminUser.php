@@ -91,7 +91,7 @@ class AdminUser implements UserInterface
      */
     public function getPassword()
     {
-        return '';
+        return null;
     }
 
     /**
