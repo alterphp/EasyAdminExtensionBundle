@@ -5,8 +5,8 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 
 /**
- * Initializes the configuration for all the views of each entity, which is
- * needed when some entity relies on the default configuration for some view.
+ * Initializes the configuration for all the views of each object of type "%s", which is
+ * needed when some object of type "%s" relies on the default configuration for some view.
  */
 class EmbeddedListViewConfigPass implements ConfigPassInterface
 {
@@ -31,9 +31,13 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
      */
     private function processOpenNewTabConfig(array $backendConfig)
     {
-        foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (!isset($entityConfig['embeddedList']['open_new_tab'])) {
-                $backendConfig['entities'][$entityName]['embeddedList']['open_new_tab'] = $this->defaultOpenNewTab;
+        foreach (['entities', 'documents'] as $objectTypeRootKey) {
+            if (isset($backendConfig[$objectTypeRootKey]) && \is_array($backendConfig[$objectTypeRootKey])) {
+                foreach ($backendConfig[$objectTypeRootKey] as $objectName => $objectConfig) {
+                    if (!isset($objectConfig['embeddedList']['open_new_tab'])) {
+                        $backendConfig[$objectTypeRootKey][$objectName]['embeddedList']['open_new_tab'] = $this->defaultOpenNewTab;
+                    }
+                }
             }
         }
 
@@ -45,25 +49,29 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
      */
     private function processSortingConfig(array $backendConfig)
     {
-        foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (
-                !isset($entityConfig['embeddedList']['sort'])
-                && isset($entityConfig['list']['sort'])
-            ) {
-                $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $entityConfig['list']['sort'];
-            } elseif (isset($entityConfig['embeddedList']['sort'])) {
-                $sortConfig = $entityConfig['embeddedList']['sort'];
-                if (!\is_string($sortConfig) && !\is_array($sortConfig)) {
-                    throw new \InvalidArgumentException(\sprintf('The "sort" option of the "embeddedList" view of the "%s" entity contains an invalid value (it can only be a string or an array).', $entityName));
-                }
+        foreach (['entities', 'documents'] as $objectTypeRootKey) {
+            if (isset($backendConfig[$objectTypeRootKey]) && \is_array($backendConfig[$objectTypeRootKey])) {
+                foreach ($backendConfig[$objectTypeRootKey] as $objectName => $objectConfig) {
+                    if (
+                        !isset($objectConfig['embeddedList']['sort'])
+                        && isset($objectConfig['list']['sort'])
+                    ) {
+                        $backendConfig[$objectTypeRootKey][$objectName]['embeddedList']['sort'] = $objectConfig['list']['sort'];
+                    } elseif (isset($objectConfig['embeddedList']['sort'])) {
+                        $sortConfig = $objectConfig['embeddedList']['sort'];
+                        if (!\is_string($sortConfig) && !\is_array($sortConfig)) {
+                            throw new \InvalidArgumentException(\sprintf('The "sort" option of the "embeddedList" view of the "%s" object contains an invalid value (it can only be a string or an array).', $objectName));
+                        }
 
-                if (\is_string($sortConfig)) {
-                    $sortConfig = ['field' => $sortConfig, 'direction' => 'DESC'];
-                } else {
-                    $sortConfig = ['field' => $sortConfig[0], 'direction' => \strtoupper($sortConfig[1])];
-                }
+                        if (\is_string($sortConfig)) {
+                            $sortConfig = ['field' => $sortConfig, 'direction' => 'DESC'];
+                        } else {
+                            $sortConfig = ['field' => $sortConfig[0], 'direction' => \strtoupper($sortConfig[1])];
+                        }
 
-                $backendConfig['entities'][$entityName]['embeddedList']['sort'] = $sortConfig;
+                        $backendConfig[$objectTypeRootKey][$objectName]['embeddedList']['sort'] = $sortConfig;
+                    }
+                }
             }
         }
 
@@ -72,9 +80,13 @@ class EmbeddedListViewConfigPass implements ConfigPassInterface
 
     private function processTemplateConfig(array $backendConfig)
     {
-        foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            if (!isset($entityConfig['embeddedList']['template'])) {
-                $backendConfig['entities'][$entityName]['embeddedList']['template'] = '@EasyAdminExtension/default/embedded_list.html.twig';
+        foreach (['entities', 'documents'] as $objectTypeRootKey) {
+            if (isset($backendConfig[$objectTypeRootKey]) && \is_array($backendConfig[$objectTypeRootKey])) {
+                foreach ($backendConfig[$objectTypeRootKey] as $objectName => $objectConfig) {
+                    if (!isset($objectConfig['embeddedList']['template'])) {
+                        $backendConfig[$objectTypeRootKey][$objectName]['embeddedList']['template'] = '@EasyAdminExtension/default/embedded_list.html.twig';
+                    }
+                }
             }
         }
 

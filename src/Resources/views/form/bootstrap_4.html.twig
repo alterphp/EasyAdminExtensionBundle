@@ -1,18 +1,20 @@
 {% use '@!EasyAdmin/form/bootstrap_4.html.twig' %}
 
 {% block easyadmin_embedded_list_row %}
-  {% set default_ext_filters = entity_fqcn is defined
-                            ? guess_default_filters(entity_fqcn, parent_entity_property, form.parent.vars.data)
+  {% set default_ext_filters = object_fqcn is defined
+                            ? guess_default_filters(object_fqcn, parent_object_property, form.parent.vars.data)
                             : []
   %}
   {% set ext_filters = default_ext_filters|merge(ext_filters) %}
-  {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with {
-    entity: entity,
+  {% set tpl_params = {
+    object_type: object_type,
+    object: 'document' == object_type ? document : entity,
     ext_filters: ext_filters,
     hidden_fields: hidden_fields,
     max_results: max_results,
     sort: sort|default(null)
-  } only %}
+  } %}
+  {% include '@EasyAdmin/includes/_include_embedded_list.html.twig' with tpl_params only %}
 {% endblock %}
 
 {% block easyadmin_admin_roles_widget %}

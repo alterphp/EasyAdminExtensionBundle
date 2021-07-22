@@ -225,20 +225,20 @@ easy_admin_extension:
 
 #### Options
 
-Embedded lists are useful to show relations to en entity in its *NEW/EDIT/FORM* or *SHOW* view. It relies on the *LIST* view of the related entities you want to embed in the parent EDIT/SHOW view. Options must be defined in `type_options` key for a *NEW/EDIT/FORM* view, or in `template_options` for a *SHOW* view.
+Embedded lists are useful to show relations to an object in its *NEW/EDIT/FORM* or *SHOW* view. It relies on the *LIST* view of the related objects you want to embed in the parent EDIT/SHOW view. Options must be defined in `type_options` key for a *NEW/EDIT/FORM* view, or in `template_options` for a *SHOW* view.
 
 Available options are :
 
-- `entity`: Entity config name (key under the EasyAdmin `entities` config)
+- `entity`/`document`: Entity/Document config name (key under the EasyAdmin `entities`/`documents` config)
 - `ext_filters`: Request filters to apply on the list
 - `hidden_fields`: List of fields (columns) to hide from list fields config
 - `max_results`: Number of items par page (list.max_results config is used if not defined)
 - `sort`: Sort to apply
-- `parent_entity_fqcn`: Parent entity FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
-- `parent_entity_property`: Matching property name on parent entity FQCN (only when embedded in *SHOW* view, if `property` is not an ORM field)
-- `entity_fqcn`: Listed entities FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
+- `parent_object_fqcn`: Parent object FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
+- `parent_object_property`: Matching property name on parent object FQCN (only when embedded in *SHOW* view, if `property` is not an ORM/ODM field)
+- `object_fqcn`: Listed entities FQCN in order to guess default filters (only when embedded in *SHOW* view, almost never required)
 
-#### Options guesser based on ORM metadata
+#### Options guesser based on ORM metadata (for entities only)
 
 Service EmbeddedListHelper is intended to guess `entity` entry for embedded_list. It's reads ORM metadata, based on parent entity (the one that embeds the list) and property name.
 

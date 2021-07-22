@@ -1,0 +1,47 @@
+imports:
+    - { resource: config.yaml }
+
+framework:
+    router:
+        resource: '%kernel.root_dir%/config/routing_mongo_odm.yaml'
+
+doctrine_mongodb:
+    auto_generate_proxy_classes: '%kernel.debug%'
+    auto_generate_hydrator_classes: '%kernel.debug%'
+    connections:
+        default:
+            server: 'localhost'
+            options:
+                authSource: "admin"
+                db: 'mongo_db'
+    document_managers:
+        default:
+            connection: default
+            database: 'mongo_db'
+            mappings:
+                App:
+                    is_bundle: false
+                    type: annotation
+                    dir: '%kernel.root_dir%/../AppTestBundle/Document/FunctionalTests/'
+                    prefix: AppTestBundle\Document\FunctionalTests\
+                    alias: FunctionalTests
+    default_document_manager: default
+    default_connection: default
+
+easy_admin:
+    entities:
+        Category:
+            class: AppTestBundle\Entity\FunctionalTests\Category
+        Product:
+            class: AppTestBundle\Entity\FunctionalTests\Product
+        Purchase:
+            class: AppTestBundle\Entity\FunctionalTests\Purchase
+        AdminGroup:
+            class: AppTestBundle\Entity\FunctionalTests\AdminGroup
+        AdminUser:
+            class: AppTestBundle\Entity\FunctionalTests\AdminUser
+
+easy_admin_mongo_odm:
+    documents:
+        RequestLog:
+            class: AppTestBundle\Document\FunctionalTests\RequestLog

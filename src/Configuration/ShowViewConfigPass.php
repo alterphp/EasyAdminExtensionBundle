@@ -47,21 +47,25 @@ class ShowViewConfigPass implements ConfigPassInterface
      */
     private function processCustomShowTypes(array $backendConfig)
     {
-        foreach ($backendConfig['entities'] as $entityName => $entityConfig) {
-            foreach ($entityConfig['show']['fields'] as $fieldName => $fieldMetadata) {
-                if (\array_key_exists($fieldMetadata['type'], static::$mapTypeToTemplates)) {
-                    $template = $this->isFieldTemplateDefined($fieldMetadata)
-                                    ? $fieldMetadata['template']
-                                    : static::$mapTypeToTemplates[$fieldMetadata['type']];
-                    $entityConfig['show']['fields'][$fieldName]['template'] = $template;
+        foreach (['entities', 'documents'] as $objectTypeRootKey) {
+            if (isset($backendConfig[$objectTypeRootKey]) && \is_array($backendConfig[$objectTypeRootKey])) {
+                foreach ($backendConfig[$objectTypeRootKey] as $objectName => $objectConfig) {
+                    foreach ($objectConfig['show']['fields'] as $fieldName => $fieldMetadata) {
+                        if (\array_key_exists($fieldMetadata['type'], static::$mapTypeToTemplates)) {
+                            $template = $this->isFieldTemplateDefined($fieldMetadata)
+                                            ? $fieldMetadata['template']
+                                            : static::$mapTypeToTemplates[$fieldMetadata['type']];
+                            $objectConfig['show']['fields'][$fieldName]['template'] = $template;
 
-                    $entityConfig['show']['fields'][$fieldName]['template_options'] = $this->processTemplateOptions(
-                        $fieldMetadata['type'], $fieldMetadata
-                    );
+                            $objectConfig['show']['fields'][$fieldName]['template_options'] = $this->processTemplateOptions(
+                                $fieldMetadata['type'], $fieldMetadata
+                            );
+                        }
+                    }
+
+                    $backendConfig[$objectTypeRootKey][$objectName] = $objectConfig;
                 }
             }
-
-            $backendConfig['entities'][$entityName] = $entityConfig;
         }
 
         return $backendConfig;
@@ -79,19 +83,47 @@ class ShowViewConfigPass implements ConfigPassInterface
 
         switch ($type) {
             case 'embedded_list':
-                $parentEntityFqcn = $templateOptions['parent_entity_fqcn'] ?? $fieldMetadata['sourceEntity'];
-                $parentEntityProperty = $templateOptions['parent_entity_property'] ?? $fieldMetadata['property'];
-                $entityFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(
-                    $parentEntityFqcn, $parentEntityProperty
+                // Deprecations
+                if (isset($templateOptions['entity_fqcn']) && !isset($templateOptions['object_fqcn'])) {
+                    $templateOptions['object_fqcn'] = $templateOptions['entity_fqcn'];
+                    unset($templateOptions['entity_fqcn']);
+
+                    \trigger_error(\sprintf('The "entity_fqcn" option for embedded_list is deprecated since version 1.4.0 and it will be removed in 2.0. Use the "object_fqcn" option instead.'), E_USER_DEPRECATED);
+                }
+                if (isset($templateOptions['parent_entity_fqcn']) && !isset($templateOptions['parent_object_fqcn'])) {
+                    $templateOptions['parent_object_fqcn'] = $templateOptions['parent_entity_fqcn'];
+                    unset($templateOptions['parent_entity_fqcn']);
+
+                    \trigger_error(\sprintf('The "parent_entity_fqcn" option for embedded_list is deprecated since version 1.4.0 and it will be removed in 2.0. Use the "parent_object_fqcn" option instead.'), E_USER_DEPRECATED);
+                }
+                if (isset($templateOptions['parent_entity_property']) && !isset($templateOptions['parent_object_property'])) {
+                    $templateOptions['parent_object_property'] = $templateOptions['parent_entity_property'];
+                    unset($templateOptions['parent_entity_property']);
+
+                    \trigger_error(\sprintf('The "parent_entity_property" option for embedded_list is deprecated since version 1.4.0 and it will be removed in 2.0. Use the "parent_object_property" option instead.'), E_USER_DEPRECATED);
+                }
+
+                $parentObjectFqcn = $templateOptions['parent_object_fqcn'] ?? $fieldMetadata['sourceEntity'];
+                $parentObjectProperty = $templateOptions['parent_object_property'] ?? $fieldMetadata['property'];
+                $objectFqcn = $this->embeddedListHelper->getEntityFqcnFromParent(
+                    $parentObjectFqcn, $parentObjectProperty
                 );
-                if (!isset($templateOptions['entity_fqcn'])) {
-                    $templateOptions['entity_fqcn'] = $entityFqcn;
+
+                if (isset($templateOptions['document'])) {
+                    $templateOptions['object_type'] = 'document';
+                } else {
+                    $templateOptions['object_type'] = 'entity';
                 }
-                if (!isset($templateOptions['parent_entity_property'])) {
-                    $templateOptions['parent_entity_property'] = $parentEntityProperty;
+
+                if (!isset($templateOptions['entity']) && !isset($templateOptions['document'])) {
+                    $templateOptions['entity'] = $this->embeddedListHelper->guessEntityEntry($objectFqcn);
                 }
-                if (!isset($templateOptions['entity'])) {
-                    $templateOptions['entity'] = $this->embeddedListHelper->guessEntityEntry($entityFqcn);
+
+                if (!isset($templateOptions['object_fqcn'])) {
+                    $templateOptions['object_fqcn'] = $objectFqcn;
+                }
+                if (!isset($templateOptions['parent_object_property'])) {
+                    $templateOptions['parent_object_property'] = $parentObjectProperty;
                 }
                 if (!isset($templateOptions['ext_filters'])) {
                     $templateOptions['ext_filters'] = [];

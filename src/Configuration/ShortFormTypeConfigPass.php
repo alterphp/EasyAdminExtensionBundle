@@ -41,15 +41,16 @@ class ShortFormTypeConfigPass implements ConfigPassInterface
 
     private function replaceShortNameTypes(array $backendConfig)
     {
-        if (
-            !isset($backendConfig['entities'])
-            || !\is_array($backendConfig['entities'])
-        ) {
-            return $backendConfig;
+        if (isset($backendConfig['entities']) && \is_array($backendConfig['entities'])) {
+            foreach ($backendConfig['entities'] as &$entityConfig) {
+                $entityConfig = $this->replaceShortFormTypesInObjectConfig($entityConfig);
+            }
         }
 
-        foreach ($backendConfig['entities'] as &$entity) {
-            $entity = $this->replaceShortFormTypesInObjectConfig($entity);
+        if (isset($backendConfig['documents']) && \is_array($backendConfig['documents'])) {
+            foreach ($backendConfig['documents'] as &$documentConfig) {
+                $documentConfig = $this->replaceShortFormTypesInObjectConfig($documentConfig);
+            }
         }
 
         return $backendConfig;

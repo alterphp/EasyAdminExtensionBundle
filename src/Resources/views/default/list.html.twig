@@ -1,5 +1,7 @@
-{% extends '@!EasyAdmin/default/list.html.twig' %}
+{% extends easyadmin_object_base_twig_path(app.request, 'default/list.html.twig') %}
 
+{% set _object_config = easyadmin_object(app.request) %}
+{% set _object_type = easyadmin_object_type(app.request) %}
 {% set requestExtFilters = app.request.get('ext_filters', {}) %}
 {% set _request_parameters = _request_parameters|default({})|merge({
     ext_filters: requestExtFilters
@@ -36,7 +38,7 @@
 
 {# Do not display SEARCH form if not granted #}
 {% block search_action %}
-  {% if is_easyadmin_granted(_entity_config, 'search') %}
+  {% if is_easyadmin_granted(_object_config, 'search') %}
     {{ parent() }}
   {% endif %}
 {% endblock %}
@@ -48,20 +50,20 @@
 
 {# Do not display NEW button if not granted #}
 {% block new_action %}
-  {% if is_easyadmin_granted(_entity_config, 'new') %}
+  {% if is_easyadmin_granted(_object_config, 'new') %}
     {{ parent() }}
   {% endif %}
 {% endblock %}
 
 {# Do not display list action items if not granted #}
 {% block item_actions %}
-  {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config, [], item) %}
+  {% set _list_item_actions = _list_item_actions|prune_item_actions(_object_config, [], item) %}
   {{ parent() }}
 {% endblock %}
 
 {% block list_form_filters %}
-  {% if _entity_config.list.form_filters is defined and _entity_config.list.form_filters is not empty %}
-  {% set list_form_filters = list_form_filters(_entity_config.list.form_filters) %}
+  {% if _object_config.list.form_filters is defined and _object_config.list.form_filters is not empty %}
+  {% set list_form_filters = list_form_filters(_object_config.list.form_filters) %}
   <div id="list-form-filters">
     <div id="list-form-filters-header" class="{{ not list_form_filters.vars.submitted ? 'collapsed' }}" role="button" data-toggle="collapse" data-target="#list-form-filters-form">
       <strong>{{ 'list_form_filters.heading_title'|trans(_trans_parameters, 'EasyAdminBundle') }}</strong>
@@ -69,14 +71,14 @@
         <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
-    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'show' }}" method="GET" action="{{ path('easyadmin', _request_parameters) }}">
+    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'show' }}" method="GET" action="{{ easyadmin_path(_request_parameters) }}">
       <div class="row">
         <div class="col-11">
           {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_4.html.twig' %}
           {{ block('request_parameters_as_hidden') }}
-          <input type="hidden" name="entity" value="{{ _request_parameters.entity }}">
-          <input type="hidden" name="sortField" value="{{ _entity_config.search.sort.field|default(_request_parameters.sortField) }}">
-          <input type="hidden" name="sortDirection" value="{{ _entity_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
+          <input type="hidden" name="{{ easyadmin_object_type(app.request) }}" value="{{ attribute(_request_parameters, easyadmin_object_type(app.request)) }}">
+          <input type="hidden" name="sortField" value="{{ _object_config.search.sort.field|default(_request_parameters.sortField) }}">
+          <input type="hidden" name="sortDirection" value="{{ _object_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
           <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
           <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
           <div class="row">
