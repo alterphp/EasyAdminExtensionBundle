@@ -33,7 +33,7 @@ class AdminUser implements UserInterface
      */
     public function __toString()
     {
-        return $this->getUsername();
+        return $this->getUserIdentifier();
     }
 
     /**
@@ -104,8 +104,18 @@ class AdminUser implements UserInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated since Symfony 5.3
      */
     public function getUsername()
+    {
+        return $this->getUserIdentifier();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserIdentifier(): string
     {
         return $this->email;
     }

@@ -63,8 +63,18 @@ class User
 
     /**
      * @return string
+     *
+     * @deprecated since Symfony 5.3
      */
     public function getUsername()
+    {
+        return $this->getUserIdentifier();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
