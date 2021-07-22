@@ -7,28 +7,13 @@ use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Apply filters on list/search queryBuilder.
  */
-class PostQueryBuilderSubscriber implements EventSubscriberInterface
+class PostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscriber
 {
-    /**
-     * @var \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper
-     */
-    protected $listFormFiltersHelper;
-
-    /**
-     * ListFormFiltersExtension constructor.
-     *
-     * @param \AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper $listFormFiltersHelper
-     */
-    public function __construct($listFormFiltersHelper)
-    {
-        $this->listFormFiltersHelper = $listFormFiltersHelper;
-    }
+    protected const APPLIABLE_OBJECT_TYPE = 'entity';
 
     /**
      * {@inheritdoc}
@@ -42,71 +27,11 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Called on POST_LIST_QUERY_BUILDER event.
+     * {@inheritdoc}
      */
-    public function onPostListQueryBuilder(GenericEvent $event)
+    protected function supportsQueryBuilder($queryBuilder): bool
     {
-        $queryBuilder = $event->getArgument('query_builder');
-
-        // Request filters
-        if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('ext_filters', []));
-        }
-
-        // List form filters
-        if ($event->hasArgument('entity')) {
-            $entityConfig = $event->getArgument('entity');
-            if (isset($entityConfig['list']['form_filters'])) {
-                $listFormFiltersForm = $this->listFormFiltersHelper->getListFormFilters($entityConfig['list']['form_filters']);
-                if ($listFormFiltersForm->isSubmitted() && $listFormFiltersForm->isValid()) {
-                    $this->applyFormFilters($queryBuilder, $listFormFiltersForm->getData());
-                }
-            }
-        }
-    }
-
-    /**
-     * Called on POST_SEARCH_QUERY_BUILDER event.
-     */
-    public function onPostSearchQueryBuilder(GenericEvent $event)
-    {
-        $queryBuilder = $event->getArgument('query_builder');
-
-        if ($event->hasArgument('request')) {
-            $this->applyRequestFilters($queryBuilder, $event->getArgument('request')->get('ext_filters', []));
-        }
-    }
-
-    /**
-     * Applies request filters on queryBuilder.
-     */
-    protected function applyRequestFilters(QueryBuilder $queryBuilder, array $filters = [])
-    {
-        foreach ($filters as $field => $value) {
-            // Empty string and numeric keys is considered as "not applied filter"
-            if ('' === $value || \is_int($field)) {
-                continue;
-            }
-
-            $operator = \is_array($value) ? ListFilter::OPERATOR_IN : ListFilter::OPERATOR_EQUALS;
-            $listFilter = ListFilter::createFromRequest($field, $operator, $value);
-
-            $this->filterQueryBuilder($queryBuilder, $field, $listFilter);
-        }
-    }
-
-    /**
-     * Applies form filters on queryBuilder.
-     */
-    protected function applyFormFilters(QueryBuilder $queryBuilder, array $filters = [])
-    {
-        foreach ($filters as $field => $listFilter) {
-            if (null === $listFilter) {
-                continue;
-            }
-
-            $this->filterQueryBuilder($queryBuilder, $field, $listFilter);
-        }
+        return $queryBuilder instanceof QueryBuilder;
     }
 
     /**
@@ -213,19 +138,10 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
         }
     }
 
-    protected function filterEasyadminAutocompleteValue($value)
-    {
-        if (!\is_array($value) || !isset($value['autocomplete']) || 1 !== \count($value)) {
-            return $value;
-        }
-
-        return $value['autocomplete'];
-    }
-
     /**
-     * Checks if filter is directly appliable on queryBuilder.
+     * {@inheritdoc}
      */
-    protected function isFilterAppliable(QueryBuilder $queryBuilder, string $field): bool
+    protected function isFilterAppliable($queryBuilder, string $field): bool
     {
         $qbClone = clone $queryBuilder;
 

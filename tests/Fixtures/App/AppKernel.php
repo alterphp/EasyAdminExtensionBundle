@@ -10,18 +10,35 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class AppKernel extends Kernel
 {
+    private $withMongoOdm = false;
+
+    public function withMongoOdm(bool $withMongoOdm)
+    {
+        $this->withMongoOdm = $withMongoOdm;
+
+        return $this;
+    }
+
     public function registerBundles()
     {
-        return [
+        $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
-            new AlterPHP\EasyAdminExtensionBundle\EasyAdminExtensionBundle(),
-            new AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AppTestBundle\AppTestBundle(),
         ];
+
+        if ($this->withMongoOdm) {
+            $bundles[] = new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle();
+            $bundles[] = new AlterPHP\EasyAdminMongoOdmBundle\EasyAdminMongoOdmBundle();
+        }
+
+        $bundles[] = new AlterPHP\EasyAdminExtensionBundle\EasyAdminExtensionBundle();
+        $bundles[] = new AlterPHP\EasyAdminExtensionBundle\Tests\Fixtures\AppTestBundle\AppTestBundle();
+
+        return $bundles;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
