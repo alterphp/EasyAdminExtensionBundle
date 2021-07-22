@@ -101,7 +101,7 @@
       <tr>
         <td colspan="{{ _columns_count }}" class="text-center">
           {% block open_new_tab %}
-          <a class="btn btn-info btn-sm open-new-tab" title="{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}" target="_blank" href="{{ easyadmin_path(_request_parameters|merge({action: 'list', , referer: null})) }}">
+          <a class="btn btn-info btn-sm open-new-tab" title="{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}" target="_blank" href="{{ easyadmin_path(_request_parameters|merge({action: 'list', referer: null})) }}">
             <i class="fa fa-external-link-square"></i>
             <span>{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}</span>
           </a>
