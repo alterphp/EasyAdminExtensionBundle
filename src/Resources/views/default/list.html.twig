@@ -71,7 +71,7 @@
         <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
-    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'show' }}" method="GET" action="{{ easyadmin_path(_request_parameters) }}">
+    <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'show' }}" method="GET" action="{{ easyadmin_path_from_request_parameters(_request_parameters) }}">
       <div class="row">
         <div class="col-11">
           {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_4.html.twig' %}
