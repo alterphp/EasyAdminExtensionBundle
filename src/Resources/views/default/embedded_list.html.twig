@@ -32,7 +32,7 @@
 
                 <th class="{{ isSortingField ? 'sorted' }} {{ metadata.virtual ? 'virtual' }} {{ metadata.dataType|lower }} {{ metadata.css_class }}" {{ easyadmin_config('design.rtl') ? 'dir="rtl"' }}>
                     {% if metadata.sortable %}
-                        <a href="{{ easyadmin_path(_request_parameters|merge({ sortField: metadata.property, sortDirection: nextSortDirection })) }}">
+                        <a href="{{ easyadmin_path_from_request_parameters(_request_parameters|merge({ sortField: metadata.property, sortDirection: nextSortDirection })) }}">
                             {{ _column_label|raw }} <i class="fa {{ _column_icon }}"></i>
                         </a>
                     {% else %}
@@ -101,7 +101,7 @@
       <tr>
         <td colspan="{{ _columns_count }}" class="text-center">
           {% block open_new_tab %}
-          <a class="btn btn-info btn-sm open-new-tab" title="{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}" target="_blank" href="{{ easyadmin_path(_request_parameters|merge({action: 'list', referer: null})) }}">
+          <a class="btn btn-info btn-sm open-new-tab" title="{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}" target="_blank" href="{{ easyadmin_path_from_request_parameters(_request_parameters|merge({action: 'list', referer: null})) }}">
             <i class="fa fa-external-link-square"></i>
             <span>{{ 'open.new_tab'|trans({}, 'EasyAdminBundle') }}</span>
           </a>
@@ -117,7 +117,7 @@
   <script type="text/javascript">
     reloadEmbeddedList(
       '{{ widget_identifier }}',
-      '{{ easyadmin_path({ action: 'edit', (objectType): _object_config.name, view: 'list' })|raw }}'
+      '{{ easyadmin_path_from_request_parameters({ action: 'edit', (objectType): _object_config.name, view: 'list' })|raw }}'
     );
   </script>
 </div>

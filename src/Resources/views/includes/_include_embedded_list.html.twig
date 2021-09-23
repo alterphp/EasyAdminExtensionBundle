@@ -7,4 +7,4 @@
   {% set action_params = action_params|merge({ 'max-results': max_results}) %}
 {% endif %}
 
-{{ render(easyadmin_path(action_params)) }}
+{{ render(easyadmin_path_from_request_parameters(action_params)) }}
