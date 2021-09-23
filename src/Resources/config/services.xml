@@ -13,6 +13,8 @@
         </service>
 
         <service id="AlterPHP\EasyAdminExtensionBundle\Twig\EasyAdminExtensionTwigExtension">
+            <argument type="service" id="easyadmin.router" />
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Router\MongoOdmEasyAdminRouter" />
             <argument type="service" id="router" />
             <argument type="service" id="easyadmin.config.manager" />
             <argument type="service" id="AlterPHP\EasyAdminMongoOdmBundle\Configuration\ConfigManager" on-invalid="null" />
@@ -108,6 +110,13 @@
             <argument type="service" id="router"/>
             <argument type="service" id="translator"/>
             <tag name="form.type_extension" extended-type="EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType"/>
+        </service>
+
+        <service id="AlterPHP\EasyAdminExtensionBundle\Router\MongoOdmEasyAdminRouter">
+            <argument id="AlterPHP\EasyAdminMongoOdmBundle\Configuration\ConfigManager" type="service" />
+            <argument id="router" type="service" />
+            <argument id="property_accessor" type="service" />
+            <argument id="request_stack" type="service" on-invalid="null" />
         </service>
     </services>
 </container>
