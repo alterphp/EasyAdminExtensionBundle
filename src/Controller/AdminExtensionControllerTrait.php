@@ -14,12 +14,12 @@ trait AdminExtensionControllerTrait
 
         $maxResults = (int) $this->request->query->get('max-results', $this->config['list']['max_results']);
 
-        $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $maxResults, $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
+        $paginator = $this->findAll($this->entity['class'], (int) $this->request->query->get('page', '1'), $maxResults, $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
 
         $this->dispatch(EasyAdminEvents::POST_LIST, ['paginator' => $paginator]);
 
         // Filter displaid columns
-        $hiddenFields = $this->request->query->get('hidden-fields', []);
+        $hiddenFields = (array) ($this->request->query->get('hidden-fields') ?? []);
         $fields = \array_filter(
             $this->entity['list']['fields'],
             function ($name) use ($hiddenFields) {
