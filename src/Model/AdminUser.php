@@ -74,6 +74,8 @@ class AdminUser implements UserInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function getRoles()
     {
@@ -88,6 +90,8 @@ class AdminUser implements UserInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return ?string
      */
     public function getPassword()
     {
@@ -96,6 +100,8 @@ class AdminUser implements UserInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return ?string
      */
     public function getSalt()
     {
