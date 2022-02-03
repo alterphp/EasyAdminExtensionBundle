@@ -80,9 +80,11 @@
           <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
           <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
           <div class="row">
-            {% for field in list_form_filters %}
-              <div class="col-4">{{ form_row(field) }}</div>
-            {% endfor %}
+            {% block list_form_filters_fields %}
+              {% for field in list_form_filters %}
+                <div class="col-4">{{ form_row(field) }}</div>
+              {% endfor %}
+            {% endblock %}
             <div class="clearfix"></div>
           </div>
         </div>
