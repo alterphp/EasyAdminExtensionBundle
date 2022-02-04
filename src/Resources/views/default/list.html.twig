@@ -8,13 +8,19 @@
 }) %}
 
 {% block request_parameters_as_hidden %}
-  {% for field, value in requestExtFilters %}
-    {% if value is iterable %}
-      {% for val in value %}
-        <input type="hidden" name="ext_filters[{{ field }}][]" value="{{ val }}">
-      {% endfor %}
-    {% else %}
-      <input type="hidden" name="ext_filters[{{ field }}]" value="{{ value }}">
+  {% for field, value in _request_parameters %}
+    {% if field != 'form_filters' %}
+      {% if value is iterable %}
+        {% for val in value %}
+  {#        <p>ext_filters[{{ field }}][] = {{ val }}</p>#}
+  {#        <input type="hidden" name="ext_filters[{{ field }}][]" value="{{ val }}">#}
+          <input type="hidden" name="{{ field }}[]" value="{{ val }}">
+        {% endfor %}
+      {% else %}
+  {#      <p>ext_filters[{{ field }}] = {{ value }}</p>#}
+  {#      <input type="hidden" name="ext_filters[{{ field }}]" value="{{ value }}">#}
+        <input type="hidden" name="{{ field }}" value="{{ value }}">
+      {% endif %}
     {% endif %}
   {% endfor %}
 {% endblock %}
@@ -71,16 +77,17 @@
         <small>{{ 'list_form_filters.heading_expandcollapse'|trans(_trans_parameters, 'EasyAdminBundle') }}</small>
       </em>
     </div>
+
     <form id="list-form-filters-form" class="collapse {{ list_form_filters.vars.submitted ? 'show' }}" method="GET" action="{{ easyadmin_path_from_request_parameters(_request_parameters) }}">
       <div class="row">
         <div class="col-11">
           {% form_theme list_form_filters '@EasyAdmin/form/bootstrap_4.html.twig' %}
           {{ block('request_parameters_as_hidden') }}
-          <input type="hidden" name="{{ easyadmin_object_type(app.request) }}" value="{{ attribute(_request_parameters, easyadmin_object_type(app.request)) }}">
-          <input type="hidden" name="sortField" value="{{ _object_config.search.sort.field|default(_request_parameters.sortField) }}">
-          <input type="hidden" name="sortDirection" value="{{ _object_config.search.sort.direction|default(_request_parameters.sortDirection) }}">
-          <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">
-          <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">
+{#          <input type="hidden" name="{{ easyadmin_object_type(app.request) }}" value="{{ attribute(_request_parameters, easyadmin_object_type(app.request)) }}">#}
+{#          <input type="hidden" name="sortField" value="{{ _object_config.search.sort.field|default(_request_parameters.sortField) }}">#}
+{#          <input type="hidden" name="sortDirection" value="{{ _object_config.search.sort.direction|default(_request_parameters.sortDirection) }}">#}
+{#          <input type="hidden" name="menuIndex" value="{{ _request_parameters.menuIndex }}">#}
+{#          <input type="hidden" name="submenuIndex" value="{{ _request_parameters.submenuIndex }}">#}
           <div class="row">
             {% block list_form_filters_fields %}
               {% for field in list_form_filters %}

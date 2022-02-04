@@ -27,7 +27,7 @@ class ListFilter
     public const OPERATOR_LTE = 'lte';
     public const OPERATOR_LIKE = 'like';
 
-    private static $operatorValues = null;
+    protected static $operatorValues = null;
 
     final public function __construct()
     {

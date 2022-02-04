@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AlterPHP\EasyAdminExtensionBundle\Helper;
 
+use AlterPHP\EasyAdminExtensionBundle\Form\Type\CustomListFilterType;
 use AlterPHP\EasyAdminExtensionBundle\Form\Type\ListFilterType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -69,6 +70,12 @@ class ListFormFiltersHelper
                 }
                 if (isset($config['property'])) {
                     $listFilterformOptions['property'] = $config['property'];
+                }
+
+                if (is_subclass_of($config['type'], CustomListFilterType::class)) {
+                    $formBuilder->add($name, $config['type']);
+
+                    break;
                 }
 
                 $formBuilder->add($name, ListFilterType::class, $listFilterformOptions);

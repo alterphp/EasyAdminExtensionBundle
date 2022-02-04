@@ -2,6 +2,7 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
+use AlterPHP\EasyAdminExtensionBundle\Model\CustomListFilter;
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
@@ -38,6 +39,12 @@ class PostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscriber
      */
     protected function filterQueryBuilder(QueryBuilder $queryBuilder, string $field, ListFilter $listFilter)
     {
+        if ($listFilter instanceof CustomListFilter) {
+            $listFilter->filter($queryBuilder);
+
+            return;
+        }
+
         $value = $this->filterEasyadminAutocompleteValue($listFilter->getValue());
         // Empty string and numeric keys is considered as "not applied filter"
         if (null === $value || '' === $value || \is_numeric($field)) {
