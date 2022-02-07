@@ -138,6 +138,15 @@ class PostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscriber
         }
     }
 
+    protected function filterEasyadminAutocompleteValue($value)
+    {
+        if (!\is_array($value) || !isset($value['autocomplete']) || 1 !== \count($value)) {
+            return $value;
+        }
+
+        return $value['autocomplete'];
+    }
+
     /**
      * {@inheritdoc}
      */
