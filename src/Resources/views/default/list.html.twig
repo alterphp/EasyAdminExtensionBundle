@@ -8,6 +8,7 @@
 }) %}
 
 {% block request_parameters_as_hidden %}
+  {# Add input hidden for ext_filters #}
   {% for field, value in requestExtFilters %}
     {% if value is iterable %}
       {% for val in value %}
@@ -15,6 +16,19 @@
       {% endfor %}
     {% else %}
       <input type="hidden" name="ext_filters[{{ field }}]" value="{{ value }}">
+    {% endif %}
+  {% endfor %}
+
+  {# Add input hidden for request parameters other than action, form_filters and ext_filters #}
+  {% for field, value in _request_parameters %}
+    {% if field != 'action' and field != 'ext_filters' and field != 'form_filters' %}
+      {% if value is iterable %}
+        {% for val in value %}
+          <input type="hidden" name="{{ field }}[]" value="{{ val }}">
+        {% endfor %}
+      {% else %}
+        <input type="hidden" name="{{ field }}" value="{{ value }}">
+      {% endif %}
     {% endif %}
   {% endfor %}
 {% endblock %}
