@@ -4,6 +4,7 @@ namespace AlterPHP\EasyAdminExtensionBundle\Configuration;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use Doctrine\DBAL\Types\Type as DBALType;
+use Doctrine\DBAL\Types\Types as DBALTypes;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
@@ -110,7 +111,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
         $defaultFilterConfigTypeOptions = [];
 
         switch ($fieldMapping['type']) {
-            case DBALType::BOOLEAN:
+            case (DBALTypes::BOOLEAN ?? DBALType::BOOLEAN):
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
                 $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
                 if (ChoiceType::class === $filterConfig['type']) {
@@ -123,7 +124,7 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     $defaultFilterConfigTypeOptions['choice_translation_domain'] = 'EasyAdminBundle';
                 }
                 break;
-            case DBALType::STRING:
+            case (DBALTypes::STRING ?? DBALType::STRING):
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_IN;
                 $filterConfig['type'] = $filterConfig['type'] ?? ChoiceType::class;
                 if (ChoiceType::class === $filterConfig['type']) {
@@ -133,14 +134,14 @@ class ListFormFiltersConfigPass implements ConfigPassInterface
                     $defaultFilterConfigTypeOptions['choice_translation_domain'] = $filterConfig['translation_domain'];
                 }
                 break;
-            case DBALType::SMALLINT:
-            case DBALType::INTEGER:
-            case DBALType::BIGINT:
+            case (DBALTypes::SMALLINT ?? DBALType::SMALLINT):
+            case (DBALTypes::INTEGER ?? DBALType::INTEGER):
+            case (DBALTypes::BIGINT ?? DBALType::BIGINT):
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
                 $filterConfig['type'] = $filterConfig['type'] ?? IntegerType::class;
                 break;
-            case DBALType::DECIMAL:
-            case DBALType::FLOAT:
+            case (DBALTypes::DECIMAL ?? DBALType::DECIMAL):
+            case (DBALTypes::FLOAT ?? DBALType::FLOAT):
                 $filterConfig['operator'] = $filterConfig['operator'] ?? ListFilter::OPERATOR_EQUALS;
                 $filterConfig['type'] = $filterConfig['type'] ?? NumberType::class;
                 break;
