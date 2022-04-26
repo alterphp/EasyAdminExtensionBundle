@@ -23,7 +23,7 @@ class MongoOdmEasyAdminController extends BaseEasyAdminController
         $paginator = $this->mongoOdmFindAll(
             $this->document['class'],
             $this->request->query->get('page', 1),
-            $this->config['list']['max_results'] ?: 25,
+            $this->document['list']['max_results'],
             $this->request->query->get('sortField'),
             $this->request->query->get('sortDirection')
         );
