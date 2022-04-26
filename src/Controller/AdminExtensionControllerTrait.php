@@ -12,7 +12,7 @@ trait AdminExtensionControllerTrait
     {
         $this->dispatch(EasyAdminEvents::PRE_LIST);
 
-        $maxResults = (int) $this->request->query->get('max-results', $this->config['list']['max_results']);
+        $maxResults = (int) $this->request->query->get('max-results', $this->entity['list']['max_results']);
 
         $paginator = $this->findAll($this->entity['class'], (int) $this->request->query->get('page', '1'), $maxResults, $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
 
