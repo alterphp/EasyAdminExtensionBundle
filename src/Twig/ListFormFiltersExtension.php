@@ -22,7 +22,7 @@ class ListFormFiltersExtension extends AbstractExtension
         $this->listFormFiltersHelper = $listFormFiltersHelper;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('list_form_filters', [$this, 'getListFormFilters']),
