@@ -23,14 +23,14 @@ class EmbeddedListExtension extends AbstractExtension
         $this->embeddedListHelper = $embeddedListHelper;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('embedded_list_identifier', [$this, 'getEmbeddedListIdentifier']),
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('guess_default_filters', [$this, 'guessDefaultFilters']),

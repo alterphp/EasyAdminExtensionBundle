@@ -18,14 +18,14 @@ class AdminAuthorizationExtension extends AbstractExtension
         $this->adminAuthorizationChecker = $adminAuthorizationChecker;
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('prune_item_actions', [$this, 'pruneItemsActions']),
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('is_easyadmin_granted', [$this, 'isEasyAdminGranted']),
