@@ -38,7 +38,7 @@ function reloadEmbeddedList(identifier, toggleBaseUrl) {
   ;
 
   const toggles = $(containerPrefix).find('table .checkbox-switch input[type="checkbox"]');
-  for (i = 0; i < toggles.length; i++) {
+  for (let i = 0; i < toggles.length; i++) {
       toggles[i].addEventListener('change', function () {
           const toggle = this;
           const newValue = this.checked;
