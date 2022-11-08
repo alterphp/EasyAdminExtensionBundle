@@ -5,8 +5,9 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use AlterPHP\EasyAdminMongoOdmBundle\Controller\EasyAdminController as BaseEasyAdminController;
 use AlterPHP\EasyAdminMongoOdmBundle\Event\EasyAdminMongoOdmEvents;
-use League\Uri\Modifiers\RemoveQueryParams;
-use League\Uri\Schemes\Http;
+use League\Uri\Components\Query;
+use League\Uri\QueryString;
+use League\Uri\Uri;
 
 class MongoOdmEasyAdminController extends BaseEasyAdminController
 {
@@ -40,16 +41,12 @@ class MongoOdmEasyAdminController extends BaseEasyAdminController
             ARRAY_FILTER_USE_KEY
         );
 
+        $requestParameters = $this->request->query->all();
         // Removes existing referer
         $baseMasterRequestUri = !$this->request->isXmlHttpRequest()
                             ? $this->get('request_stack')->getMasterRequest()->getUri()
                             : $this->request->headers->get('referer');
-        $baseMasterRequestUri = Http::createFromString($baseMasterRequestUri);
-        $removeRefererModifier = new RemoveQueryParams(['referer']);
-        $masterRequestUri = $removeRefererModifier->process($baseMasterRequestUri);
-
-        $requestParameters = $this->request->query->all();
-        $requestParameters['referer'] = (string) $masterRequestUri;
+        $requestParameters['referer'] = $this->removeRefererFromUri($baseMasterRequestUri);
 
         return $this->render('@EasyAdminExtension/default/embedded_list.html.twig', [
             'objectType' => 'document',
@@ -57,6 +54,19 @@ class MongoOdmEasyAdminController extends BaseEasyAdminController
             'fields' => $fields,
             '_request_parameters' => $requestParameters,
         ]);
+    }
+
+    protected function removeRefererFromUri(string $originalUri): string
+    {
+        // Adds stmuid param to URL with MoveboxUID
+        $parsedUrl = Uri::createFromString($originalUri);
+        $uriQueryPairs = QueryString::parse($parsedUrl->getQuery());
+        $urlQuery = Query::createFromPairs($uriQueryPairs);
+        $newUrl = $parsedUrl->withQuery(
+            $urlQuery->withoutParam('referer')->__toString()
+        );
+
+        return $newUrl->__toString();
     }
 
     /**
