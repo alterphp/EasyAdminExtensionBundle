@@ -24,6 +24,8 @@
         {% for val in value %}
           <input type="hidden" name="{{ field }}[]" value="{{ val }}">
         {% endfor %}
+      {% elseif field == 'page' %} {# Filtering forces page 1 #}
+        <input type="hidden" name="page" value="1">
       {% else %}
         <input type="hidden" name="{{ field }}" value="{{ value }}">
       {% endif %}
