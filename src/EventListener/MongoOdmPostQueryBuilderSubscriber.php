@@ -75,6 +75,12 @@ class MongoOdmPostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscri
                     $filterExpr = $queryBuilder->expr()->field($queryField)->in($value);
                 }
                 break;
+            case ListFilter::OPERATOR_NOTIN:
+                // Checks that $value is not an empty Traversable
+                if (0 < \count($value)) {
+                    $filterExpr = $queryBuilder->expr()->field($queryField)->notin($value);
+                }
+                break;
             case ListFilter::OPERATOR_GT:
                 $filterExpr = $queryBuilder->expr()->field($queryField)->gt($value);
                 break;
@@ -87,8 +93,6 @@ class MongoOdmPostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscri
             case ListFilter::OPERATOR_LTE:
                 $filterExpr = $queryBuilder->expr()->field($queryField)->lte($value);
                 break;
-
-            case ListFilter::OPERATOR_NOTIN:
             default:
                 throw new \RuntimeException(\sprintf('Operator "%s" is not supported !', $operator));
         }
