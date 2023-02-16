@@ -5,8 +5,8 @@ namespace AlterPHP\EasyAdminExtensionBundle\Controller;
 use AlterPHP\EasyAdminExtensionBundle\Security\AdminAuthorizationChecker;
 use AlterPHP\EasyAdminMongoOdmBundle\Controller\EasyAdminController as BaseEasyAdminController;
 use AlterPHP\EasyAdminMongoOdmBundle\Event\EasyAdminMongoOdmEvents;
-use League\Uri\Modifiers\RemoveQueryParams;
-use League\Uri\Schemes\Http;
+use League\Uri\Components\Query;
+use League\Uri\Uri;
 
 class MongoOdmEasyAdminController extends BaseEasyAdminController
 {
@@ -44,9 +44,9 @@ class MongoOdmEasyAdminController extends BaseEasyAdminController
         $baseMasterRequestUri = !$this->request->isXmlHttpRequest()
                             ? $this->get('request_stack')->getMasterRequest()->getUri()
                             : $this->request->headers->get('referer');
-        $baseMasterRequestUri = Http::createFromString($baseMasterRequestUri);
-        $removeRefererModifier = new RemoveQueryParams(['referer']);
-        $masterRequestUri = $removeRefererModifier->process($baseMasterRequestUri);
+        $baseMasterRequestUri = Uri::createFromString($baseMasterRequestUri);
+        $uriQuery = Query::createFromUri($baseMasterRequestUri)->withoutParam('referer');
+        $masterRequestUri = $baseMasterRequestUri->withQuery($uriQuery);
 
         $requestParameters = $this->request->query->all();
         $requestParameters['referer'] = (string) $masterRequestUri;
