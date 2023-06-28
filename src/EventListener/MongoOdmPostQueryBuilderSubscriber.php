@@ -4,7 +4,10 @@ namespace AlterPHP\EasyAdminExtensionBundle\EventListener;
 
 use AlterPHP\EasyAdminExtensionBundle\Model\ListFilter;
 use AlterPHP\EasyAdminMongoOdmBundle\Event\EasyAdminMongoOdmEvents;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\Query\Builder as QueryBuilder;
+use MongoDB\BSON\UTCDateTime;
 
 /**
  * Apply filters on list/search queryBuilder.
@@ -54,6 +57,10 @@ class MongoOdmPostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscri
             return;
         }
 
+        if (is_object($value) && $value instanceof DateTime) {
+            $value = DateTimeImmutable::createFromMutable($value);
+        }
+
         $operator = $listFilter->getOperator();
 
         switch ($operator) {
@@ -93,6 +100,17 @@ class MongoOdmPostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscri
             case ListFilter::OPERATOR_LTE:
                 $filterExpr = $queryBuilder->expr()->field($queryField)->lte($value);
                 break;
+            case ListFilter::OPERATOR_5SECONDSAROUND:
+                if (! $value instanceof DateTimeImmutable) {
+                    break;
+                }
+
+                $filterExpr = $queryBuilder->expr()
+                                ->field($queryField)->lte(new UTCDateTime($value->modify('+ 5 seconds')))
+                                ->field($queryField)->gte(new UTCDateTime($value->modify('- 5 seconds')))
+                ;
+                break;
+
             default:
                 throw new \RuntimeException(\sprintf('Operator "%s" is not supported !', $operator));
         }
