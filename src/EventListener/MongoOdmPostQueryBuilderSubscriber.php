@@ -110,6 +110,11 @@ class MongoOdmPostQueryBuilderSubscriber extends AbstractPostQueryBuilderSubscri
                                 ->field($queryField)->gte(new UTCDateTime($value->modify('- 5 seconds')))
                 ;
                 break;
+            case ListFilter::OPERATOR_STARTSWITH:
+                $filterExpr = $queryBuilder->expr()
+                                ->field($queryField)->operator('$regex', sprintf('^%s', $value))
+                ;
+                break;
 
             default:
                 throw new \RuntimeException(\sprintf('Operator "%s" is not supported !', $operator));
