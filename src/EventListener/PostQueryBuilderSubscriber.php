@@ -208,6 +208,12 @@ class PostQueryBuilderSubscriber implements EventSubscriberInterface
                     ->setParameter($parameter, '%'.$value.'%')
                 ;
                 break;
+            case ListFilter::OPERATOR_STARTSWITH:
+                $queryBuilder
+                    ->andWhere(\sprintf('%s %s :%s', $queryField, 'LIKE', $parameter))
+                    ->setParameter($parameter, $value.'%')
+                ;
+                break;
             default:
                 throw new \RuntimeException(\sprintf('Operator "%s" is not supported !', $operator));
         }

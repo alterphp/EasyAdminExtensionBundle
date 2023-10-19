@@ -26,6 +26,8 @@ class ListFilter
     public const OPERATOR_LT = 'lt';
     public const OPERATOR_LTE = 'lte';
     public const OPERATOR_LIKE = 'like';
+    public const OPERATOR_STARTSWITH = 'startswith';
+    public const OPERATOR_5SECONDSAROUND = '5secondsaround';
 
     protected static $operatorValues = null;
 

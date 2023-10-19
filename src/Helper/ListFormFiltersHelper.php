@@ -65,6 +65,10 @@ class ListFormFiltersHelper
                     'input_type' => $config['type'],
                     'input_type_options' => $config['type_options'] ?? [],
                 ];
+                if (isset($config['help'])) {
+                    $listFilterformOptions['help'] = $config['help'];
+                    $listFilterformOptions['help_html'] = true;
+                }
                 if (isset($config['operator'])) {
                     $listFilterformOptions['operator'] = $config['operator'];
                 }
