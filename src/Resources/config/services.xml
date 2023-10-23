@@ -8,11 +8,29 @@
         <service id="AlterPHP\EasyAdminExtensionBundle\Controller\EasyAdminController" parent="EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController" autowire="true">
             <tag name="container.service_subscriber" />
         </service>
+        <service id="AlterPHP\EasyAdminExtensionBundle\Controller\MongoOdmEasyAdminController" parent="AlterPHP\EasyAdminMongoOdmBundle\Controller\EasyAdminController" autowire="true">
+            <tag name="container.service_subscriber" />
+        </service>
 
-        <service id="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber">
+        <service id="AlterPHP\EasyAdminExtensionBundle\Twig\EasyAdminExtensionTwigExtension">
+            <argument type="service" id="easyadmin.router" />
+            <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Router\MongoOdmEasyAdminRouter" />
+            <argument type="service" id="router" />
+            <argument type="service" id="easyadmin.config.manager" />
+            <argument type="service" id="AlterPHP\EasyAdminMongoOdmBundle\Configuration\ConfigManager" on-invalid="null" />
+            <tag name="twig.extension"/>
+        </service>
+
+        <service id="AlterPHP\EasyAdminExtensionBundle\EventListener\AbstractPostQueryBuilderSubscriber" abstract="true">
             <argument type="service" id="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper"/>
+        </service>
+        <service id="AlterPHP\EasyAdminExtensionBundle\EventListener\PostQueryBuilderSubscriber" parent="AlterPHP\EasyAdminExtensionBundle\EventListener\AbstractPostQueryBuilderSubscriber">
             <tag name="kernel.event_subscriber"/>
         </service>
+        <service id="AlterPHP\EasyAdminExtensionBundle\EventListener\MongoOdmPostQueryBuilderSubscriber" parent="AlterPHP\EasyAdminExtensionBundle\EventListener\AbstractPostQueryBuilderSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
         <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\ExcludeFieldsConfigPass">
             <tag name="easyadmin.config_pass" priority="120"/>
         </service>
@@ -20,11 +38,13 @@
             <argument>%easy_admin_extension.custom_form_types%</argument>
             <!-- Makes it process just before PropertyConfigPass -->
             <tag name="easyadmin.config_pass" priority="41"/>
+            <tag name="easyadmin_mongo_odm.config_pass" priority="41"/>
         </service>
         <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\EmbeddedListViewConfigPass">
             <argument>%easy_admin_extension.embedded_list.open_new_tab%</argument>
             <!-- Makes it process just after ViewConfigPass -->
             <tag name="easyadmin.config_pass" priority="29"/>
+            <tag name="easyadmin_mongo_odm.config_pass" priority="29"/>
         </service>
         <service id="AlterPHP\EasyAdminExtensionBundle\Helper\EmbeddedListHelper">
             <argument type="service" id="doctrine"/>
@@ -44,6 +64,7 @@
         <service id="AlterPHP\EasyAdminExtensionBundle\Configuration\ListFormFiltersConfigPass">
             <argument type="service" id="doctrine" />
             <tag name="easyadmin.config_pass" priority="0"/>
+            <tag name="easyadmin_mongo_odm.config_pass" priority="0"/>
         </service>
         <service id="AlterPHP\EasyAdminExtensionBundle\Helper\ListFormFiltersHelper">
             <argument type="service" id="form.factory"/>
@@ -89,6 +110,13 @@
             <argument type="service" id="router"/>
             <argument type="service" id="translator"/>
             <tag name="form.type_extension" extended-type="EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType"/>
+        </service>
+
+        <service id="AlterPHP\EasyAdminExtensionBundle\Router\MongoOdmEasyAdminRouter">
+            <argument id="AlterPHP\EasyAdminMongoOdmBundle\Configuration\ConfigManager" type="service" />
+            <argument id="router" type="service" />
+            <argument id="property_accessor" type="service" />
+            <argument id="request_stack" type="service" on-invalid="null" />
         </service>
     </services>
 </container>

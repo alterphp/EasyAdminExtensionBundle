@@ -22,6 +22,16 @@ class EmbeddedListViewConfigPassTest extends TestCase
                     'embeddedList' => ['open_new_tab' => false],
                 ],
             ],
+            'documents' => [
+                'NotSetDocument' => [
+                ],
+                'SetTrueDocument' => [
+                    'embeddedList' => ['open_new_tab' => true],
+                ],
+                'SetFalseDocument' => [
+                    'embeddedList' => ['open_new_tab' => false],
+                ],
+            ],
         ];
 
         $backendConfig = $embeddedListViewConfigPass->process($backendConfig);
@@ -44,6 +54,23 @@ class EmbeddedListViewConfigPassTest extends TestCase
                     'embeddedList' => [
                         'open_new_tab' => false,
                         'template' => '@EasyAdminExtension/default/embedded_list.html.twig',
+                    ],
+                ],
+            ],
+            'documents' => [
+                'NotSetDocument' => [
+                    'embeddedList' => [
+                        'open_new_tab' => true,
+                    ],
+                ],
+                'SetTrueDocument' => [
+                    'embeddedList' => [
+                        'open_new_tab' => true,
+                    ],
+                ],
+                'SetFalseDocument' => [
+                    'embeddedList' => [
+                        'open_new_tab' => false,
                     ],
                 ],
             ],

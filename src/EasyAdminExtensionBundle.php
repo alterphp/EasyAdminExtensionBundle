@@ -2,7 +2,10 @@
 
 namespace AlterPHP\EasyAdminExtensionBundle;
 
+use AlterPHP\EasyAdminExtensionBundle\DependencyInjection\Compiler\MongoOdmPass;
+use AlterPHP\EasyAdminExtensionBundle\DependencyInjection\Compiler\TwigPathPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -11,6 +14,11 @@ class EasyAdminExtensionBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        // Priority 1 to pass just before RegisterListenerPass (in case we have to enable/disable listeners) !
+        $container->addCompilerPass(new MongoOdmPass(), PassConfig::TYPE_BEFORE_REMOVING, 1);
+
+        $container->addCompilerPass(new TwigPathPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
 
         $this->addRegisterMappingsPass($container);
     }

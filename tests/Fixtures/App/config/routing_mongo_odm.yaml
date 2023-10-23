@@ -1,0 +1,9 @@
+easy_admin_bundle:
+    resource: "AlterPHP\\EasyAdminExtensionBundle\\Controller\\EasyAdminController"
+    type:     annotation
+    prefix:   /admin/
+
+easy_admin_mongo_odm_bundle:
+    resource: "AlterPHP\\EasyAdminExtensionBundle\\Controller\\MongoOdmEasyAdminController"
+    type:     annotation
+    prefix:   /admin-mongo-odm/

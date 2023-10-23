@@ -1,5 +1,10 @@
 {% extends '@EasyAdminExtension/default/show.html.twig' %}
 
+{% set _object_config = easyadmin_object(app.request) %}
+{% set _object_type = easyadmin_object_type(app.request) %}
+{% set _object = 'document' == _object_type ? document : entity %}
+{% set _object_id = '' ~ attribute(_object, _object_config.primary_key_field_name) %}
+
 {% block main %}
   <div class="form-vertical">
     {{ block('show_fields') }}
